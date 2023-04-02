@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Schedule.Core\Schedule.Core.csproj" />
+      <ProjectReference Include="..\Schedule.Persistence\Schedule.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Dates\Commands\Create" />
+      <Folder Include="Features\Dates\Commands\Delete" />
+      <Folder Include="Features\Dates\Commands\Update" />
+      <Folder Include="Features\Dates\Queries\Get" />
+      <Folder Include="Features\Dates\Queries\GetList" />
+      <Folder Include="Features\Lessons\Commands\Create" />
+      <Folder Include="Features\Lessons\Commands\Delete" />
+      <Folder Include="Features\Lessons\Commands\Update" />
+      <Folder Include="Features\Lessons\Queries\Get" />
+      <Folder Include="Features\Lessons\Queries\GetList" />
+      <Folder Include="Features\Teachers\Commands\Create" />
+      <Folder Include="Features\Teachers\Commands\Delete" />
+      <Folder Include="Features\Teachers\Commands\Update" />
+      <Folder Include="Features\Teachers\Queries\Get" />
+      <Folder Include="Features\Teachers\Queries\GetList" />
+      <Folder Include="Features\Templates\Commands\Create" />
+      <Folder Include="Features\Templates\Commands\Delete" />
+      <Folder Include="Features\Templates\Commands\Update" />
+      <Folder Include="Features\Templates\Queries\Get" />
+      <Folder Include="Features\Templates\Queries\GetList" />
+      <Folder Include="Features\Timetables\Commands\Create" />
+      <Folder Include="Features\Timetables\Commands\Delete" />
+      <Folder Include="Features\Timetables\Commands\Update" />
+      <Folder Include="Features\Timetables\Queries\Get" />
+      <Folder Include="Features\Timetables\Queries\GetList" />
+      <Folder Include="Services" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.5.1" />
+      <PackageReference Include="MediatR" Version="12.0.1" />
+    </ItemGroup>
+
+</Project>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Persistence.Entities;
 
 public partial class Template
 {
@@ -9,7 +6,7 @@ public partial class Template
 
     public int GroupId { get; set; }
 
-    public int Term { get; set; }
+    public int TermId { get; set; }
 
     public int DayId { get; set; }
 
@@ -20,6 +17,8 @@ public partial class Template
     public virtual Group Group { get; set; } = null!;
 
     public virtual ICollection<Lesson> Lessons { get; } = new List<Lesson>();
+
+    public virtual Term Term { get; set; } = null!;
 
     public virtual WeekType WeekType { get; set; } = null!;
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Persistence.Entities;
 
 public partial class Teacher
 {
@@ -13,11 +10,11 @@ public partial class Teacher
 
     public string MiddleName { get; set; } = null!;
 
+    public string Email { get; set; } = null!;
+
     public bool IsDeleted { get; set; }
 
     public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; } = new List<LessonTeacherClassroom>();
-
-    public virtual ICollection<Classroom> Classrooms { get; } = new List<Classroom>();
 
     public virtual ICollection<Discipline> Disciplines { get; } = new List<Discipline>();
 

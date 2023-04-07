@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Persistence.Entities;
 
 public partial class SpecialityCode
 {
@@ -9,7 +6,11 @@ public partial class SpecialityCode
 
     public string Code { get; set; } = null!;
 
-    public virtual ICollection<Group> Groups { get; } = new List<Group>();
+    public string Name { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
 
     public virtual ICollection<Discipline> Disciplines { get; } = new List<Discipline>();
+
+    public virtual ICollection<Group> Groups { get; } = new List<Group>();
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Persistence.Entities;
 
 public partial class Date
 {
@@ -9,11 +6,13 @@ public partial class Date
 
     public DateTime Value { get; set; }
 
-    public int WeekTypeId { get; set; }
+    public int TimeTypeId { get; set; }
+
+    public int Term { get; set; }
 
     public int DayId { get; set; }
 
-    public int TimeTypeId { get; set; }
+    public int WeekTypeId { get; set; }
 
     public bool IsStudy { get; set; }
 

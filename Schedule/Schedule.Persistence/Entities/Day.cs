@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Persistence.Entities;
 
 public partial class Day
 {

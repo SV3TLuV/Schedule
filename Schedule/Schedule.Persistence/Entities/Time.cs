@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Persistence.Entities;
 
 public partial class Time
 {
@@ -14,6 +11,8 @@ public partial class Time
     public int LessonNumber { get; set; }
 
     public int TypeId { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     public virtual ICollection<Lesson> Lessons { get; } = new List<Lesson>();
 

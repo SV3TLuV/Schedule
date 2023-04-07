@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Schedule.Persistence.Entities;
 
 namespace Schedule.Persistence.Context;
@@ -20,6 +18,8 @@ public partial class ScheduleDbContext : DbContext
 
     public virtual DbSet<ClassroomType> ClassroomTypes { get; set; }
 
+    public virtual DbSet<Course> Courses { get; set; }
+
     public virtual DbSet<Date> Dates { get; set; }
 
     public virtual DbSet<Day> Days { get; set; }
@@ -38,6 +38,8 @@ public partial class ScheduleDbContext : DbContext
 
     public virtual DbSet<Template> Templates { get; set; }
 
+    public virtual DbSet<Term> Terms { get; set; }
+
     public virtual DbSet<Time> Times { get; set; }
 
     public virtual DbSet<TimeType> TimeTypes { get; set; }
@@ -47,12 +49,14 @@ public partial class ScheduleDbContext : DbContext
     public virtual DbSet<WeekType> WeekTypes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=Schedule");
+        => optionsBuilder.UseSqlServer("Name=ScheduleWin");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Classroom>(entity =>
         {
+            entity.ToTable(tb => tb.HasTrigger("Classrooms_Delete"));
+
             entity.HasIndex(e => e.Cabinet, "IX_Classrooms").IsUnique();
 
             entity.Property(e => e.Cabinet).HasMaxLength(10);
@@ -82,11 +86,15 @@ public partial class ScheduleDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Course>(entity =>
+        {
+            entity.Property(e => e.CourseId).ValueGeneratedNever();
+        });
+
         modelBuilder.Entity<Date>(entity =>
         {
             entity.HasIndex(e => e.Value, "IX_Dates").IsUnique();
 
-            entity.Property(e => e.TimeTypeId).HasDefaultValueSql("((1))");
             entity.Property(e => e.Value).HasColumnType("date");
 
             entity.HasOne(d => d.Day).WithMany(p => p.Dates)
@@ -114,36 +122,76 @@ public partial class ScheduleDbContext : DbContext
 
         modelBuilder.Entity<Discipline>(entity =>
         {
+            entity.ToTable(tb => tb.HasTrigger("Disciplines_Delete"));
+
+            entity.HasIndex(e => new { e.Code, e.Name }, "IX_Disciplines").IsUnique();
+
             entity.Property(e => e.Code).HasMaxLength(20);
             entity.Property(e => e.Name).HasMaxLength(50);
+
+            entity.HasOne(d => d.SpecialityCode).WithMany(p => p.Disciplines)
+                .HasForeignKey(d => d.SpecialityCodeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Disciplines_SpecialityCodes");
+
+            entity.HasOne(d => d.Term).WithMany(p => p.Disciplines)
+                .HasForeignKey(d => d.TermId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Disciplines_Terms");
         });
 
         modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasIndex(e => new { e.Name, e.EnrollmentYear }, "IX_Groups").IsUnique();
+            entity.ToTable(tb => tb.HasTrigger("Groups_Delete"));
 
-            entity.Property(e => e.Name).HasMaxLength(20);
+            entity.HasIndex(e => new { e.Number, e.EnrollmentYear }, "IX_Groups").IsUnique();
+
+            entity.Property(e => e.Number)
+                .HasMaxLength(2)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Course).WithMany(p => p.Groups)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Groups_Courses");
 
             entity.HasOne(d => d.SpecialityCode).WithMany(p => p.Groups)
                 .HasForeignKey(d => d.SpecialityCodeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Groups_SpecialityCodes");
 
-            entity.HasMany(d => d.Disciplines).WithMany(p => p.Groups)
+            entity.HasMany(d => d.GroupId2s).WithMany(p => p.Groups)
                 .UsingEntity<Dictionary<string, object>>(
-                    "GroupDiscipline",
-                    r => r.HasOne<Discipline>().WithMany()
-                        .HasForeignKey("DisciplineId")
+                    "GroupGroup",
+                    r => r.HasOne<Group>().WithMany()
+                        .HasForeignKey("GroupId2")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_GroupDisciplines_Disciplines"),
+                        .HasConstraintName("FK_GroupGroups_Groups1"),
                     l => l.HasOne<Group>().WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_GroupDisciplines_Groups"),
+                        .HasConstraintName("FK_GroupGroups_Groups"),
                     j =>
                     {
-                        j.HasKey("GroupId", "DisciplineId");
-                        j.ToTable("GroupDisciplines");
+                        j.HasKey("GroupId", "GroupId2");
+                        j.ToTable("GroupGroups");
+                    });
+
+            entity.HasMany(d => d.Groups).WithMany(p => p.GroupId2s)
+                .UsingEntity<Dictionary<string, object>>(
+                    "GroupGroup",
+                    r => r.HasOne<Group>().WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_GroupGroups_Groups"),
+                    l => l.HasOne<Group>().WithMany()
+                        .HasForeignKey("GroupId2")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_GroupGroups_Groups1"),
+                    j =>
+                    {
+                        j.HasKey("GroupId", "GroupId2");
+                        j.ToTable("GroupGroups");
                     });
         });
 
@@ -153,20 +201,18 @@ public partial class ScheduleDbContext : DbContext
 
             entity.HasOne(d => d.Discipline).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.DisciplineId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pairs_Disciplines");
 
             entity.HasOne(d => d.Time).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.TimeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pairs_Times");
 
-            entity.HasOne(d => d.Template).WithMany(p => p.Lessons)
+            entity.HasOne(d => d.Timetable).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.TimetableId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pairs_Templates");
 
-            entity.HasOne(d => d.Timetable).WithMany(p => p.Lessons)
+            entity.HasOne(d => d.TimetableNavigation).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.TimetableId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pairs_Timetables");
@@ -193,50 +239,24 @@ public partial class ScheduleDbContext : DbContext
 
         modelBuilder.Entity<SpecialityCode>(entity =>
         {
-            entity.HasIndex(e => e.Code, "IX_SpecialityCodes").IsUnique();
+            entity.ToTable(tb => tb.HasTrigger("SpecialityCodes_Delete"));
+
+            entity.HasIndex(e => new { e.Code, e.Name }, "IX_SpecialityCodes").IsUnique();
 
             entity.Property(e => e.Code).HasMaxLength(20);
-
-            entity.HasMany(d => d.Disciplines).WithMany(p => p.SpecialityCodes)
-                .UsingEntity<Dictionary<string, object>>(
-                    "SpecialityCodeDiscipline",
-                    r => r.HasOne<Discipline>().WithMany()
-                        .HasForeignKey("DisciplineId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_SpecialityCodeDisciplines_Disciplines"),
-                    l => l.HasOne<SpecialityCode>().WithMany()
-                        .HasForeignKey("SpecialityCodeId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_SpecialityCodeDisciplines_SpecialityCodes"),
-                    j =>
-                    {
-                        j.HasKey("SpecialityCodeId", "DisciplineId");
-                        j.ToTable("SpecialityCodeDisciplines");
-                    });
+            entity.Property(e => e.Name).HasMaxLength(20);
         });
 
         modelBuilder.Entity<Teacher>(entity =>
         {
+            entity.ToTable(tb => tb.HasTrigger("Teachers_Delete"));
+
+            entity.HasIndex(e => e.Email, "IX_Teachers").IsUnique();
+
+            entity.Property(e => e.Email).HasMaxLength(200);
             entity.Property(e => e.MiddleName).HasMaxLength(40);
             entity.Property(e => e.Name).HasMaxLength(40);
             entity.Property(e => e.Surname).HasMaxLength(40);
-
-            entity.HasMany(d => d.Classrooms).WithMany(p => p.Teachers)
-                .UsingEntity<Dictionary<string, object>>(
-                    "TeacherClassroom",
-                    r => r.HasOne<Classroom>().WithMany()
-                        .HasForeignKey("ClassroomId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_TeacherClassrooms_Classrooms"),
-                    l => l.HasOne<Teacher>().WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_TeacherClassrooms_Teachers"),
-                    j =>
-                    {
-                        j.HasKey("TeacherId", "ClassroomId");
-                        j.ToTable("TeacherClassrooms");
-                    });
 
             entity.HasMany(d => d.Disciplines).WithMany(p => p.Teachers)
                 .UsingEntity<Dictionary<string, object>>(
@@ -275,6 +295,8 @@ public partial class ScheduleDbContext : DbContext
 
         modelBuilder.Entity<Template>(entity =>
         {
+            entity.HasIndex(e => new { e.GroupId, e.TermId, e.DayId, e.WeekTypeId }, "IX_Templates_1").IsUnique();
+
             entity.HasOne(d => d.Day).WithMany(p => p.Templates)
                 .HasForeignKey(d => d.DayId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -285,15 +307,34 @@ public partial class ScheduleDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Templates_Groups");
 
+            entity.HasOne(d => d.Term).WithMany(p => p.Templates)
+                .HasForeignKey(d => d.TermId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Templates_Terms");
+
             entity.HasOne(d => d.WeekType).WithMany(p => p.Templates)
                 .HasForeignKey(d => d.WeekTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Templates_WeekTypes");
         });
 
+        modelBuilder.Entity<Term>(entity =>
+        {
+            entity.HasIndex(e => new { e.CourseId, e.CourseTerm }, "IX_Terms").IsUnique();
+
+            entity.Property(e => e.TermId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Course).WithMany(p => p.Terms)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Terms_Courses");
+        });
+
         modelBuilder.Entity<Time>(entity =>
         {
-            entity.HasIndex(e => new { e.Start, e.End, e.TypeId }, "IX_Times").IsUnique();
+            entity.ToTable(tb => tb.HasTrigger("Times_Delete"));
+
+            entity.HasIndex(e => new { e.TypeId, e.LessonNumber }, "IX_Times").IsUnique();
 
             entity.HasOne(d => d.Type).WithMany(p => p.Times)
                 .HasForeignKey(d => d.TypeId)
@@ -303,6 +344,8 @@ public partial class ScheduleDbContext : DbContext
 
         modelBuilder.Entity<TimeType>(entity =>
         {
+            entity.ToTable(tb => tb.HasTrigger("TimeTypes_Delete"));
+
             entity.HasIndex(e => e.Name, "IX_TimeTypes").IsUnique();
 
             entity.Property(e => e.Name).HasMaxLength(50);

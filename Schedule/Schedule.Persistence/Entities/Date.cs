@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class Date
+public class Date
 {
     public int DateId { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class WeekType
+public class WeekType
 {
     public int WeekTypeId { get; set; }
 

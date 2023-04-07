@@ -4,19 +4,19 @@ using Schedule.Persistence.Entities;
 
 namespace Schedule.Application.ViewModels;
 
-public class TimeTypeViewModel : IMapWith<TimeType>
+public class TermViewModel : IMapWith<Term>
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
-    
-    public bool IsDeleted { get; set; }
-    
+    public int CourseTerm { get; set; }
+
+    public Course Course { get; set; } = null!;
+
     public void Map(Profile profile)
     {
-        profile.CreateMap<TimeType, TimeTypeViewModel>()
+        profile.CreateMap<Term, TermViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
-                expression.MapFrom(timeType => timeType.TimeTypeId))
+                expression.MapFrom(term => term.TermId))
             .ReverseMap();
     }
 }

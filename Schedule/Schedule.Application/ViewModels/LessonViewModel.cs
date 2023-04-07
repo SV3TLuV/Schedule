@@ -10,6 +10,8 @@ public class LessonViewModel : IMapWith<Lesson>
 
     public int Number { get; set; }
     
+    public int? Subgroup { get; set; }
+    
     public int TimetableId { get; set; }
 
     public bool IsChanged { get; set; }

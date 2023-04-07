@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class Term
+public class Term
 {
     public int TermId { get; set; }
 

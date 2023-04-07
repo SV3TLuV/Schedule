@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class Classroom
+public class Classroom
 {
     public int ClassroomId { get; set; }
 
@@ -8,7 +8,8 @@ public partial class Classroom
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; } = new List<LessonTeacherClassroom>();
+    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; } =
+        new List<LessonTeacherClassroom>();
 
     public virtual ICollection<ClassroomType> ClassroomTypes { get; } = new List<ClassroomType>();
 }

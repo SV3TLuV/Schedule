@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class Template
+public class Template
 {
     public int TemplateId { get; set; }
 

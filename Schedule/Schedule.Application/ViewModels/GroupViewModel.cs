@@ -9,12 +9,12 @@ public class GroupViewModel : IMapWith<Group>
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
-
-    public int Course { get; set; }
-
+    
     public int EnrollmentYear { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public CourseViewModel Course { get; set; } = null!;
 
     public SpecialityCodeViewModel SpecialityCode { get; set; } = null!;
     

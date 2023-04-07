@@ -10,6 +10,8 @@ public class DateViewModel : IMapWith<Date>
 
     public bool IsStudy { get; set; }
     
+    public int Term { get; set; }
+    
     public DateTime Value { get; set; }
     
     public DayViewModel Day { get; set; } = null!;

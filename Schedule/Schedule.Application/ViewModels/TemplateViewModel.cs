@@ -8,9 +8,9 @@ public class TemplateViewModel : IMapWith<Template>
 {
     public int Id { get; set; }
     
-    public int Term { get; set; }
-
     public DayViewModel Day { get; set; } = null!;
+
+    public TermViewModel Term { get; set; } = null!;
 
     public GroupViewModel Group { get; set; } = null!;
 

@@ -10,6 +10,10 @@ public class SpecialityCodeViewModel : IMapWith<SpecialityCode>
 
     public string Code { get; set; } = null!;
     
+    public string Name { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
+    
     public void Map(Profile profile)
     {
         profile.CreateMap<SpecialityCode, SpecialityCodeViewModel>()

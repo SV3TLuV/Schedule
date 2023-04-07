@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class ClassroomType
+public class ClassroomType
 {
     public int ClassroomTypeId { get; set; }
 

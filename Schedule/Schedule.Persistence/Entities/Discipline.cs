@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class Discipline
+public class Discipline
 {
     public int DisciplineId { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class SpecialityCode
+public class SpecialityCode
 {
     public int SpecialityCodeId { get; set; }
 

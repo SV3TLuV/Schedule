@@ -16,6 +16,8 @@ public class TimeViewModel : IMapWith<Time>
 
     public TimeTypeViewModel Type { get; set; } = null!;
     
+    public bool IsDeleted { get; set; }
+    
     public void Map(Profile profile)
     {
         profile.CreateMap<Time, TimeViewModel>()

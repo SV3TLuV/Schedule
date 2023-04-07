@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Persistence.Entities;
 
-public partial class TimeType
+public class TimeType
 {
     public int TimeTypeId { get; set; }
 

@@ -14,42 +14,44 @@ public partial class ScheduleDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Classroom> Classrooms { get; set; }
+    public virtual DbSet<Classroom> Classrooms { get; set; } = null!;
 
-    public virtual DbSet<ClassroomType> ClassroomTypes { get; set; }
+    public virtual DbSet<ClassroomType> ClassroomTypes { get; set; } = null!;
 
-    public virtual DbSet<Course> Courses { get; set; }
+    public virtual DbSet<Course> Courses { get; set; } = null!;
 
-    public virtual DbSet<Date> Dates { get; set; }
+    public virtual DbSet<Date> Dates { get; set; } = null!;
 
-    public virtual DbSet<Day> Days { get; set; }
+    public virtual DbSet<Day> Days { get; set; } = null!;
 
-    public virtual DbSet<Discipline> Disciplines { get; set; }
+    public virtual DbSet<Discipline> Disciplines { get; set; } = null!;
 
-    public virtual DbSet<Group> Groups { get; set; }
+    public virtual DbSet<Group> Groups { get; set; } = null!;
 
-    public virtual DbSet<Lesson> Lessons { get; set; }
+    public virtual DbSet<Lesson> Lessons { get; set; } = null!;
 
-    public virtual DbSet<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; }
+    public virtual DbSet<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } = null!;
 
-    public virtual DbSet<SpecialityCode> SpecialityCodes { get; set; }
+    public virtual DbSet<SpecialityCode> SpecialityCodes { get; set; } = null!;
 
-    public virtual DbSet<Teacher> Teachers { get; set; }
+    public virtual DbSet<Teacher> Teachers { get; set; } = null!;
 
-    public virtual DbSet<Template> Templates { get; set; }
+    public virtual DbSet<Template> Templates { get; set; } = null!;
 
-    public virtual DbSet<Term> Terms { get; set; }
+    public virtual DbSet<Term> Terms { get; set; } = null!;
 
-    public virtual DbSet<Time> Times { get; set; }
+    public virtual DbSet<Time> Times { get; set; } = null!;
 
-    public virtual DbSet<TimeType> TimeTypes { get; set; }
+    public virtual DbSet<TimeType> TimeTypes { get; set; } = null!;
 
-    public virtual DbSet<Timetable> Timetables { get; set; }
+    public virtual DbSet<Timetable> Timetables { get; set; } = null!;
 
-    public virtual DbSet<WeekType> WeekTypes { get; set; }
+    public virtual DbSet<WeekType> WeekTypes { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ScheduleWin");
+    {
+        optionsBuilder.UseSqlServer("Name=ScheduleWin");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -86,10 +88,7 @@ public partial class ScheduleDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Course>(entity =>
-        {
-            entity.Property(e => e.CourseId).ValueGeneratedNever();
-        });
+        modelBuilder.Entity<Course>(entity => { entity.Property(e => e.CourseId).ValueGeneratedNever(); });
 
         modelBuilder.Entity<Date>(entity =>
         {
@@ -160,7 +159,7 @@ public partial class ScheduleDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Groups_SpecialityCodes");
 
-            entity.HasMany(d => d.GroupId2s).WithMany(p => p.Groups)
+            entity.HasMany(d => d.Groups2).WithMany(p => p.Groups)
                 .UsingEntity<Dictionary<string, object>>(
                     "GroupGroup",
                     r => r.HasOne<Group>().WithMany()
@@ -177,7 +176,7 @@ public partial class ScheduleDbContext : DbContext
                         j.ToTable("GroupGroups");
                     });
 
-            entity.HasMany(d => d.Groups).WithMany(p => p.GroupId2s)
+            entity.HasMany(d => d.Groups).WithMany(p => p.Groups2)
                 .UsingEntity<Dictionary<string, object>>(
                     "GroupGroup",
                     r => r.HasOne<Group>().WithMany()
@@ -207,12 +206,12 @@ public partial class ScheduleDbContext : DbContext
                 .HasForeignKey(d => d.TimeId)
                 .HasConstraintName("FK_Pairs_Times");
 
-            entity.HasOne(d => d.Timetable).WithMany(p => p.Lessons)
+            entity.HasOne(d => d.Template).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.TimetableId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pairs_Templates");
 
-            entity.HasOne(d => d.TimetableNavigation).WithMany(p => p.Lessons)
+            entity.HasOne(d => d.Timetable).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.TimetableId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pairs_Timetables");

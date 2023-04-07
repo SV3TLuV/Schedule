@@ -50,7 +50,7 @@ public partial class ScheduleDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Name=ScheduleWin");
+        optionsBuilder.UseSqlServer("Name=Schedule");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

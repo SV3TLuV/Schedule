@@ -34,7 +34,6 @@
       <Folder Include="Features\Timetables\Commands\Update" />
       <Folder Include="Features\Timetables\Queries\Get" />
       <Folder Include="Features\Timetables\Queries\GetList" />
-      <Folder Include="Services" />
     </ItemGroup>
 
     <ItemGroup>

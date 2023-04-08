@@ -20,7 +20,7 @@ public class Date
 
     public virtual TimeType TimeType { get; set; } = null!;
 
-    public virtual ICollection<Timetable> Timetables { get; } = new List<Timetable>();
-
     public virtual WeekType WeekType { get; set; } = null!;
+    
+    public virtual ICollection<Timetable> Timetables { get; } = new List<Timetable>();
 }

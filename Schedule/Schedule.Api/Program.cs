@@ -2,19 +2,20 @@ using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Quartz;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Mappings;
 using Schedule.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
-ConfigureServices(builder.Services);
+ConfigureServices(builder.Services, builder.Configuration);
 var app = builder.Build();
 ConfigureApp(app);
 app.Run();
 
 
-void ConfigureServices(IServiceCollection services)
+void ConfigureServices(IServiceCollection services, IConfiguration appConfiguration)
 {
     var assembly = Assembly.GetAssembly(typeof(AssemblyMappingProfile))!;
     
@@ -37,6 +38,17 @@ void ConfigureServices(IServiceCollection services)
                 .AllowCredentials()
                 .SetIsOriginAllowed(_ => true);
         }))
+        .AddQuartz(configuration =>
+        {
+            configuration.SchedulerId = "Schedule-Scheduler-Id";
+            configuration.SchedulerName = "Schedule-Scheduler-Name";
+            configuration.UseSimpleTypeLoader();
+            configuration.UseInMemoryStore();
+            configuration.UseDefaultThreadPool(pool =>
+            {
+                pool.MaxConcurrency = 10;
+            });
+        })
         .AddEndpointsApiExplorer()
         .AddSwaggerGen()
         .AddControllers();

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 
 public class TemplateViewModel : IMapWith<Template>
 {
     public int Id { get; set; }
-    
+
     public DayViewModel Day { get; set; } = null!;
 
     public TermViewModel Term { get; set; } = null!;
@@ -15,9 +15,9 @@ public class TemplateViewModel : IMapWith<Template>
     public GroupViewModel Group { get; set; } = null!;
 
     public WeekTypeViewModel WeekType { get; set; } = null!;
-    
+
     public ICollection<LessonViewModel> Lessons { get; set; } = null!;
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Template, TemplateViewModel>()

@@ -3,25 +3,25 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
-using Schedule.Persistence.Context;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Queries.Get;
 
 public sealed class GetGroupQueryHandler : IRequestHandler<GetGroupQuery, GroupViewModel>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetGroupQueryHandler(ScheduleDbContext context, IMapper mapper)
+    public GetGroupQueryHandler(IScheduleDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<GroupViewModel> Handle(GetGroupQuery request, CancellationToken cancellationToken)
     {
-        var group = await _context.Groups
+        var group = await _context.Set<Group>()
             .Include(e => e.SpecialityCode)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);

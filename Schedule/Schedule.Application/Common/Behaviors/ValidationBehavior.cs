@@ -25,7 +25,7 @@ public class ValidationBehavior<TRequest, TResponse>
             .Where(failure => failure is not null)
             .ToList();
 
-        if (failures.Count != 0) 
+        if (failures.Count != 0)
             throw new ValidationException(failures);
 
         return next();

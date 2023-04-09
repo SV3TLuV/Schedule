@@ -1,4 +1,4 @@
-﻿namespace Schedule.Persistence.Entities;
+﻿namespace Schedule.Core.Models;
 
 public class LessonTeacherClassroom
 {

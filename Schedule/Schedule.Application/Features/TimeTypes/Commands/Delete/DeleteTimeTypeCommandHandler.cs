@@ -1,30 +1,30 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
-using Schedule.Persistence.Context;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Commands.Delete;
 
 public sealed class DeleteTimeTypeCommandHandler : IRequestHandler<DeleteTimeTypeCommand>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
 
-    public DeleteTimeTypeCommandHandler(ScheduleDbContext context)
+    public DeleteTimeTypeCommandHandler(IScheduleDbContext context)
     {
         _context = context;
     }
-    
+
     public async Task Handle(DeleteTimeTypeCommand request, CancellationToken cancellationToken)
     {
-        var timeType = await _context.TimeTypes
+        var timeType = await _context.Set<TimeType>()
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TimeTypeId == request.Id, cancellationToken);
-        
+
         if (timeType is null)
             throw new NotFoundException(nameof(TimeType), request.Id);
 
-        _context.TimeTypes.Remove(timeType);
+        _context.Set<TimeType>().Remove(timeType);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

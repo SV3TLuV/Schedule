@@ -2,26 +2,27 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
-using Schedule.Persistence.Context;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.SpecialityCodes.Queries.GetList;
 
-public sealed class GetSpecialityCodeListQueryHandler 
+public sealed class GetSpecialityCodeListQueryHandler
     : IRequestHandler<GetSpecialityCodeListQuery, SpecialityCodeViewModel[]>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetSpecialityCodeListQueryHandler(ScheduleDbContext context, IMapper mapper)
+    public GetSpecialityCodeListQueryHandler(IScheduleDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<SpecialityCodeViewModel[]> Handle(GetSpecialityCodeListQuery request,
         CancellationToken cancellationToken)
     {
-        var specialityCodes = await _context.SpecialityCodes
+        var specialityCodes = await _context.Set<SpecialityCode>()
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.SpecialityCodeId)
             .ToListAsync(cancellationToken);

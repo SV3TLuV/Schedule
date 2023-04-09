@@ -3,25 +3,25 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
-using Schedule.Persistence.Context;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Queries.Get;
 
 public sealed class GetTimeTypeQueryHandler : IRequestHandler<GetTimeTypeQuery, TimeTypeViewModel>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetTimeTypeQueryHandler(ScheduleDbContext context, IMapper mapper)
+    public GetTimeTypeQueryHandler(IScheduleDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<TimeTypeViewModel> Handle(GetTimeTypeQuery request, CancellationToken cancellationToken)
     {
-        var timeType = await _context.TimeTypes
+        var timeType = await _context.Set<TimeType>()
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TimeTypeId == request.Id, cancellationToken);
 

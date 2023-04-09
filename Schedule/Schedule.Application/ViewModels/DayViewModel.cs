@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 
@@ -11,7 +11,7 @@ public class DayViewModel : IMapWith<Day>
     public string Name { get; set; } = null!;
 
     public bool IsStudy { get; set; }
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Day, DayViewModel>()

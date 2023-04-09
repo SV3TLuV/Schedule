@@ -2,17 +2,17 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
-using Schedule.Persistence.Context;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Commands.Update;
 
 public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTypeCommand>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public UpdateTimeTypeCommandHandler(ScheduleDbContext context, IMapper mapper)
+    public UpdateTimeTypeCommandHandler(IScheduleDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -20,14 +20,14 @@ public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTyp
 
     public async Task Handle(UpdateTimeTypeCommand request, CancellationToken cancellationToken)
     {
-        var timeTypeDbo = await _context.TimeTypes
+        var timeTypeDbo = await _context.Set<TimeType>()
             .FirstOrDefaultAsync(e => e.TimeTypeId == request.Id, cancellationToken);
-        
+
         if (timeTypeDbo is null)
             throw new NotFoundException(nameof(TimeType), request.Id);
-        
+
         var timeType = _mapper.Map<TimeType>(request);
-        _context.TimeTypes.Update(timeType);
+        _context.Set<TimeType>().Update(timeType);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

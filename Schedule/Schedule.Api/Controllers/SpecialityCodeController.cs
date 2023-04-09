@@ -5,7 +5,7 @@ using Schedule.Application.Features.SpecialityCodes.Commands.Delete;
 using Schedule.Application.Features.SpecialityCodes.Commands.Update;
 using Schedule.Application.Features.SpecialityCodes.Queries.Get;
 using Schedule.Application.Features.SpecialityCodes.Queries.GetList;
-using Schedule.Persistence.Entities;
+using Schedule.Application.ViewModels;
 
 namespace Schedule.Api.Controllers;
 
@@ -17,14 +17,14 @@ public class SpecialityCodeController : BaseController
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<SpecialityCode>> Get(int id)
+    public async Task<ActionResult<SpecialityCodeViewModel>> Get(int id)
     {
         var query = new GetSpecialityCodeQuery(id);
         return Ok(await Mediator.Send(query));
     }
 
     [HttpGet]
-    public async Task<ActionResult<SpecialityCode[]>> GetAll(
+    public async Task<ActionResult<SpecialityCodeViewModel[]>> GetAll(
         [FromQuery] GetSpecialityCodeListQuery query)
     {
         return Ok(await Mediator.Send(query));

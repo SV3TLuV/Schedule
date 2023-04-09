@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 

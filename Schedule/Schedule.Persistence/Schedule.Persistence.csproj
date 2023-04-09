@@ -14,4 +14,8 @@
         <Folder Include="Configurations"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Schedule.Core\Schedule.Core.csproj"/>
+    </ItemGroup>
+
 </Project>

@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Persistence.Context;
 
-public partial class ScheduleDbContext : DbContext
+public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 {
     public ScheduleDbContext()
     {

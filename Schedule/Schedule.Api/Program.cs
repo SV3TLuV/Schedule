@@ -6,6 +6,7 @@ using Quartz;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Mappings;
+using Schedule.Core.Common.Interfaces;
 using Schedule.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration appConfigurat
         .AddFluentValidationAutoValidation()
         .AddAutoMapper(options => options.AddProfile(new AssemblyMappingProfile(assembly)))
         .AddMediatR(options => options.RegisterServicesFromAssembly(assembly))
-        .AddDbContext<ScheduleDbContext>()
+        .AddDbContext<IScheduleDbContext, ScheduleDbContext>()
         .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
         {
             policy

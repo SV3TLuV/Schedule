@@ -1,30 +1,30 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
-using Schedule.Persistence.Context;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Delete;
 
 public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
 
-    public DeleteGroupCommandHandler(ScheduleDbContext context)
+    public DeleteGroupCommandHandler(IScheduleDbContext context)
     {
         _context = context;
     }
-    
+
     public async Task Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        var group = await _context.Groups
+        var group = await _context.Set<Group>()
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
-        
+
         if (group is null)
             throw new NotFoundException(nameof(Group), request.Id);
 
-        _context.Groups.Remove(group);
+        _context.Set<Group>().Remove(group);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

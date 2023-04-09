@@ -1,30 +1,30 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
-using Schedule.Persistence.Context;
-using Schedule.Persistence.Entities;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Classrooms.Commands.Delete;
 
 public sealed class DeleteClassroomCommandHandler : IRequestHandler<DeleteClassroomCommand>
 {
-    private readonly ScheduleDbContext _context;
+    private readonly IScheduleDbContext _context;
 
-    public DeleteClassroomCommandHandler(ScheduleDbContext context)
+    public DeleteClassroomCommandHandler(IScheduleDbContext context)
     {
         _context = context;
     }
-    
+
     public async Task Handle(DeleteClassroomCommand request, CancellationToken cancellationToken)
     {
-        var classroom = await _context.Classrooms
+        var classroom = await _context.Set<Classroom>()
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
-        
+
         if (classroom is null)
             throw new NotFoundException(nameof(Classroom), request.Id);
 
-        _context.Classrooms.Remove(classroom);
+        _context.Set<Classroom>().Remove(classroom);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

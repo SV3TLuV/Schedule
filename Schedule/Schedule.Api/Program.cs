@@ -6,21 +6,23 @@ using Quartz;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Mappings;
+using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
-ConfigureServices(builder.Services, builder.Configuration);
+ConfigureServices(builder.Services);
 var app = builder.Build();
 ConfigureApp(app);
 app.Run();
 
 
-void ConfigureServices(IServiceCollection services, IConfiguration appConfiguration)
+void ConfigureServices(IServiceCollection services)
 {
     var assembly = Assembly.GetAssembly(typeof(AssemblyMappingProfile))!;
     
     services
+        .AddTransient<IDateInfoService, DateInfoService>()
         .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
         .AddValidatorsFromAssembly(assembly)
         .AddFluentValidationAutoValidation()

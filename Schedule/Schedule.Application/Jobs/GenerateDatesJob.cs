@@ -1,23 +1,25 @@
-using MediatR;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
-using Schedule.Persistence.Context;
 
 namespace Schedule.Application.Jobs;
 
 public sealed class GenerateDatesJob : IJob
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
+    private readonly IDateInfoService _dateInfoService;
+    private readonly IMapper _mapper;
 
     public GenerateDatesJob(IScheduleDbContext context,
-        IMediator mediator)
+        IDateInfoService dateInfoService,
+        IMapper mapper)
     {
         _context = context;
-        _mediator = mediator;
+        _dateInfoService = dateInfoService;
+        _mapper = mapper;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -30,6 +32,27 @@ public sealed class GenerateDatesJob : IJob
         if (lastDate is null)
             throw new NotFoundException(nameof(Date));
 
-        var now = DateTime.UtcNow;
+        var currentDate = _dateInfoService.CurrentDate;
+
+        while (IsNeedGenerate(lastDate.Value, currentDate.Value))
+        {
+            var nextDate = _dateInfoService.GetNextDate(lastDate.Value);
+            await _context.Set<Date>().AddAsync(nextDate);
+            lastDate = nextDate;
+        }
+
+        await _context.SaveChangesAsync();
+    }
+    
+    public bool IsNeedGenerate(DateTime last, DateTime now)
+    {
+        var currentWeek = _dateInfoService.GetWeekOfYear(now);
+        var lastWeek = _dateInfoService.GetWeekOfYear(last);
+
+        if (lastWeek < currentWeek && last.Year == now.Year)
+            return true;
+        if (lastWeek == currentWeek)
+            return true;
+        return currentWeek == 1 && lastWeek == _dateInfoService.MaxWeekOfYear;
     }
 }

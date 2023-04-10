@@ -6,6 +6,7 @@ using Schedule.Application.Features.ClassroomTypes.Commands.Update;
 using Schedule.Application.Features.ClassroomTypes.Queries.Get;
 using Schedule.Application.Features.ClassroomTypes.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
@@ -24,7 +25,7 @@ public class ClassroomTypeController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<ClassroomTypeViewModel[]>> GetAll(
+    public async Task<ActionResult<PagedList<ClassroomTypeViewModel>>> GetAll(
         [FromQuery] GetClassroomTypeListQuery query)
     {
         return Ok(await Mediator.Send(query));

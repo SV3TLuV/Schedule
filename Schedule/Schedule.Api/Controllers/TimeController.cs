@@ -6,6 +6,7 @@ using Schedule.Application.Features.Times.Commands.Update;
 using Schedule.Application.Features.Times.Queries.Get;
 using Schedule.Application.Features.Times.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
@@ -24,7 +25,7 @@ public class TimeController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<TimeViewModel[]>> GetAll(
+    public async Task<ActionResult<PagedList<TimeViewModel>>> GetAll(
         [FromQuery] GetTimeListQuery query)
     {
         return Ok(await Mediator.Send(query));

@@ -7,7 +7,8 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.WeekTypes.Queries.GetList;
 
-public sealed class GetWeekTypeListQueryHandler : IRequestHandler<GetWeekTypeListQuery, WeekTypeViewModel[]>
+public sealed class GetWeekTypeListQueryHandler 
+    : IRequestHandler<GetWeekTypeListQuery, PagedList<WeekTypeViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -18,13 +19,23 @@ public sealed class GetWeekTypeListQueryHandler : IRequestHandler<GetWeekTypeLis
         _mapper = mapper;
     }
 
-    public async Task<WeekTypeViewModel[]> Handle(GetWeekTypeListQuery request,
+    public async Task<PagedList<WeekTypeViewModel>> Handle(GetWeekTypeListQuery request,
         CancellationToken cancellationToken)
     {
         var weekTypes = await _context.Set<WeekType>()
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.WeekTypeId)
             .ToListAsync(cancellationToken);
-        return _mapper.Map<WeekTypeViewModel[]>(weekTypes);
+
+        var viewModels = _mapper.Map<WeekTypeViewModel[]>(weekTypes);
+        var totalCount = await _context.Set<WeekType>().CountAsync(cancellationToken);
+
+        return new PagedList<WeekTypeViewModel>
+        {
+            PageSize = request.Count,
+            PageNumber = request.Page,
+            TotalCount = totalCount,
+            Items = viewModels
+        };
     }
 }

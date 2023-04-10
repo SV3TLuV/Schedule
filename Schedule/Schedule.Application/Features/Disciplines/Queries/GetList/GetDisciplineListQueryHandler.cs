@@ -8,7 +8,7 @@ using Schedule.Core.Models;
 namespace Schedule.Application.Features.Disciplines.Queries.GetList;
 
 public sealed class GetDisciplineListQueryHandler
-    : IRequestHandler<GetDisciplineListQuery, DisciplineViewModel[]>
+    : IRequestHandler<GetDisciplineListQuery, PagedList<DisciplineViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ public sealed class GetDisciplineListQueryHandler
         _mapper = mapper;
     }
 
-    public async Task<DisciplineViewModel[]> Handle(GetDisciplineListQuery request,
+    public async Task<PagedList<DisciplineViewModel>> Handle(GetDisciplineListQuery request,
         CancellationToken cancellationToken)
     {
         var disciplines = await _context.Set<Discipline>()
@@ -27,6 +27,16 @@ public sealed class GetDisciplineListQueryHandler
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)
             .ToListAsync(cancellationToken);
-        return _mapper.Map<DisciplineViewModel[]>(disciplines);
+        
+        var viewModels = _mapper.Map<DisciplineViewModel[]>(disciplines);
+        var totalCount = await _context.Set<Discipline>().CountAsync(cancellationToken);
+
+        return new PagedList<DisciplineViewModel>
+        {
+            PageSize = request.Page,
+            PageNumber = request.Count,
+            TotalCount = totalCount,
+            Items = viewModels
+        };
     }
 }

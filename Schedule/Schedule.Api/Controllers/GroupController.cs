@@ -6,6 +6,7 @@ using Schedule.Application.Features.Groups.Commands.Update;
 using Schedule.Application.Features.Groups.Queries.Get;
 using Schedule.Application.Features.Groups.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
@@ -24,7 +25,7 @@ public class GroupController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<GroupViewModel[]>> GetAll(
+    public async Task<ActionResult<PagedList<GroupViewModel>>> GetAll(
         [FromQuery] GetGroupListQuery query)
     {
         return Ok(await Mediator.Send(query));

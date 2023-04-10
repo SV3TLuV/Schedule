@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.WeekTypes.Queries.Get;
 using Schedule.Application.Features.WeekTypes.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
@@ -21,7 +22,7 @@ public class WeekTypeController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<WeekTypeViewModel[]>> GetAll(
+    public async Task<ActionResult<PagedList<WeekTypeViewModel>>> GetAll(
         [FromQuery] GetWeekTypeListQuery query)
     {
         return Ok(await Mediator.Send(query));

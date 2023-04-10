@@ -8,7 +8,7 @@ using Schedule.Core.Models;
 namespace Schedule.Application.Features.SpecialityCodes.Queries.GetList;
 
 public sealed class GetSpecialityCodeListQueryHandler
-    : IRequestHandler<GetSpecialityCodeListQuery, SpecialityCodeViewModel[]>
+    : IRequestHandler<GetSpecialityCodeListQuery, PagedList<SpecialityCodeViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -19,13 +19,23 @@ public sealed class GetSpecialityCodeListQueryHandler
         _mapper = mapper;
     }
 
-    public async Task<SpecialityCodeViewModel[]> Handle(GetSpecialityCodeListQuery request,
+    public async Task<PagedList<SpecialityCodeViewModel>> Handle(GetSpecialityCodeListQuery request,
         CancellationToken cancellationToken)
     {
         var specialityCodes = await _context.Set<SpecialityCode>()
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.SpecialityCodeId)
             .ToListAsync(cancellationToken);
-        return _mapper.Map<SpecialityCodeViewModel[]>(specialityCodes);
+        
+        var viewModels = _mapper.Map<SpecialityCodeViewModel[]>(specialityCodes);
+        var totalCount = await _context.Set<SpecialityCodeViewModel>().CountAsync(cancellationToken);
+
+        return new PagedList<SpecialityCodeViewModel>
+        {
+            PageSize = request.Count,
+            PageNumber = request.Page,
+            TotalCount = totalCount,
+            Items = viewModels
+        };
     }
 }

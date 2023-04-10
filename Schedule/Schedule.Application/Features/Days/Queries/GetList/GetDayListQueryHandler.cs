@@ -7,8 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Days.Queries.GetList;
 
-public sealed class GetDayListQueryHandler
-    : IRequestHandler<GetDayListQuery, DayViewModel[]>
+public sealed class GetDayListQueryHandler : IRequestHandler<GetDayListQuery, PagedList<DayViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -19,13 +18,23 @@ public sealed class GetDayListQueryHandler
         _mapper = mapper;
     }
 
-    public async Task<DayViewModel[]> Handle(GetDayListQuery request,
+    public async Task<PagedList<DayViewModel>> Handle(GetDayListQuery request,
         CancellationToken cancellationToken)
     {
         var days = await _context.Set<Day>()
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.DayId)
             .ToListAsync(cancellationToken);
-        return _mapper.Map<DayViewModel[]>(days);
+        
+        var viewModels = _mapper.Map<List<DayViewModel>>(days);
+        var totalCount = await _context.Set<Day>().CountAsync(cancellationToken);
+
+        return new PagedList<DayViewModel>
+        {
+            PageSize = request.Count,
+            PageNumber = request.Page,
+            TotalCount = totalCount,
+            Items = viewModels
+        };
     }
 }

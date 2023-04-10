@@ -12,8 +12,6 @@
 
     <ItemGroup>
         <Folder Include="Features\Dates\Notifications\" />
-        <Folder Include="Features\Dates\Queries\Get" />
-        <Folder Include="Features\Dates\Queries\GetList" />
         <Folder Include="Features\Lessons\Commands\Create" />
         <Folder Include="Features\Lessons\Commands\Delete" />
         <Folder Include="Features\Lessons\Commands\Update" />

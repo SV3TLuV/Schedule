@@ -16,9 +16,11 @@ internal class TestModule : Module
     {
         builder.RegisterType<ScheduleDbContext>()
             .As<IScheduleDbContext>()
-            .WithParameter("options", new DbContextOptionsBuilder<ScheduleDbContext>()
+            .WithParameter("options",
+                new DbContextOptionsBuilder<ScheduleDbContext>()
                 .UseInMemoryDatabase("Schedule.Tests")
-                .Options);
+                .Options)
+            .InstancePerLifetimeScope();
         
         builder.RegisterMediatR(MediatRConfigurationBuilder
             .Create(ThisAssembly)

@@ -2,6 +2,7 @@ using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
@@ -28,7 +29,8 @@ void ConfigureServices(IServiceCollection services)
         .AddFluentValidationAutoValidation()
         .AddAutoMapper(options => options.AddProfile(new AssemblyMappingProfile(assembly)))
         .AddMediatR(options => options.RegisterServicesFromAssembly(assembly))
-        .AddDbContext<IScheduleDbContext, ScheduleDbContext>()
+        .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
+            options.UseSqlServer("Name=Schedule"))
         .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
         {
             policy

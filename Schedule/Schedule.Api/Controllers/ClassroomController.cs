@@ -6,6 +6,7 @@ using Schedule.Application.Features.Classrooms.Commands.Update;
 using Schedule.Application.Features.Classrooms.Queries.Get;
 using Schedule.Application.Features.Classrooms.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Common.Interfaces;
 
 namespace Schedule.Api.Controllers;
 

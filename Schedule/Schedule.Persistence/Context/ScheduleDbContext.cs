@@ -49,11 +49,6 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<WeekType> WeekTypes { get; set; } = null!;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer("Name=Schedule");
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Classroom>(entity =>

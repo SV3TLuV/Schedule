@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Schedule.Core.Common.Exceptions;
@@ -11,15 +10,12 @@ public sealed class GenerateDatesJob : IJob
 {
     private readonly IScheduleDbContext _context;
     private readonly IDateInfoService _dateInfoService;
-    private readonly IMapper _mapper;
 
     public GenerateDatesJob(IScheduleDbContext context,
-        IDateInfoService dateInfoService,
-        IMapper mapper)
+        IDateInfoService dateInfoService)
     {
         _context = context;
         _dateInfoService = dateInfoService;
-        _mapper = mapper;
     }
 
     public async Task Execute(IJobExecutionContext context)

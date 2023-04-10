@@ -47,10 +47,13 @@ public sealed class DateInfoServiceTests
     public static IEnumerable<object[]> IsGetWeekTypeData =>
         new[]
         {
-            new object[] { new DateTime(2023, 1, 2), WeekType.Green },
-            new object[] { new DateTime(2023, 4, 2), WeekType.Green },
-            new object[] { new DateTime(2023, 1, 1), WeekType.Yellow },
-            new object[] { new DateTime(2022, 12, 31), WeekType.Yellow },
-            new object[] { new DateTime(2025, 9, 5), WeekType.Yellow }
+            new object[] { new DateTime(2023, 9, 1), WeekType.Yellow },
+            new object[] { new DateTime(2022, 9, 1), WeekType.Yellow },
+            new object[] { new DateTime(2021, 9, 1), WeekType.Yellow },
+            new object[] { new DateTime(2023, 4, 10), WeekType.Green },
+            new object[] { new DateTime(2023, 4, 9), WeekType.Yellow },
+            new object[] { new DateTime(2023, 1, 12), WeekType.Yellow },
+            new object[] { new DateTime(2022, 1, 12), WeekType.Yellow },
+            new object[] { new DateTime(2021, 1, 12), WeekType.Yellow }
         };
 }

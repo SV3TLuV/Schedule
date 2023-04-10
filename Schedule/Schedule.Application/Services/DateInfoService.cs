@@ -56,14 +56,22 @@ public sealed class DateInfoService : IDateInfoService
 
     public WeekType GetWeekType(DateTime dateTime)
     {
-        return (GetWeekOfYear(dateTime) & 1) != 0
-            ? WeekType.Green
-            : WeekType.Yellow;
+        var yellowWeekDate = dateTime.Month < 9
+            ? new DateTime(dateTime.Year, 1, 12)
+            : new DateTime(dateTime.Year, 9, 1);
+        var yellowWeekIsOdd = IsOddWeek(GetWeekOfYear(yellowWeekDate));
+        var isOdWeek = IsOddWeek(GetWeekOfYear(dateTime));
+        return yellowWeekIsOdd == isOdWeek ? WeekType.Yellow : WeekType.Green;
     }
 
     public int GetDayId(DateTime dateTime)
     {
         var day = (int)dateTime.DayOfWeek;
         return day == 0 ? 7 : day;
+    }
+
+    private bool IsOddWeek(int week)
+    {
+        return (week & 1) != 0;
     }
 }

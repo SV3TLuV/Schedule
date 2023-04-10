@@ -2,7 +2,7 @@
 
 public static class StringExtensions
 {
-    public static string CapitalizeFirstLetter(string line)
+    public static string Capitalize(string line)
     {
         if (string.IsNullOrWhiteSpace(line))
             return line;

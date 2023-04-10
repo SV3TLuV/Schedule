@@ -6,7 +6,7 @@ using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Dates.Queries.Current;
+namespace Schedule.Application.Features.Dates.Queries.GetCurrent;
 
 public sealed class GetCurrentDateQueryHandler : IRequestHandler<GetCurrentDateQuery, DateViewModel>
 {

@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Times.Queries.GetList;
 
-public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, TimeViewModel[]>
+public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, PagedList<TimeViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, 
         _mapper = mapper;
     }
 
-    public async Task<TimeViewModel[]> Handle(GetTimeListQuery request,
+    public async Task<PagedList<TimeViewModel>> Handle(GetTimeListQuery request,
         CancellationToken cancellationToken)
     {
         var times = await _context.Set<Time>()
@@ -27,6 +27,16 @@ public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, 
             .OrderBy(e => e.TypeId)
             .ThenBy(e => e.LessonNumber)
             .ToListAsync(cancellationToken);
-        return _mapper.Map<TimeViewModel[]>(times);
+        
+        var viewModels = _mapper.Map<TimeViewModel[]>(times);
+        var totalCount = await _context.Set<Time>().CountAsync(cancellationToken);
+
+        return new PagedList<TimeViewModel>
+        {
+            PageSize = request.Count,
+            PageNumber = request.Page,
+            TotalCount = totalCount,
+            Items = viewModels
+        };
     }
 }

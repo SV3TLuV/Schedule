@@ -6,6 +6,7 @@ using Schedule.Application.Features.Disciplines.Commands.Update;
 using Schedule.Application.Features.Disciplines.Queries.Get;
 using Schedule.Application.Features.Disciplines.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
@@ -24,7 +25,7 @@ public class DisciplineController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<DisciplineViewModel[]>> GetAll(
+    public async Task<ActionResult<PagedList<DisciplineViewModel>>> GetAll(
         [FromQuery] GetDisciplineListQuery query)
     {
         return Ok(await Mediator.Send(query));

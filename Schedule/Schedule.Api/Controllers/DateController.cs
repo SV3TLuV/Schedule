@@ -1,0 +1,38 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Schedule.Application.Features.Dates.Queries.Get;
+using Schedule.Application.Features.Dates.Queries.GetCurrent;
+using Schedule.Application.Features.Dates.Queries.GetList;
+using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
+
+namespace Schedule.Api.Controllers;
+
+public class DateController : BaseController
+{
+    public DateController(IMediator mediator)
+        : base(mediator)
+    {
+    }
+    
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<DateViewModel>> Get(int id)
+    {
+        var query = new GetDateQuery(id);
+        return Ok(await Mediator.Send(query));
+    }
+    
+    [HttpGet("/current")]
+    public async Task<ActionResult<DateViewModel>> Get()
+    {
+        var query = new GetCurrentDateQuery();
+        return Ok(await Mediator.Send(query));
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<PagedList<DateViewModel>>> GetAll(
+        [FromQuery] GetDateListQuery query)
+    {
+        return Ok(await Mediator.Send(query));
+    }
+}

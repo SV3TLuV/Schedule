@@ -6,6 +6,7 @@ using Schedule.Application.Features.SpecialityCodes.Commands.Update;
 using Schedule.Application.Features.SpecialityCodes.Queries.Get;
 using Schedule.Application.Features.SpecialityCodes.Queries.GetList;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
@@ -24,7 +25,7 @@ public class SpecialityCodeController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<SpecialityCodeViewModel[]>> GetAll(
+    public async Task<ActionResult<PagedList<SpecialityCodeViewModel>>> GetAll(
         [FromQuery] GetSpecialityCodeListQuery query)
     {
         return Ok(await Mediator.Send(query));

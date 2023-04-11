@@ -22,7 +22,8 @@ public class DateController : BaseController
         return Ok(await Mediator.Send(query));
     }
     
-    [HttpGet("/current")]
+    [HttpGet]
+    [Route("Current", Name = "CurrentDate")]
     public async Task<ActionResult<DateViewModel>> Get()
     {
         var query = new GetCurrentDateQuery();

@@ -6,7 +6,7 @@ export interface IDate {
     id: number
     isStudy: boolean
     term: number
-    value: Date
+    value: string
     day: IDay
     timeType: ITimeType
     weekType: IWeekType

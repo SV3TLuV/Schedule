@@ -16,7 +16,6 @@
         <Folder Include="Features\Lessons\Commands\Update" />
         <Folder Include="Features\Lessons\Queries\Get" />
         <Folder Include="Features\Lessons\Queries\GetList" />
-        <Folder Include="Features\Teachers\Commands\Create" />
         <Folder Include="Features\Teachers\Commands\Delete" />
         <Folder Include="Features\Teachers\Commands\Update" />
         <Folder Include="Features\Teachers\Queries\Get" />

@@ -23,7 +23,8 @@ public class DayController : BaseController
         return Ok(await Mediator.Send(query));
     }
     
-    [HttpGet("/current")]
+    [HttpGet]
+    [Route("Current", Name = "CurrentDay")]
     public async Task<ActionResult<DayViewModel>> Get()
     {
         var query = new GetCurrentDayQuery();

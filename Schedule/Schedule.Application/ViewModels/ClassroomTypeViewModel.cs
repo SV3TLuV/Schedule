@@ -8,7 +8,7 @@ public class ClassroomTypeViewModel : IMapWith<ClassroomType>
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     public void Map(Profile profile)
     {

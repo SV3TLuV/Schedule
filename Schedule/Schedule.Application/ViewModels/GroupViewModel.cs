@@ -8,7 +8,9 @@ public class GroupViewModel : IMapWith<Group>
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public int Number { get; set; }
+
+    public string Name => $"{SpecialityCode.Name}-{Number}";
 
     public int EnrollmentYear { get; set; }
 
@@ -17,7 +19,7 @@ public class GroupViewModel : IMapWith<Group>
     public CourseViewModel Course { get; set; } = null!;
 
     public SpecialityCodeViewModel SpecialityCode { get; set; } = null!;
-
+    
     public void Map(Profile profile)
     {
         profile.CreateMap<Group, GroupViewModel>()

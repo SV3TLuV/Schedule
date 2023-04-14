@@ -1,10 +1,37 @@
-import {LoginPage} from "./pages/LoginPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider} from "react-router-dom";
+import {LoginPage} from "./pages/LoginPage";
+import {EditorPage} from "./pages/EditorPage";
+import {ReportsPage} from "./pages/ReportsPage";
+import {AppNav} from "./components/AppNav";
+import {RoutePath} from "./common/enums/RoutePath.";
 
-function App() {
+
+export default function App() {
     return (
-        <LoginPage/>
+        <div className="App">
+            <RouterProvider router={router}/>
+        </div>
     )
 }
 
-export default App
+const Root = () => {
+    return (
+        <div className="Root">
+            <AppNav/>
+            <Outlet/>
+        </div>
+    )
+}
+
+export const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<Root/>}>
+            <Route path={RoutePath.LOGIN} element={<LoginPage/>}/>
+            <Route path={RoutePath.EDITOR} element={<EditorPage/>}>
+
+            </Route>
+            <Route path={RoutePath.REPORTS} element={<ReportsPage/>}/>
+        </Route>
+    )
+)

@@ -16,7 +16,9 @@ public sealed class DateInfoService : IDateInfoService
         _calendar = timeFormatInfo.Calendar;
         _firstDayOfWeek = DayOfWeek.Monday;
     }
-    
+
+    #region Properties
+
     public int CurrentTerm => GetTerm(DateTime.Now);
     public Date CurrentDate => GetDate(DateTime.Now);
     
@@ -25,6 +27,8 @@ public sealed class DateInfoService : IDateInfoService
     public int MaxWeekOfYear => GetWeekOfYear(new DateTime(DateTime.Now.Year, 12, 31));
 
     public int CurrentDayId => GetDayId(DateTime.Now);
+
+    #endregion
 
     public Date GetDate(DateTime dateTime)
     {
@@ -59,8 +63,8 @@ public sealed class DateInfoService : IDateInfoService
         var yellowWeekDate = dateTime.Month < 9
             ? new DateTime(dateTime.Year, 1, 12)
             : new DateTime(dateTime.Year, 9, 1);
-        var yellowWeekIsOdd = IsOddWeek(GetWeekOfYear(yellowWeekDate));
-        var isOdWeek = IsOddWeek(GetWeekOfYear(dateTime));
+        var yellowWeekIsOdd = IsOddWeek(yellowWeekDate);
+        var isOdWeek = IsOddWeek(dateTime);
         return yellowWeekIsOdd == isOdWeek ? WeekType.Yellow : WeekType.Green;
     }
 
@@ -70,8 +74,9 @@ public sealed class DateInfoService : IDateInfoService
         return day == 0 ? 7 : day;
     }
 
-    private bool IsOddWeek(int week)
+    private bool IsOddWeek(DateTime dateTime)
     {
+        var week = GetWeekOfYear(dateTime);
         return (week & 1) != 0;
     }
 }

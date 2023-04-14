@@ -33,12 +33,16 @@ public sealed class GetCurrentTimetableListQueryHandler
             .Where(e => 
                 e.Value.Date >= currentDate.Value.Date &&
                 e.Day.IsStudy)
+            .OrderBy(e => e.Value)
             .Select(e => e.DateId)
             .Take(request.DateCount)
             .ToListAsync(cancellationToken);
 
         var query = _context.Set<Timetable>()
             .Include(e => e.Group)
+            .ThenInclude(e => e.SpecialityCode)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.Course)
             .Include(e => e.Date)
             .Include(e => e.Lessons)
             .ThenInclude(e => e.Discipline)

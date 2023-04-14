@@ -30,7 +30,7 @@ void ConfigureServices(IServiceCollection services)
         .AddAutoMapper(options => options.AddProfile(new AssemblyMappingProfile(assembly)))
         .AddMediatR(options => options.RegisterServicesFromAssembly(assembly))
         .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-            options.UseSqlServer("Name=ScheduleWin"))
+            options.UseSqlServer("Name=Schedule"))
         .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
         {
             policy

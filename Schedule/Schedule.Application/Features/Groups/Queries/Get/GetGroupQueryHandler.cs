@@ -23,6 +23,7 @@ public sealed class GetGroupQueryHandler : IRequestHandler<GetGroupQuery, GroupV
     {
         var group = await _context.Set<Group>()
             .Include(e => e.SpecialityCode)
+            .Include(e => e.Course)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 

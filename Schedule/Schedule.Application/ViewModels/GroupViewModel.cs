@@ -8,7 +8,7 @@ public class GroupViewModel : IMapWith<Group>
 {
     public int Id { get; set; }
 
-    public int Number { get; set; }
+    public string Number { get; set; } = null!;
 
     public string Name => $"{SpecialityCode.Name}-{Number}";
 

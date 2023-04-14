@@ -6,7 +6,7 @@ namespace Schedule.Application.ViewModels;
 
 public class TermViewModel : IMapWith<Term>
 {
-    public int Id { get; set; }
+    public int Value { get; set; }
 
     public int CourseTerm { get; set; }
 
@@ -15,7 +15,7 @@ public class TermViewModel : IMapWith<Term>
     public void Map(Profile profile)
     {
         profile.CreateMap<Term, TermViewModel>()
-            .ForMember(viewModel => viewModel.Id, expression =>
+            .ForMember(viewModel => viewModel.Value, expression =>
                 expression.MapFrom(term => term.TermId))
             .ReverseMap();
     }

@@ -1,3 +1,3 @@
 export enum ValidationMessage {
-    Required = "Обязательно для заполнения",
+    REQUIRED = "Обязательно для заполнения",
 }

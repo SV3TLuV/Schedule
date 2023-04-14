@@ -7,13 +7,13 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Queries.GetList;
 
-public sealed class GetSpecialityCodeListQueryHandler
+public sealed class GetGroupListQueryHandler
     : IRequestHandler<GetGroupListQuery, PagedList<GroupViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetSpecialityCodeListQueryHandler(IScheduleDbContext context, IMapper mapper)
+    public GetGroupListQueryHandler(IScheduleDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

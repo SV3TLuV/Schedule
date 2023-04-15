@@ -10,11 +10,6 @@ namespace Schedule.Api.Controllers;
 
 public class WeekTypeController : BaseController
 {
-    public WeekTypeController(IMediator mediator) 
-        : base(mediator)
-    {
-    }
-
     [HttpGet("{id:int}")]
     public async Task<ActionResult<WeekTypeViewModel>> Get(int id)
     {
@@ -29,7 +24,7 @@ public class WeekTypeController : BaseController
         var query = new GetCurrentWeekTypeQuery();
         return Ok(await Mediator.Send(query));
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<PagedList<WeekTypeViewModel>>> GetAll(
         [FromQuery] GetWeekTypeListQuery query)

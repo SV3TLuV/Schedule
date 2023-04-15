@@ -10,10 +10,5 @@ namespace Schedule.Api.Controllers;
 [Route("/api/[controller]")]
 public abstract class BaseController : ControllerBase
 {
-    protected readonly IMediator Mediator;
-
-    protected BaseController(IMediator mediator)
-    {
-        Mediator = mediator;
-    }
+    protected IMediator Mediator => HttpContext.RequestServices.GetRequiredService<IMediator>();
 }

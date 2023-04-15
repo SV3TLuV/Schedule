@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -22,14 +23,23 @@ public sealed class GetGroupListQueryHandler
     public async Task<PagedList<GroupViewModel>> Handle(GetGroupListQuery request,
         CancellationToken cancellationToken)
     {
-        var groups = await _context.Set<Group>()
+        var query = _context.Set<Group>()
             .Include(e => e.SpecialityCode)
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
-            .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.SpecialityCode.Code)
-            .ToListAsync(cancellationToken);
+            .Skip((request.Page - 1) * request.Count)
+            .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution();
         
+        query = request.Filter switch
+        {
+            QueryFilter.Available => query.Where(e => !e.IsDeleted),
+            QueryFilter.Deleted => query.Where(e => e.IsDeleted),
+            _ => query
+        };;
+        
+        var groups = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<GroupViewModel[]>(groups);
         var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
 

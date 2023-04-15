@@ -6,18 +6,12 @@ using Schedule.Application.Features.Classrooms.Commands.Update;
 using Schedule.Application.Features.Classrooms.Queries.Get;
 using Schedule.Application.Features.Classrooms.Queries.GetList;
 using Schedule.Application.ViewModels;
-using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
 public class ClassroomController : BaseController
 {
-    public ClassroomController(IMediator mediator) 
-        : base(mediator)
-    {
-    }
-
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ClassroomViewModel>> Get(int id)
     {
@@ -45,7 +39,7 @@ public class ClassroomController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

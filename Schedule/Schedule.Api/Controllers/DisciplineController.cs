@@ -12,11 +12,6 @@ namespace Schedule.Api.Controllers;
 
 public class DisciplineController : BaseController
 {
-    public DisciplineController(IMediator mediator) 
-        : base(mediator)
-    {
-    }
-
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DisciplineViewModel>> Get(int id)
     {
@@ -44,7 +39,7 @@ public class DisciplineController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

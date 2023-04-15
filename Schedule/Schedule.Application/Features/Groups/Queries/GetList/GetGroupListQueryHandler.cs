@@ -24,6 +24,7 @@ public sealed class GetGroupListQueryHandler
     {
         var groups = await _context.Set<Group>()
             .Include(e => e.SpecialityCode)
+            .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.SpecialityCode.Code)

@@ -23,7 +23,7 @@ public class Lesson
 
     public virtual Time? Time { get; set; }
 
-    public virtual Template Template { get; set; } = null!;
+    public virtual Template Timetable { get; set; } = null!;
 
-    public virtual Timetable Timetable { get; set; } = null!;
+    public virtual Timetable TimetableNavigation { get; set; } = null!;
 }

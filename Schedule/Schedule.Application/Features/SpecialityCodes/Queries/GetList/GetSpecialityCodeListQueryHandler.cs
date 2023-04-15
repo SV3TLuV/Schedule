@@ -23,6 +23,7 @@ public sealed class GetSpecialityCodeListQueryHandler
         CancellationToken cancellationToken)
     {
         var specialityCodes = await _context.Set<SpecialityCode>()
+            .Include(e => e.Disciplines)
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.SpecialityCodeId)
             .ToListAsync(cancellationToken);

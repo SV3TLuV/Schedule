@@ -23,6 +23,7 @@ public sealed class GetSpecialityCodeQueryHandler : IRequestHandler<GetSpecialit
         CancellationToken cancellationToken)
     {
         var specialityCode = await _context.Set<SpecialityCode>()
+            .Include(e => e.Disciplines)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.SpecialityCodeId == request.Id, cancellationToken);
 

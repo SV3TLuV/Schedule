@@ -2,7 +2,6 @@ import {DataGrid, GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
 import {ICourse} from "../../features/models/ICourse";
 import {ISpecialityCode} from "../../features/models/ISpecialityCode";
 import {Button} from "react-bootstrap";
-import {IGroup} from "../../features/models/IGroup";
 
 
 const columns: GridColDef[] = [

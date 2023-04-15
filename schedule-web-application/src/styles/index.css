@@ -7,3 +7,12 @@ body {
     height: 100vh;
     box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #17a9fd;
+    border-radius: 5px;
+}

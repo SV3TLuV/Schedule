@@ -1,7 +1,4 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {IPagedList} from "../features/models/IPagedList";
-import {IGroup} from "../features/models/IGroup";
-import {HttpMethod} from "../common/enums/HttpMethod";
 
 export enum ApiTags {
     Classroom = "CLASSROOM",
@@ -29,24 +26,14 @@ export const baseApi = createApi({
     refetchOnReconnect: true,
     refetchOnFocus: true,
     endpoints: builder => ({}),
-});
+})
 
-export const groupApi = baseApi.injectEndpoints({
-    endpoints: builder => ({
-        getGroups: builder.query<IPagedList<IGroup>, void>({
-            query: () => ({
-                url: ApiTags.Group,
-                method: HttpMethod.GET,
-            }),
-            providesTags: result => [
-                ...(result?.items ?? []).map(({ id }) => ({ type: ApiTags.Group, id } as const)),
-                { type: ApiTags.Group, id: "LIST", page: result?.pageNumber }
-            ]
-        })
-    }),
-});
-
-export const {
-    useGetGroupsQuery,
-    useLazyGetGroupsQuery
-} = groupApi;
+export const buildUrlArguments = (params: object): string => {
+    const urlParams = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+        if (value !== undefined && value !== null) {
+            urlParams.append(key, value.toString());
+        }
+    }
+    return urlParams.toString();
+}

@@ -24,6 +24,7 @@ public sealed class GetGroupListQueryHandler
         CancellationToken cancellationToken)
     {
         var query = _context.Set<Group>()
+            .Include(e => e.Course)
             .Include(e => e.SpecialityCode)
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)

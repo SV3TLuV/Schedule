@@ -1,10 +1,11 @@
 import {GroupEditor} from "./GroupEditor";
 import {lazy} from "react";
+import {QueryFilter} from "../../common/enums/QueryFilter";
 
 
 export default function AvailableGroupEditor() {
     return (
-        <GroupEditor filter="available" />
+        <GroupEditor filter={QueryFilter.Available} />
     )
 }
 

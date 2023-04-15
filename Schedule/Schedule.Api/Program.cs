@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -21,7 +22,7 @@ app.Run();
 void ConfigureServices(IServiceCollection services)
 {
     var assembly = Assembly.GetAssembly(typeof(AssemblyMappingProfile))!;
-    
+
     services
         .AddTransient<IDateInfoService, DateInfoService>()
         .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
@@ -30,7 +31,7 @@ void ConfigureServices(IServiceCollection services)
         .AddAutoMapper(options => options.AddProfile(new AssemblyMappingProfile(assembly)))
         .AddMediatR(options => options.RegisterServicesFromAssembly(assembly))
         .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-            options.UseSqlServer("Name=Schedule"))
+            options.UseSqlServer("Name=ScheduleWin"))
         .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
         {
             policy
@@ -57,7 +58,7 @@ void ConfigureServices(IServiceCollection services)
             {
                 pool.MaxConcurrency = 10;
             });
-            
+
             //TODO: Need JobFactory for add from DI
             /*configuration.AddJob<GenerateDatesJob>(options =>
                 options.WithIdentity("GenerateDatesJob"));
@@ -70,8 +71,12 @@ void ConfigureServices(IServiceCollection services)
         })
         .AddEndpointsApiExplorer()
         .AddSwaggerGen()
-        .AddControllers();
-}
+        .AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        });
+}   
 
 void ConfigureApp(WebApplication webApp)
 {

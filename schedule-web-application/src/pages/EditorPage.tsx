@@ -1,4 +1,5 @@
-﻿import {Container, Tab, Tabs} from "react-bootstrap";
+﻿import {Col, Container, Tab, Tabs} from "react-bootstrap";
+import {GroupEditor} from "../components/GroupEditor/GroupEditor";
 
 export const EditorPage = () => {
     return (
@@ -17,10 +18,10 @@ export const EditorPage = () => {
                 <Tab eventKey="groups" title="Группы">
                     <Tabs>
                         <Tab eventKey="groups-available" title="Действующие">
-
+                            <GroupEditor filter="available"/>
                         </Tab>
                         <Tab eventKey="groups-deleted" title="Удаленные">
-
+                            <GroupEditor filter="deleted"/>
                         </Tab>
                     </Tabs>
                 </Tab>

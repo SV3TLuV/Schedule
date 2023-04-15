@@ -84,14 +84,7 @@ export const EditorPage = () => {
                     </Tabs>
                 </Tab>
                 <Tab eventKey="users" title="Пользователи">
-                    <Tabs>
-                        <Tab eventKey="users-available" title="Действующие">
 
-                        </Tab>
-                        <Tab eventKey="users-deleted" title="Удаленные">
-
-                        </Tab>
-                    </Tabs>
                 </Tab>
             </Tabs>
         </Container>

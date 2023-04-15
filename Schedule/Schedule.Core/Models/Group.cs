@@ -22,7 +22,7 @@ public class Group
 
     public virtual ICollection<Timetable> Timetables { get; } = new List<Timetable>();
 
-    public virtual ICollection<Group> Groups2 { get; } = new List<Group>();
+    public virtual ICollection<Group> GroupId2s { get; } = new List<Group>();
 
     public virtual ICollection<Group> Groups { get; } = new List<Group>();
 

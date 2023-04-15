@@ -1,5 +1,14 @@
-﻿import {Col, Container, Tab, Tabs} from "react-bootstrap";
-import {GroupEditor} from "../components/GroupEditor/GroupEditor";
+﻿import {Container, Tab, Tabs} from "react-bootstrap";
+import {lazy, Suspense} from "react";
+
+const fallback = (
+    <div className="flex text-center">
+        <h2>Загрузка...</h2>
+    </div>
+);
+
+const AvailableGroupEditor = lazy(() => import("../components/GroupEditor/AvailableGroupEditor"));
+const DeletedGroupEditor = lazy(() => import("../components/GroupEditor/DeletedGroupEditor"));
 
 export const EditorPage = () => {
     return (
@@ -18,10 +27,14 @@ export const EditorPage = () => {
                 <Tab eventKey="groups" title="Группы">
                     <Tabs>
                         <Tab eventKey="groups-available" title="Действующие">
-                            <GroupEditor filter="available"/>
+                            <Suspense fallback={fallback}>
+                                <AvailableGroupEditor/>
+                            </Suspense>
                         </Tab>
                         <Tab eventKey="groups-deleted" title="Удаленные">
-                            <GroupEditor filter="deleted"/>
+                            <Suspense fallback={fallback}>
+                                <DeletedGroupEditor/>
+                            </Suspense>
                         </Tab>
                     </Tabs>
                 </Tab>

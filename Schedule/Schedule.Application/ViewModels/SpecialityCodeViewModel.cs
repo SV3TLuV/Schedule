@@ -14,6 +14,8 @@ public class SpecialityCodeViewModel : IMapWith<SpecialityCode>
 
     public bool IsDeleted { get; set; }
 
+    public ICollection<DisciplineViewModel> Disciplines { get; set; } = null!;
+
     public void Map(Profile profile)
     {
         profile.CreateMap<SpecialityCode, SpecialityCodeViewModel>()

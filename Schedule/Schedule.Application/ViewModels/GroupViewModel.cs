@@ -19,7 +19,7 @@ public class GroupViewModel : IMapWith<Group>
     public CourseViewModel Course { get; set; } = null!;
 
     public SpecialityCodeViewModel SpecialityCode { get; set; } = null!;
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Group, GroupViewModel>()

@@ -6,11 +6,6 @@ namespace Schedule.Api.Controllers;
 
 public sealed class TimetableController : BaseController
 {
-    public TimetableController(IMediator mediator) 
-        : base(mediator)
-    {
-    }
-    
     [HttpGet]
     [Route("Current", Name = "CurrentTimetable")]
     public async Task<IActionResult> Get([FromQuery] GetCurrentTimetableListQuery query)

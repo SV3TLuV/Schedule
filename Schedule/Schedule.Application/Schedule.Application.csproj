@@ -18,8 +18,6 @@
         <Folder Include="Features\Lessons\Queries\GetList" />
         <Folder Include="Features\Teachers\Commands\Delete" />
         <Folder Include="Features\Teachers\Commands\Update" />
-        <Folder Include="Features\Teachers\Queries\Get" />
-        <Folder Include="Features\Teachers\Queries\GetList" />
         <Folder Include="Features\Templates\Commands\Create\" />
         <Folder Include="Features\Templates\Commands\Update\" />
         <Folder Include="Features\Templates\Queries\Get" />

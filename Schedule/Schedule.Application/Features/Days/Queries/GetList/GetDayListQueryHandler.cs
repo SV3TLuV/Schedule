@@ -22,8 +22,10 @@ public sealed class GetDayListQueryHandler : IRequestHandler<GetDayListQuery, Pa
         CancellationToken cancellationToken)
     {
         var days = await _context.Set<Day>()
-            .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.DayId)
+            .Skip((request.Page - 1) * request.Count)
+            .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
         
         var viewModels = _mapper.Map<List<DayViewModel>>(days);

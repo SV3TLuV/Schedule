@@ -23,8 +23,10 @@ public sealed class GetWeekTypeListQueryHandler
         CancellationToken cancellationToken)
     {
         var weekTypes = await _context.Set<WeekType>()
-            .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.WeekTypeId)
+            .Skip((request.Page - 1) * request.Count)
+            .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
 
         var viewModels = _mapper.Map<WeekTypeViewModel[]>(weekTypes);

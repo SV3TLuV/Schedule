@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -22,12 +23,23 @@ public sealed class GetDisciplineListQueryHandler
     public async Task<PagedList<DisciplineViewModel>> Handle(GetDisciplineListQuery request,
         CancellationToken cancellationToken)
     {
-        var disciplines = await _context.Set<Discipline>()
-            .AsNoTrackingWithIdentityResolution()
+        var query = _context.Set<Discipline>()
+            .Include(e => e.Term)
+            .ThenInclude(e => e.Course)
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)
-            .ToListAsync(cancellationToken);
+            .Skip((request.Page - 1) * request.Count)
+            .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution();
         
+        query = request.Filter switch
+        {
+            QueryFilter.Available => query.Where(e => !e.IsDeleted),
+            QueryFilter.Deleted => query.Where(e => e.IsDeleted),
+            _ => query
+        };
+        
+        var disciplines = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<DisciplineViewModel[]>(disciplines);
         var totalCount = await _context.Set<Discipline>().CountAsync(cancellationToken);
 

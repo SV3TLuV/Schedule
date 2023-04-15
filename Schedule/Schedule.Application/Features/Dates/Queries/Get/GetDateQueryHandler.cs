@@ -24,10 +24,10 @@ public sealed class GetDateQueryHandler : IRequestHandler<GetDateQuery, DateView
         CancellationToken cancellationToken)
     {
         var date = await _context.Set<Date>()
-            .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
             .Include(e => e.TimeType)
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DateId == request.Id, cancellationToken);
 
         if (date is null)

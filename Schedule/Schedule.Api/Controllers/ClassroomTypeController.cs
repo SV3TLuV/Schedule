@@ -12,11 +12,6 @@ namespace Schedule.Api.Controllers;
 
 public class ClassroomTypeController : BaseController
 {
-    public ClassroomTypeController(IMediator mediator) 
-        : base(mediator)
-    {
-    }
-
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ClassroomTypeViewModel>> Get(int id)
     {
@@ -44,7 +39,7 @@ public class ClassroomTypeController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

@@ -7,7 +7,6 @@ using Quartz;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Mappings;
-using Schedule.Application.Jobs;
 using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Persistence.Context;

@@ -24,10 +24,12 @@ public sealed class GetDateListQueryHandler
         CancellationToken cancellationToken)
     {
         var dates = await _context.Set<Date>()
-            .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
             .Include(e => e.TimeType)
+            .Skip((request.Page - 1) * request.Count)
+            .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
         
         var viewModels = _mapper.Map<List<DateViewModel>>(dates);

@@ -23,9 +23,9 @@ public sealed class GetClassroomTypeListQueryHandler
         CancellationToken cancellationToken)
     {
         var classroomTypes = await _context.Set<ClassroomType>()
-            .AsNoTrackingWithIdentityResolution()
             .Skip((request.Page - 1) * request.Count)
             .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
 
         var viewModels = _mapper.Map<ClassroomTypeViewModel[]>(classroomTypes);

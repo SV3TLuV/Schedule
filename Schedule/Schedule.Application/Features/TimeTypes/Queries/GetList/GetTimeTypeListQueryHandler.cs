@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -22,11 +23,20 @@ public sealed class GetTimeTypeListQueryHandler
     public async Task<PagedList<TimeTypeViewModel>> Handle(GetTimeTypeListQuery request,
         CancellationToken cancellationToken)
     {
-        var timeTypes = await _context.Set<TimeType>()
-            .AsNoTrackingWithIdentityResolution()
+        var query = _context.Set<TimeType>()
             .OrderBy(e => e.TimeTypeId)
-            .ToListAsync(cancellationToken);
+            .Skip((request.Page - 1) * request.Count)
+            .Take(request.Count)
+            .AsNoTrackingWithIdentityResolution();
         
+        query = request.Filter switch
+        {
+            QueryFilter.Available => query.Where(e => !e.IsDeleted),
+            QueryFilter.Deleted => query.Where(e => e.IsDeleted),
+            _ => query
+        };
+        
+        var timeTypes = await query.ToArrayAsync(cancellationToken);
         var viewModels = _mapper.Map<TimeTypeViewModel[]>(timeTypes);
         var totalCount = await _context.Set<TimeType>().CountAsync(cancellationToken);
 

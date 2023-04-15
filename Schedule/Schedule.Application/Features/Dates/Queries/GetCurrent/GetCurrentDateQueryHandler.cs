@@ -28,10 +28,10 @@ public sealed class GetCurrentDateQueryHandler : IRequestHandler<GetCurrentDateQ
     {
         var currentDate = _dateInfoService.CurrentDate;
         var date = await _context.Set<Date>()
-            .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
             .Include(e => e.TimeType)
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.Value.Date == currentDate.Value.Date,
                 cancellationToken);
 

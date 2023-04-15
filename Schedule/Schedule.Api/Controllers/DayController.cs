@@ -11,18 +11,13 @@ namespace Schedule.Api.Controllers;
 
 public class DayController : BaseController
 {
-    public DayController(IMediator mediator) 
-        : base(mediator)
-    {
-    }
-
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DayViewModel>> Get(int id)
     {
         var query = new GetDayQuery(id);
         return Ok(await Mediator.Send(query));
     }
-    
+
     [HttpGet]
     [Route("Current", Name = "CurrentDay")]
     public async Task<ActionResult<DayViewModel>> Get()

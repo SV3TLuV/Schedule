@@ -45,3 +45,8 @@ export const groupApi = baseApi.injectEndpoints({
         })
     }),
 });
+
+export const {
+    useGetGroupsQuery,
+    useLazyGetGroupsQuery
+} = groupApi;

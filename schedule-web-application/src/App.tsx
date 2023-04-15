@@ -5,6 +5,7 @@ import {EditorPage} from "./pages/EditorPage";
 import {ReportsPage} from "./pages/ReportsPage";
 import {AppNav} from "./components/AppNav";
 import {RoutePath} from "./common/enums/RoutePath.";
+import {GroupEditor} from "./components/GroupEditor/GroupEditor";
 
 
 export default function App() {
@@ -28,9 +29,7 @@ export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<Root/>}>
             <Route path={RoutePath.LOGIN} element={<LoginPage/>}/>
-            <Route path={RoutePath.EDITOR} element={<EditorPage/>}>
-
-            </Route>
+            <Route path={RoutePath.EDITOR} element={<EditorPage/>}/>
             <Route path={RoutePath.REPORTS} element={<ReportsPage/>}/>
         </Route>
     )

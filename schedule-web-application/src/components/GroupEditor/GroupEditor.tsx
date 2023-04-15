@@ -1,6 +1,8 @@
-import {GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
 import {ICourse} from "../../features/models/ICourse";
 import {ISpecialityCode} from "../../features/models/ISpecialityCode";
+import {Button} from "react-bootstrap";
+import {IGroup} from "../../features/models/IGroup";
 
 
 const columns: GridColDef[] = [
@@ -19,10 +21,46 @@ const columns: GridColDef[] = [
         width:180,
         renderCell: params => (params.value as ISpecialityCode).code
     },
+    {
+        field: "change",
+        headerName: "Изменить",
+        renderCell: params => (
+            <Button>
+                Изменить
+            </Button>
+        )
+    },
+    {
+        field: "delete",
+        headerName: "Удалить",
+        renderCell: params => (
+            <Button>
+                Удалить
+            </Button>
+        )
+    }
 ]
 
-export const GroupEditor = () => {
+const toolbar = () => (
+    <GridToolbarContainer>
+        <Button>
+            Добавить
+        </Button>
+    </GridToolbarContainer>
+)
+
+interface IGroupEditorProps {
+    filter: "available" | "deleted"
+}
+
+export const GroupEditor = ({ filter }: IGroupEditorProps) => {
     return (
-        <h1>Едитор групп</h1>
+        <div className="GroupEditor">
+            <DataGrid
+                columns={columns}
+                rows={[]}
+                sx={{ height: "100vh" }}
+            />
+        </div>
     )
 }

@@ -5,14 +5,19 @@ import {EditorPage} from "./pages/EditorPage";
 import {ReportsPage} from "./pages/ReportsPage";
 import {AppNav} from "./components/AppNav";
 import {RoutePath} from "./common/enums/RoutePath.";
-import {GroupEditor} from "./components/GroupEditor/GroupEditor";
+import {Provider} from "react-redux";
+import {persistor, store} from "./redux/store";
+import {PersistGate} from "redux-persist/integration/react";
+import {useRef, useState} from "react";
 
 
 export default function App() {
     return (
-        <div className="App">
-            <RouterProvider router={router}/>
-        </div>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <RouterProvider router={router}/>
+            </PersistGate>
+        </Provider>
     )
 }
 

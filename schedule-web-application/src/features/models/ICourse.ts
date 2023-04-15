@@ -1,3 +1,3 @@
 export interface ICourse {
-    id: number
+    value: number
 }

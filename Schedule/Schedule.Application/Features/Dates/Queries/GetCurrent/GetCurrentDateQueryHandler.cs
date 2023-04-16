@@ -22,7 +22,7 @@ public sealed class GetCurrentDateQueryHandler : IRequestHandler<GetCurrentDateQ
         _dateInfoService = dateInfoService;
         _mapper = mapper;
     }
-    
+
     public async Task<DateViewModel> Handle(GetCurrentDateQuery request,
         CancellationToken cancellationToken)
     {
@@ -37,7 +37,7 @@ public sealed class GetCurrentDateQueryHandler : IRequestHandler<GetCurrentDateQ
 
         if (date is null)
             throw new NotFoundException(nameof(Date), currentDate.Value.Date);
-        
+
         return _mapper.Map<DateViewModel>(date);
     }
 }

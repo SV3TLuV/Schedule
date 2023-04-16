@@ -6,10 +6,6 @@ namespace Schedule.Persistence.Context;
 
 public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 {
-    public ScheduleDbContext()
-    {
-    }
-
     public ScheduleDbContext(DbContextOptions<ScheduleDbContext> options)
         : base(options)
     {
@@ -33,6 +29,10 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } = null!;
 
+    public virtual DbSet<LessonTemplate> LessonTemplates { get; set; } = null!;
+
+    public virtual DbSet<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } = null!;
+
     public virtual DbSet<SpecialityCode> SpecialityCodes { get; set; } = null!;
 
     public virtual DbSet<Teacher> Teachers { get; set; } = null!;
@@ -53,6 +53,6 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ScheduleDbContext).Assembly);
     }
-    
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

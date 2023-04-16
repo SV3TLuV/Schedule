@@ -18,10 +18,6 @@ public sealed class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Les
         builder.HasOne(d => d.Timetable).WithMany(p => p.Lessons)
             .HasForeignKey(d => d.TimetableId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_Pairs_Templates");
-        builder.HasOne(d => d.TimetableNavigation).WithMany(p => p.Lessons)
-            .HasForeignKey(d => d.TimetableId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Pairs_Timetables");
     }
 }

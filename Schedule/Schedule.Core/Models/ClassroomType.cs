@@ -6,5 +6,5 @@ public class ClassroomType
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Classroom> Classrooms { get; } = new List<Classroom>();
+    public virtual ICollection<Classroom> Classrooms { get; set; } = new List<Classroom>();
 }

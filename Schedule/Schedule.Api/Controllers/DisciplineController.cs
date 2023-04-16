@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Disciplines.Commands.Create;
 using Schedule.Application.Features.Disciplines.Commands.Delete;
 using Schedule.Application.Features.Disciplines.Commands.Update;
@@ -29,8 +28,8 @@ public class DisciplineController : BaseController
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateDisciplineCommand command)
     {
-        var timeTypeId = await Mediator.Send(command);
-        return Created(string.Empty, timeTypeId);
+        var id = await Mediator.Send(command);
+        return Created(string.Empty, id);
     }
 
     [HttpPut]

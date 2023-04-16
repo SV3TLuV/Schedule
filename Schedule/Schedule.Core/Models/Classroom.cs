@@ -8,8 +8,11 @@ public class Classroom
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; } =
+    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } =
         new List<LessonTeacherClassroom>();
 
-    public virtual ICollection<ClassroomType> ClassroomTypes { get; } = new List<ClassroomType>();
+    public virtual ICollection<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } =
+        new List<LessonTemplateTeacherClassroom>();
+
+    public virtual ICollection<ClassroomType> ClassroomTypes { get; set; } = new List<ClassroomType>();
 }

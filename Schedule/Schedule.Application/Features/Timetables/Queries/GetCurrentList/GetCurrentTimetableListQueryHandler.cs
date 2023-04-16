@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Timetables.Queries.GetCurrentList;
 
-public sealed class GetCurrentTimetableListQueryHandler 
+public sealed class GetCurrentTimetableListQueryHandler
     : IRequestHandler<GetCurrentTimetableListQuery, PagedList<CurrentTimetableViewModel>>
 {
     private readonly IScheduleDbContext _context;
@@ -22,15 +22,15 @@ public sealed class GetCurrentTimetableListQueryHandler
         _dateInfoService = dateInfoService;
         _mapper = mapper;
     }
-    
-    public async Task<PagedList<CurrentTimetableViewModel>> Handle(GetCurrentTimetableListQuery request, 
+
+    public async Task<PagedList<CurrentTimetableViewModel>> Handle(GetCurrentTimetableListQuery request,
         CancellationToken cancellationToken)
     {
         var currentDate = _dateInfoService.CurrentDate;
         var dateIds = await _context.Set<Date>()
             .Include(e => e.Day)
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => 
+            .Where(e =>
                 e.Value.Date >= currentDate.Value.Date &&
                 e.Day.IsStudy)
             .OrderBy(e => e.Value)
@@ -57,11 +57,8 @@ public sealed class GetCurrentTimetableListQueryHandler
             .AsNoTrackingWithIdentityResolution()
             .Where(e => dateIds.Contains(e.DateId));
 
-        if (request.GroupId is not null)
-        {
-            query = query.Where(e => e.GroupId == request.GroupId);
-        }
-        
+        if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
+
         var timetables = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
         var grouped = viewModels.GroupBy(t => t.Group);
@@ -72,14 +69,14 @@ public sealed class GetCurrentTimetableListQueryHandler
         {
             var groupedViewModels = group
                 .GroupBy(t => t.Date)
-                .Select(g => 
+                .Select(g =>
                     new GroupedViewModel<DateViewModel, TimetableViewModel>
                     {
                         Key = g.Key,
                         Items = g.ToArray()
                     })
                 .ToArray();
-            
+
             currentTimetables.Add(new CurrentTimetableViewModel
             {
                 Group = group.Key,
@@ -88,7 +85,7 @@ public sealed class GetCurrentTimetableListQueryHandler
         }
 
         var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
-        
+
         return new PagedList<CurrentTimetableViewModel>
         {
             PageSize = request.DateCount,

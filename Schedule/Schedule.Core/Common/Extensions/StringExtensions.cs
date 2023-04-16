@@ -2,7 +2,7 @@
 
 public static class StringExtensions
 {
-    public static string Capitalize(string line)
+    public static string Capitalize(this string line)
     {
         if (string.IsNullOrWhiteSpace(line))
             return line;

@@ -12,5 +12,5 @@ public class Timetable
 
     public virtual Group Group { get; set; } = null!;
 
-    public virtual ICollection<Lesson> Lessons { get; } = new List<Lesson>();
+    public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 }

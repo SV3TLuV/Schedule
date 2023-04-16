@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Timetables.Queries.GetCurrentList;
 
 namespace Schedule.Api.Controllers;

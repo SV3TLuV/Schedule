@@ -1,15 +1,19 @@
-import {DataGrid, DataGridProps, GridColDef} from "@mui/x-data-grid";
-import {useEffect, useState} from "react";
+import {
+    DataGrid,
+    DataGridProps,
+    GridColDef,
+} from "@mui/x-data-grid";
 import {IPagedList} from "../features/models/IPagedList";
 import {Loading} from "./Loading";
-import {IPaginationModel} from "../features/models/IPaginationModel";
+import {IPaginatedQuery} from "../features/queries/IPaginatedQuery";
+import {Pagination, PaginationItem} from "@mui/lab";
 
 
 interface IBaseDataGridProps<T> {
     columns: GridColDef[]
     list: IPagedList<T> | undefined
-    paginationModel: IPaginationModel
-    onPaginationModelChange: (model: IPaginationModel) => void
+    paginationModel: IPaginatedQuery
+    onPaginationModelChange: (model: IPaginatedQuery) => void
     components?: DataGridProps['components']
 }
 
@@ -22,29 +26,48 @@ export const PaginationDataGrid = <T extends { id: number }>(
         components
     }: IBaseDataGridProps<T>) => {
 
-    const [items, setItems] = useState<T[]>([])
-
-    useEffect(() => {
-        if (list) {
-            const itemIds = items.map(item => item.id)
-            const newItems = list.items.filter(item => !itemIds.includes(item.id))
-            setItems(value => [...value, ...newItems])
-        }
-    }, [list])
-
     if (!list) {
         return (
             <Loading/>
         )
     }
 
+    const pagination = () => {
+        return (
+            <Pagination
+                color="primary"
+                variant="outlined"
+                shape="rounded"
+                page={paginationModel.page}
+                count={list.totalPages}
+                // @ts-expect-error
+                renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+                onChange={(event: React.ChangeEvent<unknown>, value: number) => {
+                    onPaginationModelChange({...paginationModel, page: value})
+                }}
+            />
+        )
+    }
+
     return (
         <DataGrid
             columns={columns}
-            rows={items}
+            rows={list.items}
             rowCount={list.totalCount}
+            initialState={{
+                columns: {
+                    columnVisibilityModel: {
+                        id: false,
+                    },
+                },
+            }}
+            slots={{ pagination: pagination }}
             components={components}
-            paginationModel={paginationModel}
+            paginationMode="server"
+            paginationModel={{
+                page: paginationModel.page - 1,
+                pageSize: paginationModel.pageSize,
+            }}
             onPaginationModelChange={onPaginationModelChange}
             disableColumnMenu
             disableRowSelectionOnClick

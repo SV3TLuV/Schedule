@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Groups.Commands.Create;
 using Schedule.Application.Features.Groups.Commands.Delete;
 using Schedule.Application.Features.Groups.Commands.Update;
@@ -29,8 +28,8 @@ public class GroupController : BaseController
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateGroupCommand command)
     {
-        var timeTypeId = await Mediator.Send(command);
-        return Created(string.Empty, timeTypeId);
+        var id = await Mediator.Send(command);
+        return Created(new Uri($"{Request.Path}/{id}", UriKind.Relative), id);
     }
 
     [HttpPut]

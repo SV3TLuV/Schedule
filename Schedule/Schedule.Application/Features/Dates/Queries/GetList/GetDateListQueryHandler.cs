@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Dates.Queries.GetList;
 
-public sealed class GetDateListQueryHandler 
+public sealed class GetDateListQueryHandler
     : IRequestHandler<GetDateListQuery, PagedList<DateViewModel>>
 {
     private readonly IScheduleDbContext _context;
@@ -19,7 +19,7 @@ public sealed class GetDateListQueryHandler
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<PagedList<DateViewModel>> Handle(GetDateListQuery request,
         CancellationToken cancellationToken)
     {
@@ -27,17 +27,17 @@ public sealed class GetDateListQueryHandler
             .Include(e => e.Day)
             .Include(e => e.WeekType)
             .Include(e => e.TimeType)
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
-        
+
         var viewModels = _mapper.Map<List<DateViewModel>>(dates);
         var totalCount = await _context.Set<Date>().CountAsync(cancellationToken);
 
         return new PagedList<DateViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

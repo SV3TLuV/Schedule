@@ -14,10 +14,13 @@ public class Teacher
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; } =
+    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } =
         new List<LessonTeacherClassroom>();
 
-    public virtual ICollection<Discipline> Disciplines { get; } = new List<Discipline>();
+    public virtual ICollection<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } =
+        new List<LessonTemplateTeacherClassroom>();
 
-    public virtual ICollection<Group> Groups { get; } = new List<Group>();
+    public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();
+
+    public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 }

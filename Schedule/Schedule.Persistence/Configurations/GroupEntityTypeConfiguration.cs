@@ -8,8 +8,12 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
-        builder.ToTable(tb => tb.HasTrigger("Groups_Delete"));
-        builder.HasIndex(e => new { e.Number, e.EnrollmentYear }, "IX_Groups").IsUnique();
+        builder.ToTable(tb =>
+            {
+                tb.HasTrigger("Groups_Delete");
+                tb.HasTrigger("Groups_Insert");
+            });
+        builder.HasIndex(e => new { e.Number, e.EnrollmentYear, e.SpecialityCodeId }, "IX_Groups").IsUnique();
         builder.Property(e => e.Number)
             .HasMaxLength(2)
             .IsUnicode(false);

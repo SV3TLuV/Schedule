@@ -20,7 +20,7 @@ public class LessonViewModel : IMapWith<Lesson>
 
     public DisciplineViewModel Discipline { get; set; } = null!;
 
-    public ICollection<LessonTeacherClassroomViewModel> TeacherClassrooms { get; set; } = null!;
+    public ICollection<TeacherClassroomViewModel> TeacherClassrooms { get; set; } = null!;
 
     public void Map(Profile profile)
     {

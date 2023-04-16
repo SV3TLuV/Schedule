@@ -8,7 +8,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Queries.GetList;
 
-public sealed class GetTimeTypeListQueryHandler 
+public sealed class GetTimeTypeListQueryHandler
     : IRequestHandler<GetTimeTypeListQuery, PagedList<TimeTypeViewModel>>
 {
     private readonly IScheduleDbContext _context;
@@ -25,24 +25,24 @@ public sealed class GetTimeTypeListQueryHandler
     {
         var query = _context.Set<TimeType>()
             .OrderBy(e => e.TimeTypeId)
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
-        
+
         query = request.Filter switch
         {
             QueryFilter.Available => query.Where(e => !e.IsDeleted),
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        
+
         var timeTypes = await query.ToArrayAsync(cancellationToken);
         var viewModels = _mapper.Map<TimeTypeViewModel[]>(timeTypes);
         var totalCount = await _context.Set<TimeType>().CountAsync(cancellationToken);
 
         return new PagedList<TimeTypeViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

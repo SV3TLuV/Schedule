@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Teachers.Queries.Get;
 using Schedule.Application.Features.Teachers.Queries.GetList;
 using Schedule.Application.ViewModels;

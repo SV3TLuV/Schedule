@@ -8,6 +8,7 @@ public sealed class TimetableEntityTypeConfiguration : IEntityTypeConfiguration<
 {
     public void Configure(EntityTypeBuilder<Timetable> builder)
     {
+        builder.ToTable(tb => tb.HasTrigger("Timetables_Insert"));
         builder.HasIndex(e => new { e.DateId, e.GroupId }, "IX_Timetables").IsUnique();
         builder.HasOne(d => d.Date).WithMany(p => p.Timetables)
             .HasForeignKey(d => d.DateId)

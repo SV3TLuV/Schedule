@@ -18,7 +18,7 @@ public sealed class GetTeacherQueryHandler : IRequestHandler<GetTeacherQuery, Te
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<TeacherViewModel> Handle(GetTeacherQuery request,
         CancellationToken cancellationToken)
     {

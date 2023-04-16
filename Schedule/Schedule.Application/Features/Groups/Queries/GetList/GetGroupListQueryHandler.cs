@@ -28,25 +28,27 @@ public sealed class GetGroupListQueryHandler
             .Include(e => e.SpecialityCode)
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
-            .OrderBy(e => e.SpecialityCode.Code)
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .OrderBy(e => e.Course.CourseId)
+            .ThenBy(e => e.SpecialityCode.Code)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
-        
+
         query = request.Filter switch
         {
             QueryFilter.Available => query.Where(e => !e.IsDeleted),
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
-        };;
-        
+        };
+        ;
+
         var groups = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<GroupViewModel[]>(groups);
         var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
 
         return new PagedList<GroupViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.WeekTypes.Queries.Get;
 using Schedule.Application.Features.WeekTypes.Queries.GetCurrent;
 using Schedule.Application.Features.WeekTypes.Queries.GetList;

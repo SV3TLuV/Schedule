@@ -18,12 +18,10 @@ public class Lesson
 
     public virtual Discipline? Discipline { get; set; }
 
-    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; } =
+    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } =
         new List<LessonTeacherClassroom>();
 
     public virtual Time? Time { get; set; }
 
-    public virtual Template Timetable { get; set; } = null!;
-
-    public virtual Timetable TimetableNavigation { get; set; } = null!;
+    public virtual Timetable Timetable { get; set; } = null!;
 }

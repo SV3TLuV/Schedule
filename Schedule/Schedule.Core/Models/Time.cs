@@ -14,7 +14,9 @@ public class Time
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<Lesson> Lessons { get; } = new List<Lesson>();
+    public virtual ICollection<LessonTemplate> LessonTemplates { get; set; } = new List<LessonTemplate>();
+
+    public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public virtual TimeType Type { get; set; } = null!;
 }

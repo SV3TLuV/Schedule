@@ -3,7 +3,6 @@ import {IGroup} from "../features/models/IGroup";
 import {HttpMethod} from "../common/enums/HttpMethod";
 import {ApiTags, baseApi, buildUrlArguments} from "./baseApi";
 import {IPaginatedQueryWithFilter} from "../features/queries/IPaginatedQueryWithFilter";
-import {IPaginatedQuery} from "../features/queries/IPaginatedQuery";
 
 
 export const groupApi = baseApi.injectEndpoints({
@@ -17,11 +16,66 @@ export const groupApi = baseApi.injectEndpoints({
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Group, id} as const)),
                 {type: ApiTags.Group, id: "LIST", page: result?.pageNumber}
             ]
+        }),
+        getGroup: builder.query<IGroup, number>({
+            query: id => ({
+                url: `${ApiTags.Group}/${id}`,
+                method: HttpMethod.GET,
+            }),
+            providesTags: (result, error, id) => [{type: ApiTags.Group, id}]
+        }),
+        createGroup: builder.mutation<number, IGroup>({
+            query: group => ({
+                url: ApiTags.Group,
+                method: HttpMethod.POST,
+                body: {
+                    number: group.number,
+                    enrollmentYear: group.enrollmentYear,
+                    courseId: group.course.value,
+                    specialityCodeId: group.specialityCode.id
+                },
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Group, id},
+                {type: ApiTags.Timetable, id: "LIST"},
+            ]
+        }),
+        updateGroup: builder.mutation<number, IGroup>({
+            query: group => ({
+                url: ApiTags.Group,
+                method: HttpMethod.PUT,
+                body: {
+                    id: group.id,
+                    number: group.number,
+                    enrollmentYear: group.enrollmentYear,
+                    courseId: group.course.value,
+                    specialityCodeId: group.specialityCode.id
+                },
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Group, id},
+                {type: ApiTags.Timetable, id: "LIST"},
+            ]
+        }),
+        deleteGroup: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Group}/${id}`,
+                method: HttpMethod.DELETE
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Group, id},
+                {type: ApiTags.Timetable, id: "LIST"},
+            ]
         })
     }),
 })
 
 export const {
     useGetGroupsQuery,
-    useLazyGetGroupsQuery
+    useLazyGetGroupsQuery,
+    useGetGroupQuery,
+    useLazyGetGroupQuery,
+    useCreateGroupMutation,
+    useUpdateGroupMutation,
+    useDeleteGroupMutation
 } = groupApi

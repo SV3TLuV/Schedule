@@ -16,7 +16,7 @@ public class Template
 
     public virtual Group Group { get; set; } = null!;
 
-    public virtual ICollection<Lesson> Lessons { get; } = new List<Lesson>();
+    public virtual ICollection<LessonTemplate> LessonTemplates { get; set; } = new List<LessonTemplate>();
 
     public virtual Term Term { get; set; } = null!;
 

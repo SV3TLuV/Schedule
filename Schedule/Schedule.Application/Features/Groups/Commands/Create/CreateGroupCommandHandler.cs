@@ -9,10 +9,14 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
-    public CreateGroupCommandHandler(IScheduleDbContext context, IMapper mapper)
+    public CreateGroupCommandHandler(IScheduleDbContext context,
+        IMediator mediator,
+        IMapper mapper)
     {
         _context = context;
+        _mediator = mediator;
         _mapper = mapper;
     }
 

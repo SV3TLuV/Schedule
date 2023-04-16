@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.WeekTypes.Queries.GetList;
 
-public sealed class GetWeekTypeListQueryHandler 
+public sealed class GetWeekTypeListQueryHandler
     : IRequestHandler<GetWeekTypeListQuery, PagedList<WeekTypeViewModel>>
 {
     private readonly IScheduleDbContext _context;
@@ -24,8 +24,8 @@ public sealed class GetWeekTypeListQueryHandler
     {
         var weekTypes = await _context.Set<WeekType>()
             .OrderBy(e => e.WeekTypeId)
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
 
@@ -34,7 +34,7 @@ public sealed class GetWeekTypeListQueryHandler
 
         return new PagedList<WeekTypeViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

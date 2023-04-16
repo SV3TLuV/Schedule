@@ -16,11 +16,13 @@ public class Discipline
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<Lesson> Lessons { get; } = new List<Lesson>();
+    public virtual ICollection<LessonTemplate> LessonTemplates { get; set; } = new List<LessonTemplate>();
+
+    public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public virtual SpecialityCode SpecialityCode { get; set; } = null!;
 
     public virtual Term Term { get; set; } = null!;
 
-    public virtual ICollection<Teacher> Teachers { get; } = new List<Teacher>();
+    public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 }

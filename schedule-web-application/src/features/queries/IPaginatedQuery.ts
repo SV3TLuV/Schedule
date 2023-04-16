@@ -1,4 +1,4 @@
 export interface IPaginatedQuery {
-    page?: number
-    count?: number
+    pageSize: number
+    page: number
 }

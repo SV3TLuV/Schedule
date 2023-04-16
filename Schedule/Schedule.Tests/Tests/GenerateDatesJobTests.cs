@@ -1,7 +1,7 @@
 ﻿using Schedule.Application.Jobs;
 using Schedule.Tests.Common;
 
-namespace Schedule.Tests;
+namespace Schedule.Tests.Tests;
 
 public sealed class GenerateDatesJobTests
 {

@@ -1,7 +1,13 @@
 ﻿import {Container, Tab, Tabs} from "react-bootstrap";
-import {Suspense} from "react";
-import {LazyAvailableGroupEditor} from "../components/GroupEditor/AvailableGroupEditor";
-import {LazyDeletedGroupEditor} from "../components/GroupEditor/DeletedGroupEditor";
+import {GroupEditor} from "../components/GroupEditor/GroupEditor";
+import {QueryFilter} from "../common/enums/QueryFilter";
+import {TeacherEditor} from "../components/TeacherEditor/TeacherEditor";
+import {ClassroomEditor} from "../components/ClassroomEditor/ClassroomEditor";
+import {DisciplineEditor} from "../components/DisciplineEditor/DisciplineEditor";
+import {TimeEditor} from "../components/TimeEditor/TimeEditor";
+import {DayEditor} from "../components/DayEditor/DayEditor";
+import {ClassroomTypeEditor} from "../components/ClassroomTypeEditor/ClassroomTypeEditor";
+import {TimeTypeEditor} from "../components/TimeTypeEditor/TimeTypeEditor";
 
 const fallback = (
     <div className="flex text-center">
@@ -26,65 +32,68 @@ export const EditorPage = () => {
                 <Tab eventKey="groups" title="Группы">
                     <Tabs>
                         <Tab eventKey="groups-available" title="Действующие">
-                            <Suspense fallback={fallback}>
-                                <LazyAvailableGroupEditor/>
-                            </Suspense>
+                            <GroupEditor filter={QueryFilter.Available}/>
                         </Tab>
                         <Tab eventKey="groups-deleted" title="Удаленные">
-                            <Suspense fallback={fallback}>
-                                <LazyDeletedGroupEditor/>
-                            </Suspense>
+                            <GroupEditor filter={QueryFilter.Deleted}/>
                         </Tab>
                     </Tabs>
                 </Tab>
                 <Tab eventKey="teachers" title="Преподаватели">
                     <Tabs>
                         <Tab eventKey="teachers-available" title="Действующие">
-
+                            <TeacherEditor filter={QueryFilter.Available}/>
                         </Tab>
                         <Tab eventKey="teachers-deleted" title="Удаленные">
-
+                            <TeacherEditor filter={QueryFilter.Deleted}/>
                         </Tab>
                     </Tabs>
                 </Tab>
                 <Tab eventKey="classrooms" title="Кабинеты">
                     <Tabs>
                         <Tab eventKey="classrooms-available" title="Действующие">
-
+                            <ClassroomEditor filter={QueryFilter.Available}/>
                         </Tab>
                         <Tab eventKey="classrooms-deleted" title="Удаленные">
-
+                            <ClassroomEditor filter={QueryFilter.Deleted}/>
                         </Tab>
                     </Tabs>
                 </Tab>
                 <Tab eventKey="disciplines" title="Дисциплины">
                     <Tabs>
                         <Tab eventKey="disciplines-available" title="Действующие">
-
+                            <DisciplineEditor filter={QueryFilter.Available}/>
                         </Tab>
                         <Tab eventKey="disciplines-deleted" title="Удаленные">
-
+                            <DisciplineEditor filter={QueryFilter.Deleted}/>
                         </Tab>
                     </Tabs>
                 </Tab>
                 <Tab eventKey="times" title="Время">
                     <Tabs>
                         <Tab eventKey="times-available" title="Действующие">
-
+                            <TimeEditor filter={QueryFilter.Available}/>
                         </Tab>
                         <Tab eventKey="times-deleted" title="Удаленные">
-
+                            <TimeEditor filter={QueryFilter.Deleted}/>
                         </Tab>
                     </Tabs>
                 </Tab>
                 <Tab eventKey="days" title="Дни">
-
+                    <DayEditor />
                 </Tab>
                 <Tab eventKey="classroom-types" title="Виды кабинетов">
-
+                    <ClassroomTypeEditor/>
                 </Tab>
                 <Tab eventKey="time-types" title="Виды времени">
-
+                    <Tabs>
+                        <Tab eventKey="time-types-available" title="Действующие">
+                            <TimeTypeEditor filter={QueryFilter.Available}/>
+                        </Tab>
+                        <Tab eventKey="time-types-deleted" title="Удаленные">
+                            <TimeTypeEditor filter={QueryFilter.Deleted}/>
+                        </Tab>
+                    </Tabs>
                 </Tab>
                 <Tab eventKey="specialties" title="Специальности">
                     <Tabs>

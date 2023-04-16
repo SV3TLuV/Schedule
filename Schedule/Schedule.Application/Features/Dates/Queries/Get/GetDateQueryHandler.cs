@@ -19,8 +19,8 @@ public sealed class GetDateQueryHandler : IRequestHandler<GetDateQuery, DateView
         _context = context;
         _mapper = mapper;
     }
-    
-    public async Task<DateViewModel> Handle(GetDateQuery request, 
+
+    public async Task<DateViewModel> Handle(GetDateQuery request,
         CancellationToken cancellationToken)
     {
         var date = await _context.Set<Date>()

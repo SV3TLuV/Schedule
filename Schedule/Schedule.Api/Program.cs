@@ -1,37 +1,32 @@
-using System.Reflection;
 using System.Text.Json.Serialization;
-using FluentValidation;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Schedule.Api.Common;
+using Schedule.Api.Modules;
 using Schedule.Application.Common.Behaviors;
-using Schedule.Application.Common.Mappings;
-using Schedule.Application.Services;
-using Schedule.Core.Common.Interfaces;
-using Schedule.Persistence.Context;
+using Schedule.Application.Modules;
 
-var builder = WebApplication.CreateBuilder(args);
-ConfigureServices(builder.Services);
-var app = builder.Build();
+var applicationBuilder = WebApplication.CreateBuilder(args);
+applicationBuilder.Host
+    .UseServiceProviderFactory(new AutofacServiceProviderFactory(configuration =>
+    {
+        configuration.RegisterModule(new ApiModule(applicationBuilder.Configuration));
+        configuration.RegisterModule<ApplicationModule>();
+    }));
+ConfigureServices(applicationBuilder.Services);
+var app = applicationBuilder.Build();
 ConfigureApp(app);
 app.Run();
 
 
 void ConfigureServices(IServiceCollection services)
 {
-    var assembly = Assembly.GetAssembly(typeof(AssemblyMappingProfile))!;
-
     services
-        .AddTransient<IDateInfoService, DateInfoService>()
         .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
-        .AddValidatorsFromAssembly(assembly)
         .AddFluentValidationAutoValidation()
-        .AddAutoMapper(options => options.AddProfile(new AssemblyMappingProfile(assembly)))
-        .AddMediatR(options => options.RegisterServicesFromAssembly(assembly))
-        .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-            options.UseSqlServer("Name=ScheduleWin"))
         .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
         {
             policy

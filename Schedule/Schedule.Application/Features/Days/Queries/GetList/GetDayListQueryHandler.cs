@@ -23,17 +23,17 @@ public sealed class GetDayListQueryHandler : IRequestHandler<GetDayListQuery, Pa
     {
         var days = await _context.Set<Day>()
             .OrderBy(e => e.DayId)
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
-        
+
         var viewModels = _mapper.Map<List<DayViewModel>>(days);
         var totalCount = await _context.Set<Day>().CountAsync(cancellationToken);
 
         return new PagedList<DayViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

@@ -39,7 +39,7 @@ public sealed class GenerateDatesJob : IJob
 
         await _context.SaveChangesAsync();
     }
-    
+
     public bool IsNeedGenerate(DateTime last, DateTime now)
     {
         var currentWeek = _dateInfoService.GetWeekOfYear(now);

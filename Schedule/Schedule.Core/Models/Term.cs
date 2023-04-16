@@ -10,7 +10,7 @@ public class Term
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual ICollection<Discipline> Disciplines { get; } = new List<Discipline>();
+    public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();
 
-    public virtual ICollection<Template> Templates { get; } = new List<Template>();
+    public virtual ICollection<Template> Templates { get; set; } = new List<Template>();
 }

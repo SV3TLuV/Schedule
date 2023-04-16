@@ -23,8 +23,8 @@ public sealed class GetClassroomTypeListQueryHandler
         CancellationToken cancellationToken)
     {
         var classroomTypes = await _context.Set<ClassroomType>()
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
 
@@ -33,7 +33,7 @@ public sealed class GetClassroomTypeListQueryHandler
 
         return new PagedList<ClassroomTypeViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

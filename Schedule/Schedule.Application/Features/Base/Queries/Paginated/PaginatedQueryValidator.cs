@@ -8,7 +8,7 @@ public sealed class PaginatedQueryValidator : AbstractValidator<PaginatedQuery>
     {
         RuleFor(query => query.Page)
             .GreaterThan(0);
-        RuleFor(query => query.Count)
+        RuleFor(query => query.PageSize)
             .InclusiveBetween(1, 100);
     }
 }

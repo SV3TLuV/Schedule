@@ -21,7 +21,7 @@ internal class TestModule : Module
                 .UseInMemoryDatabase("Schedule.Tests")
                 .Options)
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterMediatR(MediatRConfigurationBuilder
             .Create(ThisAssembly)
             .Build());

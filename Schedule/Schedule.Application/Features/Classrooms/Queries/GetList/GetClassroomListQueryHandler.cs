@@ -25,8 +25,8 @@ public sealed class GetClassroomListQueryHandler
     {
         var query = _context.Set<Classroom>()
             .Include(e => e.ClassroomTypes)
-            .Skip((request.Page - 1) * request.Count)
-            .Take(request.Count)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -42,7 +42,7 @@ public sealed class GetClassroomListQueryHandler
 
         return new PagedList<ClassroomViewModel>
         {
-            PageSize = request.Count,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels

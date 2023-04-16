@@ -19,7 +19,7 @@ public class TeacherViewModel : IMapWith<Teacher>
     public bool IsDeleted { get; set; }
 
     public ICollection<GroupViewModel> Groups { get; set; } = null!;
-    
+
     public ICollection<DisciplineViewModel> Disciplines { get; set; } = null!;
 
     public void Map(Profile profile)

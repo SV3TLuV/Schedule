@@ -12,14 +12,14 @@ public sealed class LessonTeacherClassroomEntityTypeConfiguration
         builder.HasKey(e => new { e.LessonId, e.TeacherId }).HasName("PK_PairTeachers");
         builder.HasOne(d => d.Classroom).WithMany(p => p.LessonTeacherClassrooms)
             .HasForeignKey(d => d.ClassroomId)
-            .HasConstraintName("FK_LessonTeacherClassrooms_Classrooms");
+            .HasConstraintName("FK_LessonTeacherClassrooms_Classrooms2");
         builder.HasOne(d => d.Lesson).WithMany(p => p.LessonTeacherClassrooms)
             .HasForeignKey(d => d.LessonId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PairTeachers_Pairs");
+            .HasConstraintName("FK_LessonTeacherClassrooms_Lessons");
         builder.HasOne(d => d.Teacher).WithMany(p => p.LessonTeacherClassrooms)
             .HasForeignKey(d => d.TeacherId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PairTeachers_Teachers");
+            .HasConstraintName("FK_LessonTeacherClassrooms_Teachers1");
     }
 }

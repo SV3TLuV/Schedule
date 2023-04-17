@@ -22,7 +22,14 @@ public sealed class UpdateDisciplineCommand : IRequest, IMapWith<Discipline>
                     discipline.Name.ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Code.ToUpper()))
-            .ReverseMap();
+                    discipline.Code.ToUpper()));
+        
+        profile.CreateMap<UpdateDisciplineCommand, Discipline>()
+            .ForMember(command => command.Name, expression =>
+                expression.MapFrom(discipline =>
+                    discipline.Name.ToUpper()))
+            .ForMember(command => command.Code, expression =>
+                expression.MapFrom(discipline =>
+                    discipline.Code.ToUpper()));
     }
 }

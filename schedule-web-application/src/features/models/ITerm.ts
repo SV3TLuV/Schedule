@@ -1,7 +1,7 @@
 import {ICourse} from "./ICourse";
 
 export interface ITerm {
-    id: number
+    value: number
     courseTerm: number
     course: ICourse
 }

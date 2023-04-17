@@ -10,7 +10,7 @@ public class TermViewModel : IMapWith<Term>
 
     public int CourseTerm { get; set; }
 
-    public Course Course { get; set; } = null!;
+    public CourseViewModel Course { get; set; } = null!;
 
     public void Map(Profile profile)
     {

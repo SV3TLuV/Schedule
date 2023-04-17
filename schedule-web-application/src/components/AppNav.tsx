@@ -19,17 +19,17 @@ export const AppNav = () => {
                 </Navbar.Toggle>
                 <Navbar.Collapse id="navcol-2">
                     <Nav className="ms-auto">
-                        <Nav.Link href="#" active>
+                        <Nav.Link href="/" active>
                             Расписание
                         </Nav.Link>
-                        <Nav.Link href="#" active>
+                        <Nav.Link href="/editor" active>
                             Редактор
                         </Nav.Link>
-                        <Nav.Link href="#" active>
+                        <Nav.Link href="/reports" active>
                             Отчеты
                         </Nav.Link>
                     </Nav>
-                    <Button className="ms-md-2" variant="primary" role="button">
+                    <Button href="/login" className="ms-md-2" variant="primary" role="button">
                         Войти
                     </Button>
                 </Navbar.Collapse>

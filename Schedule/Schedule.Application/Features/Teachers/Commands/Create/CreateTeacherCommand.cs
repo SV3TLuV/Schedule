@@ -32,7 +32,29 @@ public sealed class CreateTeacherCommand : IRequest<int>, IMapWith<Teacher>
                     .Select(group => group.GroupId)))
             .ForMember(command => command.DisciplineIds, expression =>
                 expression.MapFrom(teacher => teacher.Disciplines
-                    .Select(discipline => discipline.DisciplineId)))
-            .ReverseMap();
+                    .Select(discipline => discipline.DisciplineId)));
+        
+        profile.CreateMap<CreateTeacherCommand, Teacher>()
+            .ForMember(command => command.Name, expression =>
+                expression.MapFrom(teacher =>
+                    teacher.Name.Capitalize()))
+            .ForMember(command => command.Surname, expression =>
+                expression.MapFrom(teacher =>
+                    teacher.Surname.Capitalize()))
+            .ForMember(command => command.MiddleName, expression =>
+                expression.MapFrom(teacher =>
+                    teacher.MiddleName.Capitalize()))
+            .ForMember(teacher => teacher.Groups, expression =>
+                expression.MapFrom(command => command.GroupIds
+                    .Select(id => new Group
+                    {
+                        GroupId = id
+                    })))
+            .ForMember(teacher => teacher.Disciplines, expression =>
+                expression.MapFrom(command => command.DisciplineIds
+                    .Select(id => new Discipline
+                    {
+                        DisciplineId = id
+                    })));
     }
 }

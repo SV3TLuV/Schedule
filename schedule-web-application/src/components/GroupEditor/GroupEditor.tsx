@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
         field: "enrollmentYear",
         headerName: "Год поступления",
         width: 160,
-        type: "number",
+        type: "string",
     },
     {
         field: "course",

@@ -22,7 +22,20 @@ public sealed class CreateSpecialityCodeCommand : IRequest<int>, IMapWith<Specia
                     specialityCode.Code.ToUpper()))
             .ForMember(command => command.DisciplineIds, expression =>
                 expression.MapFrom(specialityCode => specialityCode.Disciplines
-                    .Select(discipline => discipline.DisciplineId)))
-            .ReverseMap();
+                    .Select(discipline => discipline.DisciplineId)));
+        
+        profile.CreateMap<CreateSpecialityCodeCommand, SpecialityCode>()
+            .ForMember(command => command.Name, expression =>
+                expression.MapFrom(specialityCode =>
+                    specialityCode.Name.ToUpper()))
+            .ForMember(command => command.Code, expression =>
+                expression.MapFrom(specialityCode =>
+                    specialityCode.Code.ToUpper()))
+            .ForMember(specialityCode => specialityCode.Disciplines, expression =>
+                expression.MapFrom(command => command.DisciplineIds
+                    .Select(id => new Discipline
+                    {
+                        DisciplineId = id,
+                    })));
     }
 }

@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export enum ApiTags {
-    Classroom = "CLASSROOM",
+    Classroom = "Classroom",
     ClassroomType = "ClassroomType",
     Date = "Date",
     Day = "Day",

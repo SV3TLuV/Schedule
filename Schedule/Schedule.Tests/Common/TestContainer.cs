@@ -10,8 +10,10 @@ internal static class TestContainer
     static TestContainer()
     {
         var builder = new ContainerBuilder();
-        builder.RegisterModule<TestModule>();
+        
         builder.RegisterModule<ApplicationModule>();
+        builder.RegisterModule<TestModule>();
+        
         Container = builder.Build();
     }
 

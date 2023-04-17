@@ -24,7 +24,7 @@ const columns: GridColDef[] = [
         field: "term",
         headerName: "Семестр",
         width: 100,
-        renderCell: params => (params.value as ITerm).id
+        renderCell: params => (params.value as ITerm).value
     },
     {
         field: "change",

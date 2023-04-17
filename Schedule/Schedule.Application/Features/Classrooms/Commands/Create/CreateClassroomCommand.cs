@@ -19,7 +19,17 @@ public sealed class CreateClassroomCommand : IRequest<int>, IMapWith<Classroom>
                         type.ClassroomTypeId)))
             .ForMember(command => command.Cabinet, expression =>
                 expression.MapFrom(classroom =>
-                    classroom.Cabinet.ToLower()))
-            .ReverseMap();
+                    classroom.Cabinet.ToLower()));
+
+        profile.CreateMap<CreateClassroomCommand, Classroom>()
+            .ForMember(classroom => classroom.ClassroomTypes, expression =>
+                expression.MapFrom(command =>
+                    command.TypeIds.Select(id => new ClassroomType
+                    {
+                        ClassroomTypeId = id,
+                    })))
+            .ForMember(classroom => classroom.Cabinet, expression =>
+                expression.MapFrom(command =>
+                    command.Cabinet.ToLower()));
     }
 }

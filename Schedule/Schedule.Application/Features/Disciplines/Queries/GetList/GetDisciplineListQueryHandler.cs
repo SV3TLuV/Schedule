@@ -24,6 +24,7 @@ public sealed class GetDisciplineListQueryHandler
         CancellationToken cancellationToken)
     {
         var query = _context.Set<Discipline>()
+            .Include(e => e.SpecialityCode)
             .Include(e => e.Term)
             .ThenInclude(e => e.Course)
             .OrderBy(e => e.Name)

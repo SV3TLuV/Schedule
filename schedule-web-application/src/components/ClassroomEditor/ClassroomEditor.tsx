@@ -10,11 +10,11 @@ import {IClassroomType} from "../../features/models/IClassroomType";
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 40 },
-    { field: "types", headerName: "Кабинет", width: 120 },
+    { field: "cabinet", headerName: "Кабинет", width: 120 },
     {
-        field: "enrollmentYear",
+        field: "types",
         headerName: "Виды",
-        width: 160,
+        width: 200,
         renderCell: params =>
             (params.value as IClassroomType[])
                 .map(type => type.name)

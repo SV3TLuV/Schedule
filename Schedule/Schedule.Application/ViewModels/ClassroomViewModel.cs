@@ -20,7 +20,20 @@ public class ClassroomViewModel : IMapWith<Classroom>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(classroom => classroom.ClassroomId))
             .ForMember(viewModel => viewModel.Types, expression =>
-                expression.MapFrom(classroom => classroom.ClassroomClassroomTypes))
-            .ReverseMap();
+                expression.MapFrom(classroom => 
+                    classroom.ClassroomClassroomTypes.Select(classroomClassroomType =>
+                        classroomClassroomType.ClassroomType)));
+        
+        profile.CreateMap<ClassroomViewModel, Classroom>()
+            .ForMember(classroom => classroom.ClassroomId, expression =>
+                expression.MapFrom(viewModel => viewModel.Id))
+            .ForMember(classroom => classroom.ClassroomClassroomTypes, expression =>
+                expression.MapFrom(viewModel => viewModel.Types
+                    .Select(type =>
+                        new ClassroomClassroomType
+                        {
+                            ClassroomId = viewModel.Id,
+                            ClassroomTypeId = type.Id
+                        })));
     }
 }

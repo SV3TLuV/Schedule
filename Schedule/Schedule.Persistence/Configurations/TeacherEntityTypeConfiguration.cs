@@ -17,10 +17,7 @@ public sealed class TeacherEntityTypeConfiguration : IEntityTypeConfiguration<Te
         builder.HasMany(e => e.TeacherDisciplines)
             .WithOne(e => e.Teacher)
             .HasForeignKey(e => e.TeacherId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_TeacherDisciplines_Teachers");
-        builder.HasMany(e => e.TeacherGroups)
-            .WithOne(e => e.Teacher)
-            .HasForeignKey(e => e.TeacherId)
-            .HasConstraintName("FK_TeacherGroups_Groups");
     }
 }

@@ -8,5 +8,6 @@ export interface IGroup {
     enrollmentYear: number
     course: ICourse
     specialityCode: ISpecialityCode
+    mergedGroups: IGroup[]
     isDeleted: boolean
 }

@@ -25,6 +25,7 @@ public sealed class GetClassroomListQueryHandler
     {
         var query = _context.Set<Classroom>()
             .Include(e => e.ClassroomClassroomTypes)
+            .ThenInclude(e => e.ClassroomType)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();

@@ -24,6 +24,10 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
     {
         var group = _mapper.Map<Group>(request);
         await _context.Set<Group>().AddAsync(group, cancellationToken);
+
+        foreach (var groupGroup in group.GroupGroups)
+            groupGroup.GroupId = group.GroupId;
+        
         await _context.SaveChangesAsync(cancellationToken);
         return group.GroupId;
     }

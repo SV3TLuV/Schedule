@@ -24,7 +24,9 @@ public sealed class GetTeacherQueryHandler : IRequestHandler<GetTeacherQuery, Te
     {
         var teacher = await _context.Set<Teacher>()
             .Include(e => e.TeacherGroups)
+            .ThenInclude(e => e.Group)
             .Include(e => e.TeacherDisciplines)
+            .ThenInclude(e => e.Discipline)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TeacherId == request.Id, cancellationToken);
         return _mapper.Map<TeacherViewModel>(teacher);

@@ -6,5 +6,8 @@ public class ClassroomType
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Classroom> Classrooms { get; set; } = new List<Classroom>();
+    public bool IsDeleted { get; set; }
+    
+    public virtual ICollection<ClassroomClassroomType> ClassroomClassroomTypes { get; set; } =
+        new List<ClassroomClassroomType>();
 }

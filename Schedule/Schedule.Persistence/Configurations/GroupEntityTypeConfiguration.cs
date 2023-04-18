@@ -25,37 +25,17 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
             .HasForeignKey(d => d.SpecialityCodeId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Groups_SpecialityCodes");
-        builder.HasMany(d => d.GroupId2s).WithMany(p => p.Groups)
-            .UsingEntity<Dictionary<string, object>>(
-                "GroupGroup",
-                r => r.HasOne<Group>().WithMany()
-                    .HasForeignKey("GroupId2")
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupGroups_Groups1"),
-                l => l.HasOne<Group>().WithMany()
-                    .HasForeignKey("GroupId")
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupGroups_Groups"),
-                j =>
-                {
-                    j.HasKey("GroupId", "GroupId2");
-                    j.ToTable("GroupGroups");
-                });
-        builder.HasMany(d => d.Groups).WithMany(p => p.GroupId2s)
-            .UsingEntity<Dictionary<string, object>>(
-                "GroupGroup",
-                r => r.HasOne<Group>().WithMany()
-                    .HasForeignKey("GroupId")
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupGroups_Groups"),
-                l => l.HasOne<Group>().WithMany()
-                    .HasForeignKey("GroupId2")
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupGroups_Groups1"),
-                j =>
-                {
-                    j.HasKey("GroupId", "GroupId2");
-                    j.ToTable("GroupGroups");
-                });
+        builder.HasMany(e => e.TeacherGroups)
+            .WithOne(e => e.Group)
+            .HasForeignKey(e => e.GroupId)
+            .HasConstraintName("FK_TeacherGroups_Groups");
+        builder.HasMany(e => e.GroupGroups)
+            .WithOne(e => e.Group)
+            .HasForeignKey(e => e.GroupId)
+            .HasConstraintName("FK_GroupGroups_Groups");
+        builder.HasMany(e => e.GroupGroups1)
+            .WithOne(e => e.Group1)
+            .HasForeignKey(e => e.GroupId1)
+            .HasConstraintName("FK_GroupGroups_Groups1");
     }
 }

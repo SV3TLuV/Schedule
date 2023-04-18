@@ -26,7 +26,9 @@ public sealed class GetTeacherListQueryHandler
     {
         var query = _context.Set<Teacher>()
             .Include(e => e.TeacherGroups)
+            .ThenInclude(e => e.Group)
             .Include(e => e.TeacherDisciplines)
+            .ThenInclude(e => e.Discipline)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();

@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Schedule.Application.Jobs;
 using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
 using Schedule.Persistence.Context;
 
 namespace Schedule.Tests.Common;
@@ -23,6 +22,11 @@ internal class TestModule : Module
         builder.RegisterType<GenerateDatesJob>()
             .AsSelf();
 
+        /*builder.RegisterAssemblyTypes()
+            .Where(t => t.Name.EndsWith("Faker"))
+            .AsSelf()
+            .AsImplementedInterfaces();*/
+        
         var services = new ServiceCollection();
 
         services.AddDbContext<IScheduleDbContext, ScheduleDbContext>(options => 

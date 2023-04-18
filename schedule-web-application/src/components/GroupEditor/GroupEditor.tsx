@@ -7,6 +7,7 @@ import {useGetGroupsQuery} from "../../services/groupApi";
 import {useCallback} from "react";
 import {PaginationDataGrid} from "../PaginationDataGrid";
 import {usePaginationQuery} from "../../hooks/usePaginationQuery";
+import {IGroup} from "../../features/models/IGroup";
 
 
 const columns: GridColDef[] = [
@@ -41,6 +42,16 @@ const columns: GridColDef[] = [
         width: 180,
         type: "string",
         renderCell: params => (params.value as ISpecialityCode).code,
+    },
+    {
+        field: "mergedGroups",
+        headerName: "Учатся с",
+        width: 200,
+        type: "string",
+        renderCell: params =>
+            (params.value as IGroup[])
+                .map(g => g.name)
+                .join(", "),
     },
     {
         field: "change",

@@ -28,6 +28,8 @@ public sealed class GetGroupListQueryHandler
             .Include(e => e.SpecialityCode)
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
+            .Include(e => e.GroupGroups)
+            .ThenInclude(e => e.Group1)
             .OrderBy(e => e.Course.CourseId)
             .ThenBy(e => e.SpecialityCode.Code)
             .Skip((request.Page - 1) * request.PageSize)

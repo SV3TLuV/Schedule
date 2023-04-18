@@ -10,8 +10,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoBogus" Version="2.13.1" />
+        <PackageReference Include="AutoBogus.Conventions" Version="2.13.1" />
+        <PackageReference Include="AutoBogus.FakeItEasy" Version="2.13.1" />
+        <PackageReference Include="AutoBogus.Moq" Version="2.13.1" />
+        <PackageReference Include="AutoBogus.NSubstitute" Version="2.13.1" />
+        <PackageReference Include="AutoBogus.Templating" Version="2.13.1" />
         <PackageReference Include="Autofac" Version="7.0.0" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Faker.Net" Version="2.0.154" />
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />

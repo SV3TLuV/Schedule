@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoBogus;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Classrooms.Commands.Create;
 using Schedule.Core.Models;
@@ -9,53 +10,55 @@ namespace Schedule.Tests.Tests.Features.Classrooms.Commands;
 
 public class CreateClassroomCommandHandlerTests
 {
-    [Fact]
-    public async Task Test_Handle_AddsClassroom()
+    [Theory]
+    [MemberData(nameof(Data))]
+    public async Task Test_Handle_AddsClassroom(
+        CreateClassroomCommand command, ClassroomType[] types)
     {
         //Arrange
         var context = TestContainer.Resolve<ScheduleDbContext>();
         var handler = TestContainer.Resolve<IRequestHandler<CreateClassroomCommand, int>>();
-        var command = new CreateClassroomCommand
-        {
-            Cabinet = "0109",
-            TypeIds = new[] { 1, 2 }
-        };
-        var expected = new Classroom
-        {
-            ClassroomId = 1,
-            Cabinet = "0109",
-            IsDeleted = false,
-            ClassroomClassroomTypes = new List<ClassroomClassroomType>
-            {
-                new() { ClassroomId = 1, ClassroomTypeId = 1 },
-                new() { ClassroomId = 1, ClassroomTypeId = 2 },
-            }
-        };
 
         //Act
         await context.Database.EnsureCreatedAsync();
-        await context.ClassroomTypes.AddRangeAsync(new[]
-        {
-            new ClassroomType
-            {
-                ClassroomTypeId = 1,
-                Name = "Лекционный",
-            },
-            new ClassroomType
-            {
-                ClassroomTypeId = 2,
-                Name = "Компьютерный",
-            },
-        });
+        await context.ClassroomTypes.AddRangeAsync(types);
         await context.SaveChangesAsync();
-        await handler.Handle(command, default);
-        var actual = await context.Classrooms
-            .Include(e => e.ClassroomClassroomTypes)
-            .AsNoTracking()
-            .FirstOrDefaultAsync();
-        await context.Database.EnsureDeletedAsync();
 
+        command.TypeIds = context.ClassroomTypes
+            .AsNoTrackingWithIdentityResolution()
+            .Select(e => e.ClassroomTypeId)
+            .ToArray();
+
+        await handler.Handle(command, default);
+
+        var classroomsDbo = await context
+            .Set<Classroom>()
+            .ToArrayAsync();
+        
+        var classroomClassroomTypesDbo = await context
+            .Set<ClassroomClassroomType>()
+            .ToArrayAsync();
+        await context.Database.EnsureDeletedAsync();
+        
         //Assert
-        Assert.Equal(expected, actual);
+        Assert.Single(classroomsDbo);
+        Assert.Equal(command.Cabinet, classroomsDbo.Single().Cabinet);
+        Assert.Equal(types.Length, classroomClassroomTypesDbo.Length);
     }
+
+    public static IEnumerable<object[]> Data =>
+        Enumerable.Range(1, 10)
+            .Select(count => new object[]
+            {
+                new AutoFaker<CreateClassroomCommand>()
+                    .Ignore(e => e.TypeIds)
+                    .RuleFor(e => e.Cabinet, f => f.Random
+                        .String2(1, 10, "0123456789"))
+                    .Generate(),
+                new AutoFaker<ClassroomType>()
+                    .Ignore(e => e.ClassroomClassroomTypes)
+                    .RuleFor(e => e.Name, f => f.Random
+                        .String2(1, 50))
+                    .Generate(count)
+            });
 }

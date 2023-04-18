@@ -20,11 +20,26 @@ public class GroupViewModel : IMapWith<Group>
 
     public SpecialityCodeViewModel SpecialityCode { get; set; } = null!;
 
+    public ICollection<GroupViewModel> MergedGroups { get; set; } = null!;
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Group, GroupViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(group => group.GroupId))
-            .ReverseMap();
+            .ForMember(viewModel => viewModel.MergedGroups, expression =>
+                expression.MapFrom(group => group.GroupGroups
+                    .Select(gg => gg.Group1)));
+        
+        profile.CreateMap<GroupViewModel, Group>()
+            .ForMember(group => group.GroupId, expression =>
+                expression.MapFrom(viewModel => viewModel.Id))
+            .ForMember(group => group.GroupGroups, expression =>
+                expression.MapFrom(viewModel => viewModel.MergedGroups
+                    .Select(g => new GroupGroup
+                    {
+                        GroupId = viewModel.Id,
+                        GroupId1 = g.Id,
+                    })));
     }
 }

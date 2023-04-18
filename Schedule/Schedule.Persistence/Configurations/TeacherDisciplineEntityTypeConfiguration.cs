@@ -9,6 +9,7 @@ public sealed class TeacherDisciplineEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<TeacherDiscipline> builder)
     {
+        builder.ToTable("TeacherDisciplines");
         builder.HasKey(e => new { e.TeacherId, e.DisciplineId })
             .HasName("PK_TeacherDisciplines");
     }

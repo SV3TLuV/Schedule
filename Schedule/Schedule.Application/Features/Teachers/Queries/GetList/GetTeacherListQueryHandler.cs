@@ -25,8 +25,8 @@ public sealed class GetTeacherListQueryHandler
         CancellationToken cancellationToken)
     {
         var query = _context.Set<Teacher>()
-            .Include(e => e.Groups)
-            .Include(e => e.Disciplines)
+            .Include(e => e.TeacherGroups)
+            .Include(e => e.TeacherDisciplines)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();

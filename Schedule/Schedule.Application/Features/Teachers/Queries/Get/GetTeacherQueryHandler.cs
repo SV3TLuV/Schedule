@@ -23,8 +23,8 @@ public sealed class GetTeacherQueryHandler : IRequestHandler<GetTeacherQuery, Te
         CancellationToken cancellationToken)
     {
         var teacher = await _context.Set<Teacher>()
-            .Include(e => e.Groups)
-            .Include(e => e.Disciplines)
+            .Include(e => e.TeacherGroups)
+            .Include(e => e.TeacherDisciplines)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TeacherId == request.Id, cancellationToken);
         return _mapper.Map<TeacherViewModel>(teacher);

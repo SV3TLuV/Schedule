@@ -19,7 +19,12 @@ public sealed class CreateClassroomCommandHandler : IRequestHandler<CreateClassr
     public async Task<int> Handle(CreateClassroomCommand request, CancellationToken cancellationToken)
     {
         var classroom = _mapper.Map<Classroom>(request);
+        
         await _context.Set<Classroom>().AddAsync(classroom, cancellationToken);
+        
+        foreach (var classroomClassroomType in classroom.ClassroomClassroomTypes)
+            classroomClassroomType.ClassroomId = classroom.ClassroomId;
+        
         await _context.SaveChangesAsync(cancellationToken);
         return classroom.ClassroomId;
     }

@@ -22,9 +22,9 @@ public class Group
 
     public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 
-    public virtual ICollection<Group> GroupId2s { get; set; } = new List<Group>();
+    public virtual ICollection<GroupGroup> GroupGroups1 { get; set; } = new List<GroupGroup>();
 
-    public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+    public virtual ICollection<GroupGroup> GroupGroups { get; set; } = new List<GroupGroup>();
 
-    public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = new List<TeacherGroup>();
 }

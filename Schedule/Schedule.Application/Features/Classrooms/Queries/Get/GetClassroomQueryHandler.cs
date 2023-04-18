@@ -23,7 +23,7 @@ public sealed class GetClassroomQueryHandler : IRequestHandler<GetClassroomQuery
         CancellationToken cancellationToken)
     {
         var classroom = await _context.Set<Classroom>()
-            .Include(e => e.ClassroomTypes)
+            .Include(e => e.ClassroomClassroomTypes)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 

@@ -10,6 +10,8 @@ public class ClassroomTypeViewModel : IMapWith<ClassroomType>
 
     public required string Name { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<ClassroomType, ClassroomTypeViewModel>()

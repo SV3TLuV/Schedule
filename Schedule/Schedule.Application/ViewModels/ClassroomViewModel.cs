@@ -20,7 +20,7 @@ public class ClassroomViewModel : IMapWith<Classroom>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(classroom => classroom.ClassroomId))
             .ForMember(viewModel => viewModel.Types, expression =>
-                expression.MapFrom(classroom => classroom.ClassroomTypes))
+                expression.MapFrom(classroom => classroom.ClassroomClassroomTypes))
             .ReverseMap();
     }
 }

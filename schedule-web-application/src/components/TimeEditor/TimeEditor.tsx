@@ -2,7 +2,7 @@ import {usePaginationQuery} from "../../hooks/usePaginationQuery";
 import {useCallback} from "react";
 import {GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
 import {Button} from "react-bootstrap";
-import {PaginationDataGrid} from "../PaginationDataGrid";
+import {PaginationDataGrid, PaginationDataGridType} from "../PaginationDataGrid";
 import {useGetTimesQuery} from "../../services/timeApi";
 import {QueryFilter} from "../../common/enums/QueryFilter";
 import {ITimeType} from "../../features/models/ITimeType";
@@ -19,51 +19,22 @@ const columns: GridColDef[] = [
         width: 160,
         renderCell: params => (params.value as ITimeType).name
     },
-    {
-        field: "change",
-        headerName: "Изменить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Изменить
-            </Button>
-        )
-    },
-    {
-        field: "delete",
-        headerName: "Удалить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Удалить
-            </Button>
-        )
-    }
 ]
 
 interface ITimeEditorProps {
     filter: QueryFilter
+    type: PaginationDataGridType
 }
 
-export const TimeEditor = ({ filter }: ITimeEditorProps) => {
+export const TimeEditor = ({ filter, type }: ITimeEditorProps) => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery(filter)
     const {data: list} = useGetTimesQuery(paginationQuery)
-
-    const toolbar = useCallback(() => (
-        <GridToolbarContainer style={{ padding: "20px" }}>
-            <Button>
-                Добавить
-            </Button>
-        </GridToolbarContainer>
-    ), [])
 
     return (
         <PaginationDataGrid
             columns={columns}
             list={list}
-            components={{ Toolbar: toolbar }}
+            type={type}
             paginationModel={paginationQuery}
             onPaginationModelChange={setPaginationQuery}
         />

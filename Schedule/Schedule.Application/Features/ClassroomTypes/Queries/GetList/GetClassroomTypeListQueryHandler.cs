@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -22,12 +23,19 @@ public sealed class GetClassroomTypeListQueryHandler
     public async Task<PagedList<ClassroomTypeViewModel>> Handle(GetClassroomTypeListQuery request,
         CancellationToken cancellationToken)
     {
-        var classroomTypes = await _context.Set<ClassroomType>()
+        var query = _context.Set<ClassroomType>()
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .AsNoTrackingWithIdentityResolution()
-            .ToListAsync(cancellationToken);
+            .AsNoTrackingWithIdentityResolution();
 
+        query = request.Filter switch
+        {
+            QueryFilter.Available => query.Where(e => !e.IsDeleted),
+            QueryFilter.Deleted => query.Where(e => e.IsDeleted),
+            _ => query
+        };
+        
+        var classroomTypes = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<ClassroomTypeViewModel[]>(classroomTypes);
         var totalCount = await _context.Set<ClassroomType>().CountAsync(cancellationToken);
 

@@ -1,9 +1,8 @@
 import {usePaginationQuery} from "../../hooks/usePaginationQuery";
-import {useCallback} from "react";
-import {GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
-import {Button} from "react-bootstrap";
-import {PaginationDataGrid} from "../PaginationDataGrid";
+import {GridColDef  } from "@mui/x-data-grid";
+import {PaginationDataGrid, PaginationDataGridType} from "../PaginationDataGrid";
 import {useGetClassroomTypesQuery} from "../../services/classroomTypeApi";
+import {QueryFilter} from "../../common/enums/QueryFilter";
 
 
 const columns: GridColDef[] = [
@@ -19,47 +18,22 @@ const columns: GridColDef[] = [
         width: 160,
         type: "string",
     },
-    {
-        field: "change",
-        headerName: "Изменить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Изменить
-            </Button>
-        ),
-    },
-    {
-        field: "delete",
-        headerName: "Удалить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Удалить
-            </Button>
-        ),
-    },
 ]
 
-export const ClassroomTypeEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
-    const {data: list} = useGetClassroomTypesQuery(paginationQuery)
+interface IClassroomTypeEditorProps {
+    filter: QueryFilter
+    type: PaginationDataGridType
+}
 
-    const toolbar = useCallback(() => (
-        <GridToolbarContainer style={{ padding: "20px" }}>
-            <Button>
-                Добавить
-            </Button>
-        </GridToolbarContainer>
-    ), [])
+export const ClassroomTypeEditor = ({filter, type}: IClassroomTypeEditorProps) => {
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery(filter)
+    const {data: list} = useGetClassroomTypesQuery(paginationQuery)
 
     return (
         <PaginationDataGrid
             columns={columns}
             list={list}
-            components={{ Toolbar: toolbar }}
+            type={type}
             paginationModel={paginationQuery}
             onPaginationModelChange={setPaginationQuery}
         />

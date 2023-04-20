@@ -46,8 +46,8 @@ public sealed class GetDisciplineListQueryHandler
 
         return new PagedList<DisciplineViewModel>
         {
-            PageSize = request.Page,
-            PageNumber = request.PageSize,
+            PageSize = request.PageSize,
+            PageNumber = request.Page,
             TotalCount = totalCount,
             Items = viewModels
         };

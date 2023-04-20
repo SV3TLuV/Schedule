@@ -27,7 +27,7 @@ public sealed class GetGroupQueryHandler : IRequestHandler<GetGroupQuery, GroupV
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
             .Include(e => e.GroupGroups)
-            .ThenInclude(e => e.Group1)
+            .ThenInclude(e => e.Group2)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 

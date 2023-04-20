@@ -4,7 +4,7 @@ import {GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
 import {Button} from "react-bootstrap";
 import {usePaginationQuery} from "../../hooks/usePaginationQuery";
 import {useGetDisciplinesQuery} from "../../services/disciplineApi";
-import {PaginationDataGrid} from "../PaginationDataGrid";
+import {PaginationDataGrid, PaginationDataGridType} from "../PaginationDataGrid";
 import {ITerm} from "../../features/models/ITerm";
 import {ISpecialityCode} from "../../features/models/ISpecialityCode";
 
@@ -26,51 +26,22 @@ const columns: GridColDef[] = [
         width: 100,
         renderCell: params => (params.value as ITerm).value
     },
-    {
-        field: "change",
-        headerName: "Изменить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Изменить
-            </Button>
-        )
-    },
-    {
-        field: "delete",
-        headerName: "Удалить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Удалить
-            </Button>
-        )
-    }
 ]
 
 interface IDisciplineEditorProps {
     filter: QueryFilter
+    type: PaginationDataGridType
 }
 
-export const DisciplineEditor = ({ filter }: IDisciplineEditorProps) => {
+export const DisciplineEditor = ({ filter, type }: IDisciplineEditorProps) => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery(filter)
     const {data: list} = useGetDisciplinesQuery(paginationQuery)
-
-    const toolbar = useCallback(() => (
-        <GridToolbarContainer style={{ padding: "20px" }}>
-            <Button>
-                Добавить
-            </Button>
-        </GridToolbarContainer>
-    ), [])
 
     return (
         <PaginationDataGrid
             columns={columns}
             list={list}
-            components={{ Toolbar: toolbar }}
+            type={type}
             paginationModel={paginationQuery}
             onPaginationModelChange={setPaginationQuery}
         />

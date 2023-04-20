@@ -4,8 +4,8 @@ import {ISpecialityCode} from "../../features/models/ISpecialityCode";
 import {Button} from "react-bootstrap";
 import {QueryFilter} from "../../common/enums/QueryFilter";
 import {useGetGroupsQuery} from "../../services/groupApi";
-import {useCallback} from "react";
-import {PaginationDataGrid} from "../PaginationDataGrid";
+import {useCallback, useMemo} from "react";
+import {PaginationDataGrid, PaginationDataGridType} from "../PaginationDataGrid";
 import {usePaginationQuery} from "../../hooks/usePaginationQuery";
 import {IGroup} from "../../features/models/IGroup";
 
@@ -53,51 +53,22 @@ const columns: GridColDef[] = [
                 .map(g => g.name)
                 .join(", "),
     },
-    {
-        field: "change",
-        headerName: "Изменить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Изменить
-            </Button>
-        ),
-    },
-    {
-        field: "delete",
-        headerName: "Удалить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Удалить
-            </Button>
-        ),
-    },
 ]
 
 interface IGroupEditorProps {
-    filter: QueryFilter
+    filter: QueryFilter,
+    type: PaginationDataGridType
 }
 
-export const GroupEditor = ({ filter }: IGroupEditorProps) => {
+export const GroupEditor = ({ filter, type }: IGroupEditorProps) => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery(filter)
     const {data: list} = useGetGroupsQuery(paginationQuery)
-
-    const toolbar = useCallback(() => (
-        <GridToolbarContainer style={{ padding: "20px" }}>
-            <Button>
-                Добавить
-            </Button>
-        </GridToolbarContainer>
-    ), [])
 
     return (
         <PaginationDataGrid
             columns={columns}
             list={list}
-            components={{ Toolbar: toolbar }}
+            type={type}
             paginationModel={paginationQuery}
             onPaginationModelChange={setPaginationQuery}
         />

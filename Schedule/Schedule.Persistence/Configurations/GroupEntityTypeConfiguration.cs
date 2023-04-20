@@ -33,8 +33,8 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_GroupGroups_Groups");
         builder.HasMany(e => e.GroupGroups1)
-            .WithOne(e => e.Group1)
-            .HasForeignKey(e => e.GroupId1)
+            .WithOne(e => e.Group2)
+            .HasForeignKey(e => e.GroupId2)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_GroupGroups_Groups1");
     }

@@ -29,7 +29,7 @@ public sealed class GetGroupListQueryHandler
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
             .Include(e => e.GroupGroups)
-            .ThenInclude(e => e.Group1)
+            .ThenInclude(e => e.Group2)
             .OrderBy(e => e.Course.CourseId)
             .ThenBy(e => e.SpecialityCode.Code)
             .Skip((request.Page - 1) * request.PageSize)
@@ -42,7 +42,6 @@ public sealed class GetGroupListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        ;
 
         var groups = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<GroupViewModel[]>(groups);

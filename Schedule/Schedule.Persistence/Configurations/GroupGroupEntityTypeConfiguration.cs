@@ -9,7 +9,8 @@ public sealed class GroupGroupEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<GroupGroup> builder)
     {
-        builder.HasKey(e => new { e.GroupId, e.GroupId1 })
+        builder.ToTable("GroupGroups");
+        builder.HasKey(e => new { e.GroupId, e.GroupId2 })
             .HasName("PK_GroupGroups");
     }
 }

@@ -37,9 +37,9 @@ public sealed class GetSpecialityCodeListQueryHandler
             _ => query
         };
 
-        var specialityCodes = await query.ToArrayAsync(cancellationToken);
+        var specialityCodes = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<SpecialityCodeViewModel[]>(specialityCodes);
-        var totalCount = await _context.Set<SpecialityCodeViewModel>().CountAsync(cancellationToken);
+        var totalCount = await _context.Set<SpecialityCode>().CountAsync(cancellationToken);
 
         return new PagedList<SpecialityCodeViewModel>
         {

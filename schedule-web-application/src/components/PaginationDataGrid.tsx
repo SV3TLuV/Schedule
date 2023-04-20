@@ -7,14 +7,19 @@ import {IPagedList} from "../features/models/IPagedList";
 import {Loading} from "./Loading";
 import {IPaginatedQuery} from "../features/queries/IPaginatedQuery";
 import {Pagination, PaginationItem} from "@mui/lab";
+import {useMemo} from "react";
+import {Button} from "react-bootstrap";
 
+export type PaginationDataGridType =
+    "available" |"deleted" | null;
 
-interface IBaseDataGridProps<T> {
+export interface IPaginationDataGridProps<T> {
     columns: GridColDef[]
     list: IPagedList<T> | undefined
     paginationModel: IPaginatedQuery
     onPaginationModelChange: (model: IPaginatedQuery) => void
     components?: DataGridProps['components']
+    type?: PaginationDataGridType
 }
 
 export const PaginationDataGrid = <T extends { id: number }>(
@@ -23,14 +28,63 @@ export const PaginationDataGrid = <T extends { id: number }>(
         list,
         paginationModel,
         onPaginationModelChange,
-        components
-    }: IBaseDataGridProps<T>) => {
+        components,
+        type
+    }: IPaginationDataGridProps<T>) => {
 
     if (!list) {
         return (
             <Loading/>
         )
     }
+
+    const cols = useMemo(() => {
+        switch (type) {
+            case "available":
+                return [
+                    ...columns,
+                    {
+                        field: "change-button",
+                        headerName: "Изменить",
+                        sortable: false,
+                        width: 120,
+                        renderCell: () => (
+                            <Button>
+                                Изменить
+                            </Button>
+                        ),
+                    },
+                    {
+                        field: "delete-button",
+                        headerName: "Удалить",
+                        sortable: false,
+                        width: 120,
+                        renderCell: () => (
+                            <Button>
+                                Удалить
+                            </Button>
+                        ),
+                    }
+                ]
+            case "deleted":
+                return [
+                    ...columns,
+                    {
+                        field: "restore-button",
+                        headerName: "Восстановить",
+                        sortable: false,
+                        width: 160,
+                        renderCell: () => (
+                            <Button>
+                                Восстановить
+                            </Button>
+                        ),
+                    }
+                ]
+            default:
+                return columns
+        }
+    }, [columns, type])
 
     const pagination = () => {
         return (
@@ -51,7 +105,7 @@ export const PaginationDataGrid = <T extends { id: number }>(
 
     return (
         <DataGrid
-            columns={columns}
+            columns={cols}
             rows={list.items}
             rowCount={list.totalCount}
             initialState={{

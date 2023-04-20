@@ -6,7 +6,7 @@ public class GroupGroup
     
     public Group Group { get; set; } = null!;
     
-    public int GroupId1 { get; set; }
+    public int GroupId2 { get; set; }
     
-    public Group Group1 { get; set; } = null!;
+    public Group Group2 { get; set; } = null!;
 }

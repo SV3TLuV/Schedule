@@ -6,7 +6,7 @@ import {usePaginationQuery} from "../../hooks/usePaginationQuery";
 import {QueryFilter} from "../../common/enums/QueryFilter";
 import {useGetTeachersQuery} from "../../services/teacherApi";
 import {useCallback} from "react";
-import {PaginationDataGrid} from "../PaginationDataGrid";
+import {PaginationDataGrid, PaginationDataGridType} from "../PaginationDataGrid";
 
 
 const columns: GridColDef[] = [
@@ -14,60 +14,23 @@ const columns: GridColDef[] = [
     { field: "surname", headerName: "Фамилия", width: 120 },
     { field: "name", headerName: "Имя", width: 120 },
     { field: "middleName", headerName: "Отчество", width: 120 },
-    { field: "email", headerName: "Почта", width: 240 },
-    {
-        field: "change",
-        headerName: "Изменить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Изменить
-            </Button>
-        )
-    },
-    {
-        field: "delete",
-        headerName: "Удалить",
-        sortable: false,
-        width: 120,
-        renderCell: params => (
-            <Button>
-                Удалить
-            </Button>
-        )
-    }
+    { field: "email", headerName: "Почта", width: 240 }
 ]
-
-const toolbar = () => (
-    <GridToolbarContainer>
-        <Button>
-            Добавить
-        </Button>
-    </GridToolbarContainer>
-)
 
 interface ITeacherEditorProps {
     filter: QueryFilter
+    type: PaginationDataGridType
 }
 
-export const TeacherEditor = ({filter}: ITeacherEditorProps) => {
+export const TeacherEditor = ({filter, type}: ITeacherEditorProps) => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery(filter)
     const {data: list} = useGetTeachersQuery(paginationQuery)
-
-    const toolbar = useCallback(() => (
-        <GridToolbarContainer style={{ padding: "20px" }}>
-            <Button>
-                Добавить
-            </Button>
-        </GridToolbarContainer>
-    ), [])
 
     return (
         <PaginationDataGrid
             columns={columns}
             list={list}
-            components={{ Toolbar: toolbar }}
+            type={type}
             paginationModel={paginationQuery}
             onPaginationModelChange={setPaginationQuery}
         />

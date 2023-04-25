@@ -1,5 +1,5 @@
 import {ITerm} from "./ITerm";
-import {ISpecialityCode} from "./ISpecialityCode";
+import {ISpeciality} from "./ISpeciality";
 
 export interface IDiscipline {
     id: number
@@ -8,5 +8,5 @@ export interface IDiscipline {
     totalHours: number
     isDeleted: boolean
     term: ITerm
-    specialityCode: ISpecialityCode
+    speciality: ISpeciality
 }

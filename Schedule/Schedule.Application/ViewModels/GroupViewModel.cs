@@ -10,7 +10,7 @@ public class GroupViewModel : IMapWith<Group>
 
     public string Number { get; set; } = null!;
 
-    public string Name => $"{SpecialityCode.Name}-{Number}";
+    public string Name => $"{Speciality.Name}-{Number}";
 
     public int EnrollmentYear { get; set; }
 
@@ -18,7 +18,7 @@ public class GroupViewModel : IMapWith<Group>
 
     public CourseViewModel Course { get; set; } = null!;
 
-    public SpecialityCodeViewModel SpecialityCode { get; set; } = null!;
+    public SpecialityViewModel Speciality { get; set; } = null!;
 
     public ICollection<GroupViewModel> MergedGroups { get; set; } = null!;
 

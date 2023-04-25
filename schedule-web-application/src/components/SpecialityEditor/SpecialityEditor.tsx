@@ -3,7 +3,7 @@ import {GridColDef} from "@mui/x-data-grid";
 import {IDiscipline} from "../../features/models/IDiscipline";
 import {QueryFilter} from "../../common/enums/QueryFilter";
 import {usePaginationQuery} from "../../hooks/usePaginationQuery";
-import {useGetSpecialityCodesQuery} from "../../services/specialityCodeApi";
+import {useGetSpecialitiesQuery} from "../../services/specialityApi";
 
 
 const columns: GridColDef[] = [
@@ -43,7 +43,7 @@ interface ISpecialityEditorProps {
 
 export const SpecialityEditor = ({ filter, type }: ISpecialityEditorProps) => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery(filter)
-    const {data: list} = useGetSpecialityCodesQuery(paginationQuery)
+    const {data: list} = useGetSpecialitiesQuery(paginationQuery)
 
     return (
         <PaginationDataGrid

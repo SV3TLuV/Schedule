@@ -23,7 +23,7 @@ public sealed class GetGroupQueryHandler : IRequestHandler<GetGroupQuery, GroupV
     {
         var group = await _context.Set<Group>()
             .Include(e => e.Course)
-            .Include(e => e.SpecialityCode)
+            .Include(e => e.Speciality)
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
             .Include(e => e.GroupGroups)

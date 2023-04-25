@@ -1,6 +1,6 @@
 import {GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
 import {ICourse} from "../../features/models/ICourse";
-import {ISpecialityCode} from "../../features/models/ISpecialityCode";
+import {ISpeciality} from "../../features/models/ISpeciality";
 import {Button} from "react-bootstrap";
 import {QueryFilter} from "../../common/enums/QueryFilter";
 import {useGetGroupsQuery} from "../../services/groupApi";
@@ -37,11 +37,11 @@ const columns: GridColDef[] = [
         renderCell: params => (params.value as ICourse).value,
     },
     {
-        field: "specialityCode",
+        field: "speciality",
         headerName: "Код специальности",
         width: 180,
         type: "string",
-        renderCell: params => (params.value as ISpecialityCode).code,
+        renderCell: params => (params.value as ISpeciality).code,
     },
     {
         field: "mergedGroups",

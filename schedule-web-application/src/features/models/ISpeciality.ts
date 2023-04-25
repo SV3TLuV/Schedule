@@ -1,6 +1,6 @@
 import {IDiscipline} from "./IDiscipline";
 
-export interface ISpecialityCode {
+export interface ISpeciality {
     id: number
     code: string
     name: string

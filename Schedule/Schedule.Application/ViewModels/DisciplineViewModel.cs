@@ -18,7 +18,7 @@ public class DisciplineViewModel : IMapWith<Discipline>
 
     public TermViewModel Term { get; set; } = null!;
 
-    public SpecialityCodeViewModel SpecialityCode { get; set; } = null!;
+    public SpecialityViewModel Speciality { get; set; } = null!;
 
     public void Map(Profile profile)
     {

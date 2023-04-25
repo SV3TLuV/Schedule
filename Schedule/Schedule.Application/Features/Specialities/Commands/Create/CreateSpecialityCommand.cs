@@ -3,9 +3,9 @@ using MediatR;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.SpecialityCodes.Commands.Create;
+namespace Schedule.Application.Features.Specialities.Commands.Create;
 
-public sealed class CreateSpecialityCodeCommand : IRequest<int>, IMapWith<SpecialityCode>
+public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality>
 {
     public required string Code { get; set; }
     public required string Name { get; set; }
@@ -13,25 +13,25 @@ public sealed class CreateSpecialityCodeCommand : IRequest<int>, IMapWith<Specia
 
     public void Map(Profile profile)
     {
-        profile.CreateMap<SpecialityCode, CreateSpecialityCodeCommand>()
+        profile.CreateMap<Speciality, CreateSpecialityCommand>()
             .ForMember(command => command.Name, expression =>
-                expression.MapFrom(specialityCode =>
-                    specialityCode.Name.ToUpper()))
+                expression.MapFrom(speciality =>
+                    speciality.Name.ToUpper()))
             .ForMember(command => command.Code, expression =>
-                expression.MapFrom(specialityCode =>
-                    specialityCode.Code.ToUpper()))
+                expression.MapFrom(speciality =>
+                    speciality.Code.ToUpper()))
             .ForMember(command => command.DisciplineIds, expression =>
-                expression.MapFrom(specialityCode => specialityCode.Disciplines
+                expression.MapFrom(speciality => speciality.Disciplines
                     .Select(discipline => discipline.DisciplineId)));
         
-        profile.CreateMap<CreateSpecialityCodeCommand, SpecialityCode>()
+        profile.CreateMap<CreateSpecialityCommand, Speciality>()
             .ForMember(command => command.Name, expression =>
-                expression.MapFrom(specialityCode =>
-                    specialityCode.Name.ToUpper()))
+                expression.MapFrom(speciality =>
+                    speciality.Name.ToUpper()))
             .ForMember(command => command.Code, expression =>
-                expression.MapFrom(specialityCode =>
-                    specialityCode.Code.ToUpper()))
-            .ForMember(specialityCode => specialityCode.Disciplines, expression =>
+                expression.MapFrom(speciality =>
+                    speciality.Code.ToUpper()))
+            .ForMember(speciality => speciality.Disciplines, expression =>
                 expression.MapFrom(command => command.DisciplineIds
                     .Select(id => new Discipline
                     {

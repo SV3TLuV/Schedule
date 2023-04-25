@@ -25,13 +25,13 @@ public sealed class GetGroupListQueryHandler
     {
         var query = _context.Set<Group>()
             .Include(e => e.Course)
-            .Include(e => e.SpecialityCode)
+            .Include(e => e.Speciality)
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.Course)
             .Include(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
             .OrderBy(e => e.Course.CourseId)
-            .ThenBy(e => e.SpecialityCode.Code)
+            .ThenBy(e => e.Speciality.Code)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();

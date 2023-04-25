@@ -1,5 +1,5 @@
 import {ICourse} from "./ICourse";
-import {ISpecialityCode} from "./ISpecialityCode";
+import {ISpeciality} from "./ISpeciality";
 
 export interface IGroup {
     id: number
@@ -7,7 +7,7 @@ export interface IGroup {
     number: string
     enrollmentYear: number
     course: ICourse
-    specialityCode: ISpecialityCode
+    speciality: ISpeciality
     mergedGroups: IGroup[]
     isDeleted: boolean
 }

@@ -9,17 +9,17 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<Discipline> builder)
     {
         builder.ToTable(tb => tb.HasTrigger("Disciplines_Delete"));
-        builder.HasIndex(e => new { e.Code, e.Name, e.SpecialityCodeId }, "IX_Disciplines").IsUnique();
+        builder.HasIndex(e => new { e.Code, e.Name, e.SpecialityId }, "IX_Disciplines").IsUnique();
         builder.Property(e => e.Code).HasMaxLength(20);
         builder.Property(e => e.Name).HasMaxLength(50);
         builder.HasMany(e => e.TeacherDisciplines)
             .WithOne(e => e.Discipline)
             .HasForeignKey(e => e.DisciplineId)
             .HasConstraintName("FK_TeacherDisciplines_Disciplines");
-        builder.HasOne(d => d.SpecialityCode).WithMany(p => p.Disciplines)
-            .HasForeignKey(d => d.SpecialityCodeId)
+        builder.HasOne(d => d.Speciality).WithMany(p => p.Disciplines)
+            .HasForeignKey(d => d.SpecialityId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_Disciplines_SpecialityCodes");
+            .HasConstraintName("FK_Disciplines_Specialities");
         builder.HasOne(d => d.Term).WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.TermId)
             .OnDelete(DeleteBehavior.ClientSetNull)

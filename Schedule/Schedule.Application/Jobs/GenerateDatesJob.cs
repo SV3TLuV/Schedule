@@ -26,7 +26,10 @@ public sealed class GenerateDatesJob : IJob
             .LastOrDefaultAsync();
 
         if (lastDate is null)
-            throw new NotFoundException(nameof(Date));
+        {
+            var tomorrow = DateTime.Now.AddDays(-1);
+            lastDate = _dateInfoService.GetDate(tomorrow);
+        }
 
         var currentDate = _dateInfoService.CurrentDate;
 

@@ -25,6 +25,7 @@ public sealed class GetSpecialityListQueryHandler
     {
         var query = _context.Set<Speciality>()
             .Include(e => e.Disciplines)
+            .Include(e => e.Disciplines)
             .OrderBy(e => e.SpecialityId)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)

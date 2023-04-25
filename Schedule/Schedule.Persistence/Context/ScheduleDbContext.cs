@@ -33,7 +33,7 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } = null!;
 
-    public virtual DbSet<SpecialityCode> SpecialityCodes { get; set; } = null!;
+    public virtual DbSet<Speciality> Specialities { get; set; } = null!;
 
     public virtual DbSet<Teacher> Teachers { get; set; } = null!;
 

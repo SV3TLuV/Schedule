@@ -1,6 +1,6 @@
 import {GridColDef, GridToolbarContainer} from "@mui/x-data-grid";
 import {ICourse} from "../../features/models/ICourse";
-import {ISpecialityCode} from "../../features/models/ISpecialityCode";
+import {ISpeciality} from "../../features/models/ISpeciality";
 import {Button} from "react-bootstrap";
 import {usePaginationQuery} from "../../hooks/usePaginationQuery";
 import {QueryFilter} from "../../common/enums/QueryFilter";

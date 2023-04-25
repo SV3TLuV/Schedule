@@ -6,26 +6,26 @@ using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.SpecialityCodes.Queries.GetList;
+namespace Schedule.Application.Features.Specialities.Queries.GetList;
 
-public sealed class GetSpecialityCodeListQueryHandler
-    : IRequestHandler<GetSpecialityCodeListQuery, PagedList<SpecialityCodeViewModel>>
+public sealed class GetSpecialityListQueryHandler
+    : IRequestHandler<GetSpecialityListQuery, PagedList<SpecialityViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetSpecialityCodeListQueryHandler(IScheduleDbContext context, IMapper mapper)
+    public GetSpecialityListQueryHandler(IScheduleDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PagedList<SpecialityCodeViewModel>> Handle(GetSpecialityCodeListQuery request,
+    public async Task<PagedList<SpecialityViewModel>> Handle(GetSpecialityListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _context.Set<SpecialityCode>()
+        var query = _context.Set<Speciality>()
             .Include(e => e.Disciplines)
-            .OrderBy(e => e.SpecialityCodeId)
+            .OrderBy(e => e.SpecialityId)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
@@ -37,11 +37,11 @@ public sealed class GetSpecialityCodeListQueryHandler
             _ => query
         };
 
-        var specialityCodes = await query.ToListAsync(cancellationToken);
-        var viewModels = _mapper.Map<SpecialityCodeViewModel[]>(specialityCodes);
-        var totalCount = await _context.Set<SpecialityCode>().CountAsync(cancellationToken);
+        var specialities = await query.ToListAsync(cancellationToken);
+        var viewModels = _mapper.Map<SpecialityViewModel[]>(specialities);
+        var totalCount = await _context.Set<Speciality>().CountAsync(cancellationToken);
 
-        return new PagedList<SpecialityCodeViewModel>
+        return new PagedList<SpecialityViewModel>
         {
             PageSize = request.PageSize,
             PageNumber = request.Page,

@@ -4,7 +4,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 
-public class SpecialityCodeViewModel : IMapWith<SpecialityCode>
+public class SpecialityViewModel : IMapWith<Speciality>
 {
     public int Id { get; set; }
 
@@ -18,9 +18,9 @@ public class SpecialityCodeViewModel : IMapWith<SpecialityCode>
 
     public void Map(Profile profile)
     {
-        profile.CreateMap<SpecialityCode, SpecialityCodeViewModel>()
+        profile.CreateMap<Speciality, SpecialityViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
-                expression.MapFrom(specialityCode => specialityCode.SpecialityCodeId))
+                expression.MapFrom(speciality => speciality.SpecialityId))
             .ReverseMap();
     }
 }

@@ -13,7 +13,7 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
                 tb.HasTrigger("Groups_Delete");
                 tb.HasTrigger("Groups_Insert");
             });
-        builder.HasIndex(e => new { e.Number, e.EnrollmentYear, e.SpecialityCodeId }, "IX_Groups").IsUnique();
+        builder.HasIndex(e => new { e.Number, e.EnrollmentYear, e.SpecialityId }, "IX_Groups").IsUnique();
         builder.Property(e => e.Number)
             .HasMaxLength(2)
             .IsUnicode(false);
@@ -22,11 +22,11 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
             .HasForeignKey(d => d.CourseId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Groups_Courses");
-        builder.HasOne(d => d.SpecialityCode)
+        builder.HasOne(d => d.Speciality)
             .WithMany(p => p.Groups)
-            .HasForeignKey(d => d.SpecialityCodeId)
+            .HasForeignKey(d => d.SpecialityId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_Groups_SpecialityCodes");
+            .HasConstraintName("FK_Groups_Specialities");
         builder.HasMany(e => e.GroupGroups)
             .WithOne(e => e.Group)
             .HasForeignKey(e => e.GroupId)

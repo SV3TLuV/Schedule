@@ -40,7 +40,7 @@ public sealed class GetCurrentTimetableListQueryHandler
 
         var query = _context.Set<Timetable>()
             .Include(e => e.Group)
-            .ThenInclude(e => e.SpecialityCode)
+            .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
             .ThenInclude(e => e.Course)
             .Include(e => e.Date)

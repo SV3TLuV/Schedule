@@ -30,11 +30,11 @@ const Root = () => {
 }
 
 export const router = createBrowserRouter(
-    createRoutesFromElements(
+    createRoutesFromElements([
         <Route path="/" element={<Root/>}>
-            <Route path={RoutePath.LOGIN} element={<LoginPage/>}/>
             <Route path={RoutePath.EDITOR} element={<EditorPage/>}/>
             <Route path={RoutePath.REPORTS} element={<ReportsPage/>}/>
+            <Route path={RoutePath.LOGIN} element={<LoginPage/>}/>
         </Route>
-    )
+    ])
 )

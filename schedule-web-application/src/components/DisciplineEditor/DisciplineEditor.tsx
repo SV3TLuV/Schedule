@@ -6,7 +6,7 @@ import {usePaginationQuery} from "../../hooks/usePaginationQuery";
 import {useGetDisciplinesQuery} from "../../services/disciplineApi";
 import {PaginationDataGrid, PaginationDataGridType} from "../PaginationDataGrid";
 import {ITerm} from "../../features/models/ITerm";
-import {ISpecialityCode} from "../../features/models/ISpecialityCode";
+import {ISpeciality} from "../../features/models/ISpeciality";
 
 
 const columns: GridColDef[] = [
@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
         field: "specialityCode",
         headerName: "Код специальности",
         width: 180,
-        renderCell: params => (params.value as ISpecialityCode).code
+        renderCell: params => (params.value as ISpeciality).code
     },
     {
         field: "term",

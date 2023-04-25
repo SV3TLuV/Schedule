@@ -1,8 +1,8 @@
 ﻿namespace Schedule.Core.Models;
 
-public class SpecialityCode
+public class Speciality
 {
-    public int SpecialityCodeId { get; set; }
+    public int SpecialityId { get; set; }
 
     public string Code { get; set; } = null!;
 

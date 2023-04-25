@@ -6,7 +6,7 @@ public class Group
 
     public string Number { get; set; } = null!;
 
-    public int SpecialityCodeId { get; set; }
+    public int SpecialityId { get; set; }
 
     public int CourseId { get; set; }
 
@@ -16,7 +16,7 @@ public class Group
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual SpecialityCode SpecialityCode { get; set; } = null!;
+    public virtual Speciality Speciality { get; set; } = null!;
 
     public virtual ICollection<Template> Templates { get; set; } = new List<Template>();
 

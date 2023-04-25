@@ -26,17 +26,10 @@ public sealed class GetCurrentTimetableListQueryHandler
     public async Task<PagedList<CurrentTimetableViewModel>> Handle(GetCurrentTimetableListQuery request,
         CancellationToken cancellationToken)
     {
-        var currentDate = _dateInfoService.CurrentDate;
-        var dateIds = await _context.Set<Date>()
-            .Include(e => e.Day)
-            .AsNoTrackingWithIdentityResolution()
-            .Where(e =>
-                e.Value.Date >= currentDate.Value.Date &&
-                e.Day.IsStudy)
-            .OrderBy(e => e.Value)
-            .Select(e => e.DateId)
-            .Take(request.DateCount)
-            .ToListAsync(cancellationToken);
+        // TODO: Realize return grouped with merged groups timetables
+        
+        throw new NotImplementedException();
+        /*var dateIds = await GetDateIdsAsync(request, cancellationToken);
 
         var query = _context.Set<Timetable>()
             .Include(e => e.Group)
@@ -57,7 +50,10 @@ public sealed class GetCurrentTimetableListQueryHandler
             .AsNoTrackingWithIdentityResolution()
             .Where(e => dateIds.Contains(e.DateId));
 
-        if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
+        if (request.GroupId is not null)
+        {
+            query = query.Where(e => e.GroupId == request.GroupId);
+        }
 
         var timetables = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
@@ -84,14 +80,29 @@ public sealed class GetCurrentTimetableListQueryHandler
             });
         }
 
-        var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
 
         return new PagedList<CurrentTimetableViewModel>
         {
             PageSize = request.DateCount,
             PageNumber = 1,
-            TotalCount = totalCount,
+            TotalCount = 0,
             Items = currentTimetables
-        };
+        };*/
+    }
+
+    private async Task<ICollection<int>> GetDateIdsAsync(GetCurrentTimetableListQuery request,
+        CancellationToken cancellationToken = default)
+    {
+        var currentDate = _dateInfoService.CurrentDate;
+        return await _context.Set<Date>()
+            .Include(e => e.Day)
+            .AsNoTrackingWithIdentityResolution()
+            .Where(e =>
+                e.Value.Date >= currentDate.Value.Date &&
+                e.Day.IsStudy)
+            .OrderBy(e => e.Value)
+            .Select(e => e.DateId)
+            .Take(request.DateCount)
+            .ToListAsync(cancellationToken);
     }
 }

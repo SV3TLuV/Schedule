@@ -10,7 +10,7 @@ public class TimetableViewModel : IMapWith<Timetable>
 
     public DateViewModel Date { get; set; } = null!;
 
-    public GroupViewModel Group { get; set; } = null!;
+    public ICollection<GroupViewModel> Groups { get; set; } = null!;
 
     public ICollection<LessonViewModel> Lessons { get; set; } = null!;
 
@@ -19,6 +19,13 @@ public class TimetableViewModel : IMapWith<Timetable>
         profile.CreateMap<Timetable, TimetableViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(timetable => timetable.TimetableId))
-            .ReverseMap();
+            .ForMember(viewModel => viewModel.Groups, expression =>
+                expression.MapFrom(timetable => new[] { timetable.Group }));
+        
+        profile.CreateMap<TimetableViewModel, Timetable>()
+            .ForMember(timetable => timetable.TimetableId, expression =>
+                expression.MapFrom(viewModel => viewModel.Id))
+            .ForMember(timetable => timetable.Group, expression =>
+                expression.MapFrom(viewModel => viewModel.Groups.First()));
     }
 }

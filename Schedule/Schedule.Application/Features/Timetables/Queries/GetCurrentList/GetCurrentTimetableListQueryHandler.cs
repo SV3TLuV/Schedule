@@ -28,10 +28,11 @@ public sealed class GetCurrentTimetableListQueryHandler
     {
         // TODO: Realize return grouped with merged groups timetables
         
-        throw new NotImplementedException();
-        /*var dateIds = await GetDateIdsAsync(request, cancellationToken);
+        var dateIds = await GetDateIdsAsync(request, cancellationToken);
 
         var query = _context.Set<Timetable>()
+            .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups)
             .Include(e => e.Group)
             .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
@@ -56,38 +57,20 @@ public sealed class GetCurrentTimetableListQueryHandler
         }
 
         var timetables = await query.ToListAsync(cancellationToken);
-        var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
-        var grouped = viewModels.GroupBy(t => t.Group);
+        var viewModels = _mapper.Map<TimetableViewModel>(timetables);
 
-        var currentTimetables = new List<CurrentTimetableViewModel>();
-
-        foreach (var group in grouped)
-        {
-            var groupedViewModels = group
-                .GroupBy(t => t.Date)
-                .Select(g =>
-                    new GroupedViewModel<DateViewModel, TimetableViewModel>
-                    {
-                        Key = g.Key,
-                        Items = g.ToArray()
-                    })
-                .ToArray();
-
-            currentTimetables.Add(new CurrentTimetableViewModel
-            {
-                Group = group.Key,
-                Dates = groupedViewModels
-            });
-        }
-
-
+        var groupIds = await _context.Set<Group>()
+            .AsNoTrackingWithIdentityResolution()
+            .Select(e => e.GroupId)
+            .ToListAsync(cancellationToken);
+        
         return new PagedList<CurrentTimetableViewModel>
         {
             PageSize = request.DateCount,
             PageNumber = 1,
             TotalCount = 0,
             Items = currentTimetables
-        };*/
+        };
     }
 
     private async Task<ICollection<int>> GetDateIdsAsync(GetCurrentTimetableListQuery request,

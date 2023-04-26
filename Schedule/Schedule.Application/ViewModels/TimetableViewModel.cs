@@ -20,7 +20,9 @@ public class TimetableViewModel : IMapWith<Timetable>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(timetable => timetable.TimetableId))
             .ForMember(viewModel => viewModel.Groups, expression =>
-                expression.MapFrom(timetable => new[] { timetable.Group }));
+                expression.MapFrom(timetable => new[] { timetable.Group }
+                    .Concat(timetable.Group.GroupGroups
+                        .Select(e => e.Group))));
         
         profile.CreateMap<TimetableViewModel, Timetable>()
             .ForMember(timetable => timetable.TimetableId, expression =>

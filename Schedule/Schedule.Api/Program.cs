@@ -7,10 +7,12 @@ using Schedule.Application.Modules;
 
 var applicationBuilder = WebApplication.CreateBuilder(args);
 applicationBuilder.Host
-    .UseServiceProviderFactory(new AutofacServiceProviderFactory(configuration =>
+    .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
     {
-        configuration.RegisterModule<ApiModule>();
-        configuration.RegisterModule<ApplicationModule>();
+        var configuration = applicationBuilder.Configuration;
+        
+        builder.RegisterModule<ApiModule>();
+        builder.RegisterModule(new ApplicationModule(configuration));
     }))
     .ConfigureServices(services =>
     {

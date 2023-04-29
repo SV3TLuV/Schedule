@@ -1,6 +1,8 @@
+using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Schedule.Core.Common.Exceptions;
+using Schedule.Application.Features.Dates.Commands.Create;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -10,12 +12,18 @@ public sealed class GenerateDatesJob : IJob
 {
     private readonly IScheduleDbContext _context;
     private readonly IDateInfoService _dateInfoService;
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
     public GenerateDatesJob(IScheduleDbContext context,
-        IDateInfoService dateInfoService)
+        IDateInfoService dateInfoService,
+        IMediator mediator,
+        IMapper mapper)
     {
         _context = context;
         _dateInfoService = dateInfoService;
+        _mediator = mediator;
+        _mapper = mapper;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -36,11 +44,10 @@ public sealed class GenerateDatesJob : IJob
         while (IsNeedGenerate(lastDate.Value, currentDate.Value))
         {
             var nextDate = _dateInfoService.GetNextDate(lastDate.Value);
-            await _context.Set<Date>().AddAsync(nextDate);
+            var command = _mapper.Map<CreateDateCommand>(nextDate);
+            await _mediator.Send(command);
             lastDate = nextDate;
         }
-
-        await _context.SaveChangesAsync();
     }
 
     public bool IsNeedGenerate(DateTime last, DateTime now)

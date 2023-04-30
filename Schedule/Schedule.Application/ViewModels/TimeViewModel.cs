@@ -11,6 +11,8 @@ public class TimeViewModel : IMapWith<Time>
     public string Start { get; set; } = null!;
 
     public string End { get; set; } = null!;
+    
+    public int Duration { get; set; }
 
     public int LessonNumber { get; set; }
 

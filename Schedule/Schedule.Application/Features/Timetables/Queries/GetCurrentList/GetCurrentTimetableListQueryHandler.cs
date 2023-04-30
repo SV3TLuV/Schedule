@@ -95,14 +95,18 @@ public sealed class GetCurrentTimetableListQueryHandler
             });
         }
 
-        var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
+        var currentViewModels = currentTimetables
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToArray(); 
+        var totalCount = viewModels.Count;
         
         return new PagedList<CurrentTimetableViewModel>
         {
-            PageSize = request.DateCount,
+            PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = currentTimetables
+            Items = currentViewModels
         };
     }
 

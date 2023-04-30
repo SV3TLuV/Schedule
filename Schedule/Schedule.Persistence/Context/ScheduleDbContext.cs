@@ -23,6 +23,8 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Discipline> Disciplines { get; set; } = null!;
 
+    public virtual DbSet<DisciplineType> DisciplineTypes { get; set; } = null!;
+
     public virtual DbSet<Group> Groups { get; set; } = null!;
 
     public virtual DbSet<Lesson> Lessons { get; set; } = null!;
@@ -47,11 +49,14 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Timetable> Timetables { get; set; } = null!;
 
+    public virtual DbSet<TransferingGroupsHistory> TransferingGroupsHistories { get; set; } = null!;
+
     public virtual DbSet<WeekType> WeekTypes { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ScheduleDbContext).Assembly);
+        OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

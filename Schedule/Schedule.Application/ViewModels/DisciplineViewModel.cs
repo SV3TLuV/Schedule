@@ -15,6 +15,8 @@ public class DisciplineViewModel : IMapWith<Discipline>
     public int TotalHours { get; set; }
 
     public bool IsDeleted { get; set; }
+    
+    public DisciplineTypeViewModel DisciplineType { get; set; } = null!;
 
     public TermViewModel Term { get; set; } = null!;
 

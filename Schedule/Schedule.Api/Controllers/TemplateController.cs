@@ -8,10 +8,10 @@ namespace Schedule.Api.Controllers;
 
 public sealed class TemplateController : BaseController
 {
-    [HttpGet]
-    public async Task<ActionResult<TemplateViewModel>> Get(
-        [FromQuery] GetTemplateQuery query)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<TemplateViewModel>> Get(int id)
     {
+        var query = new GetTemplateQuery(id);
         return Ok(await Mediator.Send(query));
     }
 

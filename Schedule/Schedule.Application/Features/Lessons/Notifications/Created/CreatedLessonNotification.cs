@@ -22,12 +22,26 @@ public sealed class CreatedLessonNotificationHandler : INotificationHandler<Crea
     public async Task Handle(CreatedLessonNotification notification,
         CancellationToken cancellationToken)
     {
-        var lesson = await _context.Set<Lesson>()
+        throw new NotImplementedException();
+        /*var lesson = await _context.Set<Lesson>()
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Timetable)
+            .ThenInclude(e => e.Date)
+            .Include(e => e.Timetable)
+            .ThenInclude(e => e.Group)
             .Include(e => e.LessonTeacherClassrooms)
             .FirstAsync(e => e.LessonId == notification.Id, cancellationToken);
         
-        var timetable = lesson.Timetable;
+        var templateLesson = await _context.Set<LessonTemplate>()
+            .AsNoTrackingWithIdentityResolution()
+            .Include(e => e.Template)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Course)
+            .Include(e => e.LessonTemplateTeacherClassrooms)
+            .FirstAsync(e => 
+                e.Template.GroupId == lesson.Timetable.GroupId &&
+                e.Template.DayId == lesson.Timetable.Date.DayId &&
+                e.Template.WeekTypeId == lesson.Timetable.Date.WeekTypeId &&
+                e.Template.Group.Course);*/
     }
 }

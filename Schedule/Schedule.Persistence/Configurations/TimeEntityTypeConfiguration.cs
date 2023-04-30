@@ -10,7 +10,8 @@ public sealed class TimeEntityTypeConfiguration : IEntityTypeConfiguration<Time>
     {
         builder.ToTable(tb => tb.HasTrigger("Times_Delete"));
         builder.HasIndex(e => new { e.TypeId, e.LessonNumber }, "IX_Times").IsUnique();
-        builder.HasOne(d => d.Type).WithMany(p => p.Times)
+        builder.HasOne(d => d.Type)
+            .WithMany(p => p.Times)
             .HasForeignKey(d => d.TypeId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Times_TimeTypes");

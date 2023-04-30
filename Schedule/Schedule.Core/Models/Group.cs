@@ -8,23 +8,29 @@ public class Group
 
     public int SpecialityId { get; set; }
 
-    public int CourseId { get; set; }
+    public int TermId { get; set; }
 
     public int EnrollmentYear { get; set; }
 
     public bool IsDeleted { get; set; }
 
-    public virtual Course Course { get; set; } = null!;
-
     public virtual Speciality Speciality { get; set; } = null!;
 
     public virtual ICollection<Template> Templates { get; set; } = new List<Template>();
 
+    public virtual Term Term { get; set; } = null!;
+
     public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 
-    public virtual ICollection<GroupGroup> GroupGroups1 { get; set; } = new List<GroupGroup>();
+    public virtual ICollection<TransferingGroupsHistory> TransferingGroupsHistories { get; set; } =
+        new List<TransferingGroupsHistory>();
 
-    public virtual ICollection<GroupGroup> GroupGroups { get; set; } = new List<GroupGroup>();
+    public virtual ICollection<GroupGroup> GroupGroups1 { get; set; } =
+        new List<GroupGroup>();
 
-    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = new List<TeacherGroup>();
+    public virtual ICollection<GroupGroup> GroupGroups { get; set; } = 
+        new List<GroupGroup>();
+
+    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = 
+        new List<TeacherGroup>();
 }

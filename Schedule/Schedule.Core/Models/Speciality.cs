@@ -8,6 +8,8 @@ public class Speciality
 
     public string Name { get; set; } = null!;
 
+    public int MaxTermId { get; set; }
+
     public bool IsDeleted { get; set; }
 
     public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();

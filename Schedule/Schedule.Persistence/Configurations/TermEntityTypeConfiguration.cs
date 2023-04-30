@@ -10,7 +10,8 @@ public sealed class TermEntityTypeConfiguration : IEntityTypeConfiguration<Term>
     {
         builder.HasIndex(e => new { e.CourseId, e.CourseTerm }, "IX_Terms").IsUnique();
         builder.Property(e => e.TermId).ValueGeneratedNever();
-        builder.HasOne(d => d.Course).WithMany(p => p.Terms)
+        builder.HasOne(d => d.Course)
+            .WithMany(p => p.Terms)
             .HasForeignKey(d => d.CourseId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Terms_Courses");

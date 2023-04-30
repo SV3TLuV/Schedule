@@ -20,8 +20,9 @@ public class Teacher
     public virtual ICollection<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } =
         new List<LessonTemplateTeacherClassroom>();
 
-    public virtual ICollection<TeacherDiscipline> TeacherDisciplines { get; set; } = 
+    public virtual ICollection<TeacherDiscipline> TeacherDisciplines { get; set; } =
         new List<TeacherDiscipline>();
 
-    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = new List<TeacherGroup>();
+    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = 
+        new List<TeacherGroup>();
 }

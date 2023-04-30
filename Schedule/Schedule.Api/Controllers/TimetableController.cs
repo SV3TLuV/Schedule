@@ -9,10 +9,10 @@ namespace Schedule.Api.Controllers;
 
 public sealed class TimetableController : BaseController
 {
-    [HttpGet]
-    public async Task<ActionResult<TimetableViewModel>> Get(
-        [FromQuery] GetTimetableQuery query)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<TimetableViewModel>> Get(int id)
     {
+        var query = new GetTimetableQuery(id);
         return Ok(await Mediator.Send(query));
     }
 

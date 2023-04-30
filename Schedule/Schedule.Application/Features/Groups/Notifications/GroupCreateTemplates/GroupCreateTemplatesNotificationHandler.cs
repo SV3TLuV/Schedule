@@ -35,10 +35,10 @@ public sealed class GroupCreateTemplatesNotificationHandler
         
         const string script = """
             INSERT INTO Templates (DayId, WeekTypeId, GroupId, TermId)
-            SELECT DayId, WeekTypeId, GroupId, TermId
+            SELECT DayId, WeekTypeId, g.GroupId, t.TermId
             FROM Days, WeekTypes
             JOIN Groups g ON g.GroupId = @GroupId
-            JOIN Terms t ON t.CourseId <= g.CourseId
+            JOIN Terms t ON t.TermId <= g.TermId
         """;
 
         await _connection.ExecuteAsync(script, parameters);

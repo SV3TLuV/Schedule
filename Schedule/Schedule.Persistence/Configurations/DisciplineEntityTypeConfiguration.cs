@@ -16,6 +16,11 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
             .WithOne(e => e.Discipline)
             .HasForeignKey(e => e.DisciplineId)
             .HasConstraintName("FK_TeacherDisciplines_Disciplines");
+        builder.HasOne(d => d.DisciplineType)
+            .WithMany(p => p.Disciplines)
+            .HasForeignKey(d => d.DisciplineTypeId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Disciplines_DisciplineType");
         builder.HasOne(d => d.Speciality).WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.SpecialityId)
             .OnDelete(DeleteBehavior.ClientSetNull)

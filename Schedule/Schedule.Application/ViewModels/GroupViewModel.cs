@@ -16,7 +16,7 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
 
     public bool IsDeleted { get; set; }
 
-    public CourseViewModel Course { get; set; } = null!;
+    public TermViewModel Term { get; set; } = null!;
 
     public SpecialityViewModel Speciality { get; set; } = null!;
 
@@ -51,7 +51,7 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
                Number == other.Number && 
                EnrollmentYear == other.EnrollmentYear && 
                IsDeleted == other.IsDeleted && 
-               Course.Equals(other.Course) &&
+               Term.Equals(other.Term) &&
                Speciality.Equals(other.Speciality) &&
                MergedGroups.Equals(other.MergedGroups);
     }
@@ -66,6 +66,6 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Number, EnrollmentYear, IsDeleted, Course, Speciality, MergedGroups);
+        return HashCode.Combine(Id, Number, EnrollmentYear, IsDeleted, Term, Speciality, MergedGroups);
     }
 }

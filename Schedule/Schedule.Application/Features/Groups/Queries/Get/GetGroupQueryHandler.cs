@@ -22,12 +22,14 @@ public sealed class GetGroupQueryHandler : IRequestHandler<GetGroupQuery, GroupV
     public async Task<GroupViewModel> Handle(GetGroupQuery request, CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()
-            .Include(e => e.Course)
+            .Include(e => e.Term)
+            .ThenInclude(e => e.Course)
             .Include(e => e.Speciality)
             .ThenInclude(e => e.Disciplines)
-            .Include(e => e.Course)
             .Include(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
+            .ThenInclude(e => e.Term)
+            .ThenInclude(e => e.Course)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 

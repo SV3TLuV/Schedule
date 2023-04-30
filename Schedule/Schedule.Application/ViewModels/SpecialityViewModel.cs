@@ -12,6 +12,8 @@ public class SpecialityViewModel : IMapWith<Speciality>, IEquatable<SpecialityVi
 
     public string Name { get; set; } = null!;
 
+    public int MaxTermId { get; set; }
+    
     public bool IsDeleted { get; set; }
 
     public ICollection<DisciplineViewModel> Disciplines { get; set; } = null!;

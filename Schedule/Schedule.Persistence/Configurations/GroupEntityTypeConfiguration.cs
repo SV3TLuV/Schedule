@@ -17,16 +17,16 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
         builder.Property(e => e.Number)
             .HasMaxLength(2)
             .IsUnicode(false);
-        builder.HasOne(d => d.Course)
-            .WithMany(p => p.Groups)
-            .HasForeignKey(d => d.CourseId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_Groups_Courses");
         builder.HasOne(d => d.Speciality)
             .WithMany(p => p.Groups)
             .HasForeignKey(d => d.SpecialityId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Groups_Specialities");
+        builder.HasOne(d => d.Term)
+            .WithMany(p => p.Groups)
+            .HasForeignKey(d => d.TermId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Groups_Terms");
         builder.HasMany(e => e.GroupGroups)
             .WithOne(e => e.Group)
             .HasForeignKey(e => e.GroupId)

@@ -1,8 +1,6 @@
-﻿using System.Data;
-using Dapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Schedule.Core.Common.Exceptions;
+using Schedule.Application.Features.Timetables.Commands.Create;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -12,34 +10,31 @@ public sealed class DateCreateTimetablesNotificationHandler
     : INotificationHandler<DateCreateTimetablesNotification>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IDbConnection _connection;
+    private readonly IMediator _mediator;
 
     public DateCreateTimetablesNotificationHandler(
         IScheduleDbContext context,
-        IDbConnection connection)
+        IMediator mediator)
     {
         _context = context;
-        _connection = connection;
+        _mediator = mediator;
     }
     
     public async Task Handle(DateCreateTimetablesNotification notification, CancellationToken cancellationToken)
     {
-        var date = await _context.Set<Date>()
+        var groupIds = await _context.Set<Group>()
             .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => e.DateId == notification.Id, cancellationToken);
-
-        if (date is null)
-            throw new NotFoundException(nameof(Date), cancellationToken);
-
-        var parameters = new { DateId = notification.Id };
+            .Select(e => e.GroupId)
+            .ToListAsync(cancellationToken);
         
-        const string script = """
-            INSERT INTO Timetables (GroupId, DateId)
-            SELECT GroupId, DateId
-            FROM Groups, Dates
-            WHERE Dates.DateId = @DateId;
-        """;
+        var commands = groupIds
+            .Select(groupId => new CreateTimetableCommand
+            {
+                GroupId = groupId,
+                DateId = notification.Id
+            });
 
-        await _connection.ExecuteAsync(script, parameters);
+        foreach (var command in commands)
+            await _mediator.Send(command, cancellationToken);
     }
 }

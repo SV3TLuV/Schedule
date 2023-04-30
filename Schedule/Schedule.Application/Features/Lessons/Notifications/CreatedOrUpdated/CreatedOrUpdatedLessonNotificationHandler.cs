@@ -3,45 +3,44 @@ using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Lessons.Notifications.Created;
+namespace Schedule.Application.Features.Lessons.Notifications.CreatedOrUpdated;
 
-public sealed record CreatedLessonNotification(int Id) : INotification;
-
-public sealed class CreatedLessonNotificationHandler : INotificationHandler<CreatedLessonNotification>
+public sealed class CreatedOrUpdatedLessonNotificationHandler : INotificationHandler<CreatedOrUpdatedLessonNotification>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
 
-    public CreatedLessonNotificationHandler(IScheduleDbContext context,
-        IMediator mediator)
+    public CreatedOrUpdatedLessonNotificationHandler(IScheduleDbContext context)
     {
         _context = context;
-        _mediator = mediator;
     }
     
-    public async Task Handle(CreatedLessonNotification notification,
+    public async Task Handle(CreatedOrUpdatedLessonNotification notification,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
-        /*var lesson = await _context.Set<Lesson>()
+        var lesson = await _context.Set<Lesson>()
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Date)
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
             .FirstAsync(e => e.LessonId == notification.Id, cancellationToken);
         
-        var templateLesson = await _context.Set<LessonTemplate>()
+        var template = await _context.Set<LessonTemplate>()
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Template)
             .ThenInclude(e => e.Group)
-            .ThenInclude(e => e.Course)
+            .ThenInclude(e => e.Term)
             .Include(e => e.LessonTemplateTeacherClassrooms)
-            .FirstAsync(e => 
+            .FirstOrDefaultAsync(e => 
                 e.Template.GroupId == lesson.Timetable.GroupId &&
                 e.Template.DayId == lesson.Timetable.Date.DayId &&
                 e.Template.WeekTypeId == lesson.Timetable.Date.WeekTypeId &&
-                e.Template.Group.Course);*/
+                e.Template.TermId == lesson.Timetable.Group.TermId, cancellationToken);
+
+        lesson.IsChanged = !lesson.Equals(template);
+        _context.Set<Lesson>().Update(lesson);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

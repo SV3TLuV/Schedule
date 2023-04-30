@@ -7,6 +7,8 @@ public class Time
     public TimeSpan Start { get; set; }
 
     public TimeSpan End { get; set; }
+    
+    public int Duration { get; set; }
 
     public int LessonNumber { get; set; }
 

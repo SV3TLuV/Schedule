@@ -6,24 +6,27 @@ using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Timetables.Queries.Get;
+namespace Schedule.Application.Features.Templates.Queries.Get;
 
-public sealed class GetTimetableQueryHandler : IRequestHandler<GetTimetableQuery, TimetableViewModel>
+public sealed class GetTemplateQueryHandler : IRequestHandler<GetTemplateQuery, TemplateViewModel>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetTimetableQueryHandler(
-        IScheduleDbContext context,
+    public GetTemplateQueryHandler(IScheduleDbContext context,
         IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
-    
-    public async Task<TimetableViewModel> Handle(GetTimetableQuery request, CancellationToken cancellationToken)
+
+    public async Task<TemplateViewModel> Handle(GetTemplateQuery request,
+        CancellationToken cancellationToken)
     {
-        var timetable = await _context.Set<Timetable>()
+        var template = await _context.Set<Template>()
+            .Include(e => e.Day)
+            .Include(e => e.Term)
+            .Include(e => e.WeekType)
             .Include(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
@@ -36,24 +39,23 @@ public sealed class GetTimetableQueryHandler : IRequestHandler<GetTimetableQuery
             .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
             .ThenInclude(e => e.Course)
-            .Include(e => e.Date)
-            .Include(e => e.Lessons)
+            .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.Discipline)
-            .Include(e => e.Lessons)
+            .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.Time)
-            .Include(e => e.Lessons)
-            .ThenInclude(e => e.LessonTeacherClassrooms)
+            .Include(e => e.LessonTemplates)
+            .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Teacher)
-            .Include(e => e.Lessons)
-            .ThenInclude(e => e.LessonTeacherClassrooms)
+            .Include(e => e.LessonTemplates)
+            .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
             .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => e.TimetableId == request.Id, cancellationToken);
-
-        if (timetable is null)
-            throw new NotFoundException(nameof(Timetable), request.Id);
-
-        var viewModel = _mapper.Map<TimetableViewModel>(timetable);
+            .FirstOrDefaultAsync(e => e.TemplateId == request.Id, cancellationToken);
+        
+        if (template is null)
+            throw new NotFoundException(nameof(Template), request.Id);
+        
+        var viewModel = _mapper.Map<TemplateViewModel>(template);
         
         viewModel.Groups = viewModel.Groups
             .OrderBy(e => e.Speciality.Code)

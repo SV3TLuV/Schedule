@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Schedule.Application.Features.Lessons.Notifications.Updated;
+using Schedule.Application.Features.Lessons.Notifications.CreatedOrUpdated;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -32,9 +32,20 @@ public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCom
         if (lessonDbo is null)
             throw new NotFoundException(nameof(Lesson), request.Id);
 
+        await _context.Set<LessonTeacherClassroom>()
+            .Where(entity => entity.LessonId == lessonDbo.LessonId)
+            .AsNoTrackingWithIdentityResolution()
+            .ExecuteDeleteAsync(cancellationToken);
+        
         var lesson = _mapper.Map<Lesson>(request);
+
+        foreach (var teacherClassroom in lesson.LessonTeacherClassrooms)
+            teacherClassroom.LessonId = lesson.LessonId;
+
         _context.Set<Lesson>().Update(lesson);
+        await _context.Set<LessonTeacherClassroom>()
+            .AddRangeAsync(lesson.LessonTeacherClassrooms, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new UpdatedLessonNotification(lesson.LessonId), cancellationToken);
+        await _mediator.Publish(new CreatedOrUpdatedLessonNotification(lesson.LessonId), cancellationToken);
     }
 }

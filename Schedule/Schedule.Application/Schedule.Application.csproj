@@ -11,19 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\Lessons\Queries\Get" />
-        <Folder Include="Features\Lessons\Queries\GetList" />
-        <Folder Include="Features\LessonTemplates\Commands\Create\" />
-        <Folder Include="Features\LessonTemplates\Commands\Delete\" />
-        <Folder Include="Features\LessonTemplates\Commands\Update\" />
-        <Folder Include="Features\LessonTemplates\Notifications\Created\" />
-        <Folder Include="Features\LessonTemplates\Notifications\Deleted\" />
-        <Folder Include="Features\LessonTemplates\Notifications\Updated\" />
-        <Folder Include="Features\LessonTemplates\Queries\GetList\" />
-        <Folder Include="Features\LessonTemplates\Queries\Get\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="7.1.0" />
         <PackageReference Include="Dapper" Version="2.0.123" />
         <PackageReference Include="FluentValidation" Version="11.5.2" />

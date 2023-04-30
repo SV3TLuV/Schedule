@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Features.Lessons.Notifications.Created;
+using Schedule.Application.Features.Lessons.Notifications.CreatedOrUpdated;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -26,8 +26,12 @@ public sealed class CreateLessonCommandHandler : IRequestHandler<CreateLessonCom
     {
         var lesson = _mapper.Map<Lesson>(request);
         await _context.Set<Lesson>().AddAsync(lesson, cancellationToken);
+        
+        foreach (var teacherClassroom in lesson.LessonTeacherClassrooms)
+            teacherClassroom.LessonId = lesson.LessonId;
+        
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new CreatedLessonNotification(lesson.LessonId), cancellationToken);
+        await _mediator.Publish(new CreatedOrUpdatedLessonNotification(lesson.LessonId), cancellationToken);
         return lesson.LessonId;
     }
 }

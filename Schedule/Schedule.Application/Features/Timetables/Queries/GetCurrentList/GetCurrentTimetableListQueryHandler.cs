@@ -31,6 +31,12 @@ public sealed class GetCurrentTimetableListQueryHandler
         var query = _context.Set<Timetable>()
             .Include(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
+            .ThenInclude(e => e.Group2)
+            .ThenInclude(e => e.Speciality)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups)
+            .ThenInclude(e => e.Group2)
+            .ThenInclude(e => e.Course)
             .Include(e => e.Group)
             .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
@@ -69,6 +75,10 @@ public sealed class GetCurrentTimetableListQueryHandler
                     v.Groups.First().Id == group.Id);
                 viewModels.Remove(timetable);
             }
+            
+            viewModel.Groups = viewModel.Groups
+                .OrderBy(e => e.Speciality.Code)
+                .ToArray();
         }
         
         var groupedViewModels = viewModels

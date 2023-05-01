@@ -9,10 +9,14 @@ public sealed class CreatedOrUpdatedLessonTemplateNotificationHandler
     : INotificationHandler<CreatedOrUpdatedLessonTemplateNotification>
 {
     private readonly IScheduleDbContext _context;
+    private readonly IDateInfoService _dateInfoService;
 
-    public CreatedOrUpdatedLessonTemplateNotificationHandler(IScheduleDbContext context)
+    public CreatedOrUpdatedLessonTemplateNotificationHandler(
+        IScheduleDbContext context,
+        IDateInfoService dateInfoService)
     {
         _context = context;
+        _dateInfoService = dateInfoService;
     }
     
     public async Task Handle(CreatedOrUpdatedLessonTemplateNotification notification, 
@@ -38,7 +42,7 @@ public sealed class CreatedOrUpdatedLessonTemplateNotificationHandler
                 e.Timetable.Date.DayId == template.Template.DayId &&
                 e.Timetable.Date.WeekTypeId == template.Template.WeekTypeId &&
                 e.Timetable.Date.Term == template.Template.TermId &&
-                e.Timetable.Date.Value >= DateTime.Now.Date &&
+                e.Timetable.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
                 e.Timetable.GroupId == template.Template.GroupId)
             .ToListAsync(cancellationToken);
 

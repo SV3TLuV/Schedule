@@ -27,6 +27,21 @@ public sealed class DateInfoService : IDateInfoService
             WeekTypeId = (int)GetWeekType(dateTime)
         };
     }
+    
+    
+    #region Properties
+
+    public int CurrentTerm => GetTerm(CurrentDateTime);
+    public DateTime CurrentDateTime => DateTime.Now;
+    public Date CurrentDate => GetDate(CurrentDateTime);
+
+    public int CurrentWeekOfYear => GetWeekOfYear(CurrentDateTime);
+    public WeekType CurrentWeekType => GetWeekType(CurrentDateTime);
+    public int MaxWeekOfYear => GetWeekOfYear(new DateTime(CurrentDateTime.Year, 12, 31));
+
+    public int CurrentDayId => GetDayId(CurrentDateTime);
+
+    #endregion
 
     public Date GetNextDate(DateTime dateTime)
     {
@@ -66,17 +81,4 @@ public sealed class DateInfoService : IDateInfoService
         var week = GetWeekOfYear(dateTime);
         return (week & 1) != 0;
     }
-
-    #region Properties
-
-    public int CurrentTerm => GetTerm(DateTime.Now);
-    public Date CurrentDate => GetDate(DateTime.Now);
-
-    public int CurrentWeekOfYear => GetWeekOfYear(DateTime.Now);
-    public WeekType CurrentWeekType => GetWeekType(DateTime.Now);
-    public int MaxWeekOfYear => GetWeekOfYear(new DateTime(DateTime.Now.Year, 12, 31));
-
-    public int CurrentDayId => GetDayId(DateTime.Now);
-
-    #endregion
 }

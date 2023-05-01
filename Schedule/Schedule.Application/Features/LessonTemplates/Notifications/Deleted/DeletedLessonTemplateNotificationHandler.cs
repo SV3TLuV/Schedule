@@ -9,11 +9,14 @@ public sealed class DeletedLessonTemplateNotificationHandler
     : INotificationHandler<DeletedLessonTemplateNotification>
 {
     private readonly IScheduleDbContext _context;
+    private readonly IDateInfoService _dateInfoService;
 
     public DeletedLessonTemplateNotificationHandler(
-        IScheduleDbContext context)
+        IScheduleDbContext context,
+        IDateInfoService dateInfoService)
     {
         _context = context;
+        _dateInfoService = dateInfoService;
     }
     
     public async Task Handle(DeletedLessonTemplateNotification notification,
@@ -34,7 +37,7 @@ public sealed class DeletedLessonTemplateNotificationHandler
                 e.Date.DayId == template.DayId &&
                 e.Date.WeekTypeId == template.WeekTypeId &&
                 e.Date.Term == template.TermId &&
-                e.Date.Value >= DateTime.Now &&
+                e.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
                 e.GroupId == template.GroupId)
             .ToListAsync(cancellationToken);
 

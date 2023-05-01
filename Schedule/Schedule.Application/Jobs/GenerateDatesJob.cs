@@ -35,7 +35,7 @@ public sealed class GenerateDatesJob : IJob
 
         if (lastDate is null)
         {
-            var tomorrow = DateTime.Now.AddDays(-1);
+            var tomorrow = _dateInfoService.CurrentDateTime.AddDays(-1);
             lastDate = _dateInfoService.GetDate(tomorrow);
         }
 

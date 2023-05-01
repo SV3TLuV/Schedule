@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Features.Groups.Notifications.GroupCreateTemplates;
+using Schedule.Application.Features.Groups.Notifications.GroupCreatedCreateTemplates;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -30,7 +30,7 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
             groupGroup.GroupId = group.GroupId;
         
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new GroupCreateTemplatesNotification(group.GroupId), cancellationToken);
+        await _mediator.Publish(new GroupCreatedCreateTemplatesNotification(group.GroupId), cancellationToken);
         return group.GroupId;
     }
 }

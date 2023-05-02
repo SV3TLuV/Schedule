@@ -28,6 +28,6 @@ public sealed class GroupUniteUpdateLessonsNotificationHandler
     public async Task Handle(GroupUniteUpdateLessonsNotification notification,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        
     }
 }

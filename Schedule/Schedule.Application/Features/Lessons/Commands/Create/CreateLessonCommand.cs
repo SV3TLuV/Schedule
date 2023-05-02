@@ -9,11 +9,11 @@ namespace Schedule.Application.Features.Lessons.Commands.Create;
 public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>
 {
     public required int Number { get; set; }
-    public required int? Subgroup { get; set; }
-    public required int? TimeId { get; set; }
     public required int TimetableId { get; set; }
-    public required int? DisciplineId { get; set; }
-    public required ICollection<TeacherClassroomIdsViewModel> TeacherClassroomIds { get; set; }
+    public int? Subgroup { get; set; }
+    public int? TimeId { get; set; }
+    public int? DisciplineId { get; set; }
+    public ICollection<TeacherClassroomIdsViewModel>? TeacherClassroomIds { get; set; }
 
     public void Map(Profile profile)
     {

@@ -4,7 +4,7 @@ using Schedule.Application.Features.Timetables.Commands.Create;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Dates.Notifications;
+namespace Schedule.Application.Features.Dates.Notifications.CreateTimetables;
 
 public sealed class DateCreateTimetablesNotificationHandler 
     : INotificationHandler<DateCreateTimetablesNotification>
@@ -31,7 +31,7 @@ public sealed class DateCreateTimetablesNotificationHandler
             .Select(groupId => new CreateTimetableCommand
             {
                 GroupId = groupId,
-                DateId = notification.Id
+                DateId = notification.DateId
             });
 
         foreach (var command in commands)

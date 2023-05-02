@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Schedule.Application.Features.Dates.Notifications;
+using Schedule.Application.Features.Dates.Notifications.CreateTimetables;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 

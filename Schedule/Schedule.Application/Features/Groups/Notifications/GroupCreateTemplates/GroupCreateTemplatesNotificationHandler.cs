@@ -5,15 +5,15 @@ using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Groups.Notifications.GroupCreatedCreateTemplates;
+namespace Schedule.Application.Features.Groups.Notifications.GroupCreateTemplates;
 
-public sealed class GroupCreatedCreateTemplatesNotificationHandler
-    : INotificationHandler<GroupCreatedCreateTemplatesNotification>
+public sealed class GroupCreateTemplatesNotificationHandler
+    : INotificationHandler<GroupCreateTemplatesNotification>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMediator _mediator;
 
-    public GroupCreatedCreateTemplatesNotificationHandler(
+    public GroupCreateTemplatesNotificationHandler(
         IScheduleDbContext context,
         IMediator mediator)
     {
@@ -21,7 +21,7 @@ public sealed class GroupCreatedCreateTemplatesNotificationHandler
         _mediator = mediator;
     }
     
-    public async Task Handle(GroupCreatedCreateTemplatesNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(GroupCreateTemplatesNotification notification, CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()
             .Include(e => e.Speciality)

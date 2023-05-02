@@ -28,9 +28,6 @@ public sealed class DateInfoService : IDateInfoService
         };
     }
     
-    
-    #region Properties
-
     public int CurrentTerm => GetTerm(CurrentDateTime);
     public DateTime CurrentDateTime => DateTime.Now;
     public Date CurrentDate => GetDate(CurrentDateTime);
@@ -40,8 +37,6 @@ public sealed class DateInfoService : IDateInfoService
     public int MaxWeekOfYear => GetWeekOfYear(new DateTime(CurrentDateTime.Year, 12, 31));
 
     public int CurrentDayId => GetDayId(CurrentDateTime);
-
-    #endregion
 
     public Date GetNextDate(DateTime dateTime)
     {

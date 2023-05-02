@@ -2,4 +2,4 @@
 
 namespace Schedule.Application.Features.Timetables.Notifications.CreateLessons;
 
-public sealed record CreateLessonsNotification(int TimetableId) : INotification;
+public sealed record TimetableCreateLessonsNotification(int TimetableId) : INotification;

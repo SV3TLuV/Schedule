@@ -41,7 +41,7 @@ public sealed class CreatedOrUpdatedLessonTemplateNotificationHandler
             .Where(e => 
                 e.Timetable.Date.DayId == template.Template.DayId &&
                 e.Timetable.Date.WeekTypeId == template.Template.WeekTypeId &&
-                e.Timetable.Date.Term == template.Template.TermId &&
+                e.Timetable.Group.TermId == template.Template.TermId &&
                 e.Timetable.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
                 e.Timetable.GroupId == template.Template.GroupId)
             .ToListAsync(cancellationToken);

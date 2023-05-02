@@ -7,12 +7,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Templates.Notifications.CreateLessonTemplates;
 
-public sealed class CreateLessonTemplatesNotificationHandler : INotificationHandler<CreateLessonTemplatesNotification>
+public sealed class TemplateCreateLessonTemplatesNotificationHandler : INotificationHandler<TemplateCreateLessonTemplatesNotification>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMediator _mediator;
 
-    public CreateLessonTemplatesNotificationHandler(
+    public TemplateCreateLessonTemplatesNotificationHandler(
         IScheduleDbContext context,
         IMediator mediator)
     {
@@ -20,7 +20,7 @@ public sealed class CreateLessonTemplatesNotificationHandler : INotificationHand
         _mediator = mediator;
     }
     
-    public async Task Handle(CreateLessonTemplatesNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(TemplateCreateLessonTemplatesNotification notification, CancellationToken cancellationToken)
     {
         var template = await _context.Set<Template>()
             .AsNoTrackingWithIdentityResolution()

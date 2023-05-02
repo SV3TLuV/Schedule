@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Schedule.Application.Features.Timetables.Notifications;
-using Schedule.Application.Features.Timetables.Notifications.AddLessonsOnTimetableCreated;
+using Schedule.Application.Features.Timetables.Notifications.CreateLessons;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -28,7 +28,7 @@ public sealed class CreateTimetableCommandHandler : IRequestHandler<CreateTimeta
         var timetable = _mapper.Map<Timetable>(request);
         await _context.Set<Timetable>().AddAsync(timetable, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new AddLessonsOnTimetableCreatedNotification(timetable.TimetableId),
+        await _mediator.Publish(new CreateLessonsNotification(timetable.TimetableId),
             cancellationToken);
         return timetable.TimetableId;
     }

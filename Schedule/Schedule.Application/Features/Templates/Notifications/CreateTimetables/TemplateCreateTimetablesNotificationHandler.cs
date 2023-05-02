@@ -7,14 +7,14 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Templates.Notifications.CreateTimetables;
 
-public sealed class CreateTimetablesNotificationHandler
-    : INotificationHandler<CreateTimetablesNotification>
+public sealed class TemplateCreateTimetablesNotificationHandler
+    : INotificationHandler<TemplateCreateTimetablesNotification>
 {
     private readonly IScheduleDbContext _context;
     private readonly IDateInfoService _dateInfoService;
     private readonly IMediator _mediator;
 
-    public CreateTimetablesNotificationHandler(
+    public TemplateCreateTimetablesNotificationHandler(
         IScheduleDbContext context,
         IDateInfoService dateInfoService,
         IMediator mediator)
@@ -24,7 +24,7 @@ public sealed class CreateTimetablesNotificationHandler
         _mediator = mediator;
     }
     
-    public async Task Handle(CreateTimetablesNotification notification,
+    public async Task Handle(TemplateCreateTimetablesNotification notification,
         CancellationToken cancellationToken)
     {
         var template = await _context.Set<Template>()

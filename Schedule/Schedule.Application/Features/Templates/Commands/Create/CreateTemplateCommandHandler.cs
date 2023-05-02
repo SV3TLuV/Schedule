@@ -29,8 +29,8 @@ public sealed class CreateTemplateCommandHandler : IRequestHandler<CreateTemplat
         var template = _mapper.Map<Template>(request);
         await _context.Set<Template>().AddAsync(template, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new CreateLessonTemplatesNotification(template.TemplateId), cancellationToken);
-        await _mediator.Publish(new CreateTimetablesNotification(template.TemplateId), cancellationToken);
+        await _mediator.Publish(new TemplateCreateLessonTemplatesNotification(template.TemplateId), cancellationToken);
+        await _mediator.Publish(new TemplateCreateTimetablesNotification(template.TemplateId), cancellationToken);
         return template.TemplateId;
     }
 }

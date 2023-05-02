@@ -31,12 +31,13 @@ public sealed class DeletedLessonTemplateNotificationHandler
                 cancellationToken);
 
         var timetables = await _context.Set<Timetable>()
-            .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Date)
+            .Include(e => e.Group)
+            .AsNoTrackingWithIdentityResolution()
             .Where(e => 
                 e.Date.DayId == template.DayId &&
                 e.Date.WeekTypeId == template.WeekTypeId &&
-                e.Date.Term == template.TermId &&
+                e.Group.TermId == template.TermId &&
                 e.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
                 e.GroupId == template.GroupId)
             .ToListAsync(cancellationToken);

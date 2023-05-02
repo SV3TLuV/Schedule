@@ -2,4 +2,4 @@
 
 namespace Schedule.Application.Features.Templates.Notifications.CreateLessonTemplates;
 
-public sealed record CreateLessonTemplatesNotification(int TemplateId) : INotification;
+public sealed record TemplateCreateLessonTemplatesNotification(int TemplateId) : INotification;

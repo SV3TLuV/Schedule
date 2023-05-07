@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Lessons.Commands.Create;
 using Schedule.Application.Features.Templates.Notifications.CreateLessonTemplates;
+using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -46,13 +47,22 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
 
         for (var i = 1; i <= 4; i++)
         {
+            var lessonTemplate = template?.LessonTemplates
+                .FirstOrDefault(e => e.Number == i);
+            
             var command = new CreateLessonCommand
             {
                 Number = i,
                 TimetableId = notification.TemplateId,
-                /*TimeId = lessonTemplate?.TimeId ?? null,
+                TimeId = lessonTemplate?.TimeId ?? null,
                 DisciplineId = lessonTemplate?.DisciplineId ?? null,
-                TeacherClassroomIds = null*/
+                TeacherClassroomIds = lessonTemplate?.LessonTemplateTeacherClassrooms
+                    .Select(e => new TeacherClassroomIdsViewModel
+                    {
+                        TeacherId = e.TeacherId,
+                        ClassroomId = e.ClassroomId
+                    })
+                    .ToArray() ?? Array.Empty<TeacherClassroomIdsViewModel>()
             };
             await _mediator.Send(command, cancellationToken);
         }

@@ -16,7 +16,7 @@
         <PackageReference Include="AutoBogus.Moq" Version="2.13.1" />
         <PackageReference Include="AutoBogus.NSubstitute" Version="2.13.1" />
         <PackageReference Include="AutoBogus.Templating" Version="2.13.1" />
-        <PackageReference Include="Autofac" Version="7.0.0" />
+        <PackageReference Include="Autofac" Version="7.0.1" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Faker.Net" Version="2.0.154" />
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.0.0" />

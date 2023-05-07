@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Schedule.Application.Features.LessonTemplates.Notifications.Deleted;
+using Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateDeleteLessons;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -31,6 +31,6 @@ public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteL
 
         _context.Set<LessonTemplate>().Remove(lessonTemplate);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new DeletedLessonTemplateNotification(lessonTemplate), cancellationToken);
+        await _mediator.Publish(new LessonTemplateDeleteLessonsNotification(lessonTemplate), cancellationToken);
     }
 }

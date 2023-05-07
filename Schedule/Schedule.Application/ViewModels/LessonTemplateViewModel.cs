@@ -4,7 +4,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 
-public class LessonTemplateViewModel : IMapWith<LessonTemplate>
+public class LessonTemplateViewModel : IMapWith<LessonTemplate>, IMapWith<Lesson>, IMapWith<LessonViewModel>
 {
     public int Id { get; set; }
 
@@ -22,9 +22,19 @@ public class LessonTemplateViewModel : IMapWith<LessonTemplate>
     
     public void Map(Profile profile)
     {
-        profile.CreateMap<Lesson, LessonViewModel>()
+        profile.CreateMap<LessonTemplate, LessonTemplateViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
-                expression.MapFrom(lesson => lesson.LessonId))
+                expression.MapFrom(lesson => lesson.LessonTemplateId))
+            .ReverseMap();
+        
+        profile.CreateMap<LessonTemplate, Lesson>()
+            .ForMember(viewModel => viewModel.LessonId, expression =>
+                expression.MapFrom(lesson => lesson.LessonTemplateId))
+            .ReverseMap();
+        
+        profile.CreateMap<LessonTemplate, LessonViewModel>()
+            .ForMember(viewModel => viewModel.Id, expression =>
+                expression.MapFrom(lesson => lesson.LessonTemplateId))
             .ReverseMap();
     }
 }

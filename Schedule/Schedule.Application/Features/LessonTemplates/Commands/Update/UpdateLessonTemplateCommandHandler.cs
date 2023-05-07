@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Schedule.Application.Features.LessonTemplates.Notifications.CreatedOrUpdated;
+using Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateUpdateLessons;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -45,8 +45,6 @@ public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateL
         
         _context.Set<LessonTemplate>().Update(lessonTemplate);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(
-            new CreatedOrUpdatedLessonTemplateNotification(lessonTemplate.LessonTemplateId),
-            cancellationToken);
+        await _mediator.Publish(new LessonTemplateUpdateNotification(lessonTemplate.LessonTemplateId), cancellationToken);
     }
 }

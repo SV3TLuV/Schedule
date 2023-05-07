@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using MediatR;

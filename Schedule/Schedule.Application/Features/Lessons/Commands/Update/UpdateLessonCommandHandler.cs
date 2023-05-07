@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Schedule.Application.Features.Lessons.Notifications.CreatedOrUpdated;
+using Schedule.Application.Features.Lessons.Notifications.LessonUpdateIsChanged;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -46,6 +46,6 @@ public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCom
         await _context.Set<LessonTeacherClassroom>()
             .AddRangeAsync(lesson.LessonTeacherClassrooms, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new CreatedOrUpdatedLessonNotification(lesson.LessonId), cancellationToken);
+        await _mediator.Publish(new LessonUpdateIsChangedNotification(lesson.LessonId), cancellationToken);
     }
 }

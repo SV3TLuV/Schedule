@@ -3,18 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Lessons.Notifications.CreatedOrUpdated;
+namespace Schedule.Application.Features.Lessons.Notifications.LessonUpdateIsChanged;
 
-public sealed class CreatedOrUpdatedLessonNotificationHandler : INotificationHandler<CreatedOrUpdatedLessonNotification>
+public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHandler<LessonUpdateIsChangedNotification>
 {
     private readonly IScheduleDbContext _context;
 
-    public CreatedOrUpdatedLessonNotificationHandler(IScheduleDbContext context)
+    public LessonUpdateIsChangedNotificationHandler(IScheduleDbContext context)
     {
         _context = context;
     }
     
-    public async Task Handle(CreatedOrUpdatedLessonNotification notification,
+    public async Task Handle(LessonUpdateIsChangedNotification updateIsChangedNotification,
         CancellationToken cancellationToken)
     {
         var lesson = await _context.Set<Lesson>()
@@ -25,7 +25,7 @@ public sealed class CreatedOrUpdatedLessonNotificationHandler : INotificationHan
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
-            .FirstAsync(e => e.LessonId == notification.Id, cancellationToken);
+            .FirstAsync(e => e.LessonId == updateIsChangedNotification.Id, cancellationToken);
         
         var template = await _context.Set<LessonTemplate>()
             .AsNoTrackingWithIdentityResolution()

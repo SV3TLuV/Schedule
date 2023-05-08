@@ -3,7 +3,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 
-public class TeacherClassroomViewModel : IMapWith<LessonTeacherClassroom>, IMapWith<LessonTemplateTeacherClassroom>
+public class TeacherClassroomViewModel : IMapWith<LessonTeacherClassroom> //, IMapWith<LessonTemplateTeacherClassroom>
 {
     public required TeacherViewModel Teacher { get; set; }
     

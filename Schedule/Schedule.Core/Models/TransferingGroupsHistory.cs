@@ -6,7 +6,7 @@ public class TransferingGroupsHistory
 
     public int Year { get; set; }
 
-    public bool IsTransfer { get; set; }
+    public bool IsTransferred { get; set; }
 
     public DateTime TransferDate { get; set; }
 

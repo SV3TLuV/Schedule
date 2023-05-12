@@ -20,4 +20,8 @@
         <PackageReference Include="Quartz" Version="3.6.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\DisciplineTypes\Commands\" />
+    </ItemGroup>
+
 </Project>

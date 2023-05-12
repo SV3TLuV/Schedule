@@ -18,7 +18,7 @@ public class LessonTemplateViewModel : IMapWith<LessonTemplate>, IMapWith<Lesson
 
     public DisciplineViewModel Discipline { get; set; } = null!;
 
-    public ICollection<LessonTemplateTeacherClassroom> TeacherClassrooms { get; set; } = null!;
+    public ICollection<TeacherClassroomViewModel> TeacherClassrooms { get; set; } = null!;
     
     public void Map(Profile profile)
     {

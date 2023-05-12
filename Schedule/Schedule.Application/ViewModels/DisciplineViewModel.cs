@@ -16,7 +16,7 @@ public class DisciplineViewModel : IMapWith<Discipline>
 
     public bool IsDeleted { get; set; }
     
-    public DisciplineTypeViewModel DisciplineType { get; set; } = null!;
+    public DisciplineTypeViewModel Type { get; set; } = null!;
 
     public TermViewModel Term { get; set; } = null!;
 
@@ -27,6 +27,8 @@ public class DisciplineViewModel : IMapWith<Discipline>
         profile.CreateMap<Discipline, DisciplineViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(discipline => discipline.DisciplineId))
+            .ForMember(viewModel => viewModel.Type, expression =>
+                expression.MapFrom(discipline => discipline.DisciplineType))
             .ReverseMap();
     }
 }

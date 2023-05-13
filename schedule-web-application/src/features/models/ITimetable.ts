@@ -5,6 +5,6 @@ import {ILesson} from "./ILesson";
 export interface ITimetable {
     id: number
     date: IDate
-    group: IGroup
+    groups: IGroup[]
     lessons: ILesson[]
 }

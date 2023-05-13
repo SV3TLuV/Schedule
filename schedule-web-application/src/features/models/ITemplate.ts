@@ -8,7 +8,7 @@ export interface ITemplate {
     id: number
     day: IDay
     term: ITerm
-    group: IGroup
+    groups: IGroup[]
     weekType: IWeekType
     lessons: ILesson[]
 }

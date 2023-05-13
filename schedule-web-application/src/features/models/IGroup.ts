@@ -1,12 +1,12 @@
-import {ICourse} from "./ICourse";
 import {ISpeciality} from "./ISpeciality";
+import {ITerm} from "@/features/models/ITerm";
 
 export interface IGroup {
     id: number
     name: string
     number: string
     enrollmentYear: number
-    course: ICourse
+    term: ITerm
     speciality: ISpeciality
     mergedGroups: IGroup[]
     isDeleted: boolean

@@ -1,0 +1,13 @@
+.container {
+    height: calc(100vh - 72px);
+}
+
+.card {
+    width: 160px;
+    height: 160px;
+}
+
+.card .text {
+    font-weight: bolder;
+    margin-top: 5px;
+}

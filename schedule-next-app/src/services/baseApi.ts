@@ -1,5 +1,4 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {HYDRATE} from "next-redux-wrapper";
 
 export enum ApiTags {
     Classroom = 'Classroom',
@@ -21,13 +20,8 @@ export enum ApiTags {
 export const baseApi = createApi({
     reducerPath: 'BaseApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5291/api/',  //'https://localhost:7239/api/',
+        baseUrl: 'https://localhost:7239/api/',
     }),
-    extractRehydrationInfo(action, { reducerPath }) {
-        if (action.type === HYDRATE) {
-            return action.payload[reducerPath]
-        }
-    },
     tagTypes: Object.values(ApiTags),
     refetchOnReconnect: true,
     refetchOnFocus: true,

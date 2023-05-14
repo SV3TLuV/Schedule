@@ -4,10 +4,10 @@ import {LoginPage} from "./pages/LoginPage";
 import {EditorPage} from "./pages/Editor/EditorPage";
 import {ReportsPage} from "./pages/ReportsPage";
 import {AppNav} from "./components/AppNav";
-import {RoutePath} from "./common/enums/RoutePath.";
 import {Provider} from "react-redux";
 import {persistor, store} from "./redux/store";
 import {PersistGate} from "redux-persist/integration/react";
+import {Routes} from "./common/enums/Routes";
 
 export default function App() {
     return (
@@ -31,9 +31,9 @@ const Root = () => {
 export const router = createBrowserRouter(
     createRoutesFromElements([
         <Route path="/" element={<Root/>}>
-            <Route path={RoutePath.EDITOR} element={<EditorPage/>}/>
-            <Route path={RoutePath.REPORTS} element={<ReportsPage/>}/>
-            <Route path={RoutePath.LOGIN} element={<LoginPage/>}/>
+            <Route path={Routes.LOGIN} element={<LoginPage/>}/>
+            <Route path={Routes.REPORTS} element={<ReportsPage/>}/>
+            <Route path={Routes.EDITOR} element={<EditorPage/>}/>
         </Route>
     ])
 )

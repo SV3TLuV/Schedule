@@ -2,13 +2,13 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Routes} from "../../common/enums/Routes.ts";
 
 interface IRouteState {
-    current: Routes | null
+    current: Routes
 }
 
 const routeSlice = createSlice({
     name: 'route',
     initialState: {
-        current: null
+        current: Routes.SCHEDULE
     } as IRouteState,
     reducers: {
         setCurrent: (state, action: PayloadAction<Routes>) => {

@@ -3,11 +3,11 @@ import {Routes} from "../common/enums/Routes.ts";
 import {useNavigate} from "react-router-dom";
 import {setCurrent} from "../redux/slices/routeSlice.tsx";
 
-export const useNavigation = ({route}: {route: Routes}) => {
+export const useNavigation = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const navigateTo = function () {
+    const navigateTo = function (route: Routes) {
         navigate(route)
         dispatch(setCurrent(route))
     }

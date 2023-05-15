@@ -3,7 +3,7 @@ import {persistReducer} from "redux-persist";
 import storage from "redux-persist/es/storage";
 import persistStore from "redux-persist/es/persistStore";
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
-import {baseApi} from "./services/baseApi";
+import {baseApi} from "./apis/baseApi";
 import routeReducer from "./slices/routeSlice.tsx";
 
 const rootReducer = combineReducers({

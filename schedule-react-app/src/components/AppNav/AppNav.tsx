@@ -1,4 +1,4 @@
-import {Button, Container, Nav, Navbar} from "react-bootstrap";
+import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {BiTable} from "react-icons/all";
 import {useNavigation} from "../../hooks/useNavigation.ts";
 import {Routes} from "../../common/enums/Routes.ts";
@@ -6,10 +6,18 @@ import {Routes} from "../../common/enums/Routes.ts";
 export const AppNav = () => {
     const {navigateTo} = useNavigation()
 
-    const navigateToLogin = () => navigateTo(Routes.LOGIN)
-    const navigateToEditor = () => navigateTo(Routes.EDITOR)
-    const navigateToSchedule = () => navigateTo(Routes.SCHEDULE)
-    const navigateToReports = () => navigateTo(Routes.REPORTS)
+    const goToLogin = () => navigateTo(Routes.LOGIN)
+    const goToSchedule = () => navigateTo(Routes.SCHEDULE)
+    const goToReports = () => navigateTo(Routes.REPORTS)
+    const goToPairsEditor = () => navigateTo(Routes.EDITOR_PAIRS)
+    const goToSpecialitiesEditor = () => navigateTo(Routes.EDITOR_SPECIALITIES)
+    const goToDisciplinesEditor = () => navigateTo(Routes.EDITOR_DISCIPLINES)
+    const goToGroupsEditor = () => navigateTo(Routes.EDITOR_GROUPS)
+    const goToTeachersEditor = () => navigateTo(Routes.EDITOR_TEACHERS)
+    const goToClassroomsEditor = () => navigateTo(Routes.EDITOR_CLASSROOMS)
+    const goToTimesEditor = () => navigateTo(Routes.EDITOR_TIMES)
+    const goToClassroomTypesEditor = () => navigateTo(Routes.EDITOR_CLASSROOM_TYPES)
+    const goToTimeTypesEditor = () => navigateTo(Routes.EDITOR_TIME_TYPES)
 
     return (
         <Navbar bg='light' expand='md' className='py-3'>
@@ -28,18 +36,44 @@ export const AppNav = () => {
                 </Navbar.Toggle>
                 <Navbar.Collapse id='navcol-2'>
                     <Nav className='ms-auto'>
-                        <Nav.Link onClick={navigateToSchedule}>
+                        <Nav.Link onClick={goToSchedule}>
                             Расписание
                         </Nav.Link>
-                        <Nav.Link onClick={navigateToEditor}>
-                            Редактор
-                        </Nav.Link>
-                        <Nav.Link onClick={navigateToReports}>
+                        <NavDropdown title='Редактор'>
+                            <NavDropdown.Item onClick={goToPairsEditor}>
+                                Пары
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToSpecialitiesEditor}>
+                                Специальности
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToDisciplinesEditor}>
+                                Дисциплины
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToGroupsEditor}>
+                                Группы
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToTeachersEditor}>
+                                Преподаватели
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToClassroomsEditor}>
+                                Кабинеты
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToTimesEditor}>
+                                Время
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToClassroomTypesEditor}>
+                                Виды кабинетов
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToTimeTypesEditor}>
+                                Виды времени
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                        <Nav.Link onClick={goToReports}>
                             Отчеты
                         </Nav.Link>
                     </Nav>
                     <Button
-                        onClick={navigateToLogin}
+                        onClick={goToLogin}
                         className='ms-md-2'
                         variant='primary'
                         role='button'

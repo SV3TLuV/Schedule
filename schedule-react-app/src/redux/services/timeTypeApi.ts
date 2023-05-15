@@ -13,7 +13,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.TimeType, id} as const)),
-                {type: ApiTags.TimeType, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.TimeType, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getTimeType: builder.query<ITimeType, number>({
@@ -21,7 +21,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.TimeType}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [
+            providesTags: (_, __, id) => [
                 {type: ApiTags.TimeType, id}
             ]
         }),
@@ -35,7 +35,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.TimeType, id},
-                {type: ApiTags.Time, id: "LIST"},
+                {type: ApiTags.Time, id: 'LIST'},
             ]
         }),
         updateTimeType: builder.mutation<number, ITimeType>({
@@ -49,7 +49,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.TimeType, id},
-                {type: ApiTags.Time, id: "LIST"},
+                {type: ApiTags.Time, id: 'LIST'},
             ]
         }),
         deleteTimeType: builder.mutation<number, number>({
@@ -59,7 +59,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.TimeType, id},
-                {type: ApiTags.Time, id: "LIST"},
+                {type: ApiTags.Time, id: 'LIST'},
             ]
         }),
     }),

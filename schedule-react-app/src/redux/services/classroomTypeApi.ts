@@ -14,7 +14,7 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.ClassroomType, id} as const)),
-                {type: ApiTags.ClassroomType, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.ClassroomType, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getClassroomType: builder.query<IClassroomType, number>({
@@ -22,7 +22,7 @@ export const classroomTypeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.ClassroomType}/${id}`,
                 method: HttpMethod.GET
             }),
-            providesTags: (result, error, id) => [{type: ApiTags.ClassroomType, id}]
+            providesTags: (_, __, id) => [{type: ApiTags.ClassroomType, id}]
         }),
         createClassroomType: builder.mutation<number, IClassroomType>({
             query: classroomType => ({
@@ -34,8 +34,8 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.ClassroomType, id},
-                {type: ApiTags.Classroom, id: "LIST"},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Classroom, id: 'LIST'},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateClassroomType: builder.mutation<number, IClassroomType>({
@@ -49,8 +49,8 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.ClassroomType, id},
-                {type: ApiTags.Classroom, id: "LIST"},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Classroom, id: 'LIST'},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         deleteClassroomType: builder.mutation<number, number>({
@@ -60,8 +60,8 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.ClassroomType, id},
-                {type: ApiTags.Classroom, id: "LIST"},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Classroom, id: 'LIST'},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         })
     }),

@@ -1,6 +1,6 @@
-import {ITime} from "@/features/models/ITime";
-import {IDiscipline} from "@/features/models/IDiscipline";
-import {ITeacherClassroom} from "@/features/models/ITeacherClassroom";
+import {ITime} from "./ITime.ts";
+import {IDiscipline} from "./IDiscipline.ts";
+import {ITeacherClassroom} from "./ITeacherClassroom.ts";
 
 export interface ILessonTemplate {
     id: number

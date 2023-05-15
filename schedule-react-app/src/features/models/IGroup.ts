@@ -1,5 +1,5 @@
 import {ISpeciality} from "./ISpeciality";
-import {ITerm} from "@/features/models/ITerm";
+import {ITerm} from "./ITerm";
 
 export interface IGroup {
     id: number

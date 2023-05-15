@@ -8,7 +8,7 @@ import {FaUser} from "react-icons/all";
 export const LoginForm = () => {
     const {control, handleSubmit, formState: { errors }} = useForm<ILoginCommand>({
         resolver: yupResolver(loginFormValidationSchema),
-        mode: "onChange"
+        mode: 'onChange'
     })
 
     const onSubmit: SubmitHandler<ILoginCommand> = async data => {

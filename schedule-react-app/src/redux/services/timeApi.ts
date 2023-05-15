@@ -13,7 +13,7 @@ export const timeApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Time, id} as const)),
-                {type: ApiTags.Time, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Time, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getTime: builder.query<ITime, number>({
@@ -21,7 +21,7 @@ export const timeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Time}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [
+            providesTags: (_, __, id) => [
                 {type: ApiTags.Time, id}
             ]
         }),
@@ -38,7 +38,7 @@ export const timeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Time, id},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateTime: builder.mutation<number, ITime>({
@@ -62,7 +62,7 @@ export const timeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Time, id},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
     })

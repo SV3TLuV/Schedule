@@ -13,7 +13,7 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Speciality, id} as const)),
-                {type: ApiTags.Speciality, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Speciality, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getSpeciality: builder.query<ISpeciality, number>({
@@ -21,7 +21,7 @@ export const specialityApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Speciality}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [
+            providesTags: (_, __, id) => [
                 {type: ApiTags.Speciality, id}
             ]
         }),
@@ -37,8 +37,8 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Speciality, id},
-                {type: ApiTags.Group, id: "LIST"},
-                {type: ApiTags.Discipline, id: "LIST"},
+                {type: ApiTags.Group, id: 'LIST'},
+                {type: ApiTags.Discipline, id: 'LIST'},
             ]
         }),
         updateSpeciality: builder.mutation<number, ISpeciality>({
@@ -55,8 +55,8 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Speciality, id},
-                {type: ApiTags.Group, id: "LIST"},
-                {type: ApiTags.Discipline, id: "LIST"},
+                {type: ApiTags.Group, id: 'LIST'},
+                {type: ApiTags.Discipline, id: 'LIST'},
             ]
         }),
         deleteSpeciality: builder.mutation<number, number>({
@@ -66,8 +66,8 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Speciality, id},
-                {type: ApiTags.Group, id: "LIST"},
-                {type: ApiTags.Discipline, id: "LIST"},
+                {type: ApiTags.Group, id: 'LIST'},
+                {type: ApiTags.Discipline, id: 'LIST'},
             ]
         })
     }),

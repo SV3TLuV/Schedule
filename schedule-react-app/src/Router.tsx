@@ -7,14 +7,13 @@ import {useEffect} from "react";
 import {setCurrent} from "./redux/slices/routeSlice.tsx";
 import {ReportsPage} from "./pages/ReportsPage/ReportsPage.tsx";
 import {PairsEditor} from "./pages/Editors/PairsEditor/PairsEditor.tsx";
-import {TimeTypesEditor} from "./pages/Editors/TimeTypesEditor/TimeTypesEditor.tsx";
-import {ClassroomTypesEditor} from "./pages/Editors/ClassroomTypesEditor/ClassroomTypesEditor.tsx";
-import {TimesEditor} from "./pages/Editors/TimesEditor/TimesEditor.tsx";
-import {ClassroomsEditor} from "./pages/Editors/ClassroomsEditor/ClassroomsEditor.tsx";
-import {TeachersEditor} from "./pages/Editors/TeachersEditor/TeachersEditor.tsx";
-import {GroupsEditor} from "./pages/Editors/GroupsEditor/GroupsEditor.tsx";
-import {DisciplinesEditor} from "./pages/Editors/DisciplinesEditor/DisciplinesEditor.tsx";
-import {SpecialitiesEditor} from "./pages/Editors/SpecialitiesEditor/SpecialitiesEditor.tsx";
+import {ClassroomsEditorPage} from "./pages/Editors/ClassroomsEditor/ClassroomsEditorPage.tsx";
+import {DisciplinesEditorPage} from "./pages/Editors/DisciplinesEditor/DisciplinesEditorPage.tsx";
+import {GroupsEditorPage} from "./pages/Editors/GroupsEditor/GroupsEditorPage.tsx";
+import {SpecialitiesEditorPage} from "./pages/Editors/SpecialitiesEditor/SpecialitiesEditorPage.tsx";
+import {TeachersEditorPage} from "./pages/Editors/TeachersEditor/TeachersEditorPage.tsx";
+import {TimesEditorPage} from "./pages/Editors/TimesEditor/TimesEditorPage.tsx";
+import {TimeTypesEditorPage} from "./pages/Editors/TimeTypesEditor/TimeTypesEditorPage.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.route)
@@ -40,14 +39,13 @@ export const router = createBrowserRouter(
             <Route path={Routes.REPORTS} element={<ReportsPage/>}/>
             <Route path={Routes.SCHEDULE} element={<>Расписание</>}/>
             <Route path={Routes.EDITOR_PAIRS} element={<PairsEditor/>}/>
-            <Route path={Routes.EDITOR_SPECIALITIES} element={<SpecialitiesEditor/>}/>
-            <Route path={Routes.EDITOR_DISCIPLINES} element={<DisciplinesEditor/>}/>
-            <Route path={Routes.EDITOR_GROUPS} element={<GroupsEditor/>}/>
-            <Route path={Routes.EDITOR_TEACHERS} element={<TeachersEditor/>}/>
-            <Route path={Routes.EDITOR_CLASSROOMS} element={<ClassroomsEditor/>}/>
-            <Route path={Routes.EDITOR_TIMES} element={<TimesEditor/>}/>
-            <Route path={Routes.EDITOR_CLASSROOM_TYPES} element={<ClassroomTypesEditor/>}/>
-            <Route path={Routes.EDITOR_TIME_TYPES} element={<TimeTypesEditor/>}/>
+            <Route path={Routes.EDITOR_SPECIALITIES} element={<SpecialitiesEditorPage/>}/>
+            <Route path={Routes.EDITOR_DISCIPLINES} element={<DisciplinesEditorPage/>}/>
+            <Route path={Routes.EDITOR_GROUPS} element={<GroupsEditorPage/>}/>
+            <Route path={Routes.EDITOR_TEACHERS} element={<TeachersEditorPage/>}/>
+            <Route path={Routes.EDITOR_CLASSROOMS} element={<ClassroomsEditorPage/>}/>
+            <Route path={Routes.EDITOR_TIMES} element={<TimesEditorPage/>}/>
+            <Route path={Routes.EDITOR_TIME_TYPES} element={<TimeTypesEditorPage/>}/>
         </Route>
     ])
 )

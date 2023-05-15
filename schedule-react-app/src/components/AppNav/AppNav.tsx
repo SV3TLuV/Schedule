@@ -16,7 +16,6 @@ export const AppNav = () => {
     const goToTeachersEditor = () => navigateTo(Routes.EDITOR_TEACHERS)
     const goToClassroomsEditor = () => navigateTo(Routes.EDITOR_CLASSROOMS)
     const goToTimesEditor = () => navigateTo(Routes.EDITOR_TIMES)
-    const goToClassroomTypesEditor = () => navigateTo(Routes.EDITOR_CLASSROOM_TYPES)
     const goToTimeTypesEditor = () => navigateTo(Routes.EDITOR_TIME_TYPES)
 
     return (
@@ -60,9 +59,6 @@ export const AppNav = () => {
                             </NavDropdown.Item>
                             <NavDropdown.Item onClick={goToTimesEditor}>
                                 Время
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToClassroomTypesEditor}>
-                                Виды кабинетов
                             </NavDropdown.Item>
                             <NavDropdown.Item onClick={goToTimeTypesEditor}>
                                 Виды времени

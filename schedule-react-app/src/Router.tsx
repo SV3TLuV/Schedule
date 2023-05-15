@@ -7,21 +7,17 @@ import {useEffect} from "react";
 import {setCurrent} from "./redux/slices/routeSlice.tsx";
 
 const Root = () => {
-    const {current} = useTypedSelector(state => state.route)
+    const {isNavShowed} = useTypedSelector(state => state.route)
     const dispatch = useAppDispatch()
     const {pathname} = useLocation()
 
     useEffect(() => {
-        dispatch(setCurrent(pathname.substring(1, pathname.length) as Routes))
+        dispatch(setCurrent(pathname as Routes))
     }, [dispatch, pathname])
-
-    const isShowNav = ![
-        Routes.LOGIN
-    ].includes(current)
 
     return (
         <div className='Root'>
-            {isShowNav && <AppNav/>}
+            {isNavShowed && <AppNav/>}
             <Outlet/>
         </div>
     )

@@ -4,16 +4,21 @@ import {ILoginCommand} from "../../features/commands/ILoginCommand.ts";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {loginFormValidationSchema} from "./validation.ts";
 import {FaUser} from "react-icons/all";
+import {useNavigation} from "../../hooks/useNavigation.ts";
+import {Routes} from "../../common/enums/Routes.ts";
 
 export const LoginForm = () => {
     const {control, handleSubmit, formState: { errors }} = useForm<ILoginCommand>({
         resolver: yupResolver(loginFormValidationSchema),
         mode: 'onChange'
     })
+    const {navigateTo} = useNavigation()
 
     const onSubmit: SubmitHandler<ILoginCommand> = async data => {
         console.log(data)
     }
+
+    const navigateToSchedule = () => navigateTo(Routes.SCHEDULE)
 
     return (
         <Container>
@@ -80,11 +85,18 @@ export const LoginForm = () => {
                                     )}
                                 />
                                 <Button
-                                    variant='primary'
-                                    type='submit'
                                     className='d-block w-100 mb-3'
+                                    type='submit'
+                                    variant='primary'
                                 >
                                     Войти
+                                </Button>
+                                <Button
+                                    className='d-block w-100 mb-3'
+                                    variant='outline-primary'
+                                    onClick={navigateToSchedule}
+                                >
+                                    На главную
                                 </Button>
                             </Form>
                         </Card.Body>

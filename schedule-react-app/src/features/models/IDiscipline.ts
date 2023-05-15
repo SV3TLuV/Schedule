@@ -1,6 +1,6 @@
 import {ITerm} from "./ITerm";
 import {ISpeciality} from "./ISpeciality";
-import {IDisciplineType} from "@/features/models/IDisciplineType";
+import {IDisciplineType} from "./IDisciplineType";
 
 export interface IDiscipline {
     id: number

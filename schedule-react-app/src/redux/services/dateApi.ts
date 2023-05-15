@@ -13,7 +13,7 @@ export const dateApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Date, id} as const)),
-                {type: ApiTags.Date, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Date, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getDate: builder.query<IDate, number>({
@@ -21,7 +21,7 @@ export const dateApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Date}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [{type: ApiTags.Date, id}]
+            providesTags: (_, __, id) => [{type: ApiTags.Date, id}]
         }),
         getCurrentDate: builder.query<IDate, void>({
             query: () => ({
@@ -29,7 +29,7 @@ export const dateApi = baseApi.injectEndpoints({
                 method: HttpMethod.GET,
             }),
             providesTags: (result) => [
-                {type: ApiTags.Date, id: "CURRENT"},
+                {type: ApiTags.Date, id: 'CURRENT'},
                 {type: ApiTags.Date, id: result?.id},
             ]
         }),

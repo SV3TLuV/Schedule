@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 });
 
 const persistedReducer = persistReducer({
-    key: "root",
+    key: 'root',
     storage,
     whitelist: [
         'route'

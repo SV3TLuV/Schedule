@@ -13,7 +13,7 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Classroom, id} as const)),
-                {type: ApiTags.Classroom, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Classroom, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getClassroom: builder.query<IClassroom, number>({
@@ -21,7 +21,7 @@ export const classroomApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Classroom}/${id}`,
                 method: HttpMethod.GET
             }),
-            providesTags: (result, error, id) => [{type: ApiTags.Classroom, id}]
+            providesTags: (_, __, id) => [{type: ApiTags.Classroom, id}]
         }),
         createClassroom: builder.mutation<number, IClassroom>({
             query: classroom => ({
@@ -34,7 +34,7 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Classroom, id},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateClassroom: builder.mutation<number, IClassroom>({
@@ -49,7 +49,7 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Classroom, id},
-                {type: ApiTags.Lesson, id: "LIST"},
+                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         deleteClassroom: builder.mutation<number, number>({
@@ -59,7 +59,7 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Classroom, id},
-                {type: ApiTags.Lesson, id: "LIST"}
+                {type: ApiTags.Lesson, id: 'LIST'}
             ]
         })
     })

@@ -1,5 +1,5 @@
-import {ITeacher} from "@/features/models/ITeacher";
-import {IClassroom} from "@/features/models/IClassroom";
+import {IClassroom} from "./IClassroom.ts";
+import {ITeacher} from "./ITeacher.ts";
 
 export interface ITeacherClassroom {
     teacher: ITeacher

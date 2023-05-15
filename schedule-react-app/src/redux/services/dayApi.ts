@@ -13,7 +13,7 @@ export const dayApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Day, id} as const)),
-                {type: ApiTags.Day, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Day, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getDay: builder.query<IDay, number>({
@@ -21,7 +21,7 @@ export const dayApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Day}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [{type: ApiTags.Day, id}]
+            providesTags: (_, __, id) => [{type: ApiTags.Day, id}]
         }),
         getCurrentDay: builder.query<IDay, void>({
             query: () => ({
@@ -29,7 +29,7 @@ export const dayApi = baseApi.injectEndpoints({
                 method: HttpMethod.GET,
             }),
             providesTags: result => [
-                {type: ApiTags.Day, id: "CURRENT"},
+                {type: ApiTags.Day, id: 'CURRENT'},
                 {type: ApiTags.Day, id: result?.id}
             ]
         }),
@@ -44,8 +44,8 @@ export const dayApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Day, id},
-                {type: ApiTags.Date, id: "LIST"},
-                {type: ApiTags.Template, id: "LIST"},
+                {type: ApiTags.Date, id: 'LIST'},
+                {type: ApiTags.Template, id: 'LIST'},
             ]
         })
     }),

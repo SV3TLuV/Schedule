@@ -20,7 +20,7 @@ const Root = () => {
     ].includes(current)
 
     return (
-        <div className="Root">
+        <div className='Root'>
             {isShowNav && <AppNav/>}
             <Outlet/>
         </div>
@@ -29,7 +29,7 @@ const Root = () => {
 
 export const router = createBrowserRouter(
     createRoutesFromElements([
-        <Route path="/" element={<Root/>}>
+        <Route path='/' element={<Root/>}>
             <Route path={Routes.LOGIN} element={<LoginPage></LoginPage>}/>
             <Route path={Routes.REPORTS} element={<>Отчеты</>}/>
             <Route path={Routes.SCHEDULE} element={<>Расписание</>}/>

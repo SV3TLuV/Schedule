@@ -13,7 +13,7 @@ export const timetableApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Timetable, id} as const)),
-                {type: ApiTags.Timetable, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Timetable, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getTimetable: builder.query<ITimetable, number>({
@@ -21,7 +21,7 @@ export const timetableApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Timetable}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [
+            providesTags: (_, __, id) => [
                 {type: ApiTags.Timetable, id}
             ]
         }),
@@ -31,7 +31,7 @@ export const timetableApi = baseApi.injectEndpoints({
                 method: HttpMethod.GET,
             }),
             providesTags: () => [
-                {type: ApiTags.Timetable, id: "CURRENT"}
+                {type: ApiTags.Timetable, id: 'CURRENT'}
             ]
         }),
     }),

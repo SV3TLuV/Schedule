@@ -13,7 +13,7 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Teacher, id} as const)),
-                {type: ApiTags.Teacher, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Teacher, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getTeacher: builder.query<ITeacher, number>({
@@ -21,7 +21,7 @@ export const teacherApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Teacher}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [
+            providesTags: (_, __, id) => [
                 {type: ApiTags.Teacher, id}
             ]
         }),
@@ -40,7 +40,7 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Teacher, id},
-                {type: ApiTags.Lesson, id: "LIST"}
+                {type: ApiTags.Lesson, id: 'LIST'}
             ]
         }),
         updateTeacher: builder.mutation<number, ITeacher>({
@@ -60,7 +60,7 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Teacher, id},
-                {type: ApiTags.Lesson, id: "LIST"}
+                {type: ApiTags.Lesson, id: 'LIST'}
             ]
         }),
         deleteTeacher: builder.mutation<number, number>({
@@ -70,7 +70,7 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Teacher, id},
-                {type: ApiTags.Lesson, id: "LIST"}
+                {type: ApiTags.Lesson, id: 'LIST'}
             ]
         }),
     }),

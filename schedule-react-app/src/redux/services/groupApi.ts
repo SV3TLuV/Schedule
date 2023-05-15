@@ -14,7 +14,7 @@ export const groupApi = baseApi.injectEndpoints({
             }),
             providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Group, id} as const)),
-                {type: ApiTags.Group, id: "LIST", page: result?.pageNumber}
+                {type: ApiTags.Group, id: 'LIST', page: result?.pageNumber}
             ]
         }),
         getGroup: builder.query<IGroup, number>({
@@ -22,7 +22,7 @@ export const groupApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Group}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, error, id) => [{type: ApiTags.Group, id}]
+            providesTags: (_, __, id) => [{type: ApiTags.Group, id}]
         }),
         createGroup: builder.mutation<number, IGroup>({
             query: group => ({
@@ -31,13 +31,13 @@ export const groupApi = baseApi.injectEndpoints({
                 body: {
                     number: group.number,
                     enrollmentYear: group.enrollmentYear,
-                    courseId: group.course.value,
-                    specialityCodeId: group.specialityCode.id
+                    termId: group.term.value,
+                    specialityCodeId: group.speciality.id
                 },
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Group, id},
-                {type: ApiTags.Timetable, id: "LIST"},
+                {type: ApiTags.Timetable, id: 'LIST'},
             ]
         }),
         updateGroup: builder.mutation<number, IGroup>({
@@ -48,13 +48,13 @@ export const groupApi = baseApi.injectEndpoints({
                     id: group.id,
                     number: group.number,
                     enrollmentYear: group.enrollmentYear,
-                    courseId: group.course.value,
-                    specialityCodeId: group.specialityCode.id
+                    termId: group.term.value,
+                    specialityCodeId: group.speciality.id
                 },
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Group, id},
-                {type: ApiTags.Timetable, id: "LIST"},
+                {type: ApiTags.Timetable, id: 'LIST'},
             ]
         }),
         deleteGroup: builder.mutation<number, number>({
@@ -64,7 +64,7 @@ export const groupApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Group, id},
-                {type: ApiTags.Timetable, id: "LIST"},
+                {type: ApiTags.Timetable, id: 'LIST'},
             ]
         })
     }),

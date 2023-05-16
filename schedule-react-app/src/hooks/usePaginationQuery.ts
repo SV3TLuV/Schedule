@@ -1,13 +1,19 @@
 import {useState} from "react";
-import {IPaginatedQueryWithFilter} from "../features/queries/IPaginatedQueryWithFilter";
 import {QueryFilter} from "../common/enums/QueryFilter";
+import {IPaginatedQueryWithFilters} from "../features/queries/IPaginatedQueryWithFilters.ts";
 
-export const usePaginationQuery = (filter = QueryFilter.Available, pageSize = 20, page = 1) => {
-    const [paginationModel, setPaginationModel] = useState({
+export const usePaginationQuery = (
+    filter = QueryFilter.Available,
+    search = '',
+    pageSize = 20,
+    page = 1) => {
+    
+    const [paginationQuery, setPaginationQuery] = useState({
         filter,
         pageSize,
-        page
-    } as IPaginatedQueryWithFilter)
+        page,
+        search
+    } as IPaginatedQueryWithFilters)
 
-    return [paginationModel, setPaginationModel] as const;
+    return [paginationQuery, setPaginationQuery] as const;
 }

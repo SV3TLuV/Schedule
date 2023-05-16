@@ -5,6 +5,8 @@ import {Pagination} from "antd";
 import {Loading} from "../Loading/Loading.tsx";
 import {Button} from "react-bootstrap";
 import {JSXElementConstructor} from "react";
+import {IconButton} from "@mui/material";
+import {AiOutlineDelete, AiOutlineEdit} from "react-icons/all";
 
 export interface IDataGridWithPaginationProps<T> {
     columns: GridColDef[]
@@ -40,17 +42,17 @@ export const DataGridWithPagination = <T extends { id: number }>(
             buttons.push({
                 field: "update-btn",
                 headerName: "Изменить",
-                width: 120,
+                width: 90,
                 renderCell: props => {
                     const handleClick = () => onUpdate(props.row as T)
 
                     return (
-                        <Button
-                            variant='outline-primary'
+                        <IconButton
+                            className='mx-auto text-primary'
                             onClick={handleClick}
                         >
-                            Изменить
-                        </Button>
+                            <AiOutlineEdit/>
+                        </IconButton>
                     )
                 }
             })
@@ -80,17 +82,17 @@ export const DataGridWithPagination = <T extends { id: number }>(
             buttons.push({
                 field: "delete-btn",
                 headerName: "Удалить",
-                width: 120,
+                width: 80,
                 renderCell: props => {
                     const handleClick = () => onDelete(props.row as T)
 
                     return (
-                        <Button
-                            variant='outline-danger'
+                        <IconButton
+                            className='mx-auto text-danger'
                             onClick={handleClick}
                         >
-                            Удалить
-                        </Button>
+                            <AiOutlineDelete/>
+                        </IconButton>
                     )
                 }
             })
@@ -128,7 +130,7 @@ export const DataGridWithPagination = <T extends { id: number }>(
             }}
             slots={{
                 pagination: pagination,
-                toolbar: toolbar
+                toolbar: toolbar,
             }}
             paginationMode='server'
             paginationModel={{

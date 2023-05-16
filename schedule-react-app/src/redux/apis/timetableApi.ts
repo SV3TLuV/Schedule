@@ -2,11 +2,11 @@ import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {ITimetable} from "../../features/models/ITimetable.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 
 export const timetableApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getTimetables: builder.query<IPagedList<ITimetable>, IPaginatedQueryWithFilter | void>({
+        getTimetables: builder.query<IPagedList<ITimetable>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Timetable}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

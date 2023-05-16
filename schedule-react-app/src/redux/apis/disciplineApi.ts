@@ -1,12 +1,12 @@
 import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 import {IDiscipline} from "../../features/models/IDiscipline.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 
 export const disciplineApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getDisciplines: builder.query<IPagedList<IDiscipline>, IPaginatedQueryWithFilter | void>({
+        getDisciplines: builder.query<IPagedList<IDiscipline>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Discipline}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

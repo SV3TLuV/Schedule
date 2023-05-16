@@ -1,5 +1,5 @@
-import {LoginForm} from "../../components/LoginForm/LoginForm.tsx";
 import {Container} from "react-bootstrap";
+import {LoginForm} from "../../components/Forms/LoginForm/LoginForm.tsx";
 
 export const LoginPage = () => {
     return (

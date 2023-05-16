@@ -2,12 +2,12 @@ import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IGroup} from "../../features/models/IGroup.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 
 
 export const groupApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getGroups: builder.query<IPagedList<IGroup>, IPaginatedQueryWithFilter | void>({
+        getGroups: builder.query<IPagedList<IGroup>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Group}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

@@ -2,11 +2,11 @@ import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IWeekType} from "../../features/models/IWeekType.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 
 export const weekTypeApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getWeekTypes: builder.query<IPagedList<IWeekType>, IPaginatedQueryWithFilter | void>({
+        getWeekTypes: builder.query<IPagedList<IWeekType>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.WeekType}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

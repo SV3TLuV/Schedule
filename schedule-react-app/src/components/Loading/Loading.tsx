@@ -1,15 +1,11 @@
-import {useTypedSelector} from "../../hooks/redux.ts";
-import {Container, Spinner} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
 
 export const Loading = () => {
-    const {isNavShowed} = useTypedSelector(state => state.route)
-
     return (
-        <Container
-            className='d-flex justify-content-center align-items-center'
-            style={isNavShowed ? {height: 'calc(100vh - 72px)'} : { height: '100vh' }}
-        >
-            <Spinner animation='border' role='status' className='mr-2'/>
-        </Container>
+        <Spinner
+            className='d-flex align-items-center justify-content-center position-fixed top-50 start-50'
+            animation='border'
+            role='status'
+        />
     )
 }

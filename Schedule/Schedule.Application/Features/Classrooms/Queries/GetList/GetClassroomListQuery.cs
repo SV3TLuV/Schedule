@@ -9,4 +9,5 @@ namespace Schedule.Application.Features.Classrooms.Queries.GetList;
 public sealed record GetClassroomListQuery : PaginatedQuery, IRequest<PagedList<ClassroomViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
+    public string? Search { get; set; }
 }

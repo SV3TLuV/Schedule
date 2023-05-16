@@ -1,12 +1,12 @@
 import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {ITeacher} from "../../features/models/ITeacher.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 
 export const teacherApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getTeachers: builder.query<IPagedList<ITeacher>, IPaginatedQueryWithFilter | void>({
+        getTeachers: builder.query<IPagedList<ITeacher>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Teacher}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

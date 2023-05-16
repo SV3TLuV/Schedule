@@ -1,12 +1,12 @@
 import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IDay} from "../../features/models/IDay.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 
 export const dayApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getDays: builder.query<IPagedList<IDay>, IPaginatedQueryWithFilter | void>({
+        getDays: builder.query<IPagedList<IDay>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Day}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

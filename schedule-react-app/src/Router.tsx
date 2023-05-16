@@ -6,14 +6,14 @@ import {useAppDispatch, useTypedSelector} from "./hooks/redux.ts";
 import {useEffect} from "react";
 import {setCurrent} from "./redux/slices/routeSlice.tsx";
 import {ReportsPage} from "./pages/ReportsPage/ReportsPage.tsx";
-import {PairsEditor} from "./pages/Editors/PairsEditor/PairsEditor.tsx";
-import {ClassroomsEditorPage} from "./pages/Editors/ClassroomsEditor/ClassroomsEditorPage.tsx";
-import {DisciplinesEditorPage} from "./pages/Editors/DisciplinesEditor/DisciplinesEditorPage.tsx";
-import {GroupsEditorPage} from "./pages/Editors/GroupsEditor/GroupsEditorPage.tsx";
-import {SpecialitiesEditorPage} from "./pages/Editors/SpecialitiesEditor/SpecialitiesEditorPage.tsx";
-import {TeachersEditorPage} from "./pages/Editors/TeachersEditor/TeachersEditorPage.tsx";
-import {TimesEditorPage} from "./pages/Editors/TimesEditor/TimesEditorPage.tsx";
-import {TimeTypesEditorPage} from "./pages/Editors/TimeTypesEditor/TimeTypesEditorPage.tsx";
+import {ClassroomsEditorPage} from "./pages/Editors/ClassroomsEditorPage/ClassroomsEditorPage.tsx";
+import {DisciplinesEditorPage} from "./pages/Editors/DisciplinesEditorPage/DisciplinesEditorPage.tsx";
+import {GroupsEditorPage} from "./pages/Editors/GroupsEditorPage/GroupsEditorPage.tsx";
+import {SpecialitiesEditorPage} from "./pages/Editors/SpecialitiesEditorPage/SpecialitiesEditorPage.tsx";
+import {TeachersEditorPage} from "./pages/Editors/TeachersEditorPage/TeachersEditorPage.tsx";
+import {TimesEditorPage} from "./pages/Editors/TimesEditorPage/TimesEditorPage.tsx";
+import {TimeTypesEditorPage} from "./pages/Editors/TimeTypesEditorPage/TimeTypesEditorPage.tsx";
+import {PairsEditor} from "./components/Editors/PairsEditor/PairsEditor.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.route)

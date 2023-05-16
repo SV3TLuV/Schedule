@@ -2,11 +2,11 @@ import {ApiTags, baseApi, buildUrlArguments} from "./baseApi.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {ISpeciality} from "../../features/models/ISpeciality.ts";
-import {IPaginatedQueryWithFilter} from "../../features/queries/IPaginatedQueryWithFilter.ts";
+import {IPaginatedQueryWithFilters} from "../../features/queries/IPaginatedQueryWithFilters.ts";
 
 export const specialityApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getSpecialities: builder.query<IPagedList<ISpeciality>, IPaginatedQueryWithFilter | void>({
+        getSpecialities: builder.query<IPagedList<ISpeciality>, IPaginatedQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Speciality}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

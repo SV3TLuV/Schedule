@@ -25,6 +25,7 @@ applicationBuilder.Host
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
     });
+
 var app = applicationBuilder.Build();
 ConfigureApp(app);
 app.Run();

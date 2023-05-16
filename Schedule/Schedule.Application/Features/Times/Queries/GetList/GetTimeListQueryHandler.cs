@@ -26,8 +26,6 @@ public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, 
             .Include(e => e.Type)
             .OrderBy(e => e.TypeId)
             .ThenBy(e => e.LessonNumber)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -37,7 +35,18 @@ public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, 
             _ => query
         };
 
-        var times = await query.ToListAsync(cancellationToken);
+        if (request.Search is not null)
+        {
+            query = query.Where(e => 
+                e.Start.ToString().StartsWith(request.Search) ||
+                e.End.ToString().StartsWith(request.Search) ||
+                e.Type.Name.StartsWith(request.Search));
+        }
+        
+        var times = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<TimeViewModel[]>(times);
         var totalCount = await _context.Set<Time>().CountAsync(cancellationToken);
 

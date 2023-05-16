@@ -29,8 +29,6 @@ public sealed class GetDisciplineListQueryHandler
             .ThenInclude(e => e.Course)
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -39,8 +37,18 @@ public sealed class GetDisciplineListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
+        
+        if (request.Search is not null)
+        {
+            query = query.Where(e => 
+                e.Name.StartsWith(request.Search) ||
+                e.Code.StartsWith(request.Search));
+        }
 
-        var disciplines = await query.ToListAsync(cancellationToken);
+        var disciplines = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<DisciplineViewModel[]>(disciplines);
         var totalCount = await _context.Set<Discipline>().CountAsync(cancellationToken);
 

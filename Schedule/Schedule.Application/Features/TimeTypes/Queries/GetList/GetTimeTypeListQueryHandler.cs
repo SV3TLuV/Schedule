@@ -25,8 +25,6 @@ public sealed class GetTimeTypeListQueryHandler
     {
         var query = _context.Set<TimeType>()
             .OrderBy(e => e.TimeTypeId)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -35,8 +33,16 @@ public sealed class GetTimeTypeListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
+        
+        if (request.Search is not null)
+        {
+            query = query.Where(e => e.Name.StartsWith(request.Search));
+        }
 
-        var timeTypes = await query.ToArrayAsync(cancellationToken);
+        var timeTypes = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToArrayAsync(cancellationToken);
         var viewModels = _mapper.Map<TimeTypeViewModel[]>(timeTypes);
         var totalCount = await _context.Set<TimeType>().CountAsync(cancellationToken);
 

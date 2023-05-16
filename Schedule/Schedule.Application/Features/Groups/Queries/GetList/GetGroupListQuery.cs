@@ -9,4 +9,5 @@ namespace Schedule.Application.Features.Groups.Queries.GetList;
 public sealed record GetGroupListQuery : PaginatedQuery, IRequest<PagedList<GroupViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
+    public string? Search { get; set; }
 }

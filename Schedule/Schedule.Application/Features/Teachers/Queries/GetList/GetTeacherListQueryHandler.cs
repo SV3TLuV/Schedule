@@ -29,8 +29,6 @@ public sealed class GetTeacherListQueryHandler
             .ThenInclude(e => e.Group)
             .Include(e => e.TeacherDisciplines)
             .ThenInclude(e => e.Discipline)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -39,8 +37,20 @@ public sealed class GetTeacherListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
+        
+        if (request.Search is not null)
+        {
+            query = query.Where(e =>
+                e.Name.StartsWith(request.Search) ||
+                e.Surname.StartsWith(request.Search) ||
+                e.MiddleName.StartsWith(request.Search) ||
+                e.Email.StartsWith(request.Search));
+        }
 
-        var teachers = await query.ToListAsync(cancellationToken);
+        var teachers = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<TeacherViewModel[]>(teachers);
         var totalCount = await _context.Set<Teacher>().CountAsync(cancellationToken);
 

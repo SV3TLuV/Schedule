@@ -27,8 +27,6 @@ public sealed class GetSpecialityListQueryHandler
             .Include(e => e.Disciplines)
             .Include(e => e.Disciplines)
             .OrderBy(e => e.SpecialityId)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -37,8 +35,18 @@ public sealed class GetSpecialityListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
+        
+        if (request.Search is not null)
+        {
+            query = query.Where(e =>
+                e.Name.StartsWith(request.Search) ||
+                e.Code.StartsWith(request.Search));
+        }
 
-        var specialities = await query.ToListAsync(cancellationToken);
+        var specialities = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<SpecialityViewModel[]>(specialities);
         var totalCount = await _context.Set<Speciality>().CountAsync(cancellationToken);
 

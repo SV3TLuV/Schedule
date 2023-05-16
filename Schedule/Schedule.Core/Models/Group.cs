@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Core.Models;
 
-public class Group
+public partial class Group
 {
     public int GroupId { get; set; }
 
@@ -33,4 +33,9 @@ public class Group
 
     public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = 
         new List<TeacherGroup>();
+}
+
+public partial class Group
+{
+    public string Name => $"{Speciality.Name}-{Number}";
 }

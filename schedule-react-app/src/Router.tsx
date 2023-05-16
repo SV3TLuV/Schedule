@@ -37,7 +37,8 @@ export const router = createBrowserRouter(
         <Route path='/' element={<Root/>}>
             <Route path={Routes.LOGIN} element={<LoginPage/>}/>
             <Route path={Routes.REPORTS} element={<ReportsPage/>}/>
-            <Route path={Routes.SCHEDULE} element={<>Расписание</>}/>
+            <Route path={Routes.SCHEDULE_SEARCH} element={<>Расписание поиск</>}/>
+            <Route path={Routes.SCHEDULE_TABLE} element={<>Расписание таблица</>}/>
             <Route path={Routes.EDITOR_PAIRS} element={<PairsEditor/>}/>
             <Route path={Routes.EDITOR_SPECIALITIES} element={<SpecialitiesEditorPage/>}/>
             <Route path={Routes.EDITOR_DISCIPLINES} element={<DisciplinesEditorPage/>}/>

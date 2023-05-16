@@ -18,7 +18,7 @@ export const LoginForm = () => {
         console.log(data)
     }
 
-    const navigateToSchedule = () => navigateTo(Routes.SCHEDULE)
+    const navigateToSchedule = () => navigateTo(Routes.SCHEDULE_SEARCH)
 
     return (
         <Container>

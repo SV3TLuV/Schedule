@@ -1,7 +1,8 @@
 ﻿export enum Routes {
     LOGIN = '/login',
     REPORTS = '/reports',
-    SCHEDULE = '/schedule',
+    SCHEDULE_SEARCH = '/schedule/search',
+    SCHEDULE_TABLE = '/schedule/table',
     EDITOR_PAIRS = '/editor/pairs',
     EDITOR_SPECIALITIES = '/editor/specialities',
     EDITOR_DISCIPLINES = '/editor/disciplines',

@@ -7,7 +7,8 @@ export const AppNav = () => {
     const {navigateTo} = useNavigation()
 
     const goToLogin = () => navigateTo(Routes.LOGIN)
-    const goToSchedule = () => navigateTo(Routes.SCHEDULE)
+    const goToScheduleSearch = () => navigateTo(Routes.SCHEDULE_SEARCH)
+    const goToScheduleTable = () => navigateTo(Routes.SCHEDULE_TABLE)
     const goToReports = () => navigateTo(Routes.REPORTS)
     const goToPairsEditor = () => navigateTo(Routes.EDITOR_PAIRS)
     const goToSpecialitiesEditor = () => navigateTo(Routes.EDITOR_SPECIALITIES)
@@ -35,9 +36,14 @@ export const AppNav = () => {
                 </Navbar.Toggle>
                 <Navbar.Collapse id='navcol-2'>
                     <Nav className='ms-auto'>
-                        <Nav.Link onClick={goToSchedule}>
-                            Расписание
-                        </Nav.Link>
+                        <NavDropdown title='Расписание'>
+                            <NavDropdown.Item onClick={goToScheduleSearch}>
+                                Поиск
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={goToScheduleTable}>
+                                Таблица
+                            </NavDropdown.Item>
+                        </NavDropdown>
                         <NavDropdown title='Редактор'>
                             <NavDropdown.Item onClick={goToPairsEditor}>
                                 Пары

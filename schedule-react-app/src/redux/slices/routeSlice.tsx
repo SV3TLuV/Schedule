@@ -7,20 +7,21 @@ interface IRouteState {
 }
 
 const routesWithoutNav: Routes[] = [
-    Routes.LOGIN
+    Routes.LOGIN,
+    Routes.SCHEDULE_TABLE
 ]
 
 const routeSlice = createSlice({
     name: 'route',
     initialState: {
-        current: Routes.SCHEDULE,
+        current: Routes.SCHEDULE_SEARCH,
         isNavShowed: true
     } as IRouteState,
     reducers: {
         setCurrent: (state, action: PayloadAction<Routes>) => {
             state.current = action.payload
-            state.isNavShowed = routesWithoutNav.some(route =>
-                !action.payload.includes(route))
+            state.isNavShowed = !routesWithoutNav.some(route =>
+                action.payload.includes(route))
         }
     }
 })

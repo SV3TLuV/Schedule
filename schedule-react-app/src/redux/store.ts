@@ -14,9 +14,7 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer({
     key: 'root',
     storage,
-    whitelist: [
-        'route'
-    ],
+    whitelist: [],
 }, rootReducer);
 
 export const setupStore = () => {

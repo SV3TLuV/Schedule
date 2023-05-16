@@ -9,4 +9,5 @@ namespace Schedule.Application.Features.Teachers.Queries.GetList;
 public sealed record GetTeacherListQuery : PaginatedQuery, IRequest<PagedList<TeacherViewModel>>
 {
     public required QueryFilter Filter { get; set; } = QueryFilter.Available;
+    public string? Search { get; set; }
 }

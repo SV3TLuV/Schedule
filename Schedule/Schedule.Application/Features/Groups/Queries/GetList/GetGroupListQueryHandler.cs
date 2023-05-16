@@ -34,8 +34,6 @@ public sealed class GetGroupListQueryHandler
             .ThenInclude(e => e.Course)
             .OrderBy(e => e.Term.CourseId)
             .ThenBy(e => e.Speciality.Code)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -45,7 +43,17 @@ public sealed class GetGroupListQueryHandler
             _ => query
         };
 
-        var groups = await query.ToListAsync(cancellationToken);
+        if (request.Search is not null)
+        {
+            query = query.Where(e => 
+                e.Name.StartsWith(request.Search) ||
+                e.Speciality.Code.StartsWith(request.Search));
+        }
+        
+        var groups = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<GroupViewModel[]>(groups);
         var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
 

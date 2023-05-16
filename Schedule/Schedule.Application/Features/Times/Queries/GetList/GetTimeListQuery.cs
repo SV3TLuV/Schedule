@@ -9,4 +9,5 @@ namespace Schedule.Application.Features.Times.Queries.GetList;
 public sealed record GetTimeListQuery : PaginatedQuery, IRequest<PagedList<TimeViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
+    public string? Search { get; set; }
 }

@@ -24,8 +24,6 @@ public sealed class GetClassroomTypeListQueryHandler
         CancellationToken cancellationToken)
     {
         var query = _context.Set<ClassroomType>()
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -35,7 +33,15 @@ public sealed class GetClassroomTypeListQueryHandler
             _ => query
         };
         
-        var classroomTypes = await query.ToListAsync(cancellationToken);
+        if (request.Search is not null)
+        {
+            query = query.Where(e => e.Name.StartsWith(request.Search));
+        }
+        
+        var classroomTypes = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<ClassroomTypeViewModel[]>(classroomTypes);
         var totalCount = await _context.Set<ClassroomType>().CountAsync(cancellationToken);
 

@@ -9,4 +9,5 @@ namespace Schedule.Application.Features.Specialities.Queries.GetList;
 public sealed record GetSpecialityListQuery : PaginatedQuery, IRequest<PagedList<SpecialityViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
+    public string? Search { get; set; }
 }

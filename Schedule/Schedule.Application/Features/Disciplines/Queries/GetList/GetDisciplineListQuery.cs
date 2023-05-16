@@ -9,4 +9,5 @@ namespace Schedule.Application.Features.Disciplines.Queries.GetList;
 public sealed record GetDisciplineListQuery : PaginatedQuery, IRequest<PagedList<DisciplineViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
+    public string? Search { get; set; }
 }

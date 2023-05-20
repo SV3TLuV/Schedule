@@ -3,7 +3,7 @@ import {useCreateClassroomMutation} from "../../../../../store/apis/classroomApi
 import {IClassroom} from "../../../../../features/models/IClassroom.ts";
 import {IDialog} from "../../../../../features/models/IDialog.ts";
 
-const empty: IClassroom = {
+export const emptyClassroom: IClassroom = {
     id: 0,
     cabinet: '',
     types: [],
@@ -18,7 +18,7 @@ export const CreateClassroomDialog = ({ open, close }: IDialog) => {
     return (
         <ClassroomForm
             title='Добавление кабинета'
-            classroom={empty}
+            classroom={emptyClassroom}
             show={open}
             onClose={close}
             onSave={handleSave}

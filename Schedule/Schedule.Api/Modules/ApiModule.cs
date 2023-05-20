@@ -26,7 +26,7 @@ public sealed class ApiModule : Module
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-                options.UseSqlServer("Name=ScheduleWin"))
+                options.UseSqlServer("Name=Schedule"))
             .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
             {
                 policy

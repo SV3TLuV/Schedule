@@ -1,23 +1,22 @@
 import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {BiTable} from "react-icons/all";
 import {useNavigation} from "../../hooks/useNavigation.ts";
-import {Routes} from "../../common/enums/Routes.ts";
 
 export const AppNav = () => {
     const {navigateTo} = useNavigation()
 
-    const goToLogin = () => navigateTo(Routes.LOGIN)
-    const goToScheduleSearch = () => navigateTo(Routes.SCHEDULE_SEARCH)
-    const goToScheduleTable = () => navigateTo(Routes.SCHEDULE_TABLE)
-    const goToReports = () => navigateTo(Routes.REPORTS)
-    const goToPairsEditor = () => navigateTo(Routes.EDITOR_PAIRS)
-    const goToSpecialitiesEditor = () => navigateTo(Routes.EDITOR_SPECIALITIES)
-    const goToDisciplinesEditor = () => navigateTo(Routes.EDITOR_DISCIPLINES)
-    const goToGroupsEditor = () => navigateTo(Routes.EDITOR_GROUPS)
-    const goToTeachersEditor = () => navigateTo(Routes.EDITOR_TEACHERS)
-    const goToClassroomsEditor = () => navigateTo(Routes.EDITOR_CLASSROOMS)
-    const goToTimesEditor = () => navigateTo(Routes.EDITOR_TIMES)
-    const goToTimeTypesEditor = () => navigateTo(Routes.EDITOR_TIME_TYPES)
+    const goToLogin = () => navigateTo('/login')
+    const goToScheduleSearch = () => navigateTo('/schedule/search')
+    const goToScheduleTable = () => navigateTo('/schedule/table')
+    const goToReports = () => navigateTo('/reports')
+    const goToPairsEditor = () => navigateTo('/editor/pairs')
+    const goToSpecialitiesEditor = () => navigateTo('/editor/specialities')
+    const goToDisciplinesEditor = () => navigateTo('/editor/disciplines')
+    const goToGroupsEditor = () => navigateTo('/editor/groups')
+    const goToTeachersEditor = () => navigateTo('/editor/teachers')
+    const goToClassroomsEditor = () => navigateTo('/editor/classrooms')
+    const goToTimesEditor = () => navigateTo('/editor/times')
+    const goToTimeTypesEditor = () => navigateTo('/editor/time-types')
 
     return (
         <Navbar bg='light' expand='md' className='py-3'>

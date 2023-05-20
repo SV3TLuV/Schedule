@@ -12,10 +12,6 @@ import {useState} from "react";
 export const ClassroomEditor = (
     {
         data,
-        onCreate,
-        onUpdate,
-        onDelete,
-        onRestore,
         paginationQuery,
         setPaginationQuery,
     }: IEditor<IClassroom>) => {
@@ -23,8 +19,10 @@ export const ClassroomEditor = (
     const createDialog = useDialog()
     const updateDialog = useDialog()
 
-    const handleCreate = (classroom: IClassroom) => setSelected(classroom)
-    const handleUpdate = (classroom: IClassroom) => setSelected(classroom)
+    const onCreate = () => console.log('')
+    const onUpdate = () => console.log('')
+    const onDelete = () => console.log('')
+    const onRestore = () => console.log('')
 
     const toolbar = <EditorToolbar
         paginationQuery={paginationQuery}

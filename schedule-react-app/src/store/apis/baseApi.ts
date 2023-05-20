@@ -6,6 +6,7 @@ export enum ApiTags {
     Date = 'Date',
     Day = 'Day',
     Discipline = 'Discipline',
+    DisciplineType = 'DisciplineType',
     Group = 'Group',
     Lesson = 'Lesson',
     Speciality = 'Speciality',
@@ -14,6 +15,7 @@ export enum ApiTags {
     Time = 'Time',
     Timetable = 'Timetable',
     TimeType = 'TimeType',
+    Term = 'Term',
     WeekType = 'WeekType',
 }
 

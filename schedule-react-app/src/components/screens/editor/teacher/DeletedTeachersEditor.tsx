@@ -2,28 +2,32 @@ import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
 import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
-import {useGetTeachersQuery} from "../../../../store/apis/teacherApi.ts";
+import {useGetTeachersQuery, useRestoreTeacherMutation} from "../../../../store/apis/teacherApi.ts";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
+import {ITeacher} from "../../../../features/models/ITeacher.ts";
 
 export const DeletedTeachersEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Deleted)
     const {data} = useGetTeachersQuery(paginationQuery)
+    const [restore] = useRestoreTeacherMutation()
 
-    const toolbar = <EditorToolbar
-        paginationQuery={paginationQuery}
-        setPaginationQuery={setPaginationQuery}
-    />
+    const handleRestore = (teacher: ITeacher) => restore(teacher.id)
 
     return (
         <Container style={{height: 'calc(100vh - 114px)', padding: 0}}>
             <DataGridWithPagination
                 columns={columns}
                 list={data}
-                toolbar={() => toolbar}
+                toolbar={() => (
+                    <EditorToolbar
+                        paginationQuery={paginationQuery}
+                        setPaginationQuery={setPaginationQuery}
+                    />
+                )}
                 paginationModel={paginationQuery}
                 onPaginationModelChange={setPaginationQuery}
-                onRestore={() => console.log('a')}
+                onRestore={handleRestore}
             />
         </Container>
     )

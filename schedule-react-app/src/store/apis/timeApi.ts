@@ -42,6 +42,19 @@ export const timeApi = baseApi.injectEndpoints({
                 {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
+        restoreTime: builder.mutation<void, number>({
+            query: id => ({
+                url: `${ApiTags.Time}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: () => [
+                {type: ApiTags.Time},
+                {type: ApiTags.Lesson, id: 'LIST'},
+            ]
+        }),
         updateTime: builder.mutation<number, ITime>({
             query: time => ({
                 url: ApiTags.Time,
@@ -75,6 +88,7 @@ export const {
     useGetTimeQuery,
     useLazyGetTimeQuery,
     useCreateTimeMutation,
+    useRestoreTimeMutation,
     useUpdateTimeMutation,
     useDeleteTimeMutation,
 } = timeApi

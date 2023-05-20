@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Classrooms.Commands.Create;
 using Schedule.Application.Features.Classrooms.Commands.Delete;
+using Schedule.Application.Features.Classrooms.Commands.Restore;
 using Schedule.Application.Features.Classrooms.Commands.Update;
 using Schedule.Application.Features.Classrooms.Queries.Get;
 using Schedule.Application.Features.Classrooms.Queries.GetList;
@@ -30,6 +31,14 @@ public class ClassroomController : BaseController
     {
         var id = await Mediator.Send(command);
         return Created(string.Empty, id);
+    }
+    
+    [HttpPost]
+    [Route("Restore", Name = "RestoreClassroom")]
+    public async Task<IActionResult> Post([FromBody] RestoreClassroomCommand typeCommand)
+    {
+        await Mediator.Send(typeCommand);
+        return NoContent();
     }
 
     [HttpPut]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Times.Commands.Create;
 using Schedule.Application.Features.Times.Commands.Delete;
+using Schedule.Application.Features.Times.Commands.Restore;
 using Schedule.Application.Features.Times.Commands.Update;
 using Schedule.Application.Features.Times.Queries.Get;
 using Schedule.Application.Features.Times.Queries.GetList;
@@ -32,6 +33,14 @@ public class TimeController : BaseController
         return Created(string.Empty, id);
     }
 
+    [HttpPost]
+    [Route("Restore", Name = "RestoreTime")]
+    public async Task<IActionResult> Post([FromBody] RestoreTimeCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
+    
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateTimeCommand command)
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Groups.Commands.Create;
 using Schedule.Application.Features.Groups.Commands.Delete;
+using Schedule.Application.Features.Groups.Commands.Restore;
 using Schedule.Application.Features.Groups.Commands.Update;
 using Schedule.Application.Features.Groups.Queries.Get;
 using Schedule.Application.Features.Groups.Queries.GetList;
@@ -30,6 +31,14 @@ public class GroupController : BaseController
     {
         var id = await Mediator.Send(command);
         return Created(new Uri($"{Request.Path}/{id}", UriKind.Relative), id);
+    }
+
+    [HttpPost]
+    [Route("Restore", Name = "RestoreGroup")]
+    public async Task<IActionResult> Post([FromBody] RestoreGroupCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
     }
 
     [HttpPut]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Disciplines.Commands.Create;
 using Schedule.Application.Features.Disciplines.Commands.Delete;
+using Schedule.Application.Features.Disciplines.Commands.Restore;
 using Schedule.Application.Features.Disciplines.Commands.Update;
 using Schedule.Application.Features.Disciplines.Queries.Get;
 using Schedule.Application.Features.Disciplines.Queries.GetList;
@@ -32,6 +33,14 @@ public class DisciplineController : BaseController
         return Created(string.Empty, id);
     }
 
+    [HttpPost]
+    [Route("Restore", Name = "RestoreDiscipline")]
+    public async Task<IActionResult> Post([FromBody] RestoreDisciplineCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
+    
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateDisciplineCommand command)
     {

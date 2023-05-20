@@ -40,6 +40,19 @@ export const groupApi = baseApi.injectEndpoints({
                 {type: ApiTags.Timetable, id: 'LIST'},
             ]
         }),
+        restoreGroup: builder.mutation<void, number>({
+            query: id => ({
+                url: `${ApiTags.Group}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: () => [
+                {type: ApiTags.Group},
+                {type: ApiTags.Timetable, id: 'LIST'},
+            ]
+        }),
         updateGroup: builder.mutation<number, IGroup>({
             query: group => ({
                 url: ApiTags.Group,
@@ -76,6 +89,7 @@ export const {
     useGetGroupQuery,
     useLazyGetGroupQuery,
     useCreateGroupMutation,
+    useRestoreGroupMutation,
     useUpdateGroupMutation,
     useDeleteGroupMutation
 } = groupApi

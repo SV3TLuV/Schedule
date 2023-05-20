@@ -71,7 +71,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                         control={control}
                         name='types'
                         render={({field}) => (
-                            <Form.Group className='m-3' >
+                            <Form.Group>
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}

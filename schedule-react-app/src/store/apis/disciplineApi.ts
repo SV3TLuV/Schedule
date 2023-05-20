@@ -44,6 +44,19 @@ export const disciplineApi = baseApi.injectEndpoints({
                 { type: ApiTags.Lesson, id: 'LIST' }
             ],
         }),
+        restoreDiscipline: builder.mutation<void, number>({
+            query: id => ({
+                url: `${ApiTags.Discipline}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: () => [
+                {type: ApiTags.Discipline},
+                {type: ApiTags.Lesson, id: 'LIST'},
+            ]
+        }),
         updateDiscipline: builder.mutation<number, IDiscipline>({
             query: discipline => ({
                 url: ApiTags.Discipline,
@@ -82,6 +95,7 @@ export const {
     useGetDisciplineQuery,
     useLazyGetDisciplineQuery,
     useCreateDisciplineMutation,
+    useRestoreDisciplineMutation,
     useUpdateDisciplineMutation,
     useDeleteDisciplineMutation,
 } = disciplineApi

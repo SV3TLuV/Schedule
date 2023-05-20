@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Specialities.Commands.Create;
 using Schedule.Application.Features.Specialities.Commands.Delete;
+using Schedule.Application.Features.Specialities.Commands.Restore;
 using Schedule.Application.Features.Specialities.Commands.Update;
 using Schedule.Application.Features.Specialities.Queries.Get;
 using Schedule.Application.Features.Specialities.Queries.GetList;
@@ -32,6 +33,14 @@ public class SpecialityController : BaseController
         return Created(string.Empty, id);
     }
 
+    [HttpPost]
+    [Route("Restore", Name = "RestoreSpeciality")]
+    public async Task<IActionResult> Post([FromBody] RestoreSpecialityCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
+    
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateSpecialityCommand command)
     {

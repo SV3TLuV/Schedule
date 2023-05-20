@@ -44,6 +44,19 @@ export const teacherApi = baseApi.injectEndpoints({
                 {type: ApiTags.Lesson, id: 'LIST'}
             ]
         }),
+        restoreTeacher: builder.mutation<void, number>({
+            query: id => ({
+                url: `${ApiTags.Teacher}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: () => [
+                {type: ApiTags.Teacher},
+                {type: ApiTags.Lesson, id: 'LIST'},
+            ]
+        }),
         updateTeacher: builder.mutation<number, ITeacher>({
             query: teacher => ({
                 url: ApiTags.Teacher,
@@ -83,6 +96,7 @@ export const  {
     useGetTeacherQuery,
     useLazyGetTeacherQuery,
     useCreateTeacherMutation,
+    useRestoreTeacherMutation,
     useUpdateTeacherMutation,
     useDeleteTeacherMutation,
 } = teacherApi

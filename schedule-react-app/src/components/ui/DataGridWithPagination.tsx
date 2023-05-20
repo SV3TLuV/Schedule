@@ -3,7 +3,7 @@ import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IPaginationQuery} from "../../features/queries/IPaginationQuery.ts";
 import {Pagination} from "antd";
 import {Button} from "react-bootstrap";
-import {JSXElementConstructor, memo, useMemo} from "react";
+import {JSXElementConstructor, useMemo} from "react";
 import {IconButton} from "@mui/material";
 import {AiOutlineDelete, AiOutlineEdit} from "react-icons/all";
 import {Loading} from "./Loading.tsx";
@@ -19,7 +19,7 @@ export interface IDataGridWithPagination<T> {
     onRestore?: (item: T) => void
 }
 
-export const DataGridWithPagination = memo(<T extends { id: number }>(
+export const DataGridWithPagination = <T extends { id: number }>(
     {
         columns,
         list,
@@ -142,4 +142,4 @@ export const DataGridWithPagination = memo(<T extends { id: number }>(
             disableRowSelectionOnClick
         />
     )
-})
+}

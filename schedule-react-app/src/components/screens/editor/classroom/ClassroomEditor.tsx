@@ -3,43 +3,28 @@ import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
 import {columns} from "./columns.ts";
 import {IClassroom} from "../../../../features/models/IClassroom.ts";
 import {EditorToolbar} from "../EditorToolbar.tsx";
-import {IEditor} from "../Editor.ts";
 import {CreateClassroomDialog} from "./dialogs/CreateClassroomDialog.tsx";
-import {useDialog} from "../../../../hooks/useDialog.ts";
 import {UpdateClassroomDialog} from "./dialogs/UpdateClassroomDialog.tsx";
+import {IEditor} from "../IEditor.tsx";
+import {useDialog} from "../../../../hooks/useDialog.ts";
 import {useState} from "react";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
-import {useDeleteClassroomMutation} from "../../../../store/apis/classroomApi.ts";
 
 export const ClassroomEditor = (
     {
         data,
+        onCreate,
+        onUpdate,
+        onDelete,
+        onRestore,
         paginationQuery,
         setPaginationQuery,
     }: IEditor<IClassroom>) => {
-    const [classroom, setClassroom] = useState<IClassroom>({} as IClassroom)
-    const [remove] = useDeleteClassroomMutation()
+    const [selected, setSelected] = useState<IClassroom>({} as IClassroom)
     const createDialog = useDialog()
     const updateDialog = useDialog()
 
-    const onCreate = paginationQuery.filter === QueryFilter.Available
-        ? createDialog.show
-        : undefined
-
-    const onUpdate = paginationQuery.filter === QueryFilter.Available
-        ? (classroom: IClassroom) => {
-            setClassroom(classroom)
-            updateDialog.show()
-        }
-        : undefined
-
-    const onDelete = paginationQuery.filter === QueryFilter.Available
-        ? (classroom: IClassroom) => remove(classroom.id)
-        : undefined
-
-    const onRestore = paginationQuery.filter === QueryFilter.Deleted
-        ? (classroom: IClassroom) => console.log(classroom)
-        : undefined
+    const handleCreate = (classroom: IClassroom) => setSelected(classroom)
+    const handleUpdate = (classroom: IClassroom) => setSelected(classroom)
 
     const toolbar = <EditorToolbar
         paginationQuery={paginationQuery}
@@ -60,7 +45,7 @@ export const ClassroomEditor = (
                 onRestore={onRestore}
             />
             <CreateClassroomDialog {...createDialog}/>
-            <UpdateClassroomDialog classroom={classroom} {...updateDialog}/>
+            <UpdateClassroomDialog classroom={selected} {...updateDialog}/>
         </Container>
     )
 }

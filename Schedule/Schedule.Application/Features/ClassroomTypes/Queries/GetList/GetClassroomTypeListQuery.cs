@@ -10,5 +10,5 @@ public sealed record GetClassroomTypeListQuery
     : PaginatedQuery, IRequest<PagedList<ClassroomTypeViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
-    public string? Search { get; set; }
+    public string? Search { get; set; } 
 }

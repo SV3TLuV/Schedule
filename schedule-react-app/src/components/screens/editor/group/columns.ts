@@ -1,6 +1,6 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {ITerm} from "../../../features/models/ITerm.ts";
-import {IGroup} from "../../../features/models/IGroup.ts";
+import {ITerm} from "../../../../features/models/ITerm";
+import {IGroup} from "../../../../features/models/IGroup";
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },
@@ -10,7 +10,7 @@ export const columns: GridColDef[] = [
         field: 'term',
         headerName: 'Семестр',
         width: 120,
-        renderCell: props => (props.value as ITerm).value
+        renderCell: props => (props.value as ITerm).id
     },
     {
         field: 'mergedGroups',

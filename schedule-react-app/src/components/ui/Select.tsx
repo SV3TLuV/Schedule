@@ -19,7 +19,6 @@ interface ISelect<T extends { id: any }, K extends keyof T> {
     multiple?: boolean;
     value?: T | T[] | null;
     onChange?: (item: T | T[] | null) => void;
-    margin?: 'dense' | 'normal' | 'none';
     size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>;
     sx?: SxProps<Theme>;
     disableClearable?: boolean;
@@ -38,7 +37,6 @@ export const Select = <T extends { id: any }, K extends keyof T>(
         value,
         onChange,
         sx,
-        margin = 'normal',
         size = 'small',
         disableClearable = false
     }: ISelect<T, K>) => {
@@ -55,7 +53,6 @@ export const Select = <T extends { id: any }, K extends keyof T>(
             fullWidth={true}
             helperText={helperText}
             error={error}
-            margin={margin}
             label={label}
             size={size}
         />

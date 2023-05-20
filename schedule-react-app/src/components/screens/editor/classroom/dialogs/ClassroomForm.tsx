@@ -48,12 +48,12 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                         {title}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className='p-3'>
+                <Modal.Body>
                     <Controller
                         control={control}
                         name='cabinet'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Form.Control
                                     placeholder='Кабинет'
                                     value={field.value}
@@ -71,7 +71,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                         control={control}
                         name='types'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}

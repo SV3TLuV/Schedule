@@ -14,7 +14,7 @@ interface IDisciplineForm {
     show: boolean
     discipline: IDiscipline
     onClose: () => void
-    onSave: (classroom: IDiscipline) => void
+    onSave: (discipline: IDiscipline) => void
 }
 
 export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisciplineForm) => {
@@ -52,12 +52,12 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         {title}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className='p-3'>
+                <Modal.Body>
                     <Controller
                         control={control}
                         name='name'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Form.Control
                                     placeholder='Название'
                                     value={field.value}
@@ -75,7 +75,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         control={control}
                         name='code'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Form.Control
                                     placeholder='Код'
                                     value={field.value}
@@ -93,7 +93,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         control={control}
                         name='totalHours'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Form.Control
                                     placeholder='Количество часов'
                                     value={field.value}
@@ -111,14 +111,13 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         control={control}
                         name='type'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}
                                     options={types.items}
                                     fields='name'
                                     label='Тип'
-                                    multiple
                                 />
                                 {errors.type && (
                                     <Form.Text className='text-danger'>
@@ -132,14 +131,13 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         control={control}
                         name='term'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}
                                     options={terms.items}
                                     fields='id'
                                     label='Семестр'
-                                    multiple
                                 />
                                 {errors.term && (
                                     <Form.Text className='text-danger'>
@@ -153,14 +151,13 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         control={control}
                         name='speciality'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}
                                     options={specialities.items}
                                     fields='name'
                                     label='Специальность'
-                                    multiple
                                 />
                                 {errors.speciality && (
                                     <Form.Text className='text-danger'>

@@ -31,7 +31,7 @@ export const groupApi = baseApi.injectEndpoints({
                 body: {
                     number: group.number,
                     enrollmentYear: group.enrollmentYear,
-                    termId: group.term.value,
+                    termId: group.term.id,
                     specialityCodeId: group.speciality.id
                 },
             }),
@@ -48,7 +48,7 @@ export const groupApi = baseApi.injectEndpoints({
                     id: group.id,
                     number: group.number,
                     enrollmentYear: group.enrollmentYear,
-                    termId: group.term.value,
+                    termId: group.term.id,
                     specialityCodeId: group.speciality.id
                 },
             }),

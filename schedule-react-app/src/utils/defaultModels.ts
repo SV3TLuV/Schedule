@@ -5,6 +5,9 @@ import {ISpeciality} from "../features/models/ISpeciality";
 import {ITerm} from "../features/models/ITerm";
 import {ICourse} from "../features/models/ICourse";
 import {IGroup} from "../features/models/IGroup";
+import {ITeacher} from "../features/models/ITeacher";
+import {ITimeType} from "../features/models/ITimeType";
+import {ITime} from "../features/models/ITime";
 
 export const emptyClassroom: IClassroom = {
     id: 0,
@@ -56,5 +59,32 @@ export const emptyGroup: IGroup = {
     term: emptyTerm,
     speciality: emptySpeciality,
     mergedGroups: [],
+    isDeleted: false
+}
+
+export const emptyTeacher: ITeacher = {
+    id: 0,
+    name: '',
+    surname: '',
+    middleName: '',
+    email: '',
+    groups: [],
+    disciplines: [],
+    isDeleted: false
+}
+
+export const emptyTimeType: ITimeType = {
+    id: 0,
+    name: '',
+    isDeleted: false
+}
+
+export const emptyTime: ITime = {
+    id: 0,
+    start: '',
+    end: '',
+    duration: 0,
+    lessonNumber: 0,
+    type: emptyTimeType,
     isDeleted: false
 }

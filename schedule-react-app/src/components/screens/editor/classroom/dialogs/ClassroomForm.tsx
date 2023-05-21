@@ -6,6 +6,7 @@ import {IClassroom} from "../../../../../features/models/IClassroom.ts";
 import {useGetClassroomTypesQuery} from "../../../../../store/apis/classroomTypeApi.ts";
 import {Loading} from "../../../../ui/Loading.tsx";
 import {Select} from "../../../../ui/Select.tsx";
+import {TextField} from "@mui/material";
 
 interface IClassroomForm {
     title: string
@@ -25,6 +26,10 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
 
     const onSubmit: SubmitHandler<IClassroom> = data => {
         onSave(data)
+        handleClose()
+    }
+
+    const handleClose = () => {
         reset(classroom)
         onClose()
     }
@@ -35,7 +40,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
 
     return (
         <Modal
-            onHide={onClose}
+            onHide={handleClose}
             show={show}
             centered
         >
@@ -54,16 +59,15 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                         name='cabinet'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Кабинет'
+                                <TextField
+                                    fullWidth
+                                    label='Кабинет'
+                                    size='small'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.cabinet?.message}
+                                    helperText={errors.cabinet?.message}
                                 />
-                                {errors.cabinet && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.cabinet?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -71,7 +75,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                         control={control}
                         name='types'
                         render={({field}) => (
-                            <Form.Group>
+                            <Form.Group className='m-3'>
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}

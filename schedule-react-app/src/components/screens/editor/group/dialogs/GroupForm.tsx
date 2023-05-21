@@ -8,6 +8,7 @@ import {groupFormValidationSchema} from "./validation";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
+import {TextField} from "@mui/material";
 
 interface IGroupForm {
     title: string,
@@ -33,6 +34,10 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
 
     const onSubmit: SubmitHandler<IGroup> = data => {
         onSave(data)
+        handleClose()
+    }
+
+    const handleClose = () => {
         reset(group)
         onClose()
     }
@@ -43,7 +48,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
 
     return (
         <Modal
-            onHide={onClose}
+            onHide={handleClose}
             show={show}
             centered
         >
@@ -62,16 +67,15 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                         name='name'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Название'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Название'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.name?.message}
+                                    helperText={errors.name?.message}
                                 />
-                                {errors.name && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.name?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -80,16 +84,15 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                         name='number'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Номер'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Номер'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.number?.message}
+                                    helperText={errors.number?.message}
                                 />
-                                {errors.number && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.number?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -98,16 +101,15 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                         name='enrollmentYear'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Год поступления'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Год поступления'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.enrollmentYear?.message}
+                                    helperText={errors.enrollmentYear?.message}
                                 />
-                                {errors.enrollmentYear && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.enrollmentYear?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

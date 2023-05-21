@@ -6,6 +6,7 @@ import {timeFormValidationSchema} from "./validation";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
+import {TextField} from "@mui/material";
 
 interface ITimeForm {
     title: string
@@ -25,6 +26,10 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
 
     const onSubmit: SubmitHandler<ITime> = data => {
         onSave(data)
+        handleClose()
+    }
+
+    const handleClose = () => {
         reset(time)
         onClose()
     }
@@ -54,16 +59,15 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                         name='start'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Начало'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Начало'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.start?.message}
+                                    helperText={errors.start?.message}
                                 />
-                                {errors.start && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.start?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -72,16 +76,15 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                         name='end'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Конец'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Конец'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.end?.message}
+                                    helperText={errors.end?.message}
                                 />
-                                {errors.end && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.end?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -90,16 +93,15 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                         name='duration'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Длительность'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Длительность (академ. час)'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.duration?.message}
+                                    helperText={errors.duration?.message}
                                 />
-                                {errors.duration && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.duration?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -108,16 +110,15 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                         name='lessonNumber'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Номер пары'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Номер пары'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.lessonNumber?.message}
+                                    helperText={errors.lessonNumber?.message}
                                 />
-                                {errors.lessonNumber && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.lessonNumber?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

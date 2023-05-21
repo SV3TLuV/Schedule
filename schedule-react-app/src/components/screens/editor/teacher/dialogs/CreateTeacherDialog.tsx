@@ -2,7 +2,6 @@ import {IDialog} from "../../../../../features/models/IDialog";
 import {useCreateTeacherMutation} from "../../../../../store/apis/teacherApi";
 import {ITeacher} from "../../../../../features/models/ITeacher";
 import {TeacherForm} from "./TeacherForm";
-import {emptyTeacher} from "../../../../../utils/defaultModels";
 
 export const CreateTeacherDialog = ({open, close}: IDialog) => {
     const [create] = useCreateTeacherMutation()
@@ -13,7 +12,7 @@ export const CreateTeacherDialog = ({open, close}: IDialog) => {
         <TeacherForm
             title='Добавление преподавателя'
             show={open}
-            teacher={emptyTeacher}
+            teacher={{} as ITeacher}
             onClose={close}
             onSave={handleSave}
         />

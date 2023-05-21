@@ -2,7 +2,6 @@ import {IDiscipline} from "../../../../../features/models/IDiscipline";
 import {IDialog} from "../../../../../features/models/IDialog";
 import {useCreateDisciplineMutation} from "../../../../../store/apis/disciplineApi";
 import {DisciplineForm} from "./DisciplineForm";
-import {emptyDiscipline} from "../../../../../utils/defaultModels";
 
 export const CreateDisciplineDialog = ({ open, close }: IDialog) => {
     const [create] = useCreateDisciplineMutation()
@@ -13,7 +12,7 @@ export const CreateDisciplineDialog = ({ open, close }: IDialog) => {
         <DisciplineForm
             title='Добавление дисциплины'
             show={open}
-            discipline={emptyDiscipline}
+            discipline={{} as IDiscipline}
             onClose={close}
             onSave={handleSave}
         />

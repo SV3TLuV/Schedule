@@ -1,7 +1,6 @@
 import {ISpeciality} from "../../../../../features/models/ISpeciality";
 import {useCreateSpecialityMutation} from "../../../../../store/apis/specialityApi";
 import {SpecialityForm} from "./SpecialityForm";
-import {emptySpeciality} from "../../../../../utils/defaultModels";
 import {IDialog} from "../../../../../features/models/IDialog";
 
 export const CreateSpecialityDialog = ({ open, close }: IDialog) => {
@@ -13,7 +12,7 @@ export const CreateSpecialityDialog = ({ open, close }: IDialog) => {
         <SpecialityForm
             title='Добавление специальности'
             show={open}
-            speciality={emptySpeciality}
+            speciality={{} as ISpeciality}
             onClose={close}
             onSave={handleSave}
         />

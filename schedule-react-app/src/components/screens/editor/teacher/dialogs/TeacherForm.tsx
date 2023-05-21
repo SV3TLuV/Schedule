@@ -7,6 +7,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {useGetGroupsQuery} from "../../../../../store/apis/groupApi";
 import {teacherFormValidatorSchema} from "./validation";
+import {TextField} from "@mui/material";
 
 interface ITeacherForm {
     title: string
@@ -27,6 +28,10 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
 
     const onSubmit: SubmitHandler<ITeacher> = data => {
         onSave(data)
+        handleClose()
+    }
+
+    const handleClose = () => {
         reset(teacher)
         onClose()
     }
@@ -37,7 +42,7 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
 
     return (
         <Modal
-            onHide={onClose}
+            onHide={handleClose}
             show={show}
             centered
         >
@@ -53,37 +58,35 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                 <Modal.Body>
                     <Controller
                         control={control}
-                        name='name'
+                        name='surname'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Имя'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Фамилия'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.surname?.message}
+                                    helperText={errors.surname?.message}
                                 />
-                                {errors.name && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.name?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
                     <Controller
                         control={control}
-                        name='surname'
+                        name='name'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Фамилия'
+                                <TextField
+                                    fullWidth
+                                    label='Имя'
+                                    size='small'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.name?.message}
+                                    helperText={errors.name?.message}
                                 />
-                                {errors.surname && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.surname?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -92,16 +95,15 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                         name='middleName'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Отчество'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Отчество'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.middleName?.message}
+                                    helperText={errors.middleName?.message}
                                 />
-                                {errors.middleName && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.middleName?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

@@ -1,5 +1,4 @@
 import {createBrowserRouter, createRoutesFromElements, Outlet, Route, useLocation} from "react-router-dom";
-import {AppNav} from "./components/AppNav/AppNav.tsx";
 import {useAppDispatch, useTypedSelector} from "./hooks/redux.ts";
 import {useEffect} from "react";
 import {setCurrentPage} from "./store/slices/routeSlice.tsx";
@@ -15,6 +14,7 @@ import {TeachersEditorPage} from "./components/screens/editor/teacher/TeachersEd
 import {ClassroomsEditorPage} from "./components/screens/editor/classroom/ClassroomsEditorPage.tsx";
 import {TimesEditorPage} from "./components/screens/editor/time/TimesEditorPage.tsx";
 import {TimeTypesEditorPage} from "./components/screens/editor/timeType/TimeTypesEditorPage.tsx";
+import {Header} from "./components/layout/header/Header.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.application)
@@ -27,7 +27,7 @@ const Root = () => {
 
     return (
         <div className='Root'>
-            {isNavShowed && <AppNav/>}
+            {isNavShowed && <Header/>}
             <Outlet/>
         </div>
     )

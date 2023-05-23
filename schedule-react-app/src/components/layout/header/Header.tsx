@@ -1,8 +1,8 @@
 import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {BiTable} from "react-icons/all";
-import {useNavigation} from "../../hooks/useNavigation.ts";
+import {useNavigation} from "../../../hooks/useNavigation.ts";
 
-export const AppNav = () => {
+export const Header = () => {
     const {navigateTo} = useNavigation()
 
     const goToLogin = () => navigateTo('/login')

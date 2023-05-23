@@ -2,7 +2,7 @@ import {ISpeciality} from "../../../../../features/models/ISpeciality";
 import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {specialityFormValidationSchema} from "./validation";
+import {specialityFormValidationSchema} from "./validation.ts";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
@@ -117,12 +117,9 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                                     fields='name'
                                     label='Дисциплины'
                                     multiple
+                                    error={!!errors.disciplines?.message}
+                                    helperText={errors.disciplines?.message}
                                 />
-                                {errors.disciplines && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.disciplines?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

@@ -64,23 +64,6 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                 <Modal.Body>
                     <Controller
                         control={control}
-                        name='name'
-                        render={({field}) => (
-                            <Form.Group className='m-3' >
-                                <TextField
-                                    fullWidth
-                                    size='small'
-                                    label='Название'
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    error={!!errors.name?.message}
-                                    helperText={errors.name?.message}
-                                />
-                            </Form.Group>
-                        )}
-                    />
-                    <Controller
-                        control={control}
                         name='number'
                         render={({field}) => (
                             <Form.Group className='m-3' >
@@ -124,12 +107,9 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     options={terms.items}
                                     fields='id'
                                     label='Семестр'
+                                    error={!!errors.term?.message}
+                                    helperText={errors.term?.message}
                                 />
-                                {errors.term && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.term?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -144,12 +124,9 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     options={specialities.items}
                                     fields='code'
                                     label='Специальность'
+                                    error={!!errors.speciality?.message}
+                                    helperText={errors.speciality?.message}
                                 />
-                                {errors.speciality && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.speciality?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -165,12 +142,9 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     fields='name'
                                     label='Объединение с группой'
                                     multiple
+                                    error={!!errors.mergedGroups?.message}
+                                    helperText={errors.mergedGroups?.message}
                                 />
-                                {errors.mergedGroups && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.mergedGroups?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

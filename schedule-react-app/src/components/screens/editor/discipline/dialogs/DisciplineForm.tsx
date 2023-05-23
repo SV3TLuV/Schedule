@@ -120,12 +120,9 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     options={types.items}
                                     fields='name'
                                     label='Тип'
+                                    error={!!errors.type?.message}
+                                    helperText={errors.type?.message}
                                 />
-                                {errors.type && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.type?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -140,12 +137,9 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     options={terms.items}
                                     fields='id'
                                     label='Семестр'
+                                    error={!!errors.term?.message}
+                                    helperText={errors.term?.message}
                                 />
-                                {errors.term && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.term?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -160,12 +154,9 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     options={specialities.items}
                                     fields='name'
                                     label='Специальность'
+                                    error={!!errors.speciality?.message}
+                                    helperText={errors.speciality?.message}
                                 />
-                                {errors.speciality && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.speciality?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

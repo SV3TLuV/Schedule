@@ -133,12 +133,9 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                                     options={types.items}
                                     fields='name'
                                     label='Виды'
+                                    error={!!errors.type?.message}
+                                    helperText={errors.type?.message}
                                 />
-                                {errors.type && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.type?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

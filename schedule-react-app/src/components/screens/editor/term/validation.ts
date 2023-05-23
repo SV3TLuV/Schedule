@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 import {ValidationMessage} from "../../../../common/enums/ValidationMessage";
-import {courseValidationSchema} from "../course/validation";
+import {courseValidationSchema} from "../course/validation.ts";
 
 export const termValidationSchema = Yup.object().shape({
     id: Yup.number().required(ValidationMessage.REQUIRED),

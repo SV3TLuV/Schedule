@@ -8,6 +8,7 @@ import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {useGetTermsQuery} from "../../../../../store/apis/termApi";
+import {TextField} from "@mui/material";
 
 interface IDisciplineForm {
     title: string
@@ -29,6 +30,10 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
 
     const onSubmit: SubmitHandler<IDiscipline> = data => {
         onSave(data)
+        handleClose()
+    }
+
+    const handleClose = () => {
         reset(discipline)
         onClose()
     }
@@ -39,7 +44,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
 
     return (
         <Modal
-            onHide={onClose}
+            onHide={handleClose}
             show={show}
             centered
         >
@@ -58,16 +63,15 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         name='name'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Название'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Название'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.name?.message}
+                                    helperText={errors.name?.message}
                                 />
-                                {errors.name && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.name?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -76,16 +80,15 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         name='code'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Код'
+                                <TextField
+                                    fullWidth
+                                    label='Код'
+                                    size='small'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.code?.message}
+                                    helperText={errors.code?.message}
                                 />
-                                {errors.code && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.code?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -94,16 +97,15 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         name='totalHours'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Количество часов'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Кол-во часов'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.totalHours?.message}
+                                    helperText={errors.totalHours?.message}
                                 />
-                                {errors.totalHours && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.totalHours?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -118,12 +120,9 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     options={types.items}
                                     fields='name'
                                     label='Тип'
+                                    error={!!errors.type?.message}
+                                    helperText={errors.type?.message}
                                 />
-                                {errors.type && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.type?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -138,12 +137,9 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     options={terms.items}
                                     fields='id'
                                     label='Семестр'
+                                    error={!!errors.term?.message}
+                                    helperText={errors.term?.message}
                                 />
-                                {errors.term && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.term?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -158,12 +154,9 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     options={specialities.items}
                                     fields='name'
                                     label='Специальность'
+                                    error={!!errors.speciality?.message}
+                                    helperText={errors.speciality?.message}
                                 />
-                                {errors.speciality && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.speciality?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

@@ -1,8 +1,5 @@
 import * as Yup from 'yup'
 import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
-import {disciplineTypeFormValidationSchema} from "../../disciplineType/dialogs/validation";
-import {termValidationSchema} from "../../term/validation";
-import {specialityFormValidationSchema} from "../../speciality/Dialogs/validation";
 
 export const disciplineFormValidationSchema = Yup.object().shape({
     name: Yup.string()
@@ -12,7 +9,7 @@ export const disciplineFormValidationSchema = Yup.object().shape({
         .max(20, ValidationMessage.MAX_LENGTH)
         .required(ValidationMessage.REQUIRED),
     totalHours: Yup.number().required(ValidationMessage.REQUIRED),
-    type: disciplineTypeFormValidationSchema.required(ValidationMessage.REQUIRED),
-    term: termValidationSchema.required(ValidationMessage.REQUIRED),
-    speciality: specialityFormValidationSchema.required(ValidationMessage.REQUIRED)
+    type: Yup.object().required(ValidationMessage.REQUIRED),
+    term: Yup.object().required(ValidationMessage.REQUIRED),
+    speciality: Yup.object().required(ValidationMessage.REQUIRED)
 })

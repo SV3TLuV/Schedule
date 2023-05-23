@@ -119,12 +119,9 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                                     fields='name'
                                     label='Группы'
                                     multiple
+                                    error={!!errors.groups?.message}
+                                    helperText={errors.groups?.message}
                                 />
-                                {errors.groups && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.groups?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -140,12 +137,9 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                                     fields='name'
                                     label='Дисциплины'
                                     multiple
+                                    error={!!errors.disciplines?.message}
+                                    helperText={errors.disciplines?.message}
                                 />
-                                {errors.disciplines && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.disciplines?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

@@ -83,12 +83,9 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                                     fields='name'
                                     label='Виды'
                                     multiple
+                                    error={!!errors.types?.message}
+                                    helperText={errors.types?.message}
                                 />
-                                {errors.types && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.types?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

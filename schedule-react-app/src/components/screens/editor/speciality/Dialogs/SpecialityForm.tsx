@@ -2,10 +2,11 @@ import {ISpeciality} from "../../../../../features/models/ISpeciality";
 import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {specialityFormValidationSchema} from "./validation";
+import {specialityFormValidationSchema} from "./validation.ts";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
+import {TextField} from "@mui/material";
 
 interface ISpecialityForm {
     title: string
@@ -25,6 +26,10 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
 
     const onSubmit: SubmitHandler<ISpeciality> = data => {
         onSave(data)
+        handleClose()
+    }
+
+    const handleClose = () => {
         reset(speciality)
         onClose()
     }
@@ -35,7 +40,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
 
     return (
         <Modal
-            onHide={onClose}
+            onHide={handleClose}
             show={show}
             centered
         >
@@ -54,16 +59,15 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                         name='code'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Код'
+                                <TextField
+                                    fullWidth
+                                    label='Код'
+                                    size='small'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.code?.message}
+                                    helperText={errors.code?.message}
                                 />
-                                {errors.code && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.code?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -72,16 +76,15 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                         name='name'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Название'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Название'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.name?.message}
+                                    helperText={errors.name?.message}
                                 />
-                                {errors.name && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.name?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -90,16 +93,15 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                         name='maxTermId'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <Form.Control
-                                    placeholder='Количество семестров'
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Кол-во семестров'
                                     value={field.value}
                                     onChange={field.onChange}
+                                    error={!!errors.maxTermId?.message}
+                                    helperText={errors.maxTermId?.message}
                                 />
-                                {errors.maxTermId && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.maxTermId?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />
@@ -115,12 +117,9 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                                     fields='name'
                                     label='Дисциплины'
                                     multiple
+                                    error={!!errors.disciplines?.message}
+                                    helperText={errors.disciplines?.message}
                                 />
-                                {errors.disciplines && (
-                                    <Form.Text className='text-danger'>
-                                        {errors.disciplines?.message}
-                                    </Form.Text>
-                                )}
                             </Form.Group>
                         )}
                     />

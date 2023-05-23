@@ -2,7 +2,6 @@ import {IDialog} from "../../../../../features/models/IDialog";
 import {useCreateGroupMutation} from "../../../../../store/apis/groupApi";
 import {IGroup} from "../../../../../features/models/IGroup";
 import {GroupForm} from "./GroupForm";
-import {emptyGroup} from "../../../../../utils/defaultModels";
 
 export const CreateGroupDialog = ({ open, close }: IDialog) => {
     const [create] = useCreateGroupMutation()
@@ -13,7 +12,7 @@ export const CreateGroupDialog = ({ open, close }: IDialog) => {
         <GroupForm
             title='Добавление группы'
             show={open}
-            group={emptyGroup}
+            group={{} as IGroup}
             onClose={close}
             onSave={handleSave}
         />

@@ -4,7 +4,7 @@ import {IGroup} from "../../../../features/models/IGroup";
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },
-    { field: 'name', headerName: 'Название', width: 80 },
+    { field: 'name', headerName: 'Название', width: 100 },
     { field: 'enrollmentYear', headerName: 'Год поступления', width: 160 },
     {
         field: 'term',

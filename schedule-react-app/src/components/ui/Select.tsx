@@ -9,19 +9,21 @@ import {OverridableStringUnion} from "@mui/types";
 import {SyntheticEvent} from "react";
 
 interface ISelect<T extends { id: any }, K extends keyof T> {
-    options: T[];
-    groupByKey?: K | null;
-    fields: K | K[];
-    fieldSplitter?: string;
-    label: string;
-    error?: boolean;
-    helperText?: string;
-    multiple?: boolean;
-    value?: T | T[] | null;
-    onChange?: (item: T | T[] | null) => void;
-    size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>;
-    sx?: SxProps<Theme>;
-    disableClearable?: boolean;
+    options: T[]
+    groupByKey?: K | null
+    fields: K | K[]
+    fieldSplitter?: string
+    label: string
+    error?: boolean
+    helperText?: string
+    multiple?: boolean
+    value?: T | T[] | null
+    onChange?: (item: T | T[] | null) => void
+    onLoadMore?: () => void
+    onSearch?: (value: string) => void
+    size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>
+    sx?: SxProps<Theme>
+    clearable?: boolean
 }
 
 export const Select = <T extends { id: any }, K extends keyof T>(
@@ -35,10 +37,12 @@ export const Select = <T extends { id: any }, K extends keyof T>(
         helperText = '',
         multiple = false,
         value,
+        onLoadMore,
+        onSearch,
         onChange,
         sx,
         size = 'small',
-        disableClearable = false
+        clearable = true
     }: ISelect<T, K>) => {
 
     const handleChange = (_: SyntheticEvent, selected: T | T[] | null) => {
@@ -46,7 +50,6 @@ export const Select = <T extends { id: any }, K extends keyof T>(
             onChange(selected)
         }
     }
-
     const renderInput = (params: AutocompleteRenderInputParams) => (
         <TextField
             {...params}
@@ -68,9 +71,24 @@ export const Select = <T extends { id: any }, K extends keyof T>(
     const groupBy = (option: T) => groupByKey ? option[groupByKey] as string : '';
     const isOptionEqualToValue = (option: T, value: T) => option.id === value.id
 
+    const handleScroll = (event: React.UIEvent<HTMLUListElement>) => {
+        const { scrollTop, clientHeight, scrollHeight } = event.currentTarget
+        const isScrolledToBottom = scrollTop + clientHeight === scrollHeight
+
+        if (isScrolledToBottom && onLoadMore) {
+            onLoadMore()
+        }
+    };
+
+    const handleSearch = (_: React.SyntheticEvent, value: string) => {
+        if (onSearch) {
+            onSearch(value)
+        }
+    }
+
     return (
         <Autocomplete
-            disableClearable={disableClearable}
+            disableClearable={!clearable}
             multiple={multiple}
             size={size}
             renderInput={renderInput}
@@ -81,6 +99,8 @@ export const Select = <T extends { id: any }, K extends keyof T>(
             groupBy={groupBy}
             onChange={handleChange}
             sx={sx}
+            onInputChange={handleSearch}
+            ListboxProps={{ onScroll: handleScroll }}
         />
     )
 }

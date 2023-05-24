@@ -8,7 +8,9 @@ import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
 import {IGroup} from "../../../../features/models/IGroup.ts";
 
 export const DeletedGroupsEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Deleted)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery({
+        filter: QueryFilter.Deleted
+    })
     const {data} = useGetGroupsQuery(paginationQuery)
     const [restore] = useRestoreGroupMutation()
 

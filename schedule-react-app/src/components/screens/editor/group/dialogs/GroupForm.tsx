@@ -9,6 +9,10 @@ import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {TextField} from "@mui/material";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {ISpeciality} from "../../../../../features/models/ISpeciality.ts";
+import {ITerm} from "../../../../../features/models/ITerm.ts";
 
 interface IGroupForm {
     title: string,
@@ -19,13 +23,42 @@ interface IGroupForm {
 }
 
 export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => {
-    const {data: terms} = useGetTermsQuery()
-    const {data: specialities} = useGetSpecialitiesQuery()
-    const {groups} = useGetGroupsQuery({page: 1, pageSize: 100}, {
-        selectFromResult: ({data}) => ({
-            groups: (data?.items ?? []).filter(g => g.id !== group.id)
-        })
+    const [specialityQuery, setSpecialityQuery] = usePaginationQuery()
+    const {data: specialityData} = useGetSpecialitiesQuery(specialityQuery)
+    const {
+        options: specialities,
+        loadMore: loadMoreSpecialities,
+        search: searchSpecialities
+    } = useInfinitySelect<ISpeciality>({
+        query: specialityQuery,
+        setQuery: setSpecialityQuery,
+        data: specialityData
     })
+
+    const [groupQuery, setGroupQuery] = usePaginationQuery()
+    const {data: groupData} = useGetGroupsQuery(groupQuery)
+    const {
+        options: groups,
+        loadMore: loadMoreGroups,
+        search: searchGroups
+    } = useInfinitySelect<IGroup>({
+        query: groupQuery,
+        setQuery: setGroupQuery,
+        data: groupData
+    })
+
+    const [termQuery, setTermQuery] = usePaginationQuery()
+    const {data: termData} = useGetTermsQuery(termQuery)
+    const {
+        options: terms,
+        loadMore: loadMoreTerms,
+        search: searchTerms
+    } = useInfinitySelect<ITerm>({
+        query: termQuery,
+        setQuery: setTermQuery,
+        data: termData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IGroup>({
         resolver: yupResolver(groupFormValidationSchema),
         values: group,
@@ -42,7 +75,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         onClose()
     }
 
-    if (!terms || !specialities || !groups) {
+    if (!terms || !specialities || !groupData) {
         return <Loading/>
     }
 
@@ -103,8 +136,10 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreTerms}
+                                    onSearch={searchTerms}
                                     value={field.value}
-                                    options={terms.items}
+                                    options={terms}
                                     fields='id'
                                     label='Семестр'
                                     error={!!errors.term?.message}
@@ -120,8 +155,10 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreSpecialities}
+                                    onSearch={searchSpecialities}
                                     value={field.value}
-                                    options={specialities.items}
+                                    options={specialities}
                                     fields='code'
                                     label='Специальность'
                                     error={!!errors.speciality?.message}
@@ -137,6 +174,8 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreGroups}
+                                    onSearch={searchGroups}
                                     value={field.value}
                                     options={groups}
                                     fields='name'

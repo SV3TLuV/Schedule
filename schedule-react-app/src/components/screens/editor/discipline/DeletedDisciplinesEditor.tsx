@@ -9,7 +9,9 @@ import {useRestoreClassroomTypeMutation} from "../../../../store/apis/classroomT
 import {IDiscipline} from "../../../../features/models/IDiscipline.ts";
 
 export const DeletedDisciplinesEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery({
+        filter: QueryFilter.Deleted
+    })
     const {data} = useGetDisciplinesQuery(paginationQuery)
     const [restore] = useRestoreClassroomTypeMutation()
 

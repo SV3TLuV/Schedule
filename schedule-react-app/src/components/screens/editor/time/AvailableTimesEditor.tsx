@@ -1,7 +1,6 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 import {useDeleteTimeMutation, useGetTimesQuery} from "../../../../store/apis/timeApi.ts";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
@@ -12,7 +11,7 @@ import {CreateTimeDialog} from "./dialogs/CreateTimeDialog";
 import {UpdateTimeDialog} from "./dialogs/UpdateTimeDialogs";
 
 export const AvailableTimesEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
     const [selected, setSelected] = useState<ITime>({} as ITime)
     const {data} = useGetTimesQuery(paginationQuery)
     const [remove] = useDeleteTimeMutation()

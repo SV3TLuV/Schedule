@@ -1,7 +1,6 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 import {useDeleteGroupMutation, useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
@@ -12,7 +11,7 @@ import {IGroup} from "../../../../features/models/IGroup";
 import {UpdateGroupDialog} from "./dialogs/UpdateGroupDialog";
 
 export const AvailableGroupsEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
     const [selected, setSelected] = useState<IGroup>({} as IGroup)
     const {data} = useGetGroupsQuery(paginationQuery)
     const [remove] = useDeleteGroupMutation()

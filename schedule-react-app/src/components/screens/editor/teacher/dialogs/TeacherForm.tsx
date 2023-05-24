@@ -8,6 +8,10 @@ import {Select} from "../../../../ui/Select";
 import {useGetGroupsQuery} from "../../../../../store/apis/groupApi";
 import {teacherFormValidatorSchema} from "./validation";
 import {TextField} from "@mui/material";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
+import {IGroup} from "../../../../../features/models/IGroup.ts";
 
 interface ITeacherForm {
     title: string
@@ -18,8 +22,30 @@ interface ITeacherForm {
 }
 
 export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherForm) => {
-    const {data: disciplines} = useGetDisciplinesQuery()
-    const {data: groups} = useGetGroupsQuery()
+    const [disciplineQuery, setDisciplineQuery] = usePaginationQuery()
+    const {data: disciplineData} = useGetDisciplinesQuery(disciplineQuery)
+    const {
+        options: disciplines,
+        loadMore: loadMoreDisciplines,
+        search: searchDisciplines
+    } = useInfinitySelect<IDiscipline>({
+        query: disciplineQuery,
+        setQuery: setDisciplineQuery,
+        data: disciplineData
+    })
+
+    const [groupQuery, setGroupQuery] = usePaginationQuery()
+    const {data: groupData} = useGetGroupsQuery(groupQuery)
+    const {
+        options: groups,
+        loadMore: loadMoreGroups,
+        search: searchGroups
+    } = useInfinitySelect<IGroup>({
+        query: groupQuery,
+        setQuery: setGroupQuery,
+        data: groupData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ITeacher>({
         resolver: yupResolver(teacherFormValidatorSchema),
         values: teacher,
@@ -114,8 +140,10 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreGroups}
+                                    onSearch={searchGroups}
                                     value={field.value}
-                                    options={groups.items}
+                                    options={groups}
                                     fields='name'
                                     label='Группы'
                                     multiple
@@ -132,8 +160,10 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreDisciplines}
+                                    onSearch={searchDisciplines}
                                     value={field.value}
-                                    options={groups.items}
+                                    options={disciplines}
                                     fields='name'
                                     label='Дисциплины'
                                     multiple

@@ -1,7 +1,6 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 import {useDeleteTimeTypeMutation, useGetTimeTypesQuery} from "../../../../store/apis/timeTypeApi.ts";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
 import {EditorToolbar} from "../EditorToolbar.tsx";
@@ -12,7 +11,7 @@ import {CreateTimeTypeDialog} from "./dialogs/CreateTimeTypeDialog";
 import {UpdateTimeTypeDialog} from "./dialogs/UpdateTimeTypeDialog";
 
 export const AvailableTimeTypesEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
     const [selected, setSelected] = useState<ITimeType>({} as ITimeType)
     const {data} = useGetTimeTypesQuery(paginationQuery)
     const [remove] = useDeleteTimeTypeMutation()

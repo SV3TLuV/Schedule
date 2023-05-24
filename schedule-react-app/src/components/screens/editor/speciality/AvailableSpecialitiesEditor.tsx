@@ -1,7 +1,6 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 import {useDeleteSpecialityMutation, useGetSpecialitiesQuery} from "../../../../store/apis/specialityApi.ts";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
@@ -12,7 +11,7 @@ import {CreateSpecialityDialog} from "./Dialogs/CreateSpecialityDialog";
 import {UpdateSpecialityDialog} from "./Dialogs/UpdateSpecialityDialog";
 
 export const AvailableSpecialitiesEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
     const [selected, setSelected] = useState<ISpeciality>({} as ISpeciality)
     const {data} = useGetSpecialitiesQuery(paginationQuery)
     const [remove] = useDeleteSpecialityMutation()

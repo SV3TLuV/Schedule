@@ -7,6 +7,9 @@ import {useGetClassroomTypesQuery} from "../../../../../store/apis/classroomType
 import {Loading} from "../../../../ui/Loading.tsx";
 import {Select} from "../../../../ui/Select.tsx";
 import {TextField} from "@mui/material";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {IClassroomType} from "../../../../../features/models/IClassroomType.ts";
 
 interface IClassroomForm {
     title: string
@@ -17,7 +20,18 @@ interface IClassroomForm {
 }
 
 export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassroomForm) => {
-    const {data: types} = useGetClassroomTypesQuery()
+    const [typeQuery, setTypeQuery] = usePaginationQuery()
+    const {data: typeData} = useGetClassroomTypesQuery(typeQuery)
+    const {
+        options: types,
+        loadMore: loadMoreTypes,
+        search: searchTypes
+    } = useInfinitySelect<IClassroomType>({
+        query: typeQuery,
+        setQuery: setTypeQuery,
+        data: typeData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IClassroom>({
         resolver: yupResolver(classroomFormValidationSchema),
         values: classroom,
@@ -78,8 +92,10 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                             <Form.Group className='m-3'>
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreTypes}
+                                    onSearch={searchTypes}
                                     value={field.value}
-                                    options={types.items}
+                                    options={types}
                                     fields='name'
                                     label='Виды'
                                     multiple

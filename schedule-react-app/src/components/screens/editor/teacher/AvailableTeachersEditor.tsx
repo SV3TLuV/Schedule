@@ -1,7 +1,6 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 import {useDeleteTeacherMutation, useGetTeachersQuery} from "../../../../store/apis/teacherApi.ts";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
@@ -12,7 +11,7 @@ import {CreateTeacherDialog} from "./dialogs/CreateTeacherDialog";
 import {UpdateTeacherDialog} from "./dialogs/UpdateTeacherDialog";
 
 export const AvailableTeachersEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
     const [selected, setSelected] = useState<ITeacher>({} as ITeacher)
     const {data} = useGetTeachersQuery(paginationQuery)
     const [remove] = useDeleteTeacherMutation()

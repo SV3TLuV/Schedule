@@ -9,6 +9,11 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {useGetTermsQuery} from "../../../../../store/apis/termApi";
 import {TextField} from "@mui/material";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {ISpeciality} from "../../../../../features/models/ISpeciality.ts";
+import {ITerm} from "../../../../../features/models/ITerm.ts";
+import {IDisciplineType} from "../../../../../features/models/IDisciplineType.ts";
 
 interface IDisciplineForm {
     title: string
@@ -19,9 +24,42 @@ interface IDisciplineForm {
 }
 
 export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisciplineForm) => {
-    const {data: types} = useGetDisciplineTypesQuery()
-    const {data: terms} = useGetTermsQuery()
-    const {data: specialities} = useGetSpecialitiesQuery()
+    const [specialityQuery, setSpecialityQuery] = usePaginationQuery()
+    const {data: specialityData} = useGetSpecialitiesQuery(specialityQuery)
+    const {
+        options: specialities,
+        loadMore: loadMoreSpecialities,
+        search: searchSpecialities
+    } = useInfinitySelect<ISpeciality>({
+        query: specialityQuery,
+        setQuery: setSpecialityQuery,
+        data: specialityData
+    })
+
+    const [typeQuery, setTypeQuery] = usePaginationQuery()
+    const {data: typeData} = useGetDisciplineTypesQuery(typeQuery)
+    const {
+        options: types,
+        loadMore: loadMoreTypes,
+        search: searchTypes
+    } = useInfinitySelect<IDisciplineType>({
+        query: typeQuery,
+        setQuery: setTypeQuery,
+        data: typeData
+    })
+
+    const [termQuery, setTermQuery] = usePaginationQuery()
+    const {data: termData} = useGetTermsQuery(termQuery)
+    const {
+        options: terms,
+        loadMore: loadMoreTerms,
+        search: searchTerms
+    } = useInfinitySelect<ITerm>({
+        query: termQuery,
+        setQuery: setTermQuery,
+        data: termData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IDiscipline>({
         resolver: yupResolver(disciplineFormValidationSchema),
         values: discipline,
@@ -116,8 +154,10 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreTypes}
+                                    onSearch={searchTypes}
                                     value={field.value}
-                                    options={types.items}
+                                    options={types}
                                     fields='name'
                                     label='Тип'
                                     error={!!errors.type?.message}
@@ -133,8 +173,10 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreTerms}
+                                    onSearch={searchTerms}
                                     value={field.value}
-                                    options={terms.items}
+                                    options={terms}
                                     fields='id'
                                     label='Семестр'
                                     error={!!errors.term?.message}
@@ -150,8 +192,10 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreSpecialities}
+                                    onSearch={searchSpecialities}
                                     value={field.value}
-                                    options={specialities.items}
+                                    options={specialities}
                                     fields='name'
                                     label='Специальность'
                                     error={!!errors.speciality?.message}

@@ -8,7 +8,9 @@ import {EditorToolbar} from "../EditorToolbar.tsx";
 import {ITimeType} from "../../../../features/models/ITimeType.ts";
 
 export const DeletedTimeTypesEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Deleted)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery({
+        filter: QueryFilter.Deleted
+    })
     const {data} = useGetTimeTypesQuery(paginationQuery)
     const [restore] = useRestoreTimeTypeMutation()
 

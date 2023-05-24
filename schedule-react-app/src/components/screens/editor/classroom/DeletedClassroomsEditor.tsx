@@ -8,7 +8,9 @@ import {EditorToolbar} from "../EditorToolbar.tsx";
 import {IClassroom} from "../../../../features/models/IClassroom.ts";
 
 export const DeletedClassroomsEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Deleted)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery({
+        filter: QueryFilter.Deleted
+    })
     const {data} = useGetClassroomsQuery(paginationQuery)
     const [restore] = useRestoreClassroomMutation()
 

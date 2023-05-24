@@ -1,5 +1,4 @@
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 import {
     useDeleteClassroomMutation,
     useGetClassroomsQuery,
@@ -15,7 +14,7 @@ import {IClassroom} from "../../../../features/models/IClassroom.ts";
 import {useDialog} from "../../../../hooks/useDialog.ts";
 
 export const AvailableClassroomsEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Available)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
     const [selected, setSelected] = useState<IClassroom>({} as IClassroom)
     const {data} = useGetClassroomsQuery(paginationQuery)
     const [remove] = useDeleteClassroomMutation()

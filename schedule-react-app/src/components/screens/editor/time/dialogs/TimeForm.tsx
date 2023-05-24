@@ -7,6 +7,9 @@ import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {TextField} from "@mui/material";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {ITimeType} from "../../../../../features/models/ITimeType.ts";
 
 interface ITimeForm {
     title: string
@@ -17,7 +20,18 @@ interface ITimeForm {
 }
 
 export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
-    const {data: types} = useGetTimeTypesQuery()
+    const [typeQuery, setTypeQuery] = usePaginationQuery()
+    const {data: typeData} = useGetTimeTypesQuery(typeQuery)
+    const {
+        options: types,
+        loadMore: loadMoreTypes,
+        search: searchTypes
+    } = useInfinitySelect<ITimeType>({
+        query: typeQuery,
+        setQuery: setTypeQuery,
+        data: typeData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ITime>({
         resolver: yupResolver(timeFormValidationSchema),
         values: time,
@@ -129,8 +143,10 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreTypes}
+                                    onSearch={searchTypes}
                                     value={field.value}
-                                    options={types.items}
+                                    options={types}
                                     fields='name'
                                     label='Виды'
                                     error={!!errors.type?.message}

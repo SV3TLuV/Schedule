@@ -46,7 +46,7 @@ public sealed class GetGroupListQueryHandler
         if (request.Search is not null)
         {
             query = query.Where(e => 
-                e.Name.StartsWith(request.Search) ||
+                (e.Speciality.Name + '-' + e.Number).StartsWith(request.Search) ||
                 e.Speciality.Code.StartsWith(request.Search));
         }
         

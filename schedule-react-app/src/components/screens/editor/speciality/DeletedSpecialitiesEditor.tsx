@@ -8,7 +8,9 @@ import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
 import {ISpeciality} from "../../../../features/models/ISpeciality.ts";
 
 export const DeletedSpecialitiesEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery(QueryFilter.Deleted)
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery({
+        filter: QueryFilter.Deleted
+    })
     const {data} = useGetSpecialitiesQuery(paginationQuery)
     const [restore] = useRestoreSpecialityMutation()
 

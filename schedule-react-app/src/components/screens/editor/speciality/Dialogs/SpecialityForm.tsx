@@ -7,6 +7,9 @@ import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {TextField} from "@mui/material";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
 
 interface ISpecialityForm {
     title: string
@@ -17,7 +20,18 @@ interface ISpecialityForm {
 }
 
 export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpecialityForm) => {
-    const {data: disciplines} = useGetDisciplinesQuery()
+    const [disciplineQuery, setDisciplineQuery] = usePaginationQuery()
+    const {data: disciplineData} = useGetDisciplinesQuery(disciplineQuery)
+    const {
+        options: disciplines,
+        loadMore: loadMoreDisciplines,
+        search: searchDisciplines
+    } = useInfinitySelect<IDiscipline>({
+        query: disciplineQuery,
+        setQuery: setDisciplineQuery,
+        data: disciplineData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ISpeciality>({
         resolver: yupResolver(specialityFormValidationSchema),
         values: speciality,
@@ -112,8 +126,10 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreDisciplines}
+                                    onSearch={searchDisciplines}
                                     value={field.value}
-                                    options={disciplines.items}
+                                    options={disciplines}
                                     fields='name'
                                     label='Дисциплины'
                                     multiple

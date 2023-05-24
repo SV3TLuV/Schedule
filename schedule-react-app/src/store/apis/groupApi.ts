@@ -24,6 +24,20 @@ export const groupApi = baseApi.injectEndpoints({
             }),
             providesTags: (_, __, id) => [{type: ApiTags.Group, id}]
         }),
+        restoreGroup: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Group}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: () => [
+                {type: ApiTags.Group},
+                {type: ApiTags.Timetable },
+                {type: ApiTags.Template },
+            ]
+        }),
         createGroup: builder.mutation<number, IGroup>({
             query: group => ({
                 url: ApiTags.Group,
@@ -35,22 +49,10 @@ export const groupApi = baseApi.injectEndpoints({
                     specialityCodeId: group.speciality.id
                 },
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Group, id},
-                {type: ApiTags.Timetable, id: 'LIST'},
-            ]
-        }),
-        restoreGroup: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.Group}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
             invalidatesTags: () => [
                 {type: ApiTags.Group},
-                {type: ApiTags.Timetable, id: 'LIST'},
+                {type: ApiTags.Timetable },
+                {type: ApiTags.Template },
             ]
         }),
         updateGroup: builder.mutation<number, IGroup>({
@@ -65,9 +67,10 @@ export const groupApi = baseApi.injectEndpoints({
                     specialityCodeId: group.speciality.id
                 },
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Group, id},
-                {type: ApiTags.Timetable, id: 'LIST'},
+            invalidatesTags: () => [
+                {type: ApiTags.Group},
+                {type: ApiTags.Timetable },
+                {type: ApiTags.Template },
             ]
         }),
         deleteGroup: builder.mutation<number, number>({
@@ -75,9 +78,10 @@ export const groupApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Group}/${id}`,
                 method: HttpMethod.DELETE
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Group, id},
-                {type: ApiTags.Timetable, id: 'LIST'},
+            invalidatesTags: () => [
+                {type: ApiTags.Group},
+                {type: ApiTags.Timetable },
+                {type: ApiTags.Template },
             ]
         })
     }),

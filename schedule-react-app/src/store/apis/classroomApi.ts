@@ -24,6 +24,19 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             providesTags: (_, __, id) => [{type: ApiTags.Classroom, id}]
         }),
+        restoreClassroom: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Classroom}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Classroom, id},
+                {type: ApiTags.Lesson}
+            ]
+        }),
         createClassroom: builder.mutation<number, IClassroom>({
             query: classroom => ({
                 url: ApiTags.Classroom,
@@ -35,20 +48,6 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Classroom, id},
-                {type: ApiTags.Lesson, id: 'LIST'},
-            ]
-        }),
-        restoreClassroom: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.Classroom}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.Classroom},
-                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateClassroom: builder.mutation<number, IClassroom>({
@@ -63,7 +62,7 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Classroom, id},
-                {type: ApiTags.Lesson, id: 'LIST'},
+                {type: ApiTags.Lesson},
             ]
         }),
         deleteClassroom: builder.mutation<number, number>({
@@ -73,7 +72,7 @@ export const classroomApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Classroom, id},
-                {type: ApiTags.Lesson, id: 'LIST'}
+                {type: ApiTags.Lesson}
             ]
         })
     })

@@ -26,6 +26,19 @@ export const timeApi = baseApi.injectEndpoints({
                 {type: ApiTags.Time, id}
             ]
         }),
+        restoreTime: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Time}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Time, id},
+                {type: ApiTags.Lesson},
+            ]
+        }),
         createTime: builder.mutation<number, ITime>({
             query: time => ({
                 url: ApiTags.Time,
@@ -39,20 +52,6 @@ export const timeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Time, id},
-                {type: ApiTags.Lesson, id: 'LIST'},
-            ]
-        }),
-        restoreTime: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.Time}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.Time},
-                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateTime: builder.mutation<number, ITime>({
@@ -68,6 +67,10 @@ export const timeApi = baseApi.injectEndpoints({
                     isDeleted: time.isDeleted,
                 }
             }),
+            invalidatesTags: id => [
+                {type: ApiTags.Time, id},
+                {type: ApiTags.Lesson},
+            ]
         }),
         deleteTime: builder.mutation<number, number>({
             query: id => ({
@@ -76,7 +79,7 @@ export const timeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Time, id},
-                {type: ApiTags.Lesson, id: 'LIST'},
+                {type: ApiTags.Lesson},
             ]
         }),
     })

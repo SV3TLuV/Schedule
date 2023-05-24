@@ -45,8 +45,8 @@ export const dayApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Day, id},
-                {type: ApiTags.Date, id: 'LIST'},
-                {type: ApiTags.Template, id: 'LIST'},
+                {type: ApiTags.Date},
+                {type: ApiTags.Template},
             ]
         })
     }),

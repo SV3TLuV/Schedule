@@ -26,6 +26,19 @@ export const disciplineApi = baseApi.injectEndpoints({
                 {type: ApiTags.Discipline, id}
             ],
         }),
+        restoreDiscipline: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Discipline}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                { type: ApiTags.Discipline, id },
+                { type: ApiTags.Lesson }
+            ]
+        }),
         createDiscipline: builder.mutation<number, IDiscipline>({
             query: discipline => ({
                 url: ApiTags.Discipline,
@@ -41,21 +54,7 @@ export const disciplineApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 { type: ApiTags.Discipline, id },
-                { type: ApiTags.Lesson, id: 'LIST' }
             ],
-        }),
-        restoreDiscipline: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.Discipline}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.Discipline},
-                {type: ApiTags.Lesson, id: 'LIST'},
-            ]
         }),
         updateDiscipline: builder.mutation<number, IDiscipline>({
             query: discipline => ({
@@ -73,7 +72,7 @@ export const disciplineApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 { type: ApiTags.Discipline, id },
-                { type: ApiTags.Lesson, id: 'LIST' }
+                { type: ApiTags.Lesson }
             ],
         }),
         deleteDiscipline: builder.mutation<number, number>({
@@ -83,7 +82,7 @@ export const disciplineApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 { type: ApiTags.Discipline, id },
-                { type: ApiTags.Lesson, id:'LIST' }
+                { type: ApiTags.Lesson }
             ],
         })
     }),

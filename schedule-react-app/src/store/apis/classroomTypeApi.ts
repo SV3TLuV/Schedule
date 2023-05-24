@@ -24,6 +24,20 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             providesTags: (_, __, id) => [{type: ApiTags.ClassroomType, id}]
         }),
+        restoreClassroomType: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.ClassroomType}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.ClassroomType, id},
+                {type: ApiTags.Classroom},
+                {type: ApiTags.Lesson},
+            ]
+        }),
         createClassroomType: builder.mutation<number, IClassroomType>({
             query: classroomType => ({
                 url: ApiTags.ClassroomType,
@@ -34,22 +48,6 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.ClassroomType, id},
-                {type: ApiTags.Classroom, id: 'LIST'},
-                {type: ApiTags.Lesson, id: 'LIST'},
-            ]
-        }),
-        restoreClassroomType: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.ClassroomType}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.ClassroomType},
-                {type: ApiTags.Classroom, id: 'LIST'},
-                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateClassroomType: builder.mutation<number, IClassroomType>({
@@ -63,8 +61,8 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.ClassroomType, id},
-                {type: ApiTags.Classroom, id: 'LIST'},
-                {type: ApiTags.Lesson, id: 'LIST'},
+                {type: ApiTags.Classroom},
+                {type: ApiTags.Lesson},
             ]
         }),
         deleteClassroomType: builder.mutation<number, number>({
@@ -74,8 +72,8 @@ export const classroomTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.ClassroomType, id},
-                {type: ApiTags.Classroom, id: 'LIST'},
-                {type: ApiTags.Lesson, id: 'LIST'},
+                {type: ApiTags.Classroom},
+                {type: ApiTags.Lesson},
             ]
         })
     }),

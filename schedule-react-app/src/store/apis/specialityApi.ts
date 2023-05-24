@@ -26,6 +26,20 @@ export const specialityApi = baseApi.injectEndpoints({
                 {type: ApiTags.Speciality, id}
             ]
         }),
+        restoreSpeciality: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Speciality}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Speciality, id},
+                {type: ApiTags.Group},
+                {type: ApiTags.Discipline},
+            ]
+        }),
         createSpeciality: builder.mutation<number, ISpeciality>({
             query: speciality => ({
                 url: ApiTags.Speciality,
@@ -38,22 +52,6 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Speciality, id},
-                {type: ApiTags.Group, id: 'LIST'},
-                {type: ApiTags.Discipline, id: 'LIST'},
-            ]
-        }),
-        restoreSpeciality: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.Speciality}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.Speciality},
-                {type: ApiTags.Group, id: 'LIST'},
-                {type: ApiTags.Discipline, id: 'LIST'},
             ]
         }),
         updateSpeciality: builder.mutation<number, ISpeciality>({
@@ -70,8 +68,8 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Speciality, id},
-                {type: ApiTags.Group, id: 'LIST'},
-                {type: ApiTags.Discipline, id: 'LIST'},
+                {type: ApiTags.Group},
+                {type: ApiTags.Discipline},
             ]
         }),
         deleteSpeciality: builder.mutation<number, number>({
@@ -81,8 +79,8 @@ export const specialityApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Speciality, id},
-                {type: ApiTags.Group, id: 'LIST'},
-                {type: ApiTags.Discipline, id: 'LIST'},
+                {type: ApiTags.Group},
+                {type: ApiTags.Discipline},
             ]
         })
     }),

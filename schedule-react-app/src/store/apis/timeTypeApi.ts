@@ -26,6 +26,19 @@ export const timeTypeApi = baseApi.injectEndpoints({
                 {type: ApiTags.TimeType, id}
             ]
         }),
+        restoreTimeType: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.TimeType}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.TimeType, id},
+                {type: ApiTags.Time},
+            ]
+        }),
         createTimeType: builder.mutation<number, ITimeType>({
             query: timeType => ({
                 url: ApiTags.TimeType,
@@ -36,20 +49,6 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.TimeType, id},
-                {type: ApiTags.Time, id: 'LIST'},
-            ]
-        }),
-        restoreTimeType: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.TimeType}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.TimeType},
-                {type: ApiTags.Time, id: 'LIST'},
             ]
         }),
         updateTimeType: builder.mutation<number, ITimeType>({
@@ -63,7 +62,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.TimeType, id},
-                {type: ApiTags.Time, id: 'LIST'},
+                {type: ApiTags.Time},
             ]
         }),
         deleteTimeType: builder.mutation<number, number>({
@@ -73,7 +72,7 @@ export const timeTypeApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.TimeType, id},
-                {type: ApiTags.Time, id: 'LIST'},
+                {type: ApiTags.Time},
             ]
         }),
     }),

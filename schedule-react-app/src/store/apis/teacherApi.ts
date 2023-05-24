@@ -26,6 +26,19 @@ export const teacherApi = baseApi.injectEndpoints({
                 {type: ApiTags.Teacher, id}
             ]
         }),
+        restoreTeacher: builder.mutation<number, number>({
+            query: id => ({
+                url: `${ApiTags.Teacher}/restore`,
+                method: HttpMethod.POST,
+                body: {
+                    id: id
+                }
+            }),
+            invalidatesTags: id => [
+                {type: ApiTags.Teacher, id},
+                {type: ApiTags.Lesson},
+            ]
+        }),
         createTeacher: builder.mutation<number, ITeacher>({
             query: teacher => ({
                 url: ApiTags.Teacher,
@@ -41,20 +54,6 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Teacher, id},
-                {type: ApiTags.Lesson, id: 'LIST'}
-            ]
-        }),
-        restoreTeacher: builder.mutation<void, number>({
-            query: id => ({
-                url: `${ApiTags.Teacher}/restore`,
-                method: HttpMethod.POST,
-                body: {
-                    id: id
-                }
-            }),
-            invalidatesTags: () => [
-                {type: ApiTags.Teacher},
-                {type: ApiTags.Lesson, id: 'LIST'},
             ]
         }),
         updateTeacher: builder.mutation<number, ITeacher>({
@@ -74,7 +73,7 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Teacher, id},
-                {type: ApiTags.Lesson, id: 'LIST'}
+                {type: ApiTags.Lesson},
             ]
         }),
         deleteTeacher: builder.mutation<number, number>({
@@ -84,7 +83,7 @@ export const teacherApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: id => [
                 {type: ApiTags.Teacher, id},
-                {type: ApiTags.Lesson, id: 'LIST'}
+                {type: ApiTags.Lesson},
             ]
         }),
     }),

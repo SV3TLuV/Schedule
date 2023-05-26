@@ -5,9 +5,12 @@ import {useGetTeachersQuery, useRestoreTeacherMutation} from "../../../../store/
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
 import {ITeacher} from "../../../../features/models/ITeacher.ts";
+import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
 
 export const DeletedTeachersEditor = () => {
-    const [paginationQuery, setPaginationQuery] = usePaginationQuery()
+    const [paginationQuery, setPaginationQuery] = usePaginationQuery({
+        filter: QueryFilter.Deleted
+    })
     const {data} = useGetTeachersQuery(paginationQuery)
     const [restore] = useRestoreTeacherMutation()
 

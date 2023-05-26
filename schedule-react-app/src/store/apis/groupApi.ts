@@ -48,10 +48,12 @@ export const groupApi = baseApi.injectEndpoints({
                 url: ApiTags.Group,
                 method: HttpMethod.POST,
                 body: {
-                    number: group.number,
+                    number: group.number.toString(),
                     enrollmentYear: group.enrollmentYear,
                     termId: group.term.id,
-                    specialityId: group.speciality.id
+                    specialityId: group.speciality.id,
+                    mergedGroupIds: (group.mergedGroups ?? [])
+                        .map(group => group.id)
                 },
             }),
             invalidatesTags: () => [
@@ -66,10 +68,12 @@ export const groupApi = baseApi.injectEndpoints({
                 method: HttpMethod.PUT,
                 body: {
                     id: group.id,
-                    number: group.number,
+                    number: group.number.toString(),
                     enrollmentYear: group.enrollmentYear,
                     termId: group.term.id,
-                    specialityId: group.speciality.id
+                    specialityId: group.speciality.id,
+                    mergedGroupIds: (group.mergedGroups ?? [])
+                        .map(group => group.id)
                 },
             }),
             invalidatesTags: () => [

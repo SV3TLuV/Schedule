@@ -48,6 +48,7 @@ export const disciplineApi = baseApi.injectEndpoints({
                     code: discipline.code,
                     totalHours: discipline.totalHours,
                     specialityId: discipline.speciality.id,
+                    disciplineTypeId: discipline.type.id,
                     termId: discipline.term.id,
                     isDeleted: discipline.isDeleted,
                 }
@@ -66,6 +67,7 @@ export const disciplineApi = baseApi.injectEndpoints({
                     code: discipline.code,
                     totalHours: discipline.totalHours,
                     specialityId: discipline.speciality.id,
+                    disciplineTypeId: discipline.type.id,
                     termId: discipline.term.id,
                     isDeleted: discipline.isDeleted,
                 }

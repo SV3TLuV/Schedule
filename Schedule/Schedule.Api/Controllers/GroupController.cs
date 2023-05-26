@@ -30,7 +30,7 @@ public class GroupController : BaseController
     public async Task<IActionResult> Post([FromBody] CreateGroupCommand command)
     {
         var id = await Mediator.Send(command);
-        return Created(new Uri($"{Request.Path}/{id}", UriKind.Relative), id);
+        return Created(string.Empty, id);
     }
 
     [HttpPost]

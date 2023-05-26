@@ -10,5 +10,5 @@ public sealed class CreateGroupCommand : IRequest<int>, IMapWith<Group>
     public required int CourseId { get; set; }
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
-    public required ICollection<int> MergedGroupIds { get; set; }
+    public ICollection<int> MergedGroupIds { get; set; }
 }

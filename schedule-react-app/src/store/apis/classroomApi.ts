@@ -32,8 +32,8 @@ export const classroomApi = baseApi.injectEndpoints({
                     id: id
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Classroom, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Classroom},
                 {type: ApiTags.Lesson}
             ]
         }),
@@ -46,8 +46,8 @@ export const classroomApi = baseApi.injectEndpoints({
                     typeIds: classroom.types.map(t => t.id)
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Classroom, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Classroom},
             ]
         }),
         updateClassroom: builder.mutation<number, IClassroom>({
@@ -60,8 +60,8 @@ export const classroomApi = baseApi.injectEndpoints({
                     typeIds: classroom.types.map(t => t.id)
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Classroom, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Classroom},
                 {type: ApiTags.Lesson},
             ]
         }),
@@ -70,8 +70,8 @@ export const classroomApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Classroom}/${id}`,
                 method: HttpMethod.DELETE
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Classroom, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Classroom},
                 {type: ApiTags.Lesson}
             ]
         })

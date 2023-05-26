@@ -15,7 +15,5 @@ public class UpdateSpecialityCommandValidator : AbstractValidator<UpdateSpeciali
         RuleFor(query => query.Name)
             .MaximumLength(20)
             .NotEmpty();
-        RuleFor(query => query.DisciplineIds)
-            .NotEmpty();
     }
 }

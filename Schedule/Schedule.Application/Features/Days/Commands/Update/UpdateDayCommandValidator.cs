@@ -9,7 +9,5 @@ public class UpdateDayCommandValidator : AbstractValidator<UpdateDayCommand>
     {
         RuleFor(query => query.Id)
             .SetValidator(new IdValidator());
-        RuleFor(query => query.IsStudy)
-            .NotNull();
     }
 }

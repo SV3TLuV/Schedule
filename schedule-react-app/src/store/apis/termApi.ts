@@ -22,9 +22,7 @@ export const termApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Term}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (_, __, id) => [
-                {type: ApiTags.Term, id}
-            ]
+            providesTags: (_, __, id) => [{type: ApiTags.Term, id}]
         })
     })
 })

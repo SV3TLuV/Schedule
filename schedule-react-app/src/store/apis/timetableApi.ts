@@ -26,12 +26,13 @@ export const timetableApi = baseApi.injectEndpoints({
                 {type: ApiTags.Timetable, id}
             ]
         }),
-        getCurrentTimetable: builder.query<ITimetable, number>({
+        getCurrentTimetable: builder.query<IPagedList<ITimetable>, number>({
             query: () => ({
                 url: `${ApiTags.Timetable}/current`,
                 method: HttpMethod.GET,
             }),
-            providesTags: () => [
+            providesTags: result => [
+                ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Timetable, id} as const)),
                 {type: ApiTags.Timetable, id: 'CURRENT'}
             ]
         }),

@@ -9,13 +9,10 @@ public class UpdateTimeCommandValidator : AbstractValidator<UpdateTimeCommand>
     {
         RuleFor(query => query.Id)
             .SetValidator(new IdValidator());
-        RuleFor(query => query.Start)
-            .NotNull();
-        RuleFor(query => query.End)
-            .NotNull();
+        RuleFor(query => query.Start);
+        RuleFor(query => query.End);
         RuleFor(query => query.LessonNumber)
-            .InclusiveBetween(1, 10)
-            .NotNull();
+            .InclusiveBetween(1, 8);
         RuleFor(query => query.TypeId)
             .SetValidator(new IdValidator());
     }

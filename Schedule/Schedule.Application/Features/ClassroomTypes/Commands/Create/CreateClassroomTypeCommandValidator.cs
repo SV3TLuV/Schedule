@@ -8,6 +8,6 @@ public class CreateClassroomTypeCommandValidator : AbstractValidator<CreateClass
     {
         RuleFor(query => query.Name)
             .MaximumLength(50)
-            .NotNull();
+            .NotEmpty();
     }
 }

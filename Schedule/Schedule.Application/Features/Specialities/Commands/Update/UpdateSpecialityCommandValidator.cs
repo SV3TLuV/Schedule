@@ -11,10 +11,10 @@ public class UpdateSpecialityCommandValidator : AbstractValidator<UpdateSpeciali
             .SetValidator(new IdValidator());
         RuleFor(query => query.Code)
             .MaximumLength(20)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.Name)
             .MaximumLength(20)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.DisciplineIds)
             .NotEmpty();
     }

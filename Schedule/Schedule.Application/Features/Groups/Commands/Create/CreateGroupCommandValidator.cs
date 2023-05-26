@@ -8,14 +8,13 @@ public class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
     public CreateGroupCommandValidator()
     {
         RuleFor(query => query.Number)
+            .MinimumLength(2)
             .MaximumLength(2)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.SpecialityId)
             .SetValidator(new IdValidator());
         RuleFor(query => query.CourseId)
-            .InclusiveBetween(1, 10)
-            .NotNull();
-        RuleFor(query => query.EnrollmentYear)
-            .NotNull();
+            .InclusiveBetween(1, 10);
+        RuleFor(query => query.EnrollmentYear);
     }
 }

@@ -7,13 +7,10 @@ public class CreateTimeCommandValidator : AbstractValidator<CreateTimeCommand>
 {
     public CreateTimeCommandValidator()
     {
-        RuleFor(query => query.Start)
-            .NotNull();
-        RuleFor(query => query.End)
-            .NotNull();
+        RuleFor(query => query.Start);
+        RuleFor(query => query.End);
         RuleFor(query => query.LessonNumber)
-            .InclusiveBetween(1, 10)
-            .NotNull();
+            .InclusiveBetween(1, 8);
         RuleFor(query => query.TypeId)
             .SetValidator(new IdValidator());
     }

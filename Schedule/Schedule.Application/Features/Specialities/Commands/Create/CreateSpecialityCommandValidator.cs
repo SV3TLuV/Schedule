@@ -8,10 +8,10 @@ public class CreateSpecialityCommandValidator : AbstractValidator<CreateSpeciali
     {
         RuleFor(query => query.Code)
             .MaximumLength(20)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.Name)
             .MaximumLength(20)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.DisciplineIds)
             .NotEmpty();
     }

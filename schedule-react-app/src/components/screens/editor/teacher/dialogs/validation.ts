@@ -14,6 +14,6 @@ export const teacherFormValidatorSchema = Yup.object().shape({
     email: Yup.string()
         .max(200, ValidationMessage.MAX_LENGTH)
         .required(ValidationMessage.REQUIRED),
-    groups: Yup.array(),
-    disciplines: Yup.array()
+    groups: Yup.array().required(ValidationMessage.REQUIRED),
+    disciplines: Yup.array().required(ValidationMessage.REQUIRED)
 })

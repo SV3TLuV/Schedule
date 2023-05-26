@@ -31,6 +31,7 @@ import {AvailableTimesEditor} from "./components/screens/editor/time/AvailableTi
 import {DeletedTimesEditor} from "./components/screens/editor/time/DeletedTimesEditor.tsx";
 import {AvailableTimeTypesEditor} from "./components/screens/editor/timeType/AvailableTimeTypesEditor.tsx";
 import {DeletedTimeTypesEditor} from "./components/screens/editor/timeType/DeletedTimeTypesEditor.tsx";
+import {EditorPage} from "./components/screens/EditorPage.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.application)
@@ -58,7 +59,7 @@ export const router = createBrowserRouter(
                 <Route path='search' element={<SearchSchedulePage/>}/>
                 <Route path='table' element={<TableSchedulePage/>}/>
             </Route>
-            <Route path='editor'>
+            <Route path='editor' element={<EditorPage/>}>
                 <Route path='classrooms' element={<ClassroomsEditorPage/>}>
                     <Route path='available' element={<AvailableClassroomsEditor/>}/>
                     <Route path='deleted' element={<DeletedClassroomsEditor/>}/>

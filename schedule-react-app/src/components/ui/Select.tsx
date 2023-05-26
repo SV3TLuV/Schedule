@@ -26,7 +26,7 @@ interface ISelect<T extends { id: any }, K extends keyof T> {
     clearable?: boolean,
 }
 
-export const Select = memo(<T extends { id: any }, K extends keyof T>(
+export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends keyof T>(
     {
         groupByKey,
         options,

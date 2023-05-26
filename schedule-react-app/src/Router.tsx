@@ -54,11 +54,11 @@ export const router = createBrowserRouter(
     createRoutesFromElements([
         <Route path='/' element={<Root/>}>
             <Route path='login' element={<LoginPage/>}/>
-            <Route path='reports' element={<ReportsPage/>}/>
             <Route path='schedule'>
                 <Route path='search' element={<SearchSchedulePage/>}/>
                 <Route path='table' element={<TableSchedulePage/>}/>
             </Route>
+            <Route path='reports' element={<ReportsPage/>}/>
             <Route path='editor' element={<EditorPage/>}>
                 <Route path='classrooms' element={<ClassroomsEditorPage/>}>
                     <Route path='available' element={<AvailableClassroomsEditor/>}/>

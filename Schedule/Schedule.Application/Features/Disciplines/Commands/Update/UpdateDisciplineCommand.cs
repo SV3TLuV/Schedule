@@ -18,6 +18,8 @@ public sealed class UpdateDisciplineCommand : IRequest, IMapWith<Discipline>
     public void Map(Profile profile)
     {
         profile.CreateMap<Discipline, UpdateDisciplineCommand>()
+            .ForMember(command => command.Id, expression =>
+                expression.MapFrom(discipline => discipline.DisciplineId))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(discipline =>
                     discipline.Name.ToUpper()))
@@ -26,6 +28,8 @@ public sealed class UpdateDisciplineCommand : IRequest, IMapWith<Discipline>
                     discipline.Code.ToUpper()));
         
         profile.CreateMap<UpdateDisciplineCommand, Discipline>()
+            .ForMember(discipline => discipline.DisciplineId, expression =>
+                expression.MapFrom(command => command.Id))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(discipline =>
                     discipline.Name.ToUpper()))

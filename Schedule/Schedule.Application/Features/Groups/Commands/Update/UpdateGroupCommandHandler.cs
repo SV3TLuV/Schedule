@@ -21,6 +21,7 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
     public async Task Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
     {
         var groupDbo = await _context.Set<Group>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 
         if (groupDbo is null)

@@ -23,6 +23,7 @@ public sealed class UpdateTeacherCommandHandler : IRequestHandler<UpdateTeacherC
         CancellationToken cancellationToken)
     {
         var teacherDbo = await _context.Set<Teacher>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TeacherId == request.Id, cancellationToken);
 
         if (teacherDbo is null)

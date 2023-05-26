@@ -21,6 +21,7 @@ public sealed class UpdateDayCommandHandler : IRequestHandler<UpdateDayCommand>
     public async Task Handle(UpdateDayCommand request, CancellationToken cancellationToken)
     {
         var dayDbo = await _context.Set<Day>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DayId == request.Id, cancellationToken);
 
         if (dayDbo is null)

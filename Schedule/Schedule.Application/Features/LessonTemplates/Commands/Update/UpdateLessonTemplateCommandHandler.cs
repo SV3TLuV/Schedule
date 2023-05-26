@@ -27,6 +27,7 @@ public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateL
         CancellationToken cancellationToken)
     {
         var lessonTemplateDbo = await _context.Set<LessonTemplate>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.LessonTemplateId == request.Id, cancellationToken);
 
         if (lessonTemplateDbo is null)

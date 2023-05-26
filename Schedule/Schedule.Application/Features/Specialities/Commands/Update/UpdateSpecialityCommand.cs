@@ -11,10 +11,12 @@ public sealed class UpdateSpecialityCommand : IRequest, IMapWith<Speciality>
     public required string Code { get; set; }
     public required string Name { get; set; }
     public required ICollection<int> DisciplineIds { get; set; }
-
+    
     public void Map(Profile profile)
     {
         profile.CreateMap<Speciality, UpdateSpecialityCommand>()
+            .ForMember(command => command.Id, expression =>
+                expression.MapFrom(speciality => speciality.SpecialityId))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
                     speciality.Name.ToUpper()))
@@ -26,6 +28,8 @@ public sealed class UpdateSpecialityCommand : IRequest, IMapWith<Speciality>
                     .Select(discipline => discipline.DisciplineId)));
         
         profile.CreateMap<UpdateSpecialityCommand, Speciality>()
+            .ForMember(speciality => speciality.SpecialityId, expression =>
+                expression.MapFrom(command => command.Id))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
                     speciality.Name.ToUpper()))

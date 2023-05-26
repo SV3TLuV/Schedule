@@ -21,6 +21,7 @@ public sealed class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisci
     public async Task Handle(UpdateDisciplineCommand request, CancellationToken cancellationToken)
     {
         var disciplineDbo = await _context.Set<Discipline>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DisciplineId == request.Id, cancellationToken);
 
         if (disciplineDbo is null)

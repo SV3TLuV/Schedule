@@ -21,6 +21,7 @@ public sealed class UpdateTimeCommandHandler : IRequestHandler<UpdateTimeCommand
     public async Task Handle(UpdateTimeCommand request, CancellationToken cancellationToken)
     {
         var timeDbo = await _context.Set<Time>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TimeId == request.Id, cancellationToken);
 
         if (timeDbo is null)

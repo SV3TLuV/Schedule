@@ -55,7 +55,6 @@ export const disciplineApi = baseApi.injectEndpoints({
                     specialityId: discipline.speciality.id,
                     disciplineTypeId: discipline.type.id,
                     termId: discipline.term.id,
-                    isDeleted: discipline.isDeleted,
                 }
             }),
             invalidatesTags: () => [
@@ -74,7 +73,6 @@ export const disciplineApi = baseApi.injectEndpoints({
                     specialityId: discipline.speciality.id,
                     disciplineTypeId: discipline.type.id,
                     termId: discipline.term.id,
-                    isDeleted: discipline.isDeleted,
                 }
             }),
             invalidatesTags: () => [

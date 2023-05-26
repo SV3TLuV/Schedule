@@ -66,7 +66,6 @@ export const specialityApi = baseApi.injectEndpoints({
                     code: speciality.code,
                     name: speciality.name,
                     disciplineIds: speciality.disciplines.map(d => d.id),
-                    isDeleted: speciality.isDeleted,
                 }
             }),
             invalidatesTags: () => [

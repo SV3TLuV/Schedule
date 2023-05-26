@@ -52,6 +52,7 @@ export const timeApi = baseApi.injectEndpoints({
                     start: time.start,
                     end: time.end,
                     lessonNumber: time.lessonNumber,
+                    duration: time.duration,
                     typeId: time.type.id,
                 }
             }),
@@ -68,8 +69,8 @@ export const timeApi = baseApi.injectEndpoints({
                     start: time.start,
                     end: time.end,
                     lessonNumber: time.lessonNumber,
+                    duration: time.duration,
                     typeId: time.type.id,
-                    isDeleted: time.isDeleted,
                 }
             }),
             invalidatesTags: () => [

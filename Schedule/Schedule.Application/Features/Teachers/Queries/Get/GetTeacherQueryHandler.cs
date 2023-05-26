@@ -25,6 +25,7 @@ public sealed class GetTeacherQueryHandler : IRequestHandler<GetTeacherQuery, Te
         var teacher = await _context.Set<Teacher>()
             .Include(e => e.TeacherGroups)
             .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Speciality)
             .Include(e => e.TeacherDisciplines)
             .ThenInclude(e => e.Discipline)
             .AsNoTrackingWithIdentityResolution()

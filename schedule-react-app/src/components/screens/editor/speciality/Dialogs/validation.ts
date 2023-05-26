@@ -8,5 +8,5 @@ export const specialityFormValidationSchema = Yup.object().shape({
     name: Yup.string()
         .max(20, ValidationMessage.MAX_LENGTH)
         .required(ValidationMessage.REQUIRED),
-    maxTermId: Yup.number().required(ValidationMessage.REQUIRED),
+    term: Yup.object().required(ValidationMessage.REQUIRED),
 })

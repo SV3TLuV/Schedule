@@ -4,6 +4,13 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {specialityFormValidationSchema} from "./validation.ts";
 import {Button, Form, Modal} from "react-bootstrap";
 import {TextField} from "@mui/material";
+import {Select} from "../../../../ui/Select.tsx";
+import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
+import {useGetTermsQuery} from "../../../../../store/apis/termApi.ts";
+import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
+import {ITerm} from "../../../../../features/models/ITerm.ts";
+import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
+import {ICourse} from "../../../../../features/models/ICourse.ts";
 
 interface ISpecialityForm {
     title: string
@@ -13,20 +20,58 @@ interface ISpecialityForm {
     onSave: (speciality: ISpeciality) => void
 }
 
+interface ISpecialityFormState {
+    id: number
+    code: string
+    name: string
+    term: ITerm
+    disciplines: IDiscipline[]
+}
+
 export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpecialityForm) => {
-    const {control, handleSubmit, reset, formState: {errors}} = useForm<ISpeciality>({
+    const [termQuery, setTermQuery] = usePaginationQuery()
+    const {data: termData} = useGetTermsQuery(termQuery)
+    const {
+        options: terms,
+        loadMore: loadMoreTerms,
+        search: searchTerms
+    } = useInfinitySelect<ITerm>({
+        query: termQuery,
+        setQuery: setTermQuery,
+        data: termData
+    })
+
+    const defaultValue: ISpecialityFormState = {
+        id: speciality.id,
+        code: speciality.code,
+        name: speciality.name,
+        term: {
+            id: speciality.maxTermId,
+            courseTerm: 0,
+            course: {} as ICourse
+        } as ITerm,
+        disciplines: speciality.disciplines,
+    }
+
+    const {control, handleSubmit, reset, formState: {errors}} = useForm<ISpecialityFormState>({
         resolver: yupResolver(specialityFormValidationSchema),
-        values: speciality,
+        values: defaultValue,
         mode: 'onChange',
     })
 
-    const onSubmit: SubmitHandler<ISpeciality> = data => {
-        onSave(data)
+    const onSubmit: SubmitHandler<ISpecialityFormState> = data => {
+        onSave({
+            id: data.id,
+            code: data.code,
+            name: data.name,
+            maxTermId: data.term.id,
+            disciplines: data.disciplines,
+        } as ISpeciality)
         handleClose()
     }
 
     const handleClose = () => {
-        reset(speciality)
+        reset(defaultValue)
         onClose()
     }
 
@@ -82,17 +127,19 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                     />
                     <Controller
                         control={control}
-                        name='maxTermId'
+                        name='term'
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <TextField
-                                    fullWidth
-                                    size='small'
-                                    label='Кол-во семестров'
-                                    value={field.value}
+                                <Select
                                     onChange={field.onChange}
-                                    error={!!errors.maxTermId?.message}
-                                    helperText={errors.maxTermId?.message}
+                                    onLoadMore={loadMoreTerms}
+                                    onSearch={searchTerms}
+                                    value={field.value}
+                                    options={terms}
+                                    fields='id'
+                                    label='Кол-во семестров'
+                                    error={!!errors.term?.message}
+                                    helperText={errors.term?.message}
                                 />
                             </Form.Group>
                         )}

@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
 import {IPagedList} from "../features/models/IPagedList.ts";
 import {IPaginationQueryWithFilters} from "../features/queries/IPaginationQueryWithFilters.ts";
 
@@ -15,7 +15,7 @@ export const useInfinitySelect = <T extends { id: number }>(
         setQuery,
         data
     }: useInfinitySelect<T>) => {
-    const [options, setOptions] = useState<T[]>([])
+    const [options, setOptions] = useState<T[]>(() => [])
 
     useEffect(() => {
         if (data) {
@@ -29,15 +29,17 @@ export const useInfinitySelect = <T extends { id: number }>(
         }
     }, [data])
 
-    const loadMore = () => {
+    const loadMore = useCallback(() => {
         const hasMore = query.page < (data?.totalPages ?? 1)
 
         if (hasMore) {
             setQuery(prev => ({...prev, page: prev.page + 1}))
         }
-    }
+    }, [data?.totalPages, query.page, setQuery])
 
-    const search = (value: string) => setQuery(prev => ({...prev, search: value}))
+    const search = useCallback((value: string) => {
+        setQuery(prev => ({...prev, search: value}))
+    }, [setQuery])
 
     return {options, loadMore, search}
 }

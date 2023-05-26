@@ -6,7 +6,7 @@ import {
     TextFieldPropsSizeOverrides, Theme
 } from "@mui/material";
 import {OverridableStringUnion} from "@mui/types";
-import {SyntheticEvent} from "react";
+import {memo, SyntheticEvent, useCallback, useMemo} from "react";
 
 interface ISelect<T extends { id: any }, K extends keyof T> {
     options: T[]
@@ -26,7 +26,7 @@ interface ISelect<T extends { id: any }, K extends keyof T> {
     clearable?: boolean
 }
 
-export const Select = <T extends { id: any }, K extends keyof T>(
+export const Select = memo(<T extends { id: any }, K extends keyof T>(
     {
         groupByKey,
         options,
@@ -45,12 +45,13 @@ export const Select = <T extends { id: any }, K extends keyof T>(
         clearable = true
     }: ISelect<T, K>) => {
 
-    const handleChange = (_: SyntheticEvent, selected: T | T[] | null) => {
+    const handleChange = useCallback((_: SyntheticEvent, selected: T | T[] | null) => {
         if (onChange)  {
             onChange(selected)
         }
-    }
-    const renderInput = (params: AutocompleteRenderInputParams) => (
+    }, [onChange])
+
+    const renderInput = useCallback((params: AutocompleteRenderInputParams) => (
         <TextField
             {...params}
             fullWidth={true}
@@ -59,32 +60,41 @@ export const Select = <T extends { id: any }, K extends keyof T>(
             label={label}
             size={size}
         />
-    )
+    ), [error, helperText, label, size])
 
-    const getOptionLabel = (option: T) =>
-        (fields instanceof Array ? fields : [fields])
+    const getOptionLabel = useCallback((option: T) => {
+        return (fields instanceof Array ? fields : [fields])
             .map(field => option[field])
             .filter(value => value)
             .join(fieldSplitter)
+    }, [fieldSplitter, fields])
 
-    const values = value ?? []
-    const groupBy = (option: T) => groupByKey ? option[groupByKey] as string : '';
-    const isOptionEqualToValue = (option: T, value: T) => option.id === value.id
+    const values = useMemo(() => {
+        return value ?? []
+    }, [value])
+    
+    const groupBy = useCallback((option: T) => {
+        return groupByKey ? option[groupByKey] as string : ''
+    }, [groupByKey])
+    
+    const isOptionEqualToValue = useCallback((option: T, value: T) => {
+        return option.id === value.id
+    }, [])
 
-    const handleScroll = (event: React.UIEvent<HTMLUListElement>) => {
+    const handleScroll = useCallback((event: React.UIEvent<HTMLUListElement>) => {
         const { scrollTop, clientHeight, scrollHeight } = event.currentTarget
         const isScrolledToBottom = scrollTop + clientHeight === scrollHeight
 
         if (isScrolledToBottom && onLoadMore) {
             onLoadMore()
         }
-    };
+    }, [onLoadMore])
 
-    const handleSearch = (_: React.SyntheticEvent, value: string) => {
+    const handleSearch = useCallback((_: React.SyntheticEvent, value: string) => {
         if (onSearch) {
             onSearch(value)
         }
-    }
+    }, [onSearch])
 
     return (
         <Autocomplete
@@ -103,4 +113,4 @@ export const Select = <T extends { id: any }, K extends keyof T>(
             ListboxProps={{ onScroll: handleScroll }}
         />
     )
-}
+})

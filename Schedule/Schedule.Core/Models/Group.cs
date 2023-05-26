@@ -37,5 +37,7 @@ public partial class Group
 
 public partial class Group
 {
-    public string Name => $"{Speciality.Name}-{Number}";
+    public string Name => Speciality is not null 
+        ? $"{Speciality.Name}-{Number}"
+        : "";
 }

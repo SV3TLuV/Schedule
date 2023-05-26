@@ -17,12 +17,12 @@ export const usePaginationQuery = (
         page = 1
     }: IUsePaginationQuery = {}) => {
     
-    const [paginationQuery, setPaginationQuery] = useState({
+    const [paginationQuery, setPaginationQuery] = useState(() => ({
         filter,
         pageSize,
         page,
         search
-    } as IPaginationQueryWithFilters)
+    } as IPaginationQueryWithFilters))
 
     return [paginationQuery, setPaginationQuery] as const;
 }

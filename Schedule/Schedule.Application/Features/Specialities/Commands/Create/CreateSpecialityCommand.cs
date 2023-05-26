@@ -9,8 +9,7 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
 {
     public required string Code { get; set; }
     public required string Name { get; set; }
-    public required ICollection<int> DisciplineIds { get; set; }
-
+    
     public void Map(Profile profile)
     {
         profile.CreateMap<Speciality, CreateSpecialityCommand>()
@@ -19,10 +18,7 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
                     speciality.Name.ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Code.ToUpper()))
-            .ForMember(command => command.DisciplineIds, expression =>
-                expression.MapFrom(speciality => speciality.Disciplines
-                    .Select(discipline => discipline.DisciplineId)));
+                    speciality.Code.ToUpper()));
         
         profile.CreateMap<CreateSpecialityCommand, Speciality>()
             .ForMember(command => command.Name, expression =>
@@ -30,12 +26,6 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
                     speciality.Name.ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Code.ToUpper()))
-            .ForMember(speciality => speciality.Disciplines, expression =>
-                expression.MapFrom(command => command.DisciplineIds
-                    .Select(id => new Discipline
-                    {
-                        DisciplineId = id,
-                    })));
+                    speciality.Code.ToUpper()));
     }
 }

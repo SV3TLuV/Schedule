@@ -10,7 +10,9 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
 
     public string Number { get; set; } = null!;
 
-    public string Name => $"{Speciality.Name}-{Number}";
+    public string Name => Speciality is not null 
+        ? $"{Speciality.Name}-{Number}"
+        : "";
 
     public int EnrollmentYear { get; set; }
 

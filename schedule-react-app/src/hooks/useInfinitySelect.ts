@@ -17,8 +17,6 @@ export const useInfinitySelect = <T extends { id: number }>(
     }: useInfinitySelect<T>) => {
     const [options, setOptions] = useState<T[]>([])
 
-    console.log(data)
-
     useEffect(() => {
         if (data) {
             setOptions(prev => {

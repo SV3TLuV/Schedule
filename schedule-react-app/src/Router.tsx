@@ -14,6 +14,7 @@ import {ClassroomsEditorPage} from "./components/screens/editor/classroom/Classr
 import {TimesEditorPage} from "./components/screens/editor/time/TimesEditorPage.tsx";
 import {TimeTypesEditorPage} from "./components/screens/editor/timeType/TimeTypesEditorPage.tsx";
 import {Header} from "./components/layout/header/Header.tsx";
+import {LessonEditorPage} from "./components/screens/editor/lesson/LessonEditorPage.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.application)
@@ -45,7 +46,7 @@ export const router = createBrowserRouter(
                 <Route path='classrooms' element={<ClassroomsEditorPage/>}/>
                 <Route path='disciplines' element={<DisciplinesEditorPage/>}/>
                 <Route path='groups' element={<GroupsEditorPage/>}/>
-                <Route path='lessons' element={<></>}/>
+                <Route path='lessons' element={<LessonEditorPage></LessonEditorPage>}/>
                 <Route path='specialities' element={<SpecialitiesEditorPage/>}/>
                 <Route path='teachers' element={<TeachersEditorPage/>}/>
                 <Route path='times' element={<TimesEditorPage/>}/>

@@ -34,8 +34,8 @@ export const teacherApi = baseApi.injectEndpoints({
                     id: id
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Teacher, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Teacher},
                 {type: ApiTags.Lesson},
             ]
         }),
@@ -52,8 +52,8 @@ export const teacherApi = baseApi.injectEndpoints({
                     disciplineIds: teacher.disciplines.map(d => d.id),
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Teacher, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Teacher},
             ]
         }),
         updateTeacher: builder.mutation<number, ITeacher>({
@@ -71,8 +71,8 @@ export const teacherApi = baseApi.injectEndpoints({
                     isDeleted: teacher.isDeleted,
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Teacher, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Teacher},
                 {type: ApiTags.Lesson},
             ]
         }),
@@ -81,8 +81,8 @@ export const teacherApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Teacher}/${id}`,
                 method: HttpMethod.DELETE,
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Teacher, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Teacher},
                 {type: ApiTags.Lesson},
             ]
         }),

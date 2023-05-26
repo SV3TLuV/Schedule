@@ -22,9 +22,7 @@ export const specialityApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Speciality}/${id}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (_, __, id) => [
-                {type: ApiTags.Speciality, id}
-            ]
+            providesTags: (_, __, id) => [{type: ApiTags.Speciality, id}]
         }),
         restoreSpeciality: builder.mutation<number, number>({
             query: id => ({
@@ -34,8 +32,8 @@ export const specialityApi = baseApi.injectEndpoints({
                     id: id
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Speciality, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Speciality},
                 {type: ApiTags.Group},
                 {type: ApiTags.Discipline},
             ]
@@ -50,8 +48,8 @@ export const specialityApi = baseApi.injectEndpoints({
                     disciplineIds: speciality.disciplines.map(d => d.id),
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Speciality, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Speciality},
             ]
         }),
         updateSpeciality: builder.mutation<number, ISpeciality>({
@@ -66,8 +64,8 @@ export const specialityApi = baseApi.injectEndpoints({
                     isDeleted: speciality.isDeleted,
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Speciality, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Speciality},
                 {type: ApiTags.Group},
                 {type: ApiTags.Discipline},
             ]
@@ -77,8 +75,8 @@ export const specialityApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Speciality}/${id}`,
                 method: HttpMethod.DELETE,
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Speciality, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Speciality},
                 {type: ApiTags.Group},
                 {type: ApiTags.Discipline},
             ]

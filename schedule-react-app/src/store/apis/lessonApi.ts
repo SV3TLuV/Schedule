@@ -22,6 +22,7 @@ export const lessonApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Lesson}/${id}`,
                 method: HttpMethod.GET
             }),
+            providesTags: (_, __, id) => [{type: ApiTags.Lesson, id}]
         }),
         createLesson: builder.mutation<number, ILesson>({
             query: lesson => ({
@@ -40,6 +41,10 @@ export const lessonApi = baseApi.injectEndpoints({
                         })),
                 }
             }),
+            invalidatesTags: () => [
+                {type: ApiTags.Lesson },
+                {type: ApiTags.Timetable },
+            ]
         }),
         updateLesson: builder.mutation<number, ILesson>({
             query: lesson => ({
@@ -59,12 +64,20 @@ export const lessonApi = baseApi.injectEndpoints({
                         })),
                 }
             }),
+            invalidatesTags: () => [
+                {type: ApiTags.Lesson },
+                {type: ApiTags.Timetable },
+            ]
         }),
         deleteLesson: builder.mutation<number, number>({
             query: id => ({
                 url: `${ApiTags.Lesson}/${id}`,
                 method: HttpMethod.DELETE,
             }),
+            invalidatesTags: () => [
+                {type: ApiTags.Lesson },
+                {type: ApiTags.Timetable },
+            ]
         }),
     })
 })

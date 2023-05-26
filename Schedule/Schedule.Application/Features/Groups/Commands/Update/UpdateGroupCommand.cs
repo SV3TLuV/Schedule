@@ -12,7 +12,7 @@ public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
     public required int CourseId { get; set; }
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
-    public required ICollection<int> MergedGroupIds { get; set; } 
+    public ICollection<int> MergedGroupIds { get; set; } 
     
     public void Map(Profile profile)
     {

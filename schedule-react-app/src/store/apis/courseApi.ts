@@ -1,20 +1,25 @@
 import {ApiTags, baseApi} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {ICourse} from "../../features/models/ICourse.ts";
-import {IPaginationQuery} from "../../features/queries/IPaginationQuery.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
+import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
 
 export const courseApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getCourses: builder.query<IPagedList<ICourse>, IPaginationQuery | void>({
+        getCourses: builder.query<IPagedList<ICourse>, IPaginationQueryWithFilters | void>({
             query: query => ({
                 url: `${ApiTags.Course}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Course, id} as const)),
-                {type: ApiTags.Course, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Course,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getCourse: builder.query<ICourse, number>({

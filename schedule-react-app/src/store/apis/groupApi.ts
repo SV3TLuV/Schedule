@@ -12,9 +12,14 @@ export const groupApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Group}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Group, id} as const)),
-                {type: ApiTags.Group, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Group,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getGroup: builder.query<IGroup, number>({

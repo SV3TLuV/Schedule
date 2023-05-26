@@ -12,9 +12,14 @@ export const dayApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Day}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Day, id} as const)),
-                {type: ApiTags.Day, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Day,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getDay: builder.query<IDay, number>({

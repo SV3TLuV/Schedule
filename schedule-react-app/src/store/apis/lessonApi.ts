@@ -12,9 +12,14 @@ export const lessonApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Lesson}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Lesson, id} as const)),
-                {type: ApiTags.Lesson, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Lesson,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getLesson: builder.query<ILesson, number>({

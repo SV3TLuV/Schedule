@@ -12,9 +12,14 @@ export const specialityApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Speciality}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Speciality, id} as const)),
-                {type: ApiTags.Speciality, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Speciality,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getSpeciality: builder.query<ISpeciality, number>({

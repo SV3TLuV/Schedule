@@ -12,9 +12,14 @@ export const templateApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Template}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Template, id} as const)),
-                {type: ApiTags.Template, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Template,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getTemplate: builder.query<ITemplate, number>({

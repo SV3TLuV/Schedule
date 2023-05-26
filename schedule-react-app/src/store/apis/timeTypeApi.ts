@@ -12,9 +12,14 @@ export const timeTypeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.TimeType}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.TimeType, id} as const)),
-                {type: ApiTags.TimeType, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.TimeType,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getTimeType: builder.query<ITimeType, number>({

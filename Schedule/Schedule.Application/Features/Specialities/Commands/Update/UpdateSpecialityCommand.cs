@@ -10,7 +10,8 @@ public sealed class UpdateSpecialityCommand : IRequest, IMapWith<Speciality>
     public required int Id { get; set; }
     public required string Code { get; set; }
     public required string Name { get; set; }
-    
+    public required int MaxTermId { get; set; }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Speciality, UpdateSpecialityCommand>()

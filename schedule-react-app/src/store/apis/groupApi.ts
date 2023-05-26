@@ -33,7 +33,7 @@ export const groupApi = baseApi.injectEndpoints({
                 }
             }),
             invalidatesTags: () => [
-                {type: ApiTags.Group},
+                {type: ApiTags.Group },
                 {type: ApiTags.Timetable },
                 {type: ApiTags.Template },
             ]

@@ -34,8 +34,8 @@ export const timeApi = baseApi.injectEndpoints({
                     id: id
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Time, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Time},
                 {type: ApiTags.Lesson},
             ]
         }),
@@ -50,8 +50,8 @@ export const timeApi = baseApi.injectEndpoints({
                     typeId: time.type.id,
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Time, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Time},
             ]
         }),
         updateTime: builder.mutation<number, ITime>({
@@ -67,8 +67,8 @@ export const timeApi = baseApi.injectEndpoints({
                     isDeleted: time.isDeleted,
                 }
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Time, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Time},
                 {type: ApiTags.Lesson},
             ]
         }),
@@ -77,8 +77,8 @@ export const timeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Time}/${id}`,
                 method: HttpMethod.DELETE,
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Time, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Time},
                 {type: ApiTags.Lesson},
             ]
         }),

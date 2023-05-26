@@ -21,6 +21,7 @@ public sealed class UpdateClassroomTypeCommandHandler : IRequestHandler<UpdateCl
     public async Task Handle(UpdateClassroomTypeCommand request, CancellationToken cancellationToken)
     {
         var classroomTypeDbo = await _context.Set<ClassroomType>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.ClassroomTypeId == request.Id, cancellationToken);
 
         if (classroomTypeDbo is null)

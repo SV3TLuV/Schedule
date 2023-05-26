@@ -21,6 +21,7 @@ public sealed class UpdateSpecialityCommandHandler : IRequestHandler<UpdateSpeci
     public async Task Handle(UpdateSpecialityCommand request, CancellationToken cancellationToken)
     {
         var specialityDbo = await _context.Set<Speciality>()
+            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.SpecialityId == request.Id, cancellationToken);
 
         if (specialityDbo is null)

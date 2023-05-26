@@ -15,6 +15,5 @@ public class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
             .SetValidator(new IdValidator());
         RuleFor(query => query.TermId)
             .InclusiveBetween(1, 10);
-        RuleFor(query => query.EnrollmentYear);
     }
 }

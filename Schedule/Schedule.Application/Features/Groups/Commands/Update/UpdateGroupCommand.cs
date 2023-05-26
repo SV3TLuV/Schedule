@@ -12,7 +12,7 @@ public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
     public required int TermId { get; set; }
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
-    public ICollection<int> MergedGroupIds { get; set; } 
+    public ICollection<int>? MergedGroupIds { get; set; } 
     
     public void Map(Profile profile)
     {
@@ -27,7 +27,7 @@ public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
             .ForMember(group => group.GroupId, expression =>
                 expression.MapFrom(command => command.Id))
             .ForMember(group => group.GroupGroups, expression =>
-                expression.MapFrom(command => command.MergedGroupIds
+                expression.MapFrom(command => (command.MergedGroupIds ?? Array.Empty<int>())
                     .Select(groupId => new GroupGroup
                     {
                         GroupId = command.Id,

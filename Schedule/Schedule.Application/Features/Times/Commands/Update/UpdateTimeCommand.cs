@@ -11,6 +11,7 @@ public sealed class UpdateTimeCommand : IRequest, IMapWith<Time>
     public required TimeSpan Start { get; set; }
     public required TimeSpan End { get; set; }
     public required int LessonNumber { get; set; }
+    public required int Duration { get; set; }
     public required int TypeId { get; set; }
     
     public void Map(Profile profile)

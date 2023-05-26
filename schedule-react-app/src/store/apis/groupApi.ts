@@ -46,7 +46,7 @@ export const groupApi = baseApi.injectEndpoints({
                     number: group.number,
                     enrollmentYear: group.enrollmentYear,
                     termId: group.term.id,
-                    specialityCodeId: group.speciality.id
+                    specialityId: group.speciality.id
                 },
             }),
             invalidatesTags: () => [
@@ -64,7 +64,7 @@ export const groupApi = baseApi.injectEndpoints({
                     number: group.number,
                     enrollmentYear: group.enrollmentYear,
                     termId: group.term.id,
-                    specialityCodeId: group.speciality.id
+                    specialityId: group.speciality.id
                 },
             }),
             invalidatesTags: () => [

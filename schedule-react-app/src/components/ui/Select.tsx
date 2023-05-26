@@ -9,21 +9,21 @@ import {OverridableStringUnion} from "@mui/types";
 import {memo, SyntheticEvent, useCallback, useMemo} from "react";
 
 interface ISelect<T extends { id: any }, K extends keyof T> {
-    options: T[]
-    groupByKey?: K | null
-    fields: K | K[]
-    fieldSplitter?: string
-    label: string
-    error?: boolean
-    helperText?: string
-    multiple?: boolean
-    value?: T | T[] | null
-    onChange?: (item: T | T[] | null) => void
-    onLoadMore?: () => void
-    onSearch?: (value: string) => void
-    size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>
-    sx?: SxProps<Theme>
-    clearable?: boolean
+    options: T[],
+    groupByKey?: K | null,
+    fields: K | K[],
+    fieldSplitter?: string,
+    label: string,
+    error?: boolean,
+    helperText?: string,
+    multiple?: boolean,
+    value?: T | T[] | null,
+    onChange?: (item: T | T[] | null) => void,
+    onLoadMore?: () => void,
+    onSearch?: (value: string) => void,
+    size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>,
+    sx?: SxProps<Theme>,
+    clearable?: boolean,
 }
 
 export const Select = memo(<T extends { id: any }, K extends keyof T>(
@@ -42,7 +42,7 @@ export const Select = memo(<T extends { id: any }, K extends keyof T>(
         onChange,
         sx,
         size = 'small',
-        clearable = true
+        clearable = true,
     }: ISelect<T, K>) => {
 
     const handleChange = useCallback((_: SyntheticEvent, selected: T | T[] | null) => {

@@ -8,6 +8,6 @@ export interface IGroup {
     enrollmentYear: number
     term: ITerm
     speciality: ISpeciality
-    mergedGroups: IGroup[] | undefined
+    mergedGroups: IGroup[]
     isDeleted: boolean
 }

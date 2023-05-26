@@ -15,7 +15,7 @@ public class UpdateGroupCommandValidator : AbstractValidator<UpdateGroupCommand>
             .NotEmpty();
         RuleFor(query => query.SpecialityId)
             .SetValidator(new IdValidator());
-        RuleFor(query => query.CourseId)
+        RuleFor(query => query.TermId)
             .InclusiveBetween(1, 10);
         RuleFor(query => query.EnrollmentYear);
     }

@@ -8,8 +8,8 @@ namespace Schedule.Application.Features.Times.Commands.Update;
 public sealed class UpdateTimeCommand : IRequest, IMapWith<Time>
 {
     public required int Id { get; set; }
-    public required TimeSpan Start { get; set; }
-    public required TimeSpan End { get; set; }
+    public required string Start { get; set; }
+    public required string End { get; set; }
     public required int LessonNumber { get; set; }
     public required int Duration { get; set; }
     public required int TypeId { get; set; }

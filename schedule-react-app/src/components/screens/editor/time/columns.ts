@@ -1,5 +1,23 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {ITimeType} from "../../../features/models/ITimeType.ts";
+import {ITimeType} from "../../../../features/models/ITimeType.ts";
+
+function getHourWord(number: number): string {
+    let word: string;
+    const lastDigit = number % 10;
+    const lastTwoDigits = number % 100;
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+        word = 'часов';
+    } else if (lastDigit === 1) {
+        word = 'час';
+    } else if (lastDigit >= 2 && lastDigit <= 4) {
+        word = 'часа';
+    } else {
+        word = 'часов';
+    }
+
+    return `${number} ${word}`;
+}
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },
@@ -10,12 +28,7 @@ export const columns: GridColDef[] = [
         field: 'duration',
         headerName: 'Длительность',
         width: 140,
-        renderCell: props => {
-            const duration = props.value as number
-            return (duration & 1) == 0
-                ? `${duration} часа`
-                : `${duration} час`
-        }
+        renderCell: props => getHourWord(props.value as number)
     },
     {
         field: 'type',

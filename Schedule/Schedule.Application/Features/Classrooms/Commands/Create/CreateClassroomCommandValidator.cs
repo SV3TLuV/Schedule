@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Schedule.Application.Features.Base.Validators;
 
 namespace Schedule.Application.Features.Classrooms.Commands.Create;
 
@@ -8,8 +9,9 @@ public class CreateClassroomCommandValidator : AbstractValidator<CreateClassroom
     {
         RuleFor(query => query.Cabinet)
             .MaximumLength(10)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.TypeIds)
+            .SetValidator(new IdsValidator())
             .NotEmpty();
     }
 }

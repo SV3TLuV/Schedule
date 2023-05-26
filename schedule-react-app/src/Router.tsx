@@ -6,7 +6,6 @@ import {LoginPage} from "./components/screens/login/LoginPage.tsx";
 import {ReportsPage} from "./components/screens/reports/ReportsPage.tsx";
 import {SearchSchedulePage} from "./components/screens/schedule/search/SearchSchedulePage.tsx";
 import {TableSchedulePage} from "./components/screens/schedule/table/TableSchedulePage.tsx";
-import {PairsEditor} from "./components/screens/editor/pair/PairsEditor.tsx";
 import {SpecialitiesEditorPage} from "./components/screens/editor/speciality/SpecialitiesEditorPage.tsx";
 import {DisciplinesEditorPage} from "./components/screens/editor/discipline/DisciplinesEditorPage.tsx";
 import {GroupsEditorPage} from "./components/screens/editor/group/GroupsEditorPage.tsx";
@@ -43,38 +42,14 @@ export const router = createBrowserRouter(
                 <Route path='table' element={<TableSchedulePage/>}/>
             </Route>
             <Route path='editor'>
-                <Route path='pairs' element={<PairsEditor/>}/>
-                <Route path='specialities'>
-                    <Route index element={<SpecialitiesEditorPage/>}/>
-                    <Route path='create' element={<>Добавить специальность</>}/>
-                    <Route path='update/:id' element={<>Обновить специальность</>}/>
-                </Route>
-                <Route path='disciplines'>
-                    <Route index element={<DisciplinesEditorPage/>}/>
-                    <Route path='create' element={<>Добавить дисциплину</>}/>
-                    <Route path='update/:id' element={<>Обновить дисциплину</>}/>
-                </Route>
-                <Route path='groups'>
-                    <Route index element={<GroupsEditorPage/>}/>
-                    <Route path='create' element={<>Добавить группу</>}/>
-                    <Route path='update/:id' element={<>Обновить группу</>}/>
-                </Route>
-                <Route path='teachers'>
-                    <Route index element={<TeachersEditorPage/>}/>
-                    <Route path='create' element={<>Добавить преподавателя</>}/>
-                    <Route path='update/:id' element={<>Обновить преподавателя</>}/>
-                </Route>
-                <Route path='classrooms'element={<ClassroomsEditorPage/>}/>
-                <Route path='times'>
-                    <Route index element={<TimesEditorPage/>}/>
-                    <Route path='create' element={<>Добавить время</>}/>
-                    <Route path='update/:id' element={<>Обновить время</>}/>
-                </Route>
-                <Route path='time-types'>
-                    <Route index element={<TimeTypesEditorPage/>}/>
-                    <Route path='create' element={<>Добавить вид времени</>}/>
-                    <Route path='update/:id' element={<>Обновить вид времени</>}/>
-                </Route>
+                <Route path='classrooms' element={<ClassroomsEditorPage/>}/>
+                <Route path='disciplines' element={<DisciplinesEditorPage/>}/>
+                <Route path='groups' element={<GroupsEditorPage/>}/>
+                <Route path='lessons' element={<></>}/>
+                <Route path='specialities' element={<SpecialitiesEditorPage/>}/>
+                <Route path='teachers' element={<TeachersEditorPage/>}/>
+                <Route path='times' element={<TimesEditorPage/>}/>
+                <Route path='time-types' element={<TimeTypesEditorPage/>}/>
             </Route>
         </Route>
     ])

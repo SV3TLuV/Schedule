@@ -10,8 +10,7 @@ public class UpdateLessonCommandValidator : AbstractValidator<UpdateLessonComman
         RuleFor(query => query.Id)
             .SetValidator(new IdValidator());
         RuleFor(query => query.Number)
-            .GreaterThan(0)
-            .NotNull();
+            .InclusiveBetween(1, 8);
         RuleFor(query => query.Subgroup)
             .GreaterThan(0);
         RuleFor(query => query.TimeId)

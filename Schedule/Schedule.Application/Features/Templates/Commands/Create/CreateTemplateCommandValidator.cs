@@ -10,13 +10,10 @@ public class CreateTemplateCommandValidator : AbstractValidator<CreateTemplateCo
         RuleFor(query => query.GroupId)
             .SetValidator(new IdValidator());
         RuleFor(query => query.TermId)
-            .InclusiveBetween(1, 10)
-            .NotNull();
+            .InclusiveBetween(1, 10);
         RuleFor(query => query.DayId)
-            .InclusiveBetween(1, 7)
-            .NotNull();
+            .InclusiveBetween(1, 7);
         RuleFor(query => query.WeekTypeId)
-            .InclusiveBetween(1, 2)
-            .NotNull();
+            .InclusiveBetween(1, 2);
     }
 }

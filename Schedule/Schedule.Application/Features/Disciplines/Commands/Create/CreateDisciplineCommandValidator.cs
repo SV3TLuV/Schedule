@@ -9,16 +9,14 @@ public class CreateDisciplineCommandValidator : AbstractValidator<CreateDiscipli
     {
         RuleFor(query => query.Name)
             .MaximumLength(50)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.Code)
             .MaximumLength(20)
-            .NotNull();
+            .NotEmpty();
         RuleFor(query => query.TotalHours)
-            .GreaterThan(0)
-            .NotNull();
+            .GreaterThan(0);
         RuleFor(query => query.TermId)
-            .InclusiveBetween(1, 10)
-            .NotNull();
+            .InclusiveBetween(1, 10);
         RuleFor(query => query.SpecialityId)
             .SetValidator(new IdValidator());
     }

@@ -8,8 +8,7 @@ public class CreateLessonCommandValidator : AbstractValidator<CreateLessonComman
     public CreateLessonCommandValidator()
     {
         RuleFor(query => query.Number)
-            .GreaterThan(0)
-            .NotNull();
+            .InclusiveBetween(1, 8);
         RuleFor(query => query.Subgroup)
             .GreaterThan(0);
         RuleFor(query => query.TimeId)

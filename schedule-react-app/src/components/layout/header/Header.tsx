@@ -9,7 +9,7 @@ export const Header = () => {
     const goToScheduleSearch = () => navigateTo('/schedule/search')
     const goToScheduleTable = () => navigateTo('/schedule/table')
     const goToReports = () => navigateTo('/reports')
-    const goToPairsEditor = () => navigateTo('/editor/pairs')
+    const goToPairsEditor = () => navigateTo('/editor/lessons')
     const goToSpecialitiesEditor = () => navigateTo('/editor/specialities')
     const goToDisciplinesEditor = () => navigateTo('/editor/disciplines')
     const goToGroupsEditor = () => navigateTo('/editor/groups')

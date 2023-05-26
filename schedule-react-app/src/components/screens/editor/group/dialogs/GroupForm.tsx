@@ -46,6 +46,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         setQuery: setGroupQuery,
         data: groupData
     })
+    const groupOptions = groups.filter(g => g.id !== group.id)
 
     const [termQuery, setTermQuery] = usePaginationQuery()
     const {data: termData} = useGetTermsQuery(termQuery)
@@ -159,7 +160,8 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     onSearch={searchSpecialities}
                                     value={field.value}
                                     options={specialities}
-                                    fields='code'
+                                    fields={['name', 'code']}
+                                    fieldSplitter=' | '
                                     label='Специальность'
                                     error={!!errors.speciality?.message}
                                     helperText={errors.speciality?.message}
@@ -177,7 +179,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     onLoadMore={loadMoreGroups}
                                     onSearch={searchGroups}
                                     value={field.value}
-                                    options={groups}
+                                    options={groupOptions}
                                     fields='name'
                                     label='Объединение с группой'
                                     multiple

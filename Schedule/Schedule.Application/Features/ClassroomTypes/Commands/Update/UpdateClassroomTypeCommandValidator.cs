@@ -11,6 +11,6 @@ public class UpdateClassroomTypeCommandValidator : AbstractValidator<UpdateClass
             .SetValidator(new IdValidator());
         RuleFor(query => query.Name)
             .MaximumLength(50)
-            .NotNull();
+            .NotEmpty();
     }
 }

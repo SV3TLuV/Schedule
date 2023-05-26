@@ -19,6 +19,8 @@ public sealed class UpdateTeacherCommand : IRequest, IMapWith<Teacher>
     public void Map(Profile profile)
     {
         profile.CreateMap<Teacher, UpdateTeacherCommand>()
+            .ForMember(command => command.Id, expression =>
+                expression.MapFrom(teacher => teacher.TeacherId))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(teacher =>
                     teacher.Name.Capitalize()))
@@ -36,6 +38,8 @@ public sealed class UpdateTeacherCommand : IRequest, IMapWith<Teacher>
                     .Select(discipline => discipline.DisciplineId)));
         
         profile.CreateMap<UpdateTeacherCommand, Teacher>()
+            .ForMember(teacher => teacher.TeacherId, expression =>
+                expression.MapFrom(command => command.Id))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(teacher =>
                     teacher.Name.Capitalize()))

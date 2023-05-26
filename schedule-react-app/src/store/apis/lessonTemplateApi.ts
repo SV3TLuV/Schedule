@@ -12,9 +12,14 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
                 url: `${ApiTags.LessonTemplate}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.LessonTemplate, id} as const)),
-                {type: ApiTags.LessonTemplate, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.LessonTemplate,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getLessonTemplate: builder.query<ILessonTemplate, number>({

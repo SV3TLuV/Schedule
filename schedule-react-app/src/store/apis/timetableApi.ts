@@ -12,9 +12,14 @@ export const timetableApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Timetable}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Timetable, id} as const)),
-                {type: ApiTags.Timetable, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.Timetable,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getTimetable: builder.query<ITimetable, number>({

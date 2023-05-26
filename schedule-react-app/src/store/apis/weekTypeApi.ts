@@ -12,9 +12,14 @@ export const weekTypeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.WeekType}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
+            providesTags: (result, _, arg) => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.WeekType, id} as const)),
-                {type: ApiTags.WeekType, id: 'LIST', page: result?.pageNumber}
+                {
+                    type: ApiTags.WeekType,
+                    id: 'LIST',
+                    page: result?.pageNumber,
+                    search: arg?.search
+                }
             ]
         }),
         getWeekType: builder.query<IWeekType, number>({

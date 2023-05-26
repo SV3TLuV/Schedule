@@ -1,15 +1,9 @@
 import {ISpeciality} from "../../../../../features/models/ISpeciality";
-import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {specialityFormValidationSchema} from "./validation.ts";
-import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Select} from "../../../../ui/Select";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
 
 interface ISpecialityForm {
     title: string
@@ -20,18 +14,6 @@ interface ISpecialityForm {
 }
 
 export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpecialityForm) => {
-    const [disciplineQuery, setDisciplineQuery] = usePaginationQuery()
-    const {data: disciplineData} = useGetDisciplinesQuery(disciplineQuery)
-    const {
-        options: disciplines,
-        loadMore: loadMoreDisciplines,
-        search: searchDisciplines
-    } = useInfinitySelect<IDiscipline>({
-        query: disciplineQuery,
-        setQuery: setDisciplineQuery,
-        data: disciplineData
-    })
-
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ISpeciality>({
         resolver: yupResolver(specialityFormValidationSchema),
         values: speciality,
@@ -46,10 +28,6 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
     const handleClose = () => {
         reset(speciality)
         onClose()
-    }
-
-    if (!disciplines) {
-        return <Loading/>
     }
 
     return (
@@ -115,26 +93,6 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                                     onChange={field.onChange}
                                     error={!!errors.maxTermId?.message}
                                     helperText={errors.maxTermId?.message}
-                                />
-                            </Form.Group>
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name='disciplines'
-                        render={({field}) => (
-                            <Form.Group className='m-3' >
-                                <Select
-                                    onChange={field.onChange}
-                                    onLoadMore={loadMoreDisciplines}
-                                    onSearch={searchDisciplines}
-                                    value={field.value}
-                                    options={disciplines}
-                                    fields='name'
-                                    label='Дисциплины'
-                                    multiple
-                                    error={!!errors.disciplines?.message}
-                                    helperText={errors.disciplines?.message}
                                 />
                             </Form.Group>
                         )}

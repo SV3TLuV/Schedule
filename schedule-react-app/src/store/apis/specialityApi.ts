@@ -50,7 +50,6 @@ export const specialityApi = baseApi.injectEndpoints({
                 body: {
                     code: speciality.code,
                     name: speciality.name,
-                    disciplineIds: speciality.disciplines.map(d => d.id),
                 }
             }),
             invalidatesTags: () => [
@@ -65,7 +64,6 @@ export const specialityApi = baseApi.injectEndpoints({
                     id: speciality.id,
                     code: speciality.code,
                     name: speciality.name,
-                    disciplineIds: speciality.disciplines.map(d => d.id),
                 }
             }),
             invalidatesTags: () => [

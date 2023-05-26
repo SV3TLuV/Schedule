@@ -135,6 +135,23 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                     />
                     <Controller
                         control={control}
+                        name='email'
+                        render={({field}) => (
+                            <Form.Group className='m-3' >
+                                <TextField
+                                    fullWidth
+                                    size='small'
+                                    label='Почта'
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    error={!!errors.email?.message}
+                                    helperText={errors.email?.message}
+                                />
+                            </Form.Group>
+                        )}
+                    />
+                    <Controller
+                        control={control}
                         name='groups'
                         render={({field}) => (
                             <Form.Group className='m-3' >

@@ -43,8 +43,8 @@ export const dayApi = baseApi.injectEndpoints({
                     isStudy: day.isStudy,
                 },
             }),
-            invalidatesTags: id => [
-                {type: ApiTags.Day, id},
+            invalidatesTags: () => [
+                {type: ApiTags.Day},
                 {type: ApiTags.Date},
                 {type: ApiTags.Template},
             ]

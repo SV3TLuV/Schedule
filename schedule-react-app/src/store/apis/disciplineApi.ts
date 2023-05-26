@@ -34,8 +34,8 @@ export const disciplineApi = baseApi.injectEndpoints({
                     id: id
                 }
             }),
-            invalidatesTags: id => [
-                { type: ApiTags.Discipline, id },
+            invalidatesTags: () => [
+                { type: ApiTags.Discipline },
                 { type: ApiTags.Lesson }
             ]
         }),
@@ -53,9 +53,9 @@ export const disciplineApi = baseApi.injectEndpoints({
                     isDeleted: discipline.isDeleted,
                 }
             }),
-            invalidatesTags: id => [
-                { type: ApiTags.Discipline, id },
-            ],
+            invalidatesTags: () => [
+                { type: ApiTags.Discipline },
+            ]
         }),
         updateDiscipline: builder.mutation<number, IDiscipline>({
             query: discipline => ({
@@ -72,20 +72,20 @@ export const disciplineApi = baseApi.injectEndpoints({
                     isDeleted: discipline.isDeleted,
                 }
             }),
-            invalidatesTags: id => [
-                { type: ApiTags.Discipline, id },
+            invalidatesTags: () => [
+                { type: ApiTags.Discipline },
                 { type: ApiTags.Lesson }
-            ],
+            ]
         }),
         deleteDiscipline: builder.mutation<number, number>({
             query: id => ({
                 url: `${ApiTags.Discipline}/${id}`,
                 method: HttpMethod.DELETE,
             }),
-            invalidatesTags: id => [
-                { type: ApiTags.Discipline, id },
+            invalidatesTags: () => [
+                { type: ApiTags.Discipline },
                 { type: ApiTags.Lesson }
-            ],
+            ]
         })
     }),
 })

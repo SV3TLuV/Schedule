@@ -1,18 +1,23 @@
 import {Container, Tab, Tabs} from "react-bootstrap";
-import {AvailableTeachersEditor} from "./AvailableTeachersEditor.tsx";
-import {DeletedTeachersEditor} from "./DeletedTeachersEditor.tsx";
+import {Outlet} from "react-router-dom";
+import {useTabs} from "../../../../hooks/useTabs.ts";
 
 export const TeachersEditorPage = () => {
+    const {key, onSelect} = useTabs({
+        baseUrl: '/editor/teachers',
+        defaultKey: 'available'
+    })
+
     return (
         <Container style={{ height: 'calc(100vh - 72px)' }}>
-            <Tabs defaultActiveKey='available'>
-                <Tab eventKey='available' title='Действующие'>
-                    <AvailableTeachersEditor/>
-                </Tab>
-                <Tab eventKey='deleted' title='Удаленные'>
-                    <DeletedTeachersEditor/>
-                </Tab>
+            <Tabs
+                activeKey={key}
+                onSelect={onSelect}
+            >
+                <Tab eventKey='available' title='Действующие' />
+                <Tab eventKey='deleted' title='Удаленные' />
             </Tabs>
+            <Outlet/>
         </Container>
     )
 }

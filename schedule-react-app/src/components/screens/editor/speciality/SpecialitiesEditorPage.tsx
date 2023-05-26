@@ -1,18 +1,23 @@
 import {Container, Tab, Tabs} from "react-bootstrap";
-import {AvailableSpecialitiesEditor} from "./AvailableSpecialitiesEditor.tsx";
-import {DeletedSpecialitiesEditor} from "./DeletedSpecialitiesEditor.tsx";
+import {useTabs} from "../../../../hooks/useTabs.ts";
+import {Outlet} from "react-router-dom";
 
 export const SpecialitiesEditorPage = () => {
+    const {key, onSelect} = useTabs({
+        baseUrl: '/editor/specialities',
+        defaultKey: 'available'
+    })
+
     return (
         <Container style={{ height: 'calc(100vh - 72px)' }}>
-            <Tabs defaultActiveKey='available'>
-                <Tab eventKey='available' title='Действующие'>
-                    <AvailableSpecialitiesEditor/>
-                </Tab>
-                <Tab eventKey='deleted' title='Удаленные'>
-                    <DeletedSpecialitiesEditor/>
-                </Tab>
+            <Tabs
+                activeKey={key}
+                onSelect={onSelect}
+            >
+                <Tab eventKey='available' title='Действующие'/>
+                <Tab eventKey='deleted' title='Удаленные'/>
             </Tabs>
+            <Outlet/>
         </Container>
     )
 }

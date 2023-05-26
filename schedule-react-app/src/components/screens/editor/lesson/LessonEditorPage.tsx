@@ -1,18 +1,23 @@
 import {Container, Tab, Tabs} from "react-bootstrap";
-import {TimetableEditor} from "./TimetableEditor.tsx";
-import {TemplateEditor} from "./TemplateEditor.tsx";
+import {useTabs} from "../../../../hooks/useTabs.ts";
+import {Outlet} from "react-router-dom";
 
 export const LessonEditorPage = () => {
+    const {key, onSelect} = useTabs({
+        baseUrl: '/editor/lessons',
+        defaultKey: 'timetable'
+    })
+
     return (
         <Container style={{ height: 'calc(100vh - 72px)' }}>
-            <Tabs defaultActiveKey='available'>
-                <Tab eventKey='available' title='Расписание'>
-                    <TimetableEditor/>
-                </Tab>
-                <Tab eventKey='deleted' title='Шаблон'>
-                    <TemplateEditor/>
-                </Tab>
+            <Tabs
+                activeKey={key}
+                onSelect={onSelect}
+            >
+                <Tab eventKey='timetable' title='Расписание'/>
+                <Tab eventKey='template' title='Шаблон'/>
             </Tabs>
+            <Outlet/>
         </Container>
     )
 }

@@ -68,13 +68,18 @@ public sealed class GenerateDatesJobTests
         {
             new object[]
             {
-                new DateTime(2023, 5, 2),
-                new DateTime(2023, 4, 9)
+                new DateTime(2023, 4, 10),
+                new DateTime(2023, 4, 2)
             },
             new object[]
             {
-                new DateTime(2023, 4, 9),
-                new DateTime(2023, 4, 2)
+                new DateTime(2023, 1, 16),
+                new DateTime(2023, 1, 2)
+            },
+            new object[]
+            {
+                new DateTime(2023, 5, 2),
+                new DateTime(2023, 4, 9)
             },
             new object[]
             {
@@ -85,11 +90,6 @@ public sealed class GenerateDatesJobTests
             {
                 new DateTime(2024, 5, 2),
                 new DateTime(2023, 4, 9)
-            },
-            new object[]
-            {
-                new DateTime(2023, 1, 9),
-                new DateTime(2023, 1, 2)
             },
         };
 }

@@ -22,8 +22,8 @@ public partial class Group
 
     public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 
-    public virtual ICollection<TransferingGroupsHistory> TransferingGroupsHistories { get; set; } =
-        new List<TransferingGroupsHistory>();
+    public virtual ICollection<GroupTransfer> GroupTransfers { get; set; } =
+        new List<GroupTransfer>();
 
     public virtual ICollection<GroupGroup> GroupGroups1 { get; set; } =
         new List<GroupGroup>();

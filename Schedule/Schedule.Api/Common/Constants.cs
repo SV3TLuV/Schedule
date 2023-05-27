@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Api.Common;
 
-internal static class Variables
+internal static class Constants
 {
     public const string CorsName = "CORS";
 }

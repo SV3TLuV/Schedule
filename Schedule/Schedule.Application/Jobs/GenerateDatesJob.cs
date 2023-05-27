@@ -28,6 +28,10 @@ public sealed class GenerateDatesJob : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
+        var days = await _context.Set<Day>()
+            .AsNoTrackingWithIdentityResolution()
+            .ToListAsync();
+        
         var lastDate = await _context.Set<Date>()
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.DateId)
@@ -44,8 +48,13 @@ public sealed class GenerateDatesJob : IJob
         while (IsNeedGenerate(lastDate.Value, currentDate.Value))
         {
             var nextDate = _dateInfoService.GetNextDate(lastDate.Value);
+            var day = days.First(e => e.DayId == nextDate.DayId);
+            
+            nextDate.IsStudy = day.IsStudy;
+            
             var command = _mapper.Map<CreateDateCommand>(nextDate);
             await _mediator.Send(command);
+            
             lastDate = nextDate;
         }
     }
@@ -58,6 +67,8 @@ public sealed class GenerateDatesJob : IJob
         if (lastWeek < currentWeek && last.Year == now.Year)
             return true;
         if (lastWeek == currentWeek)
+            return true;
+        if (lastWeek == currentWeek + 1)
             return true;
         return currentWeek == 1 && lastWeek == _dateInfoService.MaxWeekOfYear;
     }

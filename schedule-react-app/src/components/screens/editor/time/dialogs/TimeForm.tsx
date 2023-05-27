@@ -1,8 +1,6 @@
 import {ITime} from "../../../../../features/models/ITime";
 import {useGetTimeTypesQuery} from "../../../../../store/apis/timeTypeApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {timeFormValidationSchema} from "./validation";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
@@ -10,6 +8,8 @@ import {TextField} from "@mui/material";
 import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
 import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
 import {ITimeType} from "../../../../../features/models/ITimeType.ts";
+import {durationValidation, endValidation, lessonNumberValidation, startValidation} from "./validation";
+import {timeTypeValidation} from "../../timeType/dialogs/validation";
 
 interface ITimeForm {
     title: string
@@ -33,7 +33,6 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
     })
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ITime>({
-        resolver: yupResolver(timeFormValidationSchema),
         values: time,
         mode: 'onChange',
     })
@@ -71,6 +70,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                     <Controller
                         control={control}
                         name='start'
+                        rules={startValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -88,6 +88,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                     <Controller
                         control={control}
                         name='end'
+                        rules={endValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -105,6 +106,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                     <Controller
                         control={control}
                         name='duration'
+                        rules={durationValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -122,6 +124,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                     <Controller
                         control={control}
                         name='lessonNumber'
+                        rules={lessonNumberValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -139,6 +142,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                     <Controller
                         control={control}
                         name='type'
+                        rules={timeTypeValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select
@@ -148,7 +152,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                                     value={field.value}
                                     options={types}
                                     fields='name'
-                                    label='Виды'
+                                    label='Вид'
                                     error={!!errors.type?.message}
                                     helperText={errors.type?.message}
                                 />

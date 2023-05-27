@@ -1,19 +1,59 @@
-import * as Yup from "yup";
 import {ValidationMessage} from "../../../../../common/enums/ValidationMessage.ts";
 
-export const lessonFormValidationSchema = Yup.object().shape({
-    number: Yup.number()
-        .max(8, ValidationMessage.MAX_LENGTH)
-        .required(ValidationMessage.REQUIRED),
-    subgroup: Yup.number()
-        .min(1, ValidationMessage.MAX_LENGTH)
-        .max(2, ValidationMessage.MAX_LENGTH),
-    time: Yup.object().required(ValidationMessage.REQUIRED),
-    discipline: Yup.object().required(ValidationMessage.REQUIRED),
-    teachers: Yup.array()
-        .max(2, ValidationMessage.MAX_LENGTH)
-        .required(ValidationMessage.REQUIRED),
-    classrooms: Yup.array()
-        .max(2, ValidationMessage.MAX_LENGTH)
-        .required(ValidationMessage.REQUIRED),
-})
+export const lessonValidation = {
+    required: ValidationMessage.REQUIRED
+}
+
+export const numberValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: number) => {
+        const maxValue = 8
+
+        if (value > maxValue)
+            return ValidationMessage.MAX_VALUE + maxValue
+
+        return true
+    }
+}
+
+export const subgroupValidation = {
+    validate: (value: number | null) => {
+        const maxValue = 2
+        const minValue = 1
+
+        if (value === null)
+            return true
+
+        if (value > maxValue)
+            return ValidationMessage.MAX_VALUE + maxValue
+
+        if (value < minValue)
+            return ValidationMessage.MIN_VALUE + minValue
+
+        return true
+    }
+}
+
+export const teachersValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: object[]) => {
+        const maxLength = 2
+
+        if (value.length > maxLength)
+            return ValidationMessage.MAX_VALUE + maxLength
+
+        return true
+    }
+}
+
+export const classroomsValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: object[]) => {
+        const maxLength = 2
+
+        if (value.length > maxLength)
+            return ValidationMessage.MAX_VALUE + maxLength
+
+        return true
+    }
+}

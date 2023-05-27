@@ -1,9 +1,8 @@
 import {ITimeType} from "../../../../../features/models/ITimeType";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {timeTypeFormValidationSchema} from "./validation";
 import {Button, Form, Modal} from "react-bootstrap";
 import {TextField} from "@mui/material";
+import {nameValidation} from "./validation";
 
 interface ITimeTypeForm {
     title: string
@@ -15,7 +14,6 @@ interface ITimeTypeForm {
 
 export const TimeTypeForm = ({title, show, timeType, onClose, onSave}: ITimeTypeForm) => {
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ITimeType>({
-        resolver: yupResolver(timeTypeFormValidationSchema),
         values: timeType,
         mode: 'onChange',
     })
@@ -49,6 +47,7 @@ export const TimeTypeForm = ({title, show, timeType, onClose, onSave}: ITimeType
                     <Controller
                         control={control}
                         name='name'
+                        rules={nameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField

@@ -2,8 +2,6 @@ import {IDiscipline} from "../../../../../features/models/IDiscipline";
 import {useGetDisciplineTypesQuery} from "../../../../../store/apis/discplineTypeApi";
 import {useGetSpecialitiesQuery} from "../../../../../store/apis/specialityApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {disciplineFormValidationSchema} from "./validation";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
@@ -14,6 +12,14 @@ import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
 import {ISpeciality} from "../../../../../features/models/ISpeciality.ts";
 import {ITerm} from "../../../../../features/models/ITerm.ts";
 import {IDisciplineType} from "../../../../../features/models/IDisciplineType.ts";
+import {
+    codeValidation,
+    nameValidation,
+    totalHoursValidation
+} from "./validation";
+import {disciplineTypeValidation} from "../../disciplineType/validation";
+import {termValidation} from "../../term/validation";
+import {specialityValidation} from "../../speciality/Dialogs/validation";
 
 interface IDisciplineForm {
     title: string
@@ -61,7 +67,6 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
     })
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IDiscipline>({
-        resolver: yupResolver(disciplineFormValidationSchema),
         values: discipline,
         mode: 'onChange',
     })
@@ -99,6 +104,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                     <Controller
                         control={control}
                         name='name'
+                        rules={nameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -116,6 +122,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                     <Controller
                         control={control}
                         name='code'
+                        rules={codeValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -133,6 +140,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                     <Controller
                         control={control}
                         name='totalHours'
+                        rules={totalHoursValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -150,6 +158,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                     <Controller
                         control={control}
                         name='type'
+                        rules={disciplineTypeValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select
@@ -169,6 +178,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                     <Controller
                         control={control}
                         name='term'
+                        rules={termValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select
@@ -188,6 +198,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                     <Controller
                         control={control}
                         name='speciality'
+                        rules={specialityValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select

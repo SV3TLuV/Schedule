@@ -1,11 +1,21 @@
-import * as Yup from 'yup'
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage.ts";
+import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
 
-export const classroomFormValidationSchema = Yup.object().shape({
-    cabinet: Yup.string()
-        .max(10, ValidationMessage.MAX_LENGTH)
-        .required(ValidationMessage.REQUIRED),
-    types: Yup.array()
-        .min(1, ValidationMessage.REQUIRED)
-        .required(ValidationMessage.REQUIRED),
-})
+export const classroomValidation = {
+    required: ValidationMessage.REQUIRED
+}
+
+export const cabinetValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: string) => {
+        const maxLength = 10
+
+        if (value.length > maxLength)
+            return ValidationMessage.MAX_LENGTH + maxLength
+
+        return true
+    }
+}
+
+export const typesValidation = {
+    required: ValidationMessage.REQUIRED
+}

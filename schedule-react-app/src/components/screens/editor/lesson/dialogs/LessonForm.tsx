@@ -1,8 +1,6 @@
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {ILesson} from "../../../../../features/models/ILesson.ts";
 import {Button, Form, Modal} from "react-bootstrap";
-import {lessonFormValidationSchema} from "./validation.ts";
 import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
 import {useGetTimesQuery} from "../../../../../store/apis/timeApi.ts";
 import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
@@ -16,6 +14,7 @@ import {IClassroom} from "../../../../../features/models/IClassroom.ts";
 import {TextField} from "@mui/material";
 import {Select} from "../../../../ui/Select.tsx";
 import {useMemo} from "react";
+import {classroomsValidation, numberValidation, subgroupValidation, teachersValidation} from "./validation";
 
 interface ILessonForm {
     title: string
@@ -97,7 +96,6 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
     }), [lesson])
 
     const {control, handleSubmit, reset, setError, formState: {errors}} = useForm<ILessonFormState>({
-        resolver: yupResolver(lessonFormValidationSchema),
         values: defaultValue,
         mode: 'onChange',
     })
@@ -163,6 +161,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
                     <Controller
                         control={control}
                         name='number'
+                        rules={numberValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -180,6 +179,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
                     <Controller
                         control={control}
                         name='subgroup'
+                        rules={subgroupValidation}
                         render={({field}) => (
                             <Form.Group className='m-3'>
                                 <TextField
@@ -236,6 +236,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
                     <Controller
                         control={control}
                         name='teachers'
+                        rules={teachersValidation}
                         render={({field}) => (
                             <Form.Group className='m-3'>
                                 <Select
@@ -257,6 +258,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
                     <Controller
                         control={control}
                         name='classrooms'
+                        rules={classroomsValidation}
                         render={({field}) => (
                             <Form.Group className='m-3'>
                                 <Select

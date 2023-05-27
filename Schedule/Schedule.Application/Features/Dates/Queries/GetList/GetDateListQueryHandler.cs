@@ -23,15 +23,23 @@ public sealed class GetDateListQueryHandler
     public async Task<PagedList<DateViewModel>> Handle(GetDateListQuery request,
         CancellationToken cancellationToken)
     {
-        var dates = await _context.Set<Date>()
+        var query = _context.Set<Date>()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
             .Include(e => e.TimeType)
+            .OrderByDescending(e => e.Value.Date)
+            .AsNoTrackingWithIdentityResolution();
+
+        if (request.Search is not null)
+        {
+            query = query.Where(e => e.Value.ToString().Contains(request.Search));
+        }
+        
+        var dates = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
-
+        
         var viewModels = _mapper.Map<List<DateViewModel>>(dates);
         var totalCount = await _context.Set<Date>().CountAsync(cancellationToken);
 

@@ -11,8 +11,8 @@ public class DateViewModel : IMapWith<Date>
     public bool IsStudy { get; set; }
 
     public int Term { get; set; }
-
-    public DateTime Value { get; set; }
+    
+    public string Value { get; set; } = null!;
 
     public DayViewModel Day { get; set; } = null!;
 
@@ -25,6 +25,8 @@ public class DateViewModel : IMapWith<Date>
         profile.CreateMap<Date, DateViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(date => date.DateId))
+            .ForMember(viewModel => viewModel.Value, expression =>
+                expression.MapFrom(date => date.Value.ToShortDateString()))
             .ReverseMap();
     }
 }

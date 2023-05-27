@@ -5,4 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Dates.Queries.GetList;
 
-public sealed record GetDateListQuery : PaginatedQuery, IRequest<PagedList<DateViewModel>>;
+public sealed record GetDateListQuery : PaginatedQuery, IRequest<PagedList<DateViewModel>>
+{
+    public string? Search { get; set; }
+}

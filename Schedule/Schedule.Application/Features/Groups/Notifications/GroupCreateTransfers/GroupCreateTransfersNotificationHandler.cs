@@ -10,14 +10,11 @@ public sealed class GroupCreateTransfersNotificationHandler
     : INotificationHandler<GroupCreateTransfersNotification>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IDateInfoService _dateInfoService;
 
     public GroupCreateTransfersNotificationHandler(
-        IScheduleDbContext context,
-        IDateInfoService dateInfoService)
+        IScheduleDbContext context)
     {
         _context = context;
-        _dateInfoService = dateInfoService;
     }
     
     public async Task Handle(GroupCreateTransfersNotification notification,
@@ -30,23 +27,28 @@ public sealed class GroupCreateTransfersNotificationHandler
 
         if (group is null)
             throw new NotFoundException(nameof(Group), notification.Id);
-
+        
         for (var i = group.TermId; i < group.Speciality.MaxTermId; i++)
         {
-            var year = _dateInfoService.CurrentDateTime.Year;
             var nextTermId = i + 1;
-            
+
             await _context.Set<GroupTransfer>().AddAsync(new GroupTransfer
             {
                 GroupId = group.GroupId,
                 NextTermId = nextTermId,
                 IsTransferred = false,
-                TransferDate = (nextTermId & 1) == 0 
-                    ? new DateTime(year, 8, 1)
-                    : new DateTime(year, 1, 1),
+                TransferDate = GetTransferDate(group.EnrollmentYear, group.TermId, nextTermId),
             }, cancellationToken);
         }
 
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    private static DateTime GetTransferDate(int enrollmentYear, int startTermId, int termId)
+    {
+        var termOffset = termId - startTermId;
+        var transferYear = enrollmentYear + Convert.ToInt32(Math.Floor((double)(termOffset + 1) / 2));
+        var transferMonth = termOffset % 2 == 0 ? 8 : 1;
+        return new DateTime(transferYear, transferMonth, 1);
     }
 }

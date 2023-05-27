@@ -31,7 +31,7 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
             groupGroup.GroupId = group.GroupId;
         
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new GroupCreateTemplatesNotification(group.GroupId), cancellationToken);
+        //await _mediator.Publish(new GroupCreateTemplatesNotification(group.GroupId), cancellationToken);
         await _mediator.Publish(new GroupCreateTransfersNotification(group.GroupId), cancellationToken);
         return group.GroupId;
     }

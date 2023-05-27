@@ -19,6 +19,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
     {
         var lesson = await _context.Set<Lesson>()
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Date)
             .Include(e => e.Timetable)
@@ -29,6 +30,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
         
         var template = await _context.Set<LessonTemplate>()
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .Include(e => e.Template)
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)

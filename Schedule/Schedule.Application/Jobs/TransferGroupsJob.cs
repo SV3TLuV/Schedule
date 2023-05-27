@@ -38,6 +38,7 @@ public sealed class TransferGroupsJob : IJob
         foreach (var group in groups)
         {
             var transfer = await _context.Set<GroupTransfer>()
+                .AsNoTrackingWithIdentityResolution()
                 .OrderBy(e => e.NextTermId)
                 .FirstOrDefaultAsync(e => e.GroupId == group.GroupId && !e.IsTransferred);
             
@@ -46,15 +47,14 @@ public sealed class TransferGroupsJob : IJob
 
             if (_dateInfoService.CurrentDateTime.Date < transfer.TransferDate.Date)
                 continue;
-            
+
             group.TermId = transfer.NextTermId;
             var command = _mapper.Map<UpdateGroupCommand>(group);
             await _mediator.Send(command);
             
             transfer.IsTransferred = true;
             _context.Set<GroupTransfer>().Update(transfer);
+            await _context.SaveChangesAsync();
         }
-
-        await _context.SaveChangesAsync();
     }
 }

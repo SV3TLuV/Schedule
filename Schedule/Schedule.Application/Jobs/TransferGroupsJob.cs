@@ -11,14 +11,17 @@ namespace Schedule.Application.Jobs;
 public sealed class TransferGroupsJob : IJob
 {
     private readonly IScheduleDbContext _context;
+    private readonly IDateInfoService _dateInfoService;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
     public TransferGroupsJob(IScheduleDbContext context,
+        IDateInfoService dateInfoService,
         IMediator mediator,
         IMapper mapper)
     {
         _context = context;
+        _dateInfoService = dateInfoService;
         _mediator = mediator;
         _mapper = mapper;
     }
@@ -41,6 +44,9 @@ public sealed class TransferGroupsJob : IJob
             if (transfer is null)
                 continue;
 
+            if (_dateInfoService.CurrentDateTime.Date < transfer.TransferDate.Date)
+                continue;
+            
             group.TermId = transfer.NextTermId;
             var command = _mapper.Map<UpdateGroupCommand>(group);
             await _mediator.Send(command);

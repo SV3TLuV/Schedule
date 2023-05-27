@@ -24,6 +24,11 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
         if (group is null)
             throw new NotFoundException(nameof(Group), request.Id);
 
+        await _context.Set<GroupGroup>()
+            .Where(entity => entity.GroupId == request.Id)
+            .AsNoTrackingWithIdentityResolution()
+            .ExecuteDeleteAsync(cancellationToken);
+        
         _context.Set<Group>().Remove(group);
         await _context.SaveChangesAsync(cancellationToken);
     }

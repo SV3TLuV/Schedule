@@ -8,9 +8,12 @@ export const columns: GridColDef[] = [
     { field: 'enrollmentYear', headerName: 'Год поступления', width: 160 },
     {
         field: 'term',
-        headerName: 'Семестр',
-        width: 120,
-        renderCell: props => (props.value as ITerm).id
+        headerName: 'Курс | Семестр',
+        width: 150,
+        renderCell: props => {
+            const term = props.value as ITerm
+            return `Курс: ${term.course.id} | Семестр: ${term.id}`
+        }
     },
     {
         field: 'mergedGroups',

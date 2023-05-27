@@ -1,20 +1,22 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Timetables.Commands.Create;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Templates.Notifications.CreateTimetables;
+namespace Schedule.Application.Features.Groups.Notifications.GroupCreateTimetables;
 
-public sealed class TemplateCreateTimetablesNotificationHandler
-    : INotificationHandler<TemplateCreateTimetablesNotification>
+public sealed record GroupCreateTimetablesNotification(int Id) : INotification;
+
+public sealed class GroupCreateTimetablesNotificationHandler
+    : INotificationHandler<GroupCreateTimetablesNotification>
 {
     private readonly IScheduleDbContext _context;
     private readonly IDateInfoService _dateInfoService;
     private readonly IMediator _mediator;
 
-    public TemplateCreateTimetablesNotificationHandler(
+    public GroupCreateTimetablesNotificationHandler(
         IScheduleDbContext context,
         IDateInfoService dateInfoService,
         IMediator mediator)
@@ -24,28 +26,27 @@ public sealed class TemplateCreateTimetablesNotificationHandler
         _mediator = mediator;
     }
     
-    public async Task Handle(TemplateCreateTimetablesNotification notification,
+    public async Task Handle(GroupCreateTimetablesNotification notification, 
         CancellationToken cancellationToken)
     {
-        var template = await _context.Set<Template>()
+        var group = await _context.Set<Group>()
             .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => 
-                e.TemplateId == notification.TemplateId, cancellationToken);
-        
-        if (template is null)
-            throw new NotFoundException(nameof(Template), notification.TemplateId);
+            .FirstOrDefaultAsync(e => e.GroupId == notification.Id, cancellationToken);
+
+        if (group is null)
+            throw new NotFoundException(nameof(Group), notification.Id);
 
         var dateIds = await _context.Set<Date>()
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => e.Value >= _dateInfoService.CurrentDateTime.Date)
+            .Where(e => e.Value.Date >= _dateInfoService.CurrentDateTime.Date)
             .Select(e => e.DateId)
             .ToListAsync(cancellationToken);
-        
+
         foreach (var dateId in dateIds)
         {
             var command = new CreateTimetableCommand
             {
-                GroupId = template.GroupId,
+                GroupId = group.GroupId,
                 DateId = dateId
             };
             await _mediator.Send(command, cancellationToken);

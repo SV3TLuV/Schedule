@@ -45,7 +45,7 @@ public sealed class DateInfoService : IDateInfoService
 
     public int GetTerm(DateTime dateTime)
     {
-        return dateTime.Month < 9 ? 1 : 2;
+        return dateTime.Month < 9 ? 2 : 1;
     }
 
     public int GetWeekOfYear(DateTime dateTime)

@@ -8,7 +8,6 @@ public sealed class LessonTemplateEntityTypeConfiguration : IEntityTypeConfigura
 {
     public void Configure(EntityTypeBuilder<LessonTemplate> builder)
     {
-        builder.Property(e => e.LessonTemplateId).ValueGeneratedNever();
         builder.HasOne(d => d.Discipline).WithMany(p => p.LessonTemplates)
             .HasForeignKey(d => d.DisciplineId)
             .HasConstraintName("FK_LessonTemplates_Disciplines");

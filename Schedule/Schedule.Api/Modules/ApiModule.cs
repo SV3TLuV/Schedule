@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
+using Schedule.Application.Jobs;
 using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Persistence.Context;
@@ -27,7 +28,7 @@ public sealed class ApiModule : Module
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
                 options.UseSqlServer("Name=ScheduleWin"))
-            .AddCors(options => options.AddPolicy(Variables.CorsName, policy =>
+            .AddCors(options => options.AddPolicy(Constants.CorsName, policy =>
             {
                 policy
                     .WithMethods(
@@ -47,22 +48,32 @@ public sealed class ApiModule : Module
             {
                 configuration.SchedulerId = "Schedule-Scheduler-Id";
                 configuration.SchedulerName = "Schedule-Scheduler-Name";
-                configuration.UseSimpleTypeLoader();
+                configuration.UseMicrosoftDependencyInjectionJobFactory();
                 configuration.UseInMemoryStore();
                 configuration.UseDefaultThreadPool(pool =>
                 {
                     pool.MaxConcurrency = 10;
                 });
 
-                //TODO: Need JobFactory for add from DI
-                /*configuration.AddJob<GenerateDatesJob>(options =>
+                configuration.AddJob<GenerateDatesJob>(options =>
                     options.WithIdentity("GenerateDatesJob"));
+
                 configuration.AddTrigger(configure =>
                     configure.ForJob("GenerateDatesJob")
                         .WithIdentity("GenerateDatesJobTrigger")
                         .WithSimpleSchedule(x => x
                             .WithIntervalInHours(6)
-                            .RepeatForever()));*/
+                            .RepeatForever()));
+                
+                configuration.AddJob<TransferGroupsJob>(options =>
+                    options.WithIdentity("TransferGroupsJob"));
+                
+                configuration.AddTrigger(configure =>
+                    configure.ForJob("TransferGroupsJob")
+                        .WithIdentity("TransferGroupsJobTrigger")
+                        .WithSimpleSchedule(x => x
+                            .WithIntervalInHours(6)
+                            .RepeatForever()));
             });
         
         builder.Populate(services);

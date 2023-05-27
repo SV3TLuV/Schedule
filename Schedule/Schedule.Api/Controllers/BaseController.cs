@@ -6,7 +6,7 @@ using Schedule.Api.Common;
 namespace Schedule.Api.Controllers;
 
 [ApiController]
-[EnableCors(Variables.CorsName)]
+[EnableCors(Constants.CorsName)]
 [Route("/api/[controller]")]
 public abstract class BaseController : ControllerBase
 {

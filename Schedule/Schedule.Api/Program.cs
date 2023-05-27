@@ -36,7 +36,7 @@ void ConfigureApp(WebApplication webApp)
     webApp
         .UseSwagger()
         .UseSwaggerUI()
-        .UseCors(Variables.CorsName)
+        .UseCors(Constants.CorsName)
         .UseHttpsRedirection()
         .UseAuthorization();
     webApp.MapControllers();

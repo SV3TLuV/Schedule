@@ -49,7 +49,7 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Timetable> Timetables { get; set; } = null!;
 
-    public virtual DbSet<TransferingGroupsHistory> TransferingGroupsHistories { get; set; } = null!;
+    public virtual DbSet<GroupTransfer> GroupTransfers { get; set; } = null!;
 
     public virtual DbSet<WeekType> WeekTypes { get; set; } = null!;
 

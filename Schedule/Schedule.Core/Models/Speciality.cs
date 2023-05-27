@@ -15,4 +15,6 @@ public class Speciality
     public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();
 
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+
+    public virtual Term MaxTerm { get; set; } = null!;
 }

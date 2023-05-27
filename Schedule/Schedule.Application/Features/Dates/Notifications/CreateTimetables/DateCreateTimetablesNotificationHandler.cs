@@ -24,6 +24,7 @@ public sealed class DateCreateTimetablesNotificationHandler
     {
         var groupIds = await _context.Set<Group>()
             .AsNoTrackingWithIdentityResolution()
+            .Where(group => !group.IsDeleted)
             .Select(e => e.GroupId)
             .ToListAsync(cancellationToken);
         

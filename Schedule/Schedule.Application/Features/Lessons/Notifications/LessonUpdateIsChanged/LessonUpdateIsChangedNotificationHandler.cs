@@ -40,7 +40,6 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
                 e.Template.TermId == lesson.Timetable.Group.TermId, cancellationToken);
 
         lesson.IsChanged = !lesson.Equals(template);
-        _context.Set<Lesson>().Update(lesson);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

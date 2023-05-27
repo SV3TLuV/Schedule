@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Quartz.Spi;
 using Schedule.Application.Features.Groups.Commands.Update;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;

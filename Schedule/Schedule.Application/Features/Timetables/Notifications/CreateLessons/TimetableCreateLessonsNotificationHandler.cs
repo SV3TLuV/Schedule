@@ -9,7 +9,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Timetables.Notifications.CreateLessons;
 
-public sealed class TimetableCreateLessonsNotificationHandler : INotificationHandler<TemplateCreateLessonTemplatesNotification>
+public sealed class TimetableCreateLessonsNotificationHandler : INotificationHandler<TimetableCreateLessonsNotification>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMediator _mediator;
@@ -22,17 +22,17 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
         _mediator = mediator;
     }
     
-    public async Task Handle(TemplateCreateLessonTemplatesNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(TimetableCreateLessonsNotification notification, CancellationToken cancellationToken)
     {
         var timetable = await _context.Set<Timetable>()
             .Include(e => e.Date)
             .Include(e => e.Group)
             .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => e.TimetableId == notification.TemplateId, cancellationToken);
+            .FirstOrDefaultAsync(e => e.TimetableId == notification.TimetableId, cancellationToken);
 
         if (timetable is null)
         {
-            throw new NotFoundException(nameof(Template), notification.TemplateId);
+            throw new NotFoundException(nameof(Template), notification.TimetableId);
         }
 
         var template = await _context.Set<Template>()
@@ -53,7 +53,7 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
             var command = new CreateLessonCommand
             {
                 Number = i,
-                TimetableId = notification.TemplateId,
+                TimetableId = notification.TimetableId,
                 TimeId = lessonTemplate?.TimeId ?? null,
                 DisciplineId = lessonTemplate?.DisciplineId ?? null,
                 TeacherClassroomIds = lessonTemplate?.LessonTemplateTeacherClassrooms

@@ -1,8 +1,17 @@
-import * as Yup from 'yup'
 import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
 
-export const timeTypeFormValidationSchema = Yup.object().shape({
-    name: Yup.string()
-        .max(50, ValidationMessage.MAX_LENGTH)
-        .required(ValidationMessage.REQUIRED)
-})
+export const timeTypeValidation = {
+    required: ValidationMessage.REQUIRED
+}
+
+export const nameValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: string) => {
+        const maxLength = 50
+
+        if (value.length > maxLength)
+            return ValidationMessage.MAX_LENGTH + maxLength
+
+        return true
+    }
+}

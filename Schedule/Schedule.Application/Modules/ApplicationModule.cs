@@ -34,7 +34,7 @@ public sealed class ApplicationModule : Module
         builder
             .Register(_ =>
             {
-                var connectionString = _configuration.GetConnectionString("Schedule");
+                var connectionString = _configuration.GetConnectionString("ScheduleWin");
                 return new SqlConnection(connectionString);
             })
             .As<IDbConnection>()

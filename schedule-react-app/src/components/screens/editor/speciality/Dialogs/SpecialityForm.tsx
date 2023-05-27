@@ -1,7 +1,5 @@
 import {ISpeciality} from "../../../../../features/models/ISpeciality";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {specialityFormValidationSchema} from "./validation.ts";
 import {Button, Form, Modal} from "react-bootstrap";
 import {TextField} from "@mui/material";
 import {Select} from "../../../../ui/Select.tsx";
@@ -11,6 +9,7 @@ import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
 import {ITerm} from "../../../../../features/models/ITerm.ts";
 import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
 import {ICourse} from "../../../../../features/models/ICourse.ts";
+import {codeValidation, nameValidation, termsValidation} from "./validation";
 
 interface ISpecialityForm {
     title: string
@@ -54,7 +53,6 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
     }
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ISpecialityFormState>({
-        resolver: yupResolver(specialityFormValidationSchema),
         values: defaultValue,
         mode: 'onChange',
     })
@@ -94,6 +92,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                     <Controller
                         control={control}
                         name='code'
+                        rules={codeValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -111,6 +110,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                     <Controller
                         control={control}
                         name='name'
+                        rules={nameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -128,6 +128,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                     <Controller
                         control={control}
                         name='term'
+                        rules={termsValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select

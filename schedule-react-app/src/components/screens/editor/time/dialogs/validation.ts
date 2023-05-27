@@ -1,10 +1,45 @@
-import * as Yup from 'yup'
 import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
 
-export const timeFormValidationSchema = Yup.object().shape({
-    start: Yup.string().required(ValidationMessage.REQUIRED),
-    end: Yup.string().required(ValidationMessage.REQUIRED),
-    duration: Yup.number().required(ValidationMessage.REQUIRED),
-    lessonNumber: Yup.number().required(ValidationMessage.REQUIRED),
-    type: Yup.object().required(ValidationMessage.REQUIRED)
-})
+export const timeValidation = {
+    required: ValidationMessage.REQUIRED
+}
+
+export const startValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: string) => {
+        const regex = /^(?:[01][0-9]|2[0-4]):[0-5][0-9]$/;
+
+        if (!regex.test(value))
+            return ValidationMessage.INCORRECT_TIME
+
+        return true
+    }
+}
+
+export const endValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: string) => {
+        const regex = /^(?:[01][0-9]|2[0-4]):[0-5][0-9]$/;
+
+        if (!regex.test(value))
+            return ValidationMessage.INCORRECT_TIME
+
+        return true
+    }
+}
+
+export const durationValidation = {
+    required: ValidationMessage.REQUIRED
+}
+
+export const lessonNumberValidation = {
+    required: ValidationMessage.REQUIRED,
+    validate: (value: number) => {
+        const maxValue = 8
+
+        if (value > maxValue)
+            return ValidationMessage.MAX_VALUE + 8
+
+        return true
+    }
+}

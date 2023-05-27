@@ -1,6 +1,4 @@
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {classroomFormValidationSchema} from "./validation.ts";
 import {Button, Form, Modal} from "react-bootstrap";
 import {IClassroom} from "../../../../../features/models/IClassroom.ts";
 import {useGetClassroomTypesQuery} from "../../../../../store/apis/classroomTypeApi.ts";
@@ -10,6 +8,7 @@ import {TextField} from "@mui/material";
 import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
 import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
 import {IClassroomType} from "../../../../../features/models/IClassroomType.ts";
+import {cabinetValidation, typesValidation} from "./validation";
 
 interface IClassroomForm {
     title: string
@@ -33,7 +32,6 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
     })
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IClassroom>({
-        resolver: yupResolver(classroomFormValidationSchema),
         values: classroom,
         mode: 'onChange',
     })
@@ -71,6 +69,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                     <Controller
                         control={control}
                         name='cabinet'
+                        rules={cabinetValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -88,6 +87,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                     <Controller
                         control={control}
                         name='types'
+                        rules={typesValidation}
                         render={({field}) => (
                             <Form.Group className='m-3'>
                                 <Select

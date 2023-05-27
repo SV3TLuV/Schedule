@@ -1,17 +1,16 @@
 import {ITeacher} from "../../../../../features/models/ITeacher";
 import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
 import {useGetGroupsQuery} from "../../../../../store/apis/groupApi";
-import {teacherFormValidatorSchema} from "./validation";
 import {TextField} from "@mui/material";
 import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
 import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
 import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
 import {IGroup} from "../../../../../features/models/IGroup.ts";
+import {emailValidation, middleNameValidation, nameValidation, surnameValidation} from "./validation";
 
 interface ITeacherForm {
     title: string
@@ -47,7 +46,6 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
     })
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ITeacher>({
-        resolver: yupResolver(teacherFormValidatorSchema),
         values: teacher,
         mode: 'onChange',
     })
@@ -85,6 +83,7 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                     <Controller
                         control={control}
                         name='surname'
+                        rules={surnameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -102,6 +101,7 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                     <Controller
                         control={control}
                         name='name'
+                        rules={nameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -119,6 +119,7 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                     <Controller
                         control={control}
                         name='middleName'
+                        rules={middleNameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -136,6 +137,7 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                     <Controller
                         control={control}
                         name='email'
+                        rules={emailValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField

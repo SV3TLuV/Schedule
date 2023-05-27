@@ -3,8 +3,6 @@ import {useGetTermsQuery} from "../../../../../store/apis/termApi";
 import {useGetSpecialitiesQuery} from "../../../../../store/apis/specialityApi";
 import {useGetGroupsQuery} from "../../../../../store/apis/groupApi";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {groupFormValidationSchema} from "./validation";
 import {Loading} from "../../../../ui/Loading";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui/Select";
@@ -13,6 +11,9 @@ import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
 import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
 import {ISpeciality} from "../../../../../features/models/ISpeciality.ts";
 import {ITerm} from "../../../../../features/models/ITerm.ts";
+import {enrollmentYearValidation, numberValidation} from "./validation";
+import {termValidation} from "../../term/validation";
+import {specialityValidation} from "../../speciality/Dialogs/validation";
 
 interface IGroupForm {
     title: string,
@@ -61,7 +62,6 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
     })
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IGroup>({
-        resolver: yupResolver(groupFormValidationSchema),
         values: group,
         mode: 'onChange',
     })
@@ -99,6 +99,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                     <Controller
                         control={control}
                         name='number'
+                        rules={numberValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -116,6 +117,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                     <Controller
                         control={control}
                         name='enrollmentYear'
+                        rules={enrollmentYearValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <TextField
@@ -133,6 +135,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                     <Controller
                         control={control}
                         name='term'
+                        rules={termValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select
@@ -152,6 +155,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                     <Controller
                         control={control}
                         name='speciality'
+                        rules={specialityValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select

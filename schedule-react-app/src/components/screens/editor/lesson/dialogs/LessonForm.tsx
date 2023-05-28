@@ -89,10 +89,10 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
         subgroup: lesson.subgroup,
         time: lesson.time,
         discipline: lesson.discipline,
-        teachers: lesson.teacherClassrooms.map(item => item.teacher),
+        teachers: lesson.teacherClassrooms?.map(item => item.teacher) ?? [],
         classrooms: lesson.teacherClassrooms
-            .map(item => item.classroom)
-            .filter(classroom => classroom)
+            ?.map(item => item.classroom)
+            ?.filter(classroom => classroom) ?? []
     }), [lesson])
 
     const {control, handleSubmit, reset, setError, formState: {errors}} = useForm<ILessonFormState>({

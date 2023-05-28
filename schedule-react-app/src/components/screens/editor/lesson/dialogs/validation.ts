@@ -1,8 +1,6 @@
 import {ValidationMessage} from "../../../../../common/enums/ValidationMessage.ts";
-
-export const lessonValidation = {
-    required: ValidationMessage.REQUIRED
-}
+import {ITeacher} from "../../../../../features/models/ITeacher.ts";
+import {IClassroom} from "../../../../../features/models/IClassroom.ts";
 
 export const numberValidation = {
     required: ValidationMessage.REQUIRED,
@@ -35,8 +33,7 @@ export const subgroupValidation = {
 }
 
 export const teachersValidation = {
-    required: ValidationMessage.REQUIRED,
-    validate: (value: object[]) => {
+    validate: (value: ITeacher[]) => {
         const maxLength = 2
 
         if (value.length > maxLength)
@@ -47,8 +44,7 @@ export const teachersValidation = {
 }
 
 export const classroomsValidation = {
-    required: ValidationMessage.REQUIRED,
-    validate: (value: object[]) => {
+    validate: (value: IClassroom[]) => {
         const maxLength = 2
 
         if (value.length > maxLength)

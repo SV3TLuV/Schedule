@@ -23,7 +23,7 @@ public sealed class GetTemplateListQueryHandler
     public async Task<PagedList<TemplateViewModel>> Handle(GetTemplateListQuery request,
         CancellationToken cancellationToken)
     {
-        var templates = await _context.Set<Template>()
+        var query = _context.Set<Template>()
             .Include(e => e.Day)
             .Include(e => e.Term)
             .Include(e => e.WeekType)
@@ -51,13 +51,34 @@ public sealed class GetTemplateListQueryHandler
             .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
+            .AsNoTrackingWithIdentityResolution();
+
+        if (request.WeekTypeId is not null)
+        {
+            query = query.Where(e => e.WeekTypeId == request.WeekTypeId);
+        }
+        
+        if (request.TermId is not null)
+        {
+            query = query.Where(e => e.TermId == request.TermId);
+        }
+        
+        if (request.DayId is not null)
+        {
+            query = query.Where(e => e.DayId == request.DayId);
+        }
+        
+        if (request.GroupId is not null)
+        {
+            query = query.Where(e => e.GroupId == request.GroupId);
+        }
+        
+        var templates = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
-
-        var totalCount = await _context.Set<Template>().CountAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TemplateViewModel>>(templates);
+        var totalCount = await query.CountAsync(cancellationToken);
         
         foreach (var viewModel in viewModels)
         {

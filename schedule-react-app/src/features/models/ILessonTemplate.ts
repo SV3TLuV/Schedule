@@ -5,9 +5,9 @@ import {ITeacherClassroom} from "./ITeacherClassroom.ts";
 export interface ILessonTemplate {
     id: number
     number: number
-    subgroup: number
+    subgroup: number | null
     templateId: number
-    time: ITime
-    discipline: IDiscipline
+    time: ITime | null
+    discipline: IDiscipline | null
     teacherClassrooms: ITeacherClassroom[]
 }

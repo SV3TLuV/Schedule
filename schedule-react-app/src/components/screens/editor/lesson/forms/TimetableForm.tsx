@@ -1,6 +1,6 @@
 import {Card} from "react-bootstrap";
-import {ITimetable} from "../../../../../../features/models/ITimetable.ts";
-import {LessonForm} from "../LessonForm.tsx";
+import {ITimetable} from "../../../../../features/models/ITimetable.ts";
+import {LessonForm} from "./LessonForm.tsx";
 
 interface ITimetableForm {
     timetable: ITimetable

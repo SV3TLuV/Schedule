@@ -9,7 +9,7 @@ import {IGroup} from "../../../../features/models/IGroup.ts";
 import {useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
 import {ITimetable} from "../../../../features/models/ITimetable.ts";
 import {useGetTimetablesQuery} from "../../../../store/apis/timetableApi.ts";
-import {TimetableForm} from "./forms/Timetable/TimetableForm.tsx";
+import {TimetableForm} from "./forms/TimetableForm.tsx";
 
 interface ITimetableEditorState {
     group: IGroup

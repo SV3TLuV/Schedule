@@ -26,6 +26,3 @@ export const usePaginationQuery = (
 
     return [paginationQuery, setPaginationQuery] as const;
 }
-
-
-

@@ -6,5 +6,6 @@ export interface ITimetable {
     id: number
     date: IDate
     groups: IGroup[]
+    groupNames: string
     lessons: ILesson[]
 }

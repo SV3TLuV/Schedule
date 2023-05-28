@@ -23,7 +23,7 @@ public sealed class GetTimetableListQueryHandler
     public async Task<PagedList<TimetableViewModel>> Handle(GetTimetableListQuery request,
         CancellationToken cancellationToken)
     {
-        var timetables = await _context.Set<Timetable>()
+        var query = _context.Set<Timetable>()
             .Include(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
@@ -49,38 +49,52 @@ public sealed class GetTimetableListQueryHandler
             .Include(e => e.Lessons)
             .ThenInclude(e => e.LessonTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
+            .OrderBy(e => e.TimetableId)
+            .Where(e => !e.Group.IsDeleted)
             .AsNoTrackingWithIdentityResolution()
-            .ToListAsync(cancellationToken);
+            .AsSplitQuery();
 
+        if (request.DateId is not null)
+        {
+            query = query.Where(e => e.DateId == request.DateId);
+        }
+        
+        if (request.GroupId is not null)
+        {
+            query = query.Where(e => e.GroupId == request.GroupId);
+        }
+        
+        var timetables = await query.ToListAsync(cancellationToken);
         var totalCount = await _context.Set<Timetable>().CountAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
         
+        var viewModelIdsForRemove = new List<int>();
+        var groupIds = new List<int>();
+
         foreach (var viewModel in viewModels)
         {
-            if (viewModel.Groups.Count <= 1)
-                continue;
-
-            for (var i = 1; i < viewModel.Groups.Count; i++)
-            {
-                var group = viewModel.Groups.ElementAt(i);
-                var timetable = viewModels.First(v =>
-                    v.Groups.First().Id == group.Id);
-                viewModels.Remove(timetable);
-            }
-            
-            viewModel.Groups = viewModel.Groups
-                .OrderBy(e => e.Speciality.Code)
+            var viewModelGroupIds = viewModel.Groups
+                .Select(g => g.Id)
                 .ToArray();
+
+            if (viewModelGroupIds.Any(id => groupIds.Contains(id)))
+                viewModelIdsForRemove.Add(viewModel.Id);
+            else
+                groupIds.AddRange(viewModelGroupIds);
         }
+
+        var viewModelsResult = viewModels
+            .Where(v => !viewModelIdsForRemove.Contains(v.Id))
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToArray();
         
         return new PagedList<TimetableViewModel>
         {
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = viewModelsResult
         };
     }
 }

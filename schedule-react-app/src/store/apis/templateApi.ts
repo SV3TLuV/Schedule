@@ -1,13 +1,13 @@
 import {ApiTags, baseApi} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {ITemplate} from "../../features/models/ITemplate.ts";
-import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
+import {IGetTemplateListQuery} from "../../features/queries/IGetTemplateListQuery.ts";
 
 export const templateApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getTemplates: builder.query<IPagedList<ITemplate>, IPaginationQueryWithFilters | void>({
+        getTemplates: builder.query<IPagedList<ITemplate>, IGetTemplateListQuery | void>({
             query: query => ({
                 url: `${ApiTags.Template}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
@@ -18,7 +18,9 @@ export const templateApi = baseApi.injectEndpoints({
                     type: ApiTags.Template,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    search: arg?.search
+                    weekTypeId: arg?.weekTypeId,
+                    termId: arg?.termId,
+                    dayId: arg?.dayId,
                 }
             ]
         }),

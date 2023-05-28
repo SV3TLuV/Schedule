@@ -3,7 +3,7 @@ import {
     AutocompleteRenderInputParams,
     SxProps,
     TextField,
-    TextFieldPropsSizeOverrides, Theme
+    TextFieldPropsSizeOverrides, TextFieldVariants, Theme
 } from "@mui/material";
 import {OverridableStringUnion} from "@mui/types";
 import {memo, SyntheticEvent, useCallback, useMemo} from "react";
@@ -23,6 +23,7 @@ interface ISelect<T extends { id: any }, K extends keyof T> {
     onSearch?: (value: string) => void,
     size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>,
     sx?: SxProps<Theme>,
+    variant?: TextFieldVariants
     clearable?: boolean,
 }
 
@@ -37,6 +38,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
         helperText = '',
         multiple = false,
         value,
+        variant,
         onLoadMore,
         onSearch,
         onChange,
@@ -54,6 +56,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
     const renderInput = useCallback((params: AutocompleteRenderInputParams) => (
         <TextField
             {...params}
+            variant={variant}
             fullWidth={true}
             helperText={helperText}
             error={error}

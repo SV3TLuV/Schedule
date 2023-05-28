@@ -48,7 +48,7 @@ public sealed class GetSpecialityListQueryHandler
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<SpecialityViewModel[]>(specialities);
-        var totalCount = await _context.Set<Speciality>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<SpecialityViewModel>
         {

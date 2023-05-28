@@ -45,7 +45,7 @@ public sealed class GetClassroomListQueryHandler
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<ClassroomViewModel[]>(classrooms);
-        var totalCount = await _context.Set<Classroom>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<ClassroomViewModel>
         {

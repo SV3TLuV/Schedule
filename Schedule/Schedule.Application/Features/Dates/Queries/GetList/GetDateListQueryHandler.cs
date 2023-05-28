@@ -41,7 +41,7 @@ public sealed class GetDateListQueryHandler
             .ToListAsync(cancellationToken);
         
         var viewModels = _mapper.Map<List<DateViewModel>>(dates);
-        var totalCount = await _context.Set<Date>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<DateViewModel>
         {

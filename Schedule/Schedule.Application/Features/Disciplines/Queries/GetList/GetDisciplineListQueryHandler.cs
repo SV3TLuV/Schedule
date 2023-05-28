@@ -51,7 +51,7 @@ public sealed class GetDisciplineListQueryHandler
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<DisciplineViewModel[]>(disciplines);
-        var totalCount = await _context.Set<Discipline>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<DisciplineViewModel>
         {

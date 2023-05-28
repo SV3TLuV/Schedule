@@ -30,6 +30,8 @@ public sealed class GetGroupListQueryHandler
             .ThenInclude(e => e.Disciplines)
             .Include(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
+            .Include(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)
             .ThenInclude(e => e.Course)
             .OrderBy(e => e.Term.CourseId)

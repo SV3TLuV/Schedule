@@ -11,6 +11,8 @@ public class TimetableViewModel : IMapWith<Timetable>
     public DateViewModel Date { get; set; } = null!;
 
     public ICollection<GroupViewModel> Groups { get; set; } = null!;
+    
+    public string GroupNames => string.Join(" ", Groups.Select(g => g.Name));
 
     public ICollection<LessonViewModel> Lessons { get; set; } = null!;
 

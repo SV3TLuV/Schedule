@@ -31,13 +31,12 @@ export const weekTypeApi = baseApi.injectEndpoints({
                 {type: ApiTags.WeekType, id}
             ]
         }),
-        getCurrentWeekType: builder.query<IWeekType, number>({
+        getCurrentWeekType: builder.query<IWeekType, void>({
             query: () => ({
                 url: `${ApiTags.WeekType}/current`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (_, __, id) => [
-                {type: ApiTags.WeekType, id},
+            providesTags: () => [
                 {type: ApiTags.WeekType, id: 'CURRENT'},
             ]
         }),

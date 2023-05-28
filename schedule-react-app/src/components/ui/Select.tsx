@@ -93,11 +93,11 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
         }
     }, [onLoadMore])
 
-    const handleSearch = useCallback((_: React.SyntheticEvent, value: string) => {
+    const handleSearch = useCallback((_: React.SyntheticEvent, searchValue: string) => {
         if (onSearch) {
-            onSearch(value)
+            onSearch(value && !multiple ? '' : searchValue)
         }
-    }, [onSearch])
+    }, [multiple, onSearch, value])
 
     return (
         <Autocomplete

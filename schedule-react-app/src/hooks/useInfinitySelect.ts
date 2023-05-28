@@ -6,6 +6,7 @@ interface useInfinitySelect<T> {
     data?: IPagedList<T>
     query: IPaginationQueryWithFilters
     setQuery: Dispatch<SetStateAction<IPaginationQueryWithFilters>>
+    isNeedClear?: boolean
 }
 
 
@@ -13,7 +14,8 @@ export const useInfinitySelect = <T extends { id: number }>(
     {
         query,
         setQuery,
-        data
+        data,
+        isNeedClear
     }: useInfinitySelect<T>) => {
     const [options, setOptions] = useState<T[]>(() => [])
 
@@ -22,12 +24,16 @@ export const useInfinitySelect = <T extends { id: number }>(
             setOptions(prev => {
                 const array = [...prev, ...data.items]
 
-                return [...new Set(array.map(item => item.id))]
-                    .map(id => array.find(item => item.id === id))
-                    .filter(item => item) as T[]
+                if (!isNeedClear) {
+                    return [...new Set(array.map(item => item.id))]
+                        .map(id => array.find(item => item.id === id))
+                        .filter(item => item) as T[]
+                }
+
+                return data.items
             })
         }
-    }, [data])
+    }, [data, isNeedClear])
 
     const loadMore = useCallback(() => {
         const hasMore = query.page < (data?.totalPages ?? 1)

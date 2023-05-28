@@ -37,8 +37,8 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
                     number: lessonTemplate.number,
                     subgroup: lessonTemplate.subgroup,
                     templateId: lessonTemplate.templateId,
-                    timeId: lessonTemplate.time?.id,
-                    disciplineId: lessonTemplate.discipline?.id,
+                    timeId: lessonTemplate.time?.id ?? null,
+                    disciplineId: lessonTemplate.discipline?.id ?? null,
                     teacherClassroomIds: lessonTemplate.teacherClassrooms
                         .map(teacherClassroom => ({
                             teacherId: teacherClassroom.teacher?.id,
@@ -60,8 +60,8 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
                     number: lessonTemplate.number,
                     subgroup: lessonTemplate.subgroup,
                     templateId: lessonTemplate.templateId,
-                    timeId: lessonTemplate.time?.id,
-                    disciplineId: lessonTemplate.discipline?.id,
+                    timeId: lessonTemplate.time?.id ?? null,
+                    disciplineId: lessonTemplate.discipline?.id ?? null,
                     teacherClassroomIds: lessonTemplate.teacherClassrooms
                         .map(teacherClassroom => ({
                             teacherId: teacherClassroom.teacher?.id,

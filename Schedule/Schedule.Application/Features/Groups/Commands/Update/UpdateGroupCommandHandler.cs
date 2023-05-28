@@ -30,7 +30,9 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
         var group = _mapper.Map<Group>(request);
         
         await _context.Set<GroupGroup>()
-            .Where(e => e.GroupId == request.Id)
+            .Where(e =>
+                e.GroupId == request.Id ||
+                e.GroupId2 == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
         

@@ -1,14 +1,12 @@
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {loginFormValidationSchema} from "./validation.ts";
 import {FaUser} from "react-icons/all";
 import {ILoginCommand} from "../../../features/commands/ILoginCommand.ts";
 import {useNavigation} from "../../../hooks/useNavigation.ts";
+import {loginValidation, passwordValidation} from "./validation.ts";
 
 export const LoginForm = () => {
     const {control, handleSubmit, formState: { errors }} = useForm<ILoginCommand>({
-        resolver: yupResolver(loginFormValidationSchema),
         mode: 'onChange'
     })
     const {navigateTo} = useNavigation();
@@ -49,6 +47,7 @@ export const LoginForm = () => {
                                 <Controller
                                     name='login'
                                     control={control}
+                                    rules={loginValidation}
                                     render={({ field }) => (
                                         <Form.Group className='mb-3'>
                                             <Form.Control
@@ -67,6 +66,7 @@ export const LoginForm = () => {
                                 <Controller
                                     name='password'
                                     control={control}
+                                    rules={passwordValidation}
                                     render={({ field }) => (
                                         <Form.Group className='mb-3'>
                                             <Form.Control

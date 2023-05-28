@@ -5,5 +5,8 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Timetables.Queries.GetList;
 
-public sealed record GetTimetableListQuery :
-    PaginatedQuery, IRequest<PagedList<TimetableViewModel>>;
+public sealed record GetTimetableListQuery : PaginatedQuery, IRequest<PagedList<TimetableViewModel>>
+{
+    public int? DateId { get; set; }
+    public int? GroupId { get; set; }
+}

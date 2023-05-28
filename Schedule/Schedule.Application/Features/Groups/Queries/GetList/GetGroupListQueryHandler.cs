@@ -57,7 +57,7 @@ public sealed class GetGroupListQueryHandler
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<GroupViewModel[]>(groups);
-        var totalCount = await _context.Set<Group>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<GroupViewModel>
         {

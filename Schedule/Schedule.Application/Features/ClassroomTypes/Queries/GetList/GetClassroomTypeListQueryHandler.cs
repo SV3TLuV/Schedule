@@ -43,7 +43,7 @@ public sealed class GetClassroomTypeListQueryHandler
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<ClassroomTypeViewModel[]>(classroomTypes);
-        var totalCount = await _context.Set<ClassroomType>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<ClassroomTypeViewModel>
         {

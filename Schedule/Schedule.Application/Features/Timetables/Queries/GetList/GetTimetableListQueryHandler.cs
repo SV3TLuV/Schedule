@@ -65,8 +65,8 @@ public sealed class GetTimetableListQueryHandler
         }
         
         var timetables = await query.ToListAsync(cancellationToken);
-        var totalCount = await _context.Set<Timetable>().CountAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
+        var totalCount = await query.CountAsync(cancellationToken);
         
         var viewModelIdsForRemove = new List<int>();
         var groupIds = new List<int>();

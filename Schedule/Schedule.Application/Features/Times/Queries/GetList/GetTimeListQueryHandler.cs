@@ -48,7 +48,7 @@ public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, 
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<TimeViewModel[]>(times);
-        var totalCount = await _context.Set<Time>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<TimeViewModel>
         {

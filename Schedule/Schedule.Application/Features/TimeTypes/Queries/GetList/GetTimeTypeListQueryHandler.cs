@@ -44,7 +44,7 @@ public sealed class GetTimeTypeListQueryHandler
             .Take(request.PageSize)
             .ToArrayAsync(cancellationToken);
         var viewModels = _mapper.Map<TimeTypeViewModel[]>(timeTypes);
-        var totalCount = await _context.Set<TimeType>().CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<TimeTypeViewModel>
         {

@@ -55,7 +55,8 @@ public sealed class GetCurrentTimetableListQueryHandler
             .ThenInclude(e => e.LessonTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => dateIds.Contains(e.DateId));
+            .Where(e => dateIds.Contains(e.DateId))
+            .Where(e => !e.Group.IsDeleted);
 
         if (request.GroupId is not null)
         {
@@ -65,25 +66,28 @@ public sealed class GetCurrentTimetableListQueryHandler
         var timetables = await query.ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
 
+        var viewModelIdsForRemove = new List<int>();
+        var groupIds = new List<int>();
+
         foreach (var viewModel in viewModels)
         {
-            if (viewModel.Groups.Count <= 1)
-                continue;
-
-            for (var i = 1; i < viewModel.Groups.Count; i++)
-            {
-                var group = viewModel.Groups.ElementAt(i);
-                var timetable = viewModels.First(v =>
-                    v.Groups.First().Id == group.Id);
-                viewModels.Remove(timetable);
-            }
-            
-            viewModel.Groups = viewModel.Groups
-                .OrderBy(e => e.Speciality.Code)
+            var viewModelGroupIds = viewModel.Groups
+                .Select(g => g.Id)
                 .ToArray();
+
+            if (viewModelGroupIds.Any(id => groupIds.Contains(id)))
+                viewModelIdsForRemove.Add(viewModel.Id);
+            else
+                groupIds.AddRange(viewModelGroupIds);
         }
+
+        var viewModelsResult = viewModels
+            .Where(v => !viewModelIdsForRemove.Contains(v.Id))
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToArray();
         
-        var groupedViewModels = viewModels
+        var groupedViewModels = viewModelsResult
             .GroupBy(timetable => timetable.Groups)
             .ToArray();
 

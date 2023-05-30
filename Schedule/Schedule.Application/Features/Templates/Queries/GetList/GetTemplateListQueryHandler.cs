@@ -27,12 +27,22 @@ public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateLis
             .Include(e => e.Term)
             .Include(e => e.WeekType)
             .Include(e => e.Group)
+            .Include(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
             .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
             .ThenInclude(e => e.Group2)
+            .ThenInclude(e => e.Term)
+            .ThenInclude(e => e.Course)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Speciality)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)
             .ThenInclude(e => e.Course)
             .Include(e => e.Group)
@@ -50,7 +60,8 @@ public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateLis
             .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery();
 
         if (request.WeekTypeId is not null)
         {
@@ -73,8 +84,8 @@ public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateLis
         }
         
         var templates = await query
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
+            .OrderBy(e => e.Group.TermId)
+            .ThenBy(e => string.Concat(e.Group.Speciality.Name, "-", e.Group.Number))
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TemplateViewModel>>(templates);
         var totalCount = await query.CountAsync(cancellationToken);

@@ -12,9 +12,18 @@ public class TeacherClassroomViewModel : IMapWith<LessonTeacherClassroom>, IMapW
 
     public void Map(Profile profile)
     {
-        profile.CreateMap<LessonTeacherClassroom, TeacherClassroomViewModel>()
+        profile.CreateMap<TeacherClassroomViewModel, LessonTeacherClassroom>()
+            .ForMember(lessonTeacherClassroom => lessonTeacherClassroom.TeacherId, expression =>
+                expression.MapFrom(viewModel => viewModel.Teacher.Id))
+            .ForMember(lessonTeacherClassroom => lessonTeacherClassroom.ClassroomId, expression =>
+                expression.MapFrom(viewModel => viewModel.Classroom.Id))
             .ReverseMap();
-        profile.CreateMap<LessonTemplateTeacherClassroom, TeacherClassroomViewModel>()
+        
+        profile.CreateMap<TeacherClassroomViewModel, LessonTemplateTeacherClassroom>()
+            .ForMember(lessonTeacherClassroom => lessonTeacherClassroom.TeacherId, expression =>
+                expression.MapFrom(viewModel => viewModel.Teacher.Id))
+            .ForMember(lessonTeacherClassroom => lessonTeacherClassroom.ClassroomId, expression =>
+                expression.MapFrom(viewModel => viewModel.Classroom.Id))
             .ReverseMap();
     }
 }

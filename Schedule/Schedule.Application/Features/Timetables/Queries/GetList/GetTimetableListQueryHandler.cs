@@ -34,6 +34,15 @@ public sealed class GetTimetableListQueryHandler
             .ThenInclude(e => e.Term)
             .ThenInclude(e => e.Course)
             .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Speciality)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Term)
+            .ThenInclude(e => e.Course)
+            .Include(e => e.Group)
             .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
             .ThenInclude(e => e.Term)
@@ -64,7 +73,10 @@ public sealed class GetTimetableListQueryHandler
             query = query.Where(e => e.GroupId == request.GroupId);
         }
         
-        var timetables = await query.ToListAsync(cancellationToken);
+        var timetables = await query
+            .OrderBy(e => e.Group.TermId)
+            .ThenBy(e => string.Concat(e.Group.Speciality.Name, "-", e.Group.Number))
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
         var totalCount = await query.CountAsync(cancellationToken);
         

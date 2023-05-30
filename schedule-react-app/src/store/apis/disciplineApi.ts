@@ -12,13 +12,12 @@ export const disciplineApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Discipline}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, _, arg) => [
+            providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Discipline, id} as const)),
                 {
                     type: ApiTags.Discipline,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    search: arg?.search
                 }
             ],
         }),

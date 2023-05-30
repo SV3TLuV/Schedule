@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import {OverridableStringUnion} from "@mui/types";
 import {memo, SyntheticEvent, useCallback, useMemo} from "react";
+import {isEmpty} from "../../utils/isEmpty.ts";
 
 interface ISelect<T extends { id: any }, K extends keyof T> {
     options: T[],
@@ -47,6 +48,10 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
         clearable = true,
     }: ISelect<T, K>) => {
 
+    const values = useMemo(() => {
+        return value ?? []
+    }, [value])
+
     const handleChange = useCallback((_: SyntheticEvent, selected: T | T[] | null) => {
         if (onChange)  {
             onChange(selected)
@@ -63,7 +68,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
             label={label}
             size={size}
         />
-    ), [error, helperText, label, size])
+    ), [error, helperText, label, size, variant])
 
     const getOptionLabel = useCallback((option: T) => {
         return (fields instanceof Array ? fields : [fields])
@@ -71,10 +76,6 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
             .filter(value => value)
             .join(fieldSplitter)
     }, [fieldSplitter, fields])
-
-    const values = useMemo(() => {
-        return value ?? []
-    }, [value])
     
     const groupBy = useCallback((option: T) => {
         return groupByKey ? option[groupByKey] as string : ''
@@ -88,14 +89,18 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
         const { scrollTop, clientHeight, scrollHeight } = event.currentTarget
         const isScrolledToBottom = scrollTop + clientHeight === scrollHeight
 
+        if (value && !isEmpty(value) && onSearch) {
+            onSearch('')
+        }
+
         if (isScrolledToBottom && onLoadMore) {
             onLoadMore()
         }
-    }, [onLoadMore])
+    }, [onLoadMore, onSearch, value])
 
     const handleSearch = useCallback((_: React.SyntheticEvent, searchValue: string) => {
         if (onSearch) {
-            onSearch(value && !multiple ? '' : searchValue)
+            onSearch(!value || !isEmpty(value) && !multiple ? '' : searchValue)
         }
     }, [multiple, onSearch, value])
 

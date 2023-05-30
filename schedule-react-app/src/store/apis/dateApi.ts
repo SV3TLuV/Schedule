@@ -12,13 +12,12 @@ export const dateApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Date}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, _, arg) => [
+            providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Date, id} as const)),
                 {
                     type: ApiTags.Date,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    search: arg?.search
                 }
             ]
         }),

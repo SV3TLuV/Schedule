@@ -11,5 +11,5 @@ export interface ITemplate {
     groups: IGroup[]
     groupNames: string
     weekType: IWeekType
-    lessons: ILessonTemplate[]
+    lessonTemplates: ILessonTemplate[]
 }

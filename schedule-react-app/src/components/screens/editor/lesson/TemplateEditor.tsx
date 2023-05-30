@@ -224,7 +224,7 @@ export const TemplateEditor = () => {
             <Row
                 onScroll={handleScroll}
                 style={{
-                    maxHeight: 'calc(100vh - 72px - 42px - 46px - 46px - 46px)',
+                    maxHeight: 'calc(100vh - 72px - 42px - 48px - 48px - 48px - 48px)',
                     overflow: 'scroll'
                 }}
             >

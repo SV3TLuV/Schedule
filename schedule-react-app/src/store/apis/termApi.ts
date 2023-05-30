@@ -12,13 +12,12 @@ export const termApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Term}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, _, arg) => [
+            providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Term, id} as const)),
                 {
                     type: ApiTags.Term,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    search: arg?.search
                 }
             ],
         }),

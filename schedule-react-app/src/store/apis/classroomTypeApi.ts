@@ -12,13 +12,12 @@ export const classroomTypeApi = baseApi.injectEndpoints({
                 url: `${ApiTags.ClassroomType}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, _, arg) => [
+            providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.ClassroomType, id} as const)),
                 {
                     type: ApiTags.ClassroomType,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    search: arg?.search
                 }
             ]
         }),

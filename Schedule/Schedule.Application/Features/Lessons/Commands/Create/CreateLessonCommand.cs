@@ -13,7 +13,8 @@ public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>
     public int? Subgroup { get; set; }
     public int? TimeId { get; set; }
     public int? DisciplineId { get; set; }
-    public ICollection<TeacherClassroomIdsViewModel>? TeacherClassroomIds { get; set; }
+    public ICollection<TeacherClassroomIdsViewModel> TeacherClassroomIds { get; set; } =
+        Array.Empty<TeacherClassroomIdsViewModel>();
 
     public void Map(Profile profile)
     {
@@ -28,6 +29,11 @@ public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>
         
         profile.CreateMap<CreateLessonCommand, Lesson>()
             .ForMember(lesson => lesson.LessonTeacherClassrooms, expression =>
-                expression.MapFrom(command => command.TeacherClassroomIds));
+                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                    new LessonTeacherClassroom
+                    {
+                        TeacherId = ids.TeacherId,
+                        ClassroomId = ids.ClassroomId,
+                    })));
     }
 }

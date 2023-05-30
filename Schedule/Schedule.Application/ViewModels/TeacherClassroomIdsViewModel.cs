@@ -21,7 +21,12 @@ public sealed class TeacherClassroomIdsViewModel : IMapWith<TeacherClassroomView
             .ForMember(destination => destination.Classroom, expression =>
                 expression.MapFrom(ids => ids.ClassroomId.HasValue
                     ? new Classroom { ClassroomId = ids.ClassroomId.Value }
-                    : null))
-            .ReverseMap();
+                    : null));
+        
+        profile.CreateMap<TeacherClassroomViewModel, TeacherClassroomIdsViewModel>()
+            .ForMember(destination => destination.TeacherId, expression =>
+                expression.MapFrom(viewModel => viewModel.Teacher.Id))
+            .ForMember(destination => destination.ClassroomId, expression =>
+                expression.MapFrom(viewModel => viewModel.Classroom.Id));
     }
 }

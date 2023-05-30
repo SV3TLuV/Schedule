@@ -49,7 +49,8 @@ public sealed class GetGroupListQueryHandler
         {
             query = query.Where(e => 
                 (e.Speciality.Name + '-' + e.Number).StartsWith(request.Search) ||
-                e.Speciality.Code.StartsWith(request.Search));
+                e.Speciality.Code.StartsWith(request.Search) ||
+                e.Number.StartsWith(request.Search));
         }
         
         var groups = await query

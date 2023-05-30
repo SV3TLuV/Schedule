@@ -7,8 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Templates.Queries.GetList;
 
-public sealed class GetTemplateListQueryHandler
-    : IRequestHandler<GetTemplateListQuery, PagedList<TemplateViewModel>>
+public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateListQuery, PagedList<TemplateViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -80,30 +79,33 @@ public sealed class GetTemplateListQueryHandler
         var viewModels = _mapper.Map<List<TemplateViewModel>>(templates);
         var totalCount = await query.CountAsync(cancellationToken);
         
+        var viewModelIdsForRemove = new List<int>();
+        var groupIds = new List<int>();
+
         foreach (var viewModel in viewModels)
         {
-            if (viewModel.Groups.Count <= 1)
-                continue;
-
-            for (var i = 1; i < viewModel.Groups.Count; i++)
-            {
-                var group = viewModel.Groups.ElementAt(i);
-                var timetable = viewModels.First(v =>
-                    v.Groups.First().Id == group.Id);
-                viewModels.Remove(timetable);
-            }
-
-            viewModel.Groups = viewModel.Groups
-                .OrderBy(e => e.Speciality.Code)
+            var viewModelGroupIds = viewModel.Groups
+                .Select(g => g.Id)
                 .ToArray();
+
+            if (viewModelGroupIds.Any(id => groupIds.Contains(id)))
+                viewModelIdsForRemove.Add(viewModel.Id);
+            else
+                groupIds.AddRange(viewModelGroupIds);
         }
-        
+
+        var viewModelsResult = viewModels
+            .Where(v => !viewModelIdsForRemove.Contains(v.Id))
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToArray();
+
         return new PagedList<TemplateViewModel>
         {
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = viewModelsResult
         };
     }
 }

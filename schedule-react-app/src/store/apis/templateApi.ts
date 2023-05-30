@@ -12,15 +12,12 @@ export const templateApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Template}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, _, arg) => [
+            providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Template, id} as const)),
                 {
                     type: ApiTags.Template,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    weekTypeId: arg?.weekTypeId,
-                    termId: arg?.termId,
-                    dayId: arg?.dayId,
                 }
             ]
         }),

@@ -56,7 +56,7 @@ export const TimetableEditor = () => {
 
     const [timetableQuery, setTimetableQuery] = usePaginationQuery({ pageSize: 40 })
     const {data: timetableData} = useGetTimetablesQuery({
-        page: selectedGroup ? 1 : timetableQuery.page,
+        page: timetableQuery.page,
         pageSize: timetableQuery.pageSize,
         dateId: selectedDate.id,
         groupId: selectedGroup?.id,
@@ -70,6 +70,8 @@ export const TimetableEditor = () => {
         setQuery: setTimetableQuery,
         data: timetableData,
     })
+
+    const resetTimetableQuery = () => setTimetableQuery(prev => ({...prev, page: 1}))
 
     const handleScroll = (event: React.UIEvent<HTMLUListElement>) => {
         const { scrollTop, clientHeight, scrollHeight } = event.currentTarget
@@ -120,6 +122,7 @@ export const TimetableEditor = () => {
                             <Select
                                 onChange={(e) => {
                                     clearTimetables()
+                                    resetTimetableQuery()
                                     field.onChange(e)
                                 }}
                                 onLoadMore={loadMoreGroups}
@@ -139,7 +142,7 @@ export const TimetableEditor = () => {
             <Row
                 onScroll={handleScroll}
                 style={{
-                    maxHeight: 'calc(100vh - 72px - 42px - 46px - 46px)',
+                    maxHeight: 'calc(100vh - 72px - 42px - 48px - 48px)',
                     overflow: 'scroll'
                 }}
             >

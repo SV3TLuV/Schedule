@@ -18,7 +18,7 @@ public class TemplateViewModel : IMapWith<Template>
 
     public WeekTypeViewModel WeekType { get; set; } = null!;
 
-    public ICollection<LessonTemplateViewModel> Lessons { get; set; } = null!;
+    public ICollection<LessonTemplateViewModel> LessonTemplates { get; set; } = null!;
 
     public void Map(Profile profile)
     {

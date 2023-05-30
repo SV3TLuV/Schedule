@@ -12,13 +12,12 @@ export const courseApi = baseApi.injectEndpoints({
                 url: `${ApiTags.Course}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: (result, _, arg) => [
+            providesTags: result => [
                 ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Course, id} as const)),
                 {
                     type: ApiTags.Course,
                     id: 'LIST',
                     page: result?.pageNumber,
-                    search: arg?.search
                 }
             ]
         }),

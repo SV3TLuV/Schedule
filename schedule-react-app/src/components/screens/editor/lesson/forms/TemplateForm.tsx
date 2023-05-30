@@ -18,7 +18,7 @@ export const TemplateForm = ({template}: ITemplateForm) => {
                 </Card.Title>
             </Card.Header>
             <Card.Body className='py-1'>
-                {template.lessons?.map(lessonTemplate => (
+                {template.lessonTemplates?.map(lessonTemplate => (
                     <LessonTemplateForm
                         key={lessonTemplate.id}
                         lessonTemplate={lessonTemplate}

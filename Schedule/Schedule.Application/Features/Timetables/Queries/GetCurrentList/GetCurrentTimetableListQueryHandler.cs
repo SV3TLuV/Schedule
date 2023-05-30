@@ -39,6 +39,15 @@ public sealed class GetCurrentTimetableListQueryHandler
             .ThenInclude(e => e.Term)
             .ThenInclude(e => e.Course)
             .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Speciality)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.GroupGroups1)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.Term)
+            .ThenInclude(e => e.Course)
+            .Include(e => e.Group)
             .ThenInclude(e => e.Speciality)
             .Include(e => e.Group)
             .ThenInclude(e => e.Term)
@@ -54,16 +63,20 @@ public sealed class GetCurrentTimetableListQueryHandler
             .Include(e => e.Lessons)
             .ThenInclude(e => e.LessonTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
-            .AsNoTrackingWithIdentityResolution()
             .Where(e => dateIds.Contains(e.DateId))
-            .Where(e => !e.Group.IsDeleted);
+            .Where(e => !e.Group.IsDeleted)
+            .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery();
 
         if (request.GroupId is not null)
         {
             query = query.Where(e => e.GroupId == request.GroupId);
         }
 
-        var timetables = await query.ToListAsync(cancellationToken);
+        var timetables = await query
+            .OrderBy(e => e.Group.TermId)
+            .ThenBy(e => string.Concat(e.Group.Speciality.Name, "-", e.Group.Number))
+            .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
 
         var viewModelIdsForRemove = new List<int>();
@@ -88,7 +101,7 @@ public sealed class GetCurrentTimetableListQueryHandler
             .ToArray();
         
         var groupedViewModels = viewModelsResult
-            .GroupBy(timetable => timetable.Groups)
+            .GroupBy(viewModel => viewModel.Groups)
             .ToArray();
 
         var currentTimetables = new List<CurrentTimetableViewModel>();

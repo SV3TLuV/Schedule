@@ -4,7 +4,7 @@ import {IClassroom} from "../../../../../features/models/IClassroom.ts";
 
 export const numberValidation = {
     required: ValidationMessage.REQUIRED,
-    validate: (value: number) => {
+    validate: (value: number): string | boolean => {
         const maxValue = 8
 
         if (value > maxValue)

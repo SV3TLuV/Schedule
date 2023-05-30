@@ -24,7 +24,9 @@ public class TimetableViewModel : IMapWith<Timetable>
             .ForMember(viewModel => viewModel.Groups, expression =>
                 expression.MapFrom(timetable => new[] { timetable.Group }
                     .Concat(timetable.Group.GroupGroups
-                        .Select(e => e.Group2))));
+                        .Select(e => e.Group2))
+                    .Concat(timetable.Group.GroupGroups1
+                        .Select(e => e.Group))));
         
         profile.CreateMap<TimetableViewModel, Timetable>()
             .ForMember(timetable => timetable.TimetableId, expression =>

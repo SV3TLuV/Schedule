@@ -90,9 +90,13 @@ public sealed class GetTimetableListQueryHandler
                 .ToArray();
 
             if (viewModelGroupIds.Any(id => groupIds.Contains(id)))
+            {
                 viewModelIdsForRemove.Add(viewModel.Id);
+            }
             else
+            {
                 groupIds.AddRange(viewModelGroupIds);
+            }
         }
 
         var viewModelsResult = viewModels

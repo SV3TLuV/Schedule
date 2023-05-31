@@ -43,7 +43,8 @@ public sealed class GetDisciplineListQueryHandler
         {
             query = query.Where(e => 
                 e.Name.StartsWith(request.Search) ||
-                e.Code.StartsWith(request.Search));
+                e.Code.StartsWith(request.Search) ||
+                e.Speciality.Name.StartsWith(request.Search));
         }
 
         var disciplines = await query

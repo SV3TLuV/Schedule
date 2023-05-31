@@ -23,7 +23,7 @@ export const useInfinitySelect = <T extends { id: number }>(
                 const resultMap = new Map<number, T>();
                 prev.forEach(item => resultMap.set(item.id, item));
                 data.items.forEach(item => resultMap.set(item.id, item));
-                return Array.from(resultMap.values());
+                return Array.from(resultMap.values())
             });
         }
     }, [data?.items])

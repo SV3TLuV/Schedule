@@ -1,6 +1,6 @@
 import {
     Autocomplete,
-    AutocompleteRenderInputParams,
+    AutocompleteRenderInputParams, Box,
     SxProps,
     TextField,
     TextFieldPropsSizeOverrides, TextFieldVariants, Theme
@@ -70,7 +70,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
         />
     ), [error, helperText, label, size, variant])
 
-    const getOptionLabel = useCallback((option: T) => {
+    const getOptionLabel = useCallback((option: T): string => {
         return (fields instanceof Array ? fields : [fields])
             .map(field => option[field])
             .filter(value => value)
@@ -110,6 +110,11 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
             multiple={multiple}
             size={size}
             renderInput={renderInput}
+            renderOption={(props, option) => (
+                <Box component="li" {...props} key={option.id}>
+                    {getOptionLabel(option)}
+                </Box>
+            )}
             options={options}
             value={values}
             isOptionEqualToValue={isOptionEqualToValue}

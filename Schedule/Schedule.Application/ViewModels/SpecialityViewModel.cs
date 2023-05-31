@@ -16,8 +16,6 @@ public class SpecialityViewModel : IMapWith<Speciality>, IEquatable<SpecialityVi
     
     public bool IsDeleted { get; set; }
 
-    public ICollection<DisciplineViewModel> Disciplines { get; set; } = null!;
-
     public void Map(Profile profile)
     {
         profile.CreateMap<Speciality, SpecialityViewModel>()
@@ -33,8 +31,7 @@ public class SpecialityViewModel : IMapWith<Speciality>, IEquatable<SpecialityVi
         return Id == other.Id && 
                Code == other.Code &&
                Name == other.Name &&
-               IsDeleted == other.IsDeleted && 
-               Disciplines.Equals(other.Disciplines);
+               IsDeleted == other.IsDeleted;
     }
 
     public override bool Equals(object? obj)
@@ -47,6 +44,6 @@ public class SpecialityViewModel : IMapWith<Speciality>, IEquatable<SpecialityVi
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Code, Name, IsDeleted, Disciplines);
+        return HashCode.Combine(Id, Code, Name, IsDeleted);
     }
 }

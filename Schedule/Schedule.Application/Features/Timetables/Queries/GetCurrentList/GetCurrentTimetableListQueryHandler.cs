@@ -53,6 +53,7 @@ public sealed class GetCurrentTimetableListQueryHandler
             .ThenInclude(e => e.Term)
             .ThenInclude(e => e.Course)
             .Include(e => e.Date)
+            .ThenInclude(e => e.Day)
             .Include(e => e.Lessons)
             .ThenInclude(e => e.Discipline)
             .Include(e => e.Lessons)

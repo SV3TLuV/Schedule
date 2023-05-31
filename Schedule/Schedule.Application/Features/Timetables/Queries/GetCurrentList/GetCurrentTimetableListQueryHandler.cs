@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.EqualityComparers;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -110,12 +111,10 @@ public sealed class GetCurrentTimetableListQueryHandler
 
         var viewModelsResult = viewModels
             .Where(v => !viewModelIdsForRemove.Contains(v.Id))
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
             .ToArray();
         
         var groupedViewModels = viewModelsResult
-            .GroupBy(viewModel => viewModel.Groups)
+            .GroupBy(viewModel => viewModel.Groups, new GroupViewModelsEqualityComparer())
             .ToArray();
 
         var currentTimetables = new List<CurrentTimetableViewModel>();

@@ -19,15 +19,14 @@ export const subgroupValidation = {
         const maxValue = 2
         const minValue = 1
 
-        if (value === null)
+        if (!value)
             return true
-
         if (value > maxValue)
             return ValidationMessage.MAX_VALUE + maxValue
-
         if (value < minValue)
             return ValidationMessage.MIN_VALUE + minValue
-
+        if (![`${minValue}`, `${maxValue}`].includes(value.toString()))
+            return ValidationMessage.INCORRECT_DATA
         return true
     }
 }

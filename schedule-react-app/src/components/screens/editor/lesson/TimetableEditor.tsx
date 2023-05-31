@@ -10,6 +10,7 @@ import {useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
 import {ITimetable} from "../../../../features/models/ITimetable.ts";
 import {useGetTimetablesQuery} from "../../../../store/apis/timetableApi.ts";
 import {TimetableForm} from "./forms/TimetableForm.tsx";
+import {IPagedList} from "../../../../features/models/IPagedList.ts";
 
 interface ITimetableEditorState {
     group: IGroup
@@ -54,8 +55,8 @@ export const TimetableEditor = () => {
     const selectedDate = useWatch({ control, name: 'date' })
     const selectedGroup = useWatch({ control, name: 'group' })
 
-    const [timetableQuery, setTimetableQuery] = usePaginationQuery({ pageSize: 40 })
-    const {data: timetableData} = useGetTimetablesQuery({
+    const [timetableQuery, setTimetableQuery] = usePaginationQuery({ pageSize: 24 })
+    const {data: timetableData } = useGetTimetablesQuery({
         page: timetableQuery.page,
         pageSize: timetableQuery.pageSize,
         dateId: selectedDate.id,
@@ -68,7 +69,7 @@ export const TimetableEditor = () => {
     } = useInfinitySelect<ITimetable>({
         query: timetableQuery,
         setQuery: setTimetableQuery,
-        data: timetableData,
+        data: timetableData ?? {} as IPagedList<ITimetable>,
     })
 
     const resetTimetableQuery = () => setTimetableQuery(prev => ({...prev, page: 1}))

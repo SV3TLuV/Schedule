@@ -15,19 +15,21 @@ export const useInfinitySelect = <T extends { id: number }>(
         setQuery,
         data,
     }: useInfinitySelect<T>) => {
-    const [options, setOptions] = useState<T[]>(() => [])
+    const [options, setOptions] = useState<T[]>([])
 
     useEffect(() => {
-        if (data) {
+        if (data?.items) {
             setOptions(prev => {
-                const array = [...prev, ...data.items]
+                const array = [...prev, ...data.items];
 
-                return [...new Set(array.map(item => item.id))]
+                const uniqueArray = [...new Set(array.map(item => item.id))];
+
+                return uniqueArray
                     .map(id => array.find(item => item.id === id))
-                    .filter(item => item) as T[]
-            })
+                    .filter(item => item) as T[];
+            });
         }
-    }, [data])
+    }, [data?.items])
 
     const loadMore = useCallback(() => {
         const hasMore = query.page < (data?.totalPages ?? 1)

@@ -47,14 +47,9 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         setQuery: setGroupQuery,
         data: groupData
     })
-    const groupOptions = groups.filter(g => g.id !== group.id)
-        .filter(g => {
-            if (group.speciality) {
-                return g.speciality.id === group.speciality.id
-            }
-
-            return true
-        })
+    const groupOptions = groups
+        .filter(g => g.id !== group.id)
+        .filter(g => group.speciality ? g.speciality.id === group.speciality.id : true)
 
     const [termQuery, setTermQuery] = usePaginationQuery()
     const {data: termData} = useGetTermsQuery(termQuery)

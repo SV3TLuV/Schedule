@@ -15,11 +15,13 @@ import {TextField} from "@mui/material";
 import {Select} from "../../../../ui/Select.tsx";
 import {useMemo} from "react";
 import {classroomsValidation, numberValidation, subgroupValidation, teachersValidation} from "./validation";
+import {IGroup} from "../../../../../features/models/IGroup.ts";
 
 interface ILessonForm {
     title: string
     show: boolean
     lesson: ILesson
+    group: IGroup
     onClose: () => void
     onSave: (lesson: ILesson) => void
 }
@@ -34,7 +36,7 @@ interface ILessonFormState {
     classrooms: IClassroom[]
 }
 
-export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm) => {
+export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILessonForm) => {
     const [timeQuery, setTimeQuery] = usePaginationQuery()
     const {data: timeData} = useGetTimesQuery(timeQuery)
     const {
@@ -58,6 +60,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
         setQuery: setDisciplineQuery,
         data: disciplineData
     })
+    const disciplineOptions = disciplines.filter(d => d.term.id === group.term.id)
 
     const [teacherQuery, setTeacherQuery] = usePaginationQuery()
     const {data: teacherData} = useGetTeachersQuery(teacherQuery)
@@ -224,7 +227,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
                                     onLoadMore={loadMoreDisciplines}
                                     onSearch={searchDisciplines}
                                     value={field.value}
-                                    options={disciplines}
+                                    options={disciplineOptions}
                                     fields='name'
                                     label='Дисциплина'
                                     error={!!errors.discipline?.message}

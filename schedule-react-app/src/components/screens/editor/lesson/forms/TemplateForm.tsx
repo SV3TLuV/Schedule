@@ -34,7 +34,7 @@ export const TemplateForm = ({template}: ITemplateForm) => {
             className='text-center'
             style={{
                 minWidth: '280px',
-                maxWidth: '400px',
+                maxWidth: '280px',
             }}
         >
             <Card.Header>
@@ -54,6 +54,7 @@ export const TemplateForm = ({template}: ITemplateForm) => {
                     <LessonTemplateForm
                         key={lessonTemplate.id}
                         lessonTemplate={lessonTemplate}
+                        group={template.groups[0]}
                     />
                 ))}
                 <Button className='mb-3' onClick={handleCreate}>

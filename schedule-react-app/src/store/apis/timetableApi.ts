@@ -5,6 +5,7 @@ import {ITimetable} from "../../features/models/ITimetable.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {IGetCurrentTimetableQuery} from "../../features/queries/IGetCurrentTimetableQuery.ts";
 import {IGetTimetableListQuery} from "../../features/queries/IGetTimetableListQuery.ts";
+import {ICurrentTimetable} from "../../features/models/ICurrentTimetable.ts";
 
 export const timetableApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -31,13 +32,12 @@ export const timetableApi = baseApi.injectEndpoints({
                 {type: ApiTags.Timetable, id}
             ]
         }),
-        getCurrentTimetable: builder.query<IPagedList<ITimetable>, IGetCurrentTimetableQuery | void>({
+        getCurrentTimetable: builder.query<IPagedList<ICurrentTimetable>, IGetCurrentTimetableQuery | void>({
             query: query => ({
                 url: `${ApiTags.Timetable}/current?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
-            providesTags: result => [
-                ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Timetable, id} as const)),
+            providesTags: () => [
                 {type: ApiTags.Timetable, id: 'CURRENT'}
             ]
         }),

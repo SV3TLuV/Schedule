@@ -3,8 +3,7 @@ export enum ValidationMessage {
     MIN_LENGTH = 'Минимальная длинна: ',
     MAX_LENGTH = 'Максимальная длинна: ',
     REQUIRED_LENGTH = 'Требуемая длинна: ',
-    INCORRECT_TYPE = 'Недопустимые входные данные',
-    INCORRECT_TIME = 'Недопустимый тип времени',
+    INCORRECT_DATA = 'Недопустимые входные данные',
     MAX_VALUE = 'Максимальное значение: ',
     MIN_VALUE = 'Минимальное значение: '
 }

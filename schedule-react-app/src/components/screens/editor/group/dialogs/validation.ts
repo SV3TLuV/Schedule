@@ -23,7 +23,7 @@ export const enrollmentYearValidation = {
         const valueString = value.toString()
 
         if (isNaN(value))
-            return ValidationMessage.INCORRECT_TYPE
+            return ValidationMessage.INCORRECT_DATA
 
         if (valueString.length != requiredLength)
             return ValidationMessage.REQUIRED_LENGTH + requiredLength

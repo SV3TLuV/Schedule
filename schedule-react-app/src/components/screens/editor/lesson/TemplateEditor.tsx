@@ -89,7 +89,7 @@ export const TemplateEditor = () => {
     const selectedDay = useWatch({ control, name: 'day' })
     const selectedGroup = useWatch({ control, name: 'group' })
 
-    const [templateQuery, setTemplateQuery] = usePaginationQuery({ pageSize: 40 })
+    const [templateQuery, setTemplateQuery] = usePaginationQuery({ pageSize: 24 })
     const {data: templateData} = useGetTemplatesQuery({
         page: templateQuery.page,
         pageSize: templateQuery.pageSize,

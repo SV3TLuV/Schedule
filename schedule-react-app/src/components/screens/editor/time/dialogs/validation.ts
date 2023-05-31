@@ -10,7 +10,7 @@ export const startValidation = {
         const regex = /^(?:[01][0-9]|2[0-4]):[0-5][0-9]$/;
 
         if (!regex.test(value))
-            return ValidationMessage.INCORRECT_TIME
+            return ValidationMessage.INCORRECT_DATA
 
         return true
     }
@@ -22,7 +22,7 @@ export const endValidation = {
         const regex = /^(?:[01][0-9]|2[0-4]):[0-5][0-9]$/;
 
         if (!regex.test(value))
-            return ValidationMessage.INCORRECT_TIME
+            return ValidationMessage.INCORRECT_DATA
 
         return true
     }

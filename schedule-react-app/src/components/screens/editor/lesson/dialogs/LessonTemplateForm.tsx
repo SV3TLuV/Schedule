@@ -15,11 +15,13 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {classroomsValidation, numberValidation, subgroupValidation, teachersValidation} from "./validation.ts";
 import {TextField} from "@mui/material";
 import {Select} from "../../../../ui/Select.tsx";
+import {IGroup} from "../../../../../features/models/IGroup.ts";
 
 interface ILessonTemplateForm {
     title: string
     show: boolean
     lessonTemplate: ILessonTemplate
+    group: IGroup
     onClose: () => void
     onSave: (lesson: ILessonTemplate) => void
 }
@@ -34,7 +36,7 @@ interface ILessonTemplateFormState {
     classrooms: IClassroom[]
 }
 
-export const LessonTemplateForm = ({ title, show, lessonTemplate, onClose, onSave }: ILessonTemplateForm) => {
+export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose, onSave }: ILessonTemplateForm) => {
     const [timeQuery, setTimeQuery] = usePaginationQuery()
     const {data: timeData} = useGetTimesQuery(timeQuery)
     const {
@@ -58,6 +60,7 @@ export const LessonTemplateForm = ({ title, show, lessonTemplate, onClose, onSav
         setQuery: setDisciplineQuery,
         data: disciplineData
     })
+    const disciplineOptions = disciplines.filter(d => d.term.id === group.term.id)
 
     const [teacherQuery, setTeacherQuery] = usePaginationQuery()
     const {data: teacherData} = useGetTeachersQuery(teacherQuery)
@@ -223,7 +226,7 @@ export const LessonTemplateForm = ({ title, show, lessonTemplate, onClose, onSav
                                     onLoadMore={loadMoreDisciplines}
                                     onSearch={searchDisciplines}
                                     value={field.value}
-                                    options={disciplines}
+                                    options={disciplineOptions}
                                     fields='name'
                                     label='Дисциплина'
                                     error={!!errors.discipline?.message}

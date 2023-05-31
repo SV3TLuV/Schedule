@@ -32,7 +32,10 @@ export const TimetableForm = ({timetable}: ITimetableForm) => {
 
     return (
         <Card
-            style={{ minWidth: '280px', maxWidth: '400px'}}
+            style={{
+                minWidth: '280px',
+                maxWidth: '280px',
+            }}
             className='text-center'
         >
             <Card.Header>
@@ -52,6 +55,7 @@ export const TimetableForm = ({timetable}: ITimetableForm) => {
                     <LessonForm
                         key={lesson.id}
                         lesson={lesson}
+                        group={timetable.groups[0]}
                     />
                 ))}
                 <Button className='mb-3' onClick={handleCreate}>

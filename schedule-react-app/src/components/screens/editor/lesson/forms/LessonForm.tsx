@@ -3,12 +3,14 @@ import {useDeleteLessonMutation} from "../../../../../store/apis/lessonApi.ts";
 import {UpdateLessonDialog} from "../dialogs/UpdateLessonDialog.tsx";
 import {useDialog} from "../../../../../hooks/useDialog.ts";
 import {BaseLessonForm} from "./BaseLessonForm.tsx";
+import {IGroup} from "../../../../../features/models/IGroup.ts";
 
 interface ILessonForm {
     lesson: ILesson
+    group: IGroup
 }
 
-export const LessonForm = ({lesson}: ILessonForm) => {
+export const LessonForm = ({lesson, group}: ILessonForm) => {
     const [remove] = useDeleteLessonMutation()
     const updateDialog = useDialog()
 
@@ -21,7 +23,11 @@ export const LessonForm = ({lesson}: ILessonForm) => {
                 onChange={updateDialog.show}
                 onDelete={handleDelete}
             />
-            <UpdateLessonDialog lesson={lesson} {...updateDialog}/>
+            <UpdateLessonDialog
+                lesson={lesson}
+                {...updateDialog}
+                group={group}
+            />
         </>
     )
 }

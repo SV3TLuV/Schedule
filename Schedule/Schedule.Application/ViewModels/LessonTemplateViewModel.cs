@@ -25,6 +25,8 @@ public class LessonTemplateViewModel : IMapWith<LessonTemplate>, IMapWith<Lesson
         profile.CreateMap<LessonTemplate, LessonTemplateViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(lesson => lesson.LessonTemplateId))
+            .ForMember(viewModel => viewModel.TeacherClassrooms, expression =>
+                expression.MapFrom(lessonTemplate => lessonTemplate.LessonTemplateTeacherClassrooms))
             .ReverseMap();
         
         profile.CreateMap<LessonTemplate, Lesson>()

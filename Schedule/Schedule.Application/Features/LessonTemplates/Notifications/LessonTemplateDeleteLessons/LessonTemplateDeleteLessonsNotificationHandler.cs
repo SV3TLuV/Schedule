@@ -17,7 +17,6 @@ public sealed class LessonTemplateDeleteLessonsNotificationHandler
     public LessonTemplateDeleteLessonsNotificationHandler(
         IScheduleDbContext context,
         IMediator mediator,
-        IMapper mapper,
         IDateInfoService dateInfoService)
     {
         _context = context;
@@ -28,15 +27,7 @@ public sealed class LessonTemplateDeleteLessonsNotificationHandler
     public async Task Handle(LessonTemplateDeleteLessonsNotification notification,
         CancellationToken cancellationToken)
     {
-        var lessonTemplate = await _context.Set<LessonTemplate>()
-            .Include(e => e.Template)
-            .ThenInclude(e => e.Group)
-            .ThenInclude(e => e.Term)
-            .Include(e => e.LessonTemplateTeacherClassrooms)
-            .AsNoTrackingWithIdentityResolution()
-            .FirstAsync(e => e.LessonTemplateId == notification.LessonTemplate.LessonTemplateId, cancellationToken);
-        
-        var lessons = await _context.Set<Lesson>()
+        var lessonIds = await _context.Set<Lesson>()
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Date)
             .Include(e => e.Timetable)
@@ -45,17 +36,18 @@ public sealed class LessonTemplateDeleteLessonsNotificationHandler
             .Include(e => e.LessonTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
             .Where(e => 
-                e.Number == lessonTemplate.Number &&
-                e.Timetable.GroupId == lessonTemplate.Template.GroupId &&
-                e.Timetable.Group.TermId == lessonTemplate.Template.TermId &&
-                e.Timetable.Date.DayId == lessonTemplate.Template.DayId &&
+                e.Number == notification.LessonTemplate.Number &&
+                e.Timetable.GroupId == notification.LessonTemplate.Template.GroupId &&
+                e.Timetable.Group.TermId == notification.LessonTemplate.Template.TermId &&
+                e.Timetable.Date.DayId == notification.LessonTemplate.Template.DayId &&
                 e.Timetable.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
-                e.Timetable.Date.WeekTypeId == lessonTemplate.Template.WeekTypeId)
+                e.Timetable.Date.WeekTypeId == notification.LessonTemplate.Template.WeekTypeId)
+            .Select(e => e.LessonId)
             .ToListAsync(cancellationToken);
 
-        foreach (var lesson in lessons)
+        foreach (var lessonId in lessonIds)
         {
-            var command = new DeleteLessonCommand(lesson.LessonId);
+            var command = new DeleteLessonCommand(lessonId);
             await _mediator.Send(command, cancellationToken);
         }
     }

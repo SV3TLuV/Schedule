@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Commands.Create;
 
-public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>
+public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>, IMapWith<LessonTemplate>
 {
     public required int Number { get; set; }
     public required int TimetableId { get; set; }
@@ -31,6 +31,24 @@ public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>
             .ForMember(lesson => lesson.LessonTeacherClassrooms, expression =>
                 expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
                     new LessonTeacherClassroom
+                    {
+                        TeacherId = ids.TeacherId,
+                        ClassroomId = ids.ClassroomId,
+                    })));
+        
+        profile.CreateMap<LessonTemplate, CreateLessonCommand>()
+            .ForMember(command => command.TeacherClassroomIds, expression =>
+                expression.MapFrom(lesson => lesson.LessonTemplateTeacherClassrooms
+                    .Select(ltc => new TeacherClassroomIdsViewModel
+                    {
+                        TeacherId = ltc.TeacherId,
+                        ClassroomId = ltc.ClassroomId,
+                    })));
+        
+        profile.CreateMap<CreateLessonCommand, LessonTemplate>()
+            .ForMember(lesson => lesson.LessonTemplateTeacherClassrooms, expression =>
+                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                    new LessonTemplateTeacherClassroom
                     {
                         TeacherId = ids.TeacherId,
                         ClassroomId = ids.ClassroomId,

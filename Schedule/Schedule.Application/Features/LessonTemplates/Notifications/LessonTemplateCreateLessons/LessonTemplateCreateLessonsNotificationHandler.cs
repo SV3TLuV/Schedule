@@ -39,7 +39,7 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
             .AsNoTrackingWithIdentityResolution()
             .FirstAsync(e => e.LessonTemplateId == notification.LessonTemplateId, cancellationToken);
 
-        var timetables = await _context.Set<Timetable>()
+        var timetableIds = await _context.Set<Timetable>()
             .Include(e => e.Date)
             .AsNoTrackingWithIdentityResolution()
             .Where(e => 
@@ -48,13 +48,14 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
                 e.Group.TermId == lessonTemplate.Template.TermId &&
                 e.Date.WeekTypeId == lessonTemplate.Template.WeekTypeId &&
                 e.Date.Value >= _dateInfoService.CurrentDateTime.Date)
+            .Select(e => e.TimetableId)
             .ToListAsync(cancellationToken);
 
-        foreach (var timetable in timetables)
+        foreach (var timetableId in timetableIds)
         {
             var command = _mapper.Map<CreateLessonCommand>(lessonTemplate);
-            command.TimetableId = timetable.TimetableId;
-            await _mediator.Publish(command, cancellationToken);
+            command.TimetableId = timetableId;
+            await _mediator.Send(command, cancellationToken);
         }
     }
 }

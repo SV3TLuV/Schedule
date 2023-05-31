@@ -56,7 +56,7 @@ export const TemplateForm = ({template}: ITemplateForm) => {
                         lessonTemplate={lessonTemplate}
                     />
                 ))}
-                <Button onClick={handleCreate}>
+                <Button className='mb-3' onClick={handleCreate}>
                     Добавить пару
                 </Button>
             </Card.Body>

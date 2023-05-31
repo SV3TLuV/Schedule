@@ -52,6 +52,7 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
                 e.Timetable.Date.DayId == lessonTemplate.Template.DayId &&
                 e.Timetable.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
                 e.Timetable.Date.WeekTypeId == lessonTemplate.Template.WeekTypeId)
+            .Select(e => new { e.LessonId, e.TimetableId })
             .ToListAsync(cancellationToken);
 
         foreach (var lesson in lessons)

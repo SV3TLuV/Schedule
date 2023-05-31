@@ -15,18 +15,15 @@ export const useInfinitySelect = <T extends { id: number }>(
         setQuery,
         data,
     }: useInfinitySelect<T>) => {
-    const [options, setOptions] = useState<T[]>([])
+    const [options, setOptions] = useState<T[]>(() => [])
 
     useEffect(() => {
         if (data?.items) {
             setOptions(prev => {
-                const array = [...prev, ...data.items];
-
-                const uniqueArray = [...new Set(array.map(item => item.id))];
-
-                return uniqueArray
-                    .map(id => array.find(item => item.id === id))
-                    .filter(item => item) as T[];
+                const resultMap = new Map<number, T>();
+                prev.forEach(item => resultMap.set(item.id, item));
+                data.items.forEach(item => resultMap.set(item.id, item));
+                return Array.from(resultMap.values());
             });
         }
     }, [data?.items])

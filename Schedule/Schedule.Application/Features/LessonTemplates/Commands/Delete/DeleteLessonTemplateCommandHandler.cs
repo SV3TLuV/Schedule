@@ -23,6 +23,7 @@ public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteL
         CancellationToken cancellationToken)
     {
         var lessonTemplate = await _context.Set<LessonTemplate>()
+            .Include(e => e.Template)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.LessonTemplateId == request.Id, cancellationToken);
 

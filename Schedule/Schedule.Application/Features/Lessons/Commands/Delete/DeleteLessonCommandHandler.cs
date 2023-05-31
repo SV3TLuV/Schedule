@@ -23,7 +23,9 @@ public sealed class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCom
         CancellationToken cancellationToken)
     {
         var lesson = await _context.Set<Lesson>()
-            .AsNoTrackingWithIdentityResolution()
+            .Include(e => e.Timetable)
+            .ThenInclude(e => e.Group)
+            .ThenInclude(e => e.GroupGroups)
             .FirstOrDefaultAsync(e => e.LessonId == request.Id, cancellationToken);
 
         if (lesson is null)

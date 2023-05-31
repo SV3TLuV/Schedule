@@ -33,21 +33,22 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
 
         var unitedGroupIds = lesson.Timetable.Group.GroupGroups.Select(e => e.GroupId2);
 
-        var timetables = await _context.Set<Timetable>()
+        var timetableIds = await _context.Set<Timetable>()
             .AsNoTrackingWithIdentityResolution()
             .Where(e =>
                 unitedGroupIds.Contains(e.GroupId) &&
                 e.DateId == lesson.Timetable.DateId)
+            .Select(e => e.TimetableId)
             .ToListAsync(cancellationToken);
 
-        foreach (var timetable in timetables)
+        foreach (var timetableId in timetableIds)
         {
             var newLesson = new Lesson
             {
                 Number = lesson.Number,
                 Subgroup = lesson.Subgroup,
                 TimeId = lesson.TimeId,
-                TimetableId = timetable.TimetableId,
+                TimetableId = timetableId,
                 DisciplineId = lesson.DisciplineId,
                 IsChanged = lesson.IsChanged,
                 LessonTeacherClassrooms = lesson.LessonTeacherClassrooms,

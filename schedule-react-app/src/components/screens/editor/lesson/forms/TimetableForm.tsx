@@ -54,7 +54,7 @@ export const TimetableForm = ({timetable}: ITimetableForm) => {
                         lesson={lesson}
                     />
                 ))}
-                <Button onClick={handleCreate}>
+                <Button className='mb-3' onClick={handleCreate}>
                     Добавить пару
                 </Button>
             </Card.Body>

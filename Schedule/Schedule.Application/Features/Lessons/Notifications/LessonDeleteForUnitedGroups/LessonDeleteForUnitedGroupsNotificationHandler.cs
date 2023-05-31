@@ -19,19 +19,20 @@ public sealed class LessonDeleteForUnitedGroupsNotificationHandler
     public async Task Handle(LessonDeleteForUnitedGroupsNotification notification,
         CancellationToken cancellationToken)
     {
-        var lesson = notification.Lesson;
-        
-        var unitedGroupIds = lesson.Timetable.Group.GroupGroups
-            .Select(e => e.GroupId2);
+        var unitedGroupIds = notification.Lesson.Timetable.Group.GroupGroups
+            .Select(e => e.GroupId2)
+            .ToArray();
 
-        await _context.Set<Lesson>()
+        var lessons = await _context.Set<Lesson>()
             .Include(e => e.Timetable)
-            .AsNoTrackingWithIdentityResolution()
             .Where(e => 
-                e.Number == lesson.Number &&
+                e.Number == notification.Lesson.Number &&
                 unitedGroupIds.Contains(e.Timetable.GroupId) &&
-                e.Timetable.DateId == lesson.Timetable.DateId)
-            .ExecuteDeleteAsync(cancellationToken);
+                e.Timetable.DateId == notification.Lesson.Timetable.DateId)
+            .AsNoTrackingWithIdentityResolution()
+            .ToListAsync(cancellationToken);
+        
+        _context.Set<Lesson>().RemoveRange(lessons);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

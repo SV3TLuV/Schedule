@@ -52,12 +52,12 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id &&
-               Number == other.Number && 
+        return Id == other.Id && 
+               Number == other.Number &&
                EnrollmentYear == other.EnrollmentYear && 
                IsDeleted == other.IsDeleted && 
-               Term.Equals(other.Term) &&
-               Speciality.Equals(other.Speciality) &&
+               Term.Equals(other.Term) && 
+               Speciality.Equals(other.Speciality) && 
                MergedGroups.Equals(other.MergedGroups);
     }
 
@@ -65,7 +65,7 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
+        if (obj.GetType() != this.GetType()) return false;
         return Equals((GroupViewModel)obj);
     }
 

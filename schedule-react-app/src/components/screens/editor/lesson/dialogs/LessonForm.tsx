@@ -92,7 +92,7 @@ export const LessonForm = ({ title, show, lesson, onClose, onSave }: ILessonForm
         teachers: lesson.teacherClassrooms?.map(item => item.teacher) ?? [],
         classrooms: lesson.teacherClassrooms
             ?.map(item => item.classroom)
-            ?.filter(classroom => classroom) ?? []
+            ?.filter(classroom => classroom.id !== 0) ?? []
     }), [lesson])
 
     const {control, handleSubmit, reset, setError, formState: {errors}} = useForm<ILessonFormState>({

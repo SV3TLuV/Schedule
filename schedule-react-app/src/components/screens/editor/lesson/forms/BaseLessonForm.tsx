@@ -49,26 +49,32 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
             }
             <div style={isBlurred ? {filter: 'blur(4px)'} : {}}>
                 <Row className='my-1'>
-                    <LessonFormTypography text={item?.discipline?.name ?? ""}/>
+                    <LessonFormTypography text={`Номер пары: ${item?.number ?? ''}`}/>
+                </Row>
+                <Row className='my-1 mb-2'>
+                    <LessonFormTypography text={item?.subgroup ? `Подгруппа: ${item.subgroup}` : 'Вся группа'}/>
+                </Row>
+                <Row className='my-1'>
+                    <LessonFormTypography text={item?.discipline?.name ?? ''}/>
                 </Row>
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(0)?.teacher?.surname ?? ""}/>
+                        <LessonFormTypography text={item?.teacherClassrooms?.at(0)?.teacher?.surname ?? ''}/>
                     </Col>
                     <Col className='p-0' xs={5}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(0)?.classroom?.cabinet ?? ""}/>
+                        <LessonFormTypography text={item?.teacherClassrooms?.at(0)?.classroom?.cabinet ?? ''}/>
                     </Col>
                 </Row>
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(1)?.teacher?.surname ?? ""}/>
+                        <LessonFormTypography text={item?.teacherClassrooms?.at(1)?.teacher?.surname ?? ''}/>
                     </Col>
                     <Col className='p-0' xs={5}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(1)?.classroom?.cabinet ?? ""}/>
+                        <LessonFormTypography text={item?.teacherClassrooms?.at(1)?.classroom?.cabinet ?? ''}/>
                     </Col>
                 </Row>
                 <Row className='my-1'>
-                    <LessonFormTypography text={item.time ? `${item?.time?.start} - ${item?.time?.end}` : ""}/>
+                    <LessonFormTypography text={item.time ? `${item?.time?.start} - ${item?.time?.end}` : ''}/>
                 </Row>
             </div>
         </Container>

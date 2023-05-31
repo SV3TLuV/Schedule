@@ -81,18 +81,31 @@ public sealed class GetCurrentTimetableListQueryHandler
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
 
         var viewModelIdsForRemove = new List<int>();
-        var groupIds = new List<int>();
+        var hashSet = new HashSet<(int, int)>();
 
         foreach (var viewModel in viewModels)
         {
-            var viewModelGroupIds = viewModel.Groups
-                .Select(g => g.Id)
-                .ToArray();
+            var ids = viewModel.Groups
+                .Select(g => (GroupId: g.Id, DateId: viewModel.Date.Id))
+                .ToList();
+            
+            var hasDuplicate = false;
 
-            if (viewModelGroupIds.Any(id => groupIds.Contains(id)))
+            foreach (var pair in ids)
+            {
+                if (hashSet.Contains(pair))
+                {
+                    hasDuplicate = true;
+                    break;
+                }
+
+                hashSet.Add(pair);
+            }
+
+            if (hasDuplicate)
+            {
                 viewModelIdsForRemove.Add(viewModel.Id);
-            else
-                groupIds.AddRange(viewModelGroupIds);
+            }
         }
 
         var viewModelsResult = viewModels

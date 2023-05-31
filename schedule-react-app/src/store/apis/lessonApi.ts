@@ -34,7 +34,7 @@ export const lessonApi = baseApi.injectEndpoints({
                 method: HttpMethod.POST,
                 body: {
                     number: lesson.number,
-                    subgroup: lesson.subgroup,
+                    subgroup:  lesson.subgroup ? Number(lesson.subgroup) : null,
                     timetableId: lesson.timetableId,
                     timeId: lesson.time?.id ?? null,
                     disciplineId: lesson.discipline?.id ?? null,
@@ -57,7 +57,7 @@ export const lessonApi = baseApi.injectEndpoints({
                 body: {
                     id: lesson.id,
                     number: lesson.number,
-                    subgroup: lesson.subgroup,
+                    subgroup: lesson.subgroup ? Number(lesson.subgroup) : null,
                     timetableId: lesson.timetableId,
                     timeId: lesson.time?.id ?? null,
                     disciplineId: lesson.discipline?.id ?? null,

@@ -100,7 +100,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
 
     const handleSearch = useCallback((_: React.SyntheticEvent, searchValue: string) => {
         if (onSearch) {
-            onSearch(!value || !isEmpty(value) && !multiple ? '' : searchValue)
+            onSearch(value && !isEmpty(value) && !multiple ? '' : searchValue)
         }
     }, [multiple, onSearch, value])
 

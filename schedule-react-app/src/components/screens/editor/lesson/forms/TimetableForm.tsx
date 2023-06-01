@@ -46,7 +46,7 @@ export const TimetableForm = ({timetable}: ITimetableForm) => {
             <Card.Body
                 className='py-1'
                 style={{
-                    maxHeight: '720px',
+                    maxHeight: '760px',
                     overflowX: 'hidden',
                     overflowY: 'scroll'
                 }}

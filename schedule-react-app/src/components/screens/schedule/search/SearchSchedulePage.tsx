@@ -1,10 +1,13 @@
-import {Col, Container, Form, Row} from "react-bootstrap";
+import {Card, Col, Container, Form, Row} from "react-bootstrap";
 import {Select} from "../../../ui/Select.tsx";
-import {Controller, useForm} from "react-hook-form";
+import {Controller, useForm, useWatch} from "react-hook-form";
 import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
 import {useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
 import {useInfinitySelect} from "../../../../hooks/useInfinitySelect.ts";
 import {IGroup} from "../../../../features/models/IGroup.ts";
+import {useGetCurrentTimetableQuery} from "../../../../store/apis/timetableApi.ts";
+import {IGetCurrentTimetableQuery} from "../../../../features/queries/IGetCurrentTimetableQuery.ts";
+import {LessonDisplay} from "./LessonDisplay.tsx";
 
 interface ISearchSchedulePageState {
     group: IGroup | null
@@ -30,17 +33,25 @@ export const SearchSchedulePage = () => {
         data: groupData
     })
 
-/*    const selectedGroup = useWatch({ control, name: 'group' })
+    const selectedGroup = useWatch({ control, name: 'group' })
 
-    const {data: timetableData} = useGetCurrentTimetableQuery({
+    const {data: timetables} = useGetCurrentTimetableQuery({
         groupId: selectedGroup?.id ?? null,
-        dateCount: 3
-    })*/
+        dateCount: 6
+    } as IGetCurrentTimetableQuery, {
+        skip: selectedGroup === null,
+        pollingInterval: 7500
+    })
 
     return (
         <Container style={{ height: 'calc(100vh - 72px)' }}>
             <Row>
-                <Col className='mx-auto my-4' xs={12} sm={8} md={6} lg={5} xl={4}>
+                <Col
+                    className='mx-auto my-4'
+                    style={{
+                        maxWidth: '420px'
+                    }}
+                >
                     <Controller
                         control={control}
                         name='group'
@@ -64,9 +75,43 @@ export const SearchSchedulePage = () => {
                     />
                 </Col>
             </Row>
-            <Row>
-
+            <Row className='d-flex flex-column'>
+                {timetables && timetables.items.map(current => (
+                    current.dates.map(date => (
+                        date.items.map(timetable => (
+                            <Card
+                                className='mx-auto text-center p-0 mb-4'
+                                key={timetable.id}
+                                style={{
+                                    minWidth: '280px',
+                                    maxWidth: '320px',
+                                }}
+                            >
+                                <Card.Header className='text-center'>
+                                    <Card.Title>
+                                        {`${date.key.day.name} (${date.key.value})`}
+                                    </Card.Title>
+                                </Card.Header>
+                                <Card.Body
+                                    style={{
+                                        maxHeight: '760px',
+                                        overflowX: 'hidden',
+                                        overflowY: 'scroll'
+                                    }}
+                                >
+                                    {timetable.lessons.map(lesson => (
+                                        <LessonDisplay
+                                            key={lesson.id}
+                                            lesson={lesson}
+                                        />
+                                    ))}
+                                </Card.Body>
+                            </Card>
+                        ))
+                    ))
+                ))}
             </Row>
         </Container>
     )
 }
+

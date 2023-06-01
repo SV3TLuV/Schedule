@@ -2,9 +2,10 @@ import {Typography} from "@mui/material";
 
 interface ILessonFormTypography {
     text: string
+    isChanged?: boolean
 }
 
-export const LessonFormTypography = ({text}: ILessonFormTypography) => {
+export const LessonFormTypography = ({text, isChanged = false}: ILessonFormTypography) => {
     return (
         <Typography
             className='text-truncate'
@@ -14,7 +15,7 @@ export const LessonFormTypography = ({text}: ILessonFormTypography) => {
                 fontWeight: '400',
                 fontSize: '1rem',
                 lineHeight: '40px',
-                border: '1px solid #555555',
+                border: `1px solid ${isChanged ? 'red' : '#555555'}`,
                 borderRadius: '5px',
             }}
         >

@@ -35,6 +35,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery()
             .FirstOrDefaultAsync(e => 
+                e.Number == lesson.Number &&
                 e.Template.GroupId == lesson.Timetable.GroupId &&
                 e.Template.DayId == lesson.Timetable.Date.DayId &&
                 e.Template.WeekTypeId == lesson.Timetable.Date.WeekTypeId &&

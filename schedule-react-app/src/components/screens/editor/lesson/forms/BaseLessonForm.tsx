@@ -5,6 +5,7 @@ import {LessonFormTypography} from "./LessonFormTypography.tsx";
 import {ILesson} from "../../../../../features/models/ILesson.ts";
 import {ILessonTemplate} from "../../../../../features/models/ILessonTemplate.ts";
 import {AiOutlineDelete} from "react-icons/ai";
+import {getShortFio} from "../../../../../utils/getShortFio.ts";
 
 interface IBaseLessonForm {
     item: ILesson | ILessonTemplate
@@ -19,6 +20,8 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
     const hideButtons = () => setIsBlurred(false)
 
     const handleDelete = () => onDelete(item.id)
+
+    const itemIsChanged = 'isChanged' in item && item.isChanged;
 
     return (
         <Container
@@ -49,32 +52,56 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
             }
             <div style={isBlurred ? {filter: 'blur(4px)'} : {}}>
                 <Row className='my-1'>
-                    <LessonFormTypography text={`Номер пары: ${item?.number ?? ''}`}/>
+                    <LessonFormTypography
+                        text={`Номер пары: ${item?.number ?? ''}`}
+                        isChanged={itemIsChanged}
+                    />
                 </Row>
                 <Row className='my-1 mb-2'>
-                    <LessonFormTypography text={item?.subgroup ? `Подгруппа: ${item.subgroup}` : 'Вся группа'}/>
+                    <LessonFormTypography
+                        text={item?.subgroup ? `Подгруппа: ${item.subgroup}` : 'Вся группа'}
+                        isChanged={itemIsChanged}
+                    />
                 </Row>
                 <Row className='my-1'>
-                    <LessonFormTypography text={item?.discipline?.name ?? ''}/>
+                    <LessonFormTypography
+                        text={item?.discipline?.name ?? ''}
+                        isChanged={itemIsChanged}
+                    />
                 </Row>
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(0)?.teacher?.surname ?? ''}/>
+                        <LessonFormTypography
+                            text={getShortFio(item?.teacherClassrooms?.at(0)?.teacher)}
+                            isChanged={itemIsChanged}
+                        />
                     </Col>
                     <Col className='p-0' xs={5}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(0)?.classroom?.cabinet ?? ''}/>
+                        <LessonFormTypography
+                            text={item?.teacherClassrooms?.at(0)?.classroom?.cabinet ?? ''}
+                            isChanged={itemIsChanged}
+                        />
                     </Col>
                 </Row>
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(1)?.teacher?.surname ?? ''}/>
+                        <LessonFormTypography
+                            text={getShortFio(item?.teacherClassrooms?.at(1)?.teacher)}
+                            isChanged={itemIsChanged}
+                        />
                     </Col>
                     <Col className='p-0' xs={5}>
-                        <LessonFormTypography text={item?.teacherClassrooms?.at(1)?.classroom?.cabinet ?? ''}/>
+                        <LessonFormTypography
+                            text={item?.teacherClassrooms?.at(1)?.classroom?.cabinet ?? ''}
+                            isChanged={itemIsChanged}
+                        />
                     </Col>
                 </Row>
                 <Row className='my-1'>
-                    <LessonFormTypography text={item.time ? `${item?.time?.start} - ${item?.time?.end}` : ''}/>
+                    <LessonFormTypography
+                        text={item.time ? `${item?.time?.start} - ${item?.time?.end}` : ''}
+                        isChanged={itemIsChanged}
+                    />
                 </Row>
             </div>
         </Container>

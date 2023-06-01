@@ -45,6 +45,8 @@ public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateL
             teacherClassroom.LessonTemplateId = lessonTemplate.LessonTemplateId;
         
         _context.Set<LessonTemplate>().Update(lessonTemplate);
+        _context.Set<LessonTemplateTeacherClassroom>()
+            .AddRange(lessonTemplate.LessonTemplateTeacherClassrooms);
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonTemplateUpdateNotification(lessonTemplate.LessonTemplateId), cancellationToken);
     }

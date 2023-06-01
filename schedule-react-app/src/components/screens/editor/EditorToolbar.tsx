@@ -1,9 +1,10 @@
 import {GridToolbarContainer} from "@mui/x-data-grid";
 import {Button, InputGroup} from "react-bootstrap";
 import {ChangeEvent, useState} from "react";
-import {HiOutlineSearch, MdOutlineClear} from "react-icons/all";
 import {IconButton, InputAdornment, TextField} from "@mui/material";
 import {IPaginationQueryWithFilters} from "../../../features/queries/IPaginationQueryWithFilters.ts";
+import {HiOutlineSearch} from "react-icons/hi";
+import {MdOutlineClear} from "react-icons/md";
 
 interface IEditorToolbar {
     onCreate?: () => void

@@ -1,13 +1,13 @@
 import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import {BiTable} from "react-icons/all";
 import {useNavigation} from "../../../hooks/useNavigation.ts";
+import {BiTable} from "react-icons/bi";
 
 export const Header = () => {
     const {navigateTo} = useNavigation()
 
     const goToLogin = () => navigateTo('/login')
     const goToScheduleSearch = () => navigateTo('/schedule/search')
-    const goToScheduleTable = () => navigateTo('/schedule/table')
+    const goToScheduleTable = () => navigateTo('/schedule/table/1')
     const goToReports = () => navigateTo('/reports')
     const goToPairsEditor = () => navigateTo('/editor/lessons')
     const goToSpecialitiesEditor = () => navigateTo('/editor/specialities')

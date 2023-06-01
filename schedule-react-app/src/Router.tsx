@@ -56,7 +56,7 @@ export const router = createBrowserRouter(
             <Route path='login' element={<LoginPage/>}/>
             <Route path='schedule'>
                 <Route path='search' element={<SearchSchedulePage/>}/>
-                <Route path='table' element={<TableSchedulePage/>}/>
+                <Route path='table/:page' element={<TableSchedulePage/>}/>
             </Route>
             <Route path='reports' element={<ReportsPage/>}/>
             <Route path='editor' element={<EditorPage/>}>

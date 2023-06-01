@@ -1,0 +1,11 @@
+.container {
+    height: 25%;
+    color: rgb(199,199,199);
+    border: 1px solid #17a9fd;
+}
+
+.changed {
+    height: 25%;
+    color: rgb(199,199,199);
+    border: 1px solid #B05E5E;
+}

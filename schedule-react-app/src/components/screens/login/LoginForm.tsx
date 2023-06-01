@@ -1,9 +1,9 @@
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {FaUser} from "react-icons/all";
 import {ILoginCommand} from "../../../features/commands/ILoginCommand.ts";
 import {useNavigation} from "../../../hooks/useNavigation.ts";
 import {loginValidation, passwordValidation} from "./validation.ts";
+import {FaUser} from "react-icons/fa";
 
 export const LoginForm = () => {
     const {control, handleSubmit, formState: { errors }} = useForm<ILoginCommand>({

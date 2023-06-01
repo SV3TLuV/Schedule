@@ -5,8 +5,8 @@ import {Pagination} from "antd";
 import {Button} from "react-bootstrap";
 import {JSXElementConstructor, useMemo} from "react";
 import {IconButton} from "@mui/material";
-import {AiOutlineDelete, AiOutlineEdit} from "react-icons/all";
 import {Loading} from "./Loading.tsx";
+import {AiOutlineDelete, AiOutlineEdit} from "react-icons/ai";
 
 export interface IDataGridWithPagination<T> {
     columns: GridColDef[]

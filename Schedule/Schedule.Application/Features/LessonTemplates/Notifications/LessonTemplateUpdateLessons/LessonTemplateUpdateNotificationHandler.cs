@@ -32,7 +32,6 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
         var lessonTemplate = await _context.Set<LessonTemplate>()
             .Include(e => e.Template)
             .ThenInclude(e => e.Group)
-            .ThenInclude(e => e.Term)
             .Include(e => e.LessonTemplateTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
             .FirstAsync(e => e.LessonTemplateId == notification.LessonTemplateId, cancellationToken);
@@ -48,7 +47,6 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
             .Where(e => 
                 e.Number == lessonTemplate.Number &&
                 e.Timetable.GroupId == lessonTemplate.Template.GroupId &&
-                e.Timetable.Group.TermId == lessonTemplate.Template.TermId &&
                 e.Timetable.Date.DayId == lessonTemplate.Template.DayId &&
                 e.Timetable.Date.Value >= _dateInfoService.CurrentDateTime.Date &&
                 e.Timetable.Date.WeekTypeId == lessonTemplate.Template.WeekTypeId)

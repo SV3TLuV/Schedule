@@ -1,7 +1,7 @@
 import {IPaginationQuery} from "./IPaginationQuery.ts";
 
 export interface IGetCurrentTimetableQuery extends IPaginationQuery {
-    groupId: number
-    dateCount: number
+    groupId: number | null
+    dateCount: number | null
 }
 

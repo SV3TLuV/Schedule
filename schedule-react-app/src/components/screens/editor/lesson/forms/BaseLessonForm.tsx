@@ -1,10 +1,10 @@
 import {useState} from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {IconButton} from "@mui/material";
-import {AiOutlineDelete} from "react-icons/all";
 import {LessonFormTypography} from "./LessonFormTypography.tsx";
 import {ILesson} from "../../../../../features/models/ILesson.ts";
 import {ILessonTemplate} from "../../../../../features/models/ILessonTemplate.ts";
+import {AiOutlineDelete} from "react-icons/ai";
 
 interface IBaseLessonForm {
     item: ILesson | ILessonTemplate

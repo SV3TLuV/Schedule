@@ -5,5 +5,6 @@ import {ITimetable} from "./ITimetable.ts";
 
 export interface ICurrentTimetable {
     groups: IGroup[]
-    dates: IGrouping<IDate, ITimetable>
+    groupNames: string
+    dates: IGrouping<IDate, ITimetable>[]
 }

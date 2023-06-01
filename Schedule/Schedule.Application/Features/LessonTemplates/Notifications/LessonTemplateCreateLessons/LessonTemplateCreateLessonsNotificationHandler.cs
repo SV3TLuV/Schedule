@@ -39,8 +39,9 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
             .AsNoTrackingWithIdentityResolution()
             .FirstAsync(e => e.LessonTemplateId == notification.LessonTemplateId, cancellationToken);
 
-        var timetableIds = await _context.Set<Timetable>()
+        var timetables = await _context.Set<Timetable>()
             .Include(e => e.Date)
+            .Include(e => e.Lessons)
             .AsNoTrackingWithIdentityResolution()
             .Where(e => 
                 e.GroupId == lessonTemplate.Template.GroupId &&
@@ -48,14 +49,25 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
                 e.Group.TermId == lessonTemplate.Template.TermId &&
                 e.Date.WeekTypeId == lessonTemplate.Template.WeekTypeId &&
                 e.Date.Value >= _dateInfoService.CurrentDateTime.Date)
-            .Select(e => e.TimetableId)
             .ToListAsync(cancellationToken);
 
-        foreach (var timetableId in timetableIds)
+        foreach (var timetable in timetables)
         {
-            var command = _mapper.Map<CreateLessonCommand>(lessonTemplate);
-            command.TimetableId = timetableId;
-            await _mediator.Send(command, cancellationToken);
+            var lesson = timetable.Lessons.FirstOrDefault(lesson => lesson.Number == lessonTemplate.Number);
+            
+            if (lesson is not null)
+            {
+                var command = _mapper.Map<UpdateLessonCommand>(lessonTemplate);
+                command.TimetableId = timetable.TimetableId;
+                command.Id = lesson.LessonId;
+                await _mediator.Send(command, cancellationToken);
+            }
+            else
+            {
+                var command = _mapper.Map<CreateLessonCommand>(lessonTemplate);
+                command.TimetableId = timetable.TimetableId;
+                await _mediator.Send(command, cancellationToken);   
+            }
         }
     }
 }

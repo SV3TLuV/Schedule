@@ -18,23 +18,22 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
         CancellationToken cancellationToken)
     {
         var lesson = await _context.Set<Lesson>()
-            .AsNoTrackingWithIdentityResolution()
-            .AsSplitQuery()
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Date)
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
+            .AsSplitQuery()
             .FirstAsync(e => e.LessonId == updateIsChangedNotification.Id, cancellationToken);
         
         var template = await _context.Set<LessonTemplate>()
-            .AsNoTrackingWithIdentityResolution()
-            .AsSplitQuery()
             .Include(e => e.Template)
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTemplateTeacherClassrooms)
+            .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .FirstOrDefaultAsync(e => 
                 e.Template.GroupId == lesson.Timetable.GroupId &&
                 e.Template.DayId == lesson.Timetable.Date.DayId &&
@@ -42,6 +41,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
                 e.Template.TermId == lesson.Timetable.Group.TermId, cancellationToken);
 
         lesson.IsChanged = !lesson.Equals(template);
+        _context.Set<Lesson>().Update(lesson);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

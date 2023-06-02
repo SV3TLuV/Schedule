@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Schedule.Api.Common;
 using Schedule.Api.Modules;
+using Schedule.Application.LoggerPolicies;
 using Schedule.Application.Modules;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
@@ -70,5 +71,6 @@ void ConfigureLogger(IConfiguration configuration)
                 TableName = "Logs",
                 AutoCreateSqlTable = true,
             })
+        .Destructure.With<MaskingDestructuringPolicy>()
         .CreateLogger();
 }

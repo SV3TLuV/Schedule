@@ -25,6 +25,7 @@ public sealed class ApiModule : Module
 
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
+            .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
                 options.UseSqlServer("Name=ScheduleWin"))

@@ -84,7 +84,7 @@ export const SearchSchedulePage = () => {
                                 key={timetable.id}
                                 style={{
                                     minWidth: '280px',
-                                    maxWidth: '320px',
+                                    maxWidth: '396px',
                                 }}
                             >
                                 <Card.Header className='text-center'>

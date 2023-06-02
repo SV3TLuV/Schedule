@@ -2,8 +2,9 @@
 using FluentValidation;
 using Newtonsoft.Json;
 using Schedule.Core.Common.Exceptions;
+using Serilog;
 
-namespace Schedule.Api.Middleware;
+namespace Schedule.Api.Middleware.CustomException;
 
 public sealed class CustomExceptionHandlerMiddleware
 {
@@ -48,10 +49,14 @@ public sealed class CustomExceptionHandlerMiddleware
         context.Response.StatusCode = (int)code;
 
         if (string.IsNullOrEmpty(result))
-            result = JsonConvert.SerializeObject(new { error = exception.Message });
+        {
+            result = JsonConvert.SerializeObject(new
+            {
+                Error = exception.Message
+            });
+        }
 
-        /*Log.Error(exception, "User: {@Name} \n{@Exception}",
-            context.User.Identity?.Name ?? "Unauthorized", exception);*/
+        Log.Error(exception, "{@Exception}", exception);
 
         return context.Response.WriteAsync(result);
     }

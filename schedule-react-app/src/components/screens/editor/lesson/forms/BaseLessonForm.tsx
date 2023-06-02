@@ -25,7 +25,7 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
 
     return (
         <Container
-            className='text-center my-3 position-relative'
+            className='text-center my-4 position-relative'
             onMouseEnter={showButtons}
             onMouseLeave={hideButtons}
         >
@@ -53,21 +53,17 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
             <div style={isBlurred ? {filter: 'blur(4px)'} : {}}>
                 <Row className='my-1'>
                     <LessonFormTypography
-                        text={`Номер пары: ${item?.number ?? ''}`}
-                        isChanged={itemIsChanged}
-                    />
-                </Row>
-                <Row className='my-1 mb-2'>
-                    <LessonFormTypography
-                        text={item?.subgroup ? `Подгруппа: ${item.subgroup}` : 'Вся группа'}
+                        text={item?.discipline?.name ?? ''}
                         isChanged={itemIsChanged}
                     />
                 </Row>
                 <Row className='my-1'>
-                    <LessonFormTypography
-                        text={item?.discipline?.name ?? ''}
-                        isChanged={itemIsChanged}
-                    />
+                    {item?.subgroup &&
+                        <LessonFormTypography
+                            text={`Подгруппа: ${item.subgroup}`}
+                            isChanged={itemIsChanged}
+                        />
+                    }
                 </Row>
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>

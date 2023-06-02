@@ -48,6 +48,8 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
             invalidatesTags: () => [
                 {type: ApiTags.LessonTemplate },
                 {type: ApiTags.Template },
+                {type: ApiTags.Lesson },
+                {type: ApiTags.Timetable },
             ]
         }),
         updateLessonTemplate: builder.mutation<number, ILessonTemplate>({
@@ -71,6 +73,8 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
             invalidatesTags: () => [
                 {type: ApiTags.LessonTemplate },
                 {type: ApiTags.Template },
+                {type: ApiTags.Lesson },
+                {type: ApiTags.Timetable },
             ]
         }),
         deleteLessonTemplate: builder.mutation<number, number>({
@@ -81,6 +85,8 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
             invalidatesTags: () => [
                 {type: ApiTags.LessonTemplate },
                 {type: ApiTags.Template },
+                {type: ApiTags.Lesson },
+                {type: ApiTags.Timetable },
             ]
         }),
     })

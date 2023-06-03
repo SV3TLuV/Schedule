@@ -74,6 +74,7 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
                 {type: ApiTags.LessonTemplate },
                 {type: ApiTags.Template },
                 {type: ApiTags.Lesson },
+                {type: ApiTags.LessonNumber },
                 {type: ApiTags.Timetable },
             ]
         }),
@@ -86,6 +87,7 @@ export const lessonTemplateApi = baseApi.injectEndpoints({
                 {type: ApiTags.LessonTemplate },
                 {type: ApiTags.Template },
                 {type: ApiTags.Lesson },
+                {type: ApiTags.LessonNumber },
                 {type: ApiTags.Timetable },
             ]
         }),

@@ -119,9 +119,10 @@ export const TemplateEditor = () => {
 
     return (
         <Container
+            onScroll={handleScroll}
             style={{
                 height: 'calc(100vh - 72px - 42px)',
-                overflow: 'hidden'
+                overflow: 'scroll'
             }}
         >
             <Row className='mb-3'>
@@ -222,10 +223,8 @@ export const TemplateEditor = () => {
                 />
             </Row>
             <Row
-                onScroll={handleScroll}
                 style={{
-                    maxHeight: 'calc(100vh - 72px - 42px - 48px - 48px - 48px - 48px)',
-                    overflow: 'scroll'
+                    maxHeight: 'calc(100vh - 72px - 42px - 48px - 48px - 48px - 48px)'
                 }}
             >
                 {templates.map(template => (

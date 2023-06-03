@@ -2,7 +2,9 @@
 using Schedule.Application.Features.Lessons.Commands.Create;
 using Schedule.Application.Features.Lessons.Commands.Delete;
 using Schedule.Application.Features.Lessons.Commands.Update;
+using Schedule.Application.Features.Lessons.Commands.UpdateFilledLessonsTimeCommand;
 using Schedule.Application.Features.Lessons.Queries.Get;
+using Schedule.Application.Features.Lessons.Queries.GetLessonNumberList;
 using Schedule.Application.Features.Lessons.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Models;
@@ -25,11 +27,26 @@ public sealed class LessonController : BaseController
         return Ok(await Mediator.Send(query));
     }
     
+    [HttpGet("number/{dateId:int}")]
+    public async Task<ActionResult<PagedList<LessonViewModel>>> GetLessonNumbers(int dateId)
+    {
+        var query = new GetLessonNumberListQuery(dateId);
+        return Ok(await Mediator.Send(query));
+    }
+    
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateLessonCommand command)
     {
         var id = await Mediator.Send(command);
         return Created(string.Empty, id);
+    }
+    
+    [HttpPost("update-filled-lessons-time")]
+    public async Task<IActionResult> UpdateFilledLessonsTime(
+        [FromBody] UpdateFilledLessonsTimeCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
     }
     
     [HttpPut]

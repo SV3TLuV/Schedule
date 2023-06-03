@@ -2,7 +2,7 @@ import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
 import {useGetCurrentDateQuery, useGetDatesQuery} from "../../../../store/apis/dateApi.ts";
 import {useInfinitySelect} from "../../../../hooks/useInfinitySelect.ts";
 import {IDate} from "../../../../features/models/IDate.ts";
-import {Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {Select} from "../../../ui/Select.tsx";
 import {Controller, useForm, useWatch} from "react-hook-form";
 import {IGroup} from "../../../../features/models/IGroup.ts";
@@ -11,6 +11,8 @@ import {ITimetable} from "../../../../features/models/ITimetable.ts";
 import {useGetTimetablesQuery} from "../../../../store/apis/timetableApi.ts";
 import {TimetableForm} from "./forms/TimetableForm.tsx";
 import {IPagedList} from "../../../../features/models/IPagedList.ts";
+import {useDialog} from "../../../../hooks/useDialog.ts";
+import {UpdateLessonTimeDialog} from "./dialogs/UpdateLessonTimeDialog.tsx";
 
 interface ITimetableEditorState {
     group: IGroup
@@ -72,6 +74,8 @@ export const TimetableEditor = () => {
         data: timetableData ?? {} as IPagedList<ITimetable>,
     })
 
+    const updateTimeDialog = useDialog()
+
     const resetTimetableQuery = () => setTimetableQuery(prev => ({...prev, page: 1}))
 
     const handleScroll = (event: React.UIEvent<HTMLUListElement>) => {
@@ -85,9 +89,10 @@ export const TimetableEditor = () => {
 
     return (
         <Container
+            onScroll={handleScroll}
             style={{
                 height: 'calc(100vh - 72px - 42px)',
-                overflow: 'hidden'
+                overflow: 'scroll'
             }}
         >
             <Row className='mb-3'>
@@ -139,12 +144,18 @@ export const TimetableEditor = () => {
                         </Form.Group>
                     )}
                 />
+                <Form.Group>
+                    <Button
+                        className='d-flex mx-auto my-2'
+                        onClick={updateTimeDialog.show}
+                    >
+                        Изменить время
+                    </Button>
+                </Form.Group>
             </Row>
             <Row
-                onScroll={handleScroll}
                 style={{
                     maxHeight: 'calc(100vh - 72px - 42px - 48px - 48px)',
-                    overflow: 'scroll'
                 }}
             >
                 {timetables.map(timetable => (
@@ -156,6 +167,10 @@ export const TimetableEditor = () => {
                     </Col>
                 ))}
             </Row>
+            <UpdateLessonTimeDialog
+                {...updateTimeDialog}
+                dateId={selectedDate.id}
+            />
         </Container>
     )
 }

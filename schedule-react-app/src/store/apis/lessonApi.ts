@@ -4,6 +4,7 @@ import {ILesson} from "../../features/models/ILesson.ts";
 import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
+import {IUpdateFilledLessonsTimeCommand} from "../../features/commands/IUpdateFilledLessonsTimeCommand.ts";
 
 export const lessonApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -28,6 +29,13 @@ export const lessonApi = baseApi.injectEndpoints({
             }),
             providesTags: (_, __, id) => [{type: ApiTags.Lesson, id}]
         }),
+        getLessonNumbers: builder.query<number[], number>({
+            query: dateId => ({
+                url: `${ApiTags.Lesson}/number/${dateId}`,
+                method: HttpMethod.GET
+            }),
+            providesTags: () => [{type: ApiTags.LessonNumber}]
+        }),
         createLesson: builder.mutation<number, ILesson>({
             query: lesson => ({
                 url: ApiTags.Lesson,
@@ -44,6 +52,18 @@ export const lessonApi = baseApi.injectEndpoints({
                             classroomId: teacherClassroom.classroom?.id,
                         })),
                 }
+            }),
+            invalidatesTags: () => [
+                {type: ApiTags.Lesson },
+                {type: ApiTags.LessonNumber },
+                {type: ApiTags.Timetable },
+            ]
+        }),
+        updateFilledLessonsTime: builder.mutation<number, IUpdateFilledLessonsTimeCommand>({
+            query: command => ({
+                url: `${ApiTags.Lesson}/update-filled-lessons-time`,
+                method: HttpMethod.POST,
+                body: command
             }),
             invalidatesTags: () => [
                 {type: ApiTags.Lesson },
@@ -80,6 +100,7 @@ export const lessonApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: () => [
                 {type: ApiTags.Lesson },
+                {type: ApiTags.LessonNumber },
                 {type: ApiTags.Timetable },
             ]
         }),
@@ -91,7 +112,10 @@ export const {
     useLazyGetLessonsQuery,
     useGetLessonQuery,
     useLazyGetLessonQuery,
+    useGetLessonNumbersQuery,
+    useLazyGetLessonNumbersQuery,
     useCreateLessonMutation,
+    useUpdateFilledLessonsTimeMutation,
     useUpdateLessonMutation,
     useDeleteLessonMutation,
 } = lessonApi

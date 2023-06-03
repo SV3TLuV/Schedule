@@ -10,6 +10,7 @@ export enum ApiTags {
     DisciplineType = 'DisciplineType',
     Group = 'Group',
     Lesson = 'Lesson',
+    LessonNumber = 'LessonNumber',
     LessonTemplate = 'LessonTemplate',
     Speciality = 'Speciality',
     Teacher = 'Teacher',

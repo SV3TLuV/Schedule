@@ -1,6 +1,6 @@
 ﻿namespace Schedule.Core.Common.Exceptions;
 
-public class NotFoundException : ScheduleException
+public sealed class NotFoundException : ScheduleException
 {
     public NotFoundException(string name)
         : base($"Entity \"{name}\" was not found.")

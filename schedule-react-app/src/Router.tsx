@@ -102,7 +102,11 @@ export const router = createBrowserRouter(
                     <Route path='available' element={<AvailableTimeTypesEditor/>}/>
                     <Route path='deleted' element={<DeletedTimeTypesEditor/>}/>
                 </Route>
-                <Route path='users' element={<UsersEditor/>}/>
+                <Route path='users' element={
+                    <RequireAuth roles={['Admin']}>
+                        <UsersEditor/>
+                    </RequireAuth>
+                }/>
             </Route>
         </Route>
     ])

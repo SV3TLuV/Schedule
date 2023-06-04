@@ -54,10 +54,10 @@ finally
 void ConfigureApp(WebApplication webApp)
 {
     webApp
+        .UseCustomExceptionHandler()
         .UseSwagger()
         .UseSwaggerUI()
         .UseCors(Constants.CorsName)
-        .UseCustomExceptionHandler()
         .UseHttpsRedirection()
         .UseAuthentication()
         .UseAuthorization();

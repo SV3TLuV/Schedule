@@ -39,7 +39,7 @@ export const UpdateLessonTimeDialog = ({ open, close, dateId }: IUpdateLessonTim
             mode: 'onChange',
         })
 
-    const {data: pairNumbers} = useGetLessonNumbersQuery(dateId)
+    const {data: pairNumbers} = useGetLessonNumbersQuery(dateId ?? 1)
     const pairNumbersOptions = pairNumbers?.map(number => ({ id: number })) ?? []
 
     const onSubmit: SubmitHandler<IIUpdateLessonTimeDialogState> = data => {

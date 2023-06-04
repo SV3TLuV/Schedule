@@ -6,7 +6,7 @@ import {loginValidation, passwordValidation} from "./validation.ts";
 import {FaUser} from "react-icons/fa";
 import {useTypedSelector} from "../../../hooks/redux.ts";
 import {Navigate} from "react-router-dom";
-import {useLoginMutation} from "../../../store/apis/accountApi.ts";
+import {useLoginMutation} from "../../../store/apis/userApi.ts";
 
 export const LoginForm = () => {
     const {user} = useTypedSelector(state => state.auth)

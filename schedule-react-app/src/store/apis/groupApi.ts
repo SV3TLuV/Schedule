@@ -1,9 +1,10 @@
+import {baseApi} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IGroup} from "../../features/models/IGroup.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {ApiTags, baseApi} from "./baseApi.ts";
 import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
+import {ApiTags} from "./apiTags.ts";
 
 export const groupApi = baseApi.injectEndpoints({
     endpoints: builder => ({

@@ -37,7 +37,6 @@ public sealed class UserController : BaseController
         return await Mediator.Send(command);
     }
 
-    [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> Logout([FromBody] LogoutCommand command)
     {

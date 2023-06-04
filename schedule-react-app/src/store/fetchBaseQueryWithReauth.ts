@@ -1,10 +1,9 @@
 import {BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
 import {Mutex} from "async-mutex";
 import {AppState} from "./store.ts";
-import {userApi} from "./apis/userApi.ts";
 import {IRefreshCommand} from "../features/commands/IRefreshCommand.ts";
-import {ILogoutCommand} from "../features/commands/ILogoutCommand.ts";
 import {message} from "antd";
+import {accountApi} from "./apis/accountApi.ts";
 
 const mutex = new Mutex()
 
@@ -57,27 +56,16 @@ export const fetchQueryWithReauth: BaseQueryFn<
                 const user = authState.user
 
                 if (user) {
-                    await api.dispatch(userApi.endpoints.refresh.initiate({
+                    await api.dispatch(accountApi.endpoints.refresh.initiate({
                         accessToken: authState.accessToken,
                         refreshToken: authState.refreshToken
                     } as IRefreshCommand))
                 }
 
                 result = await baseQuery(args, api, extraOptions)
-                await showError(result.error)
             }
             finally {
-                if (result.error && authState.user) {
-                    try {
-                        await api.dispatch(userApi.endpoints.logout.initiate({
-                            accessToken: authState.accessToken,
-                            refreshToken: authState.refreshToken,
-                        } as ILogoutCommand))
-                    } catch (e) {
-                        console.log(e)
-                    }
-                }
-
+                await showError(result.error)
                 await release()
             }
         } else {

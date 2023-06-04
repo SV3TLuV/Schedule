@@ -1,4 +1,4 @@
-import {createBrowserRouter, createRoutesFromElements, Outlet, Route, useLocation} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route, useLocation} from "react-router-dom";
 import {useAppDispatch, useTypedSelector} from "./hooks";
 import {useEffect} from "react";
 import {setCurrentPage} from "./store/slices";
@@ -43,6 +43,9 @@ const Root = () => {
     useEffect(() => {
         dispatch(setCurrentPage(pathname))
     }, [dispatch, pathname])
+
+    if (pathname === '' || pathname === '/')
+        return <Navigate to='not-found'/>
 
     return (
         <div className='Root'>
@@ -108,6 +111,7 @@ export const router = createBrowserRouter(
                     </RequireAuth>
                 }/>
             </Route>
+            <Route path='*' element={<Navigate to='/schedule/search'/>}/>
         </Route>
     ])
 )

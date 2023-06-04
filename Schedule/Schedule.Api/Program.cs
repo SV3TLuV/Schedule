@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.RateLimiting;
 using Schedule.Api.Common;
 using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;

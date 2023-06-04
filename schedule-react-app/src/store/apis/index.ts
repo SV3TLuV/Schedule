@@ -1,5 +1,4 @@
 export * from './baseApi.ts'
-export * from './accountApi.ts'
 export * from './classroomApi.ts'
 export * from './classroomTypeApi.ts'
 export * from './courseApi.ts'

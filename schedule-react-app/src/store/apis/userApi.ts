@@ -5,9 +5,12 @@ import {IPaginationQuery} from "../../features/queries";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {HttpMethod} from "../../common/enums";
 import {IAuthorizationResult} from "../../features/models";
-import {ILoginCommand} from "../../features/commands";
-import {login} from "../slices";
+import {ILoginCommand, ILogoutCommand, IRefreshCommand} from "../../features/commands";
+import {login, logout} from "../slices";
 import {ApiTags} from "./apiTags.ts";
+import {baseQuery} from "../fetchBaseQueryWithReauth.ts";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
+import {AppState} from "../store.ts";
 
 export const userApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -42,6 +45,42 @@ export const userApi = baseApi.injectEndpoints({
                 } catch (e) {
                     console.log(e)
                 }
+            },
+        }),
+        logout: builder.mutation<void, ILogoutCommand>({
+            query: command => ({
+                url: `${ApiTags.Users}/logout`,
+                method: HttpMethod.POST,
+                body: command,
+            }),
+            async onQueryStarted(_, {dispatch, queryFulfilled}) {
+                try {
+                    await queryFulfilled
+                    await dispatch(logout())
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+        }),
+        refresh: builder.mutation<IAuthorizationResult, IRefreshCommand>({
+            queryFn: async (command, api, extraOptions) => {
+                const response = await baseQuery({
+                    url: `${ApiTags.Users}/refresh`,
+                    method: HttpMethod.POST,
+                    body: command,
+                }, api, extraOptions)
+
+                if (response.data) {
+                    const result = response.data as IAuthorizationResult
+                    await api.dispatch(login(result))
+                    return { data: result }
+                }
+                const authState = (api.getState() as AppState).auth;
+                await api.dispatch(userApi.endpoints.logout.initiate({
+                    accessToken: authState.accessToken,
+                    refreshToken: authState.refreshToken
+                } as ILogoutCommand))
+                return { error: response.error as FetchBaseQueryError }
             },
         }),
         createUser: builder.mutation<number, IUser>({
@@ -85,6 +124,8 @@ export const {
     useGetUserQuery,
     useLazyGetUserQuery,
     useLoginMutation,
+    useLogoutMutation,
+    useRefreshMutation,
     useCreateUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,

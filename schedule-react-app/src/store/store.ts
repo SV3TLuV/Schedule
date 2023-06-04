@@ -6,10 +6,8 @@ import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/e
 import {baseApi} from "./apis";
 import applicationReducer from "./slices/applicationSlice.ts";
 import authSlice from "./slices/authSlice.ts";
-import {accountApi} from "./apis";
 
 const rootReducer = combineReducers({
-    [accountApi.reducerPath]: accountApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
     application: applicationReducer,
     auth: authSlice
@@ -29,9 +27,7 @@ export const setupStore = () => {
                 serializableCheck: {
                     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
                 }
-            })
-                .concat(accountApi.middleware)
-                .concat(baseApi.middleware),
+            }).concat(baseApi.middleware),
     });
 }
 

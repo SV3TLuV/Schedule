@@ -3,7 +3,7 @@ import {Mutex} from "async-mutex";
 import {AppState} from "./store.ts";
 import {IRefreshCommand} from "../features/commands";
 import {message} from "antd";
-import {accountApi} from "./apis";
+import {userApi} from "./apis";
 
 const mutex = new Mutex()
 
@@ -55,7 +55,7 @@ export const fetchQueryWithReauth: BaseQueryFn<
                 const user = authState.user
 
                 if (user) {
-                    await api.dispatch(accountApi.endpoints.refresh.initiate({
+                    await api.dispatch(userApi.endpoints.refresh.initiate({
                         accessToken: authState.accessToken,
                         refreshToken: authState.refreshToken
                     } as IRefreshCommand))

@@ -1,15 +1,15 @@
 import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {BiTable} from "react-icons/bi";
 import {useNavigation, useTypedSelector} from "../../hooks";
-import {useLogoutMutation} from "../../store/apis";
 import {ILogoutCommand} from "../../features/commands";
+import {useLogoutMutation} from "../../store/apis";
 
 export const Header = () => {
     const {user, accessToken, refreshToken} = useTypedSelector(state => state.auth)
     const [logout] = useLogoutMutation()
     const {navigateTo} = useNavigation()
 
-    const handleLogout = () => logout({
+    const handleLogout = async () => await logout({
         accessToken,
         refreshToken
     } as ILogoutCommand)

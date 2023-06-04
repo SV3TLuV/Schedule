@@ -2,8 +2,8 @@ import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {useNavigation} from "../../../hooks/useNavigation.ts";
 import {BiTable} from "react-icons/bi";
 import {useTypedSelector} from "../../../hooks/redux.ts";
-import {useLogoutMutation} from "../../../store/apis/userApi.ts";
 import {ILogoutCommand} from "../../../features/commands/ILogoutCommand.ts";
+import {useLogoutMutation} from "../../../store/apis/accountApi.ts";
 
 export const Header = () => {
     const {user, accessToken, refreshToken} = useTypedSelector(state => state.auth)

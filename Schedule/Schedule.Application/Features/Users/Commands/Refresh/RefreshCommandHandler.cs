@@ -34,7 +34,7 @@ public sealed class RefreshCommandHandler : IRequestHandler<RefreshCommand, Auth
         CancellationToken cancellationToken)
     {
         var principal = _tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
-        var sidClaim = principal.FindFirst(nameof(ClaimTypes.Sid));
+        var sidClaim = principal.FindFirst(ClaimTypes.Sid);
 
         if (sidClaim is null || !Guid.TryParse(sidClaim.Value, out var sessionId))
             throw new NotFoundException("Invalid AccessToken");

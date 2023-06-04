@@ -4,6 +4,7 @@ import {AppState} from "./store.ts";
 import {userApi} from "./apis/userApi.ts";
 import {IRefreshCommand} from "../features/commands/IRefreshCommand.ts";
 import {ILogoutCommand} from "../features/commands/ILogoutCommand.ts";
+import {message} from "antd";
 
 const mutex = new Mutex()
 
@@ -23,6 +24,22 @@ export const baseQuery = fetchBaseQuery({
     }
 })
 
+async function showError(error: FetchBaseQueryError | undefined) {
+    if (!error) {
+        return;
+    }
+
+    let msg = 'Неизвестная ошибка!'
+
+    const { status, data } = error
+
+    if (status && data && (data as any).error) {
+        msg = `[${status}] ${(data as any)?.error}`
+    }
+
+    message.error(msg);
+}
+
 export const fetchQueryWithReauth: BaseQueryFn<
     string | FetchArgs,
     unknown,
@@ -30,6 +47,7 @@ export const fetchQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
     await mutex.waitForUnlock()
     let result = await baseQuery(args, api, extraOptions)
+    await showError(result.error)
     if (result.error && result.error.status === 401) {
         if (!mutex.isLocked()) {
             const release = await mutex.acquire()
@@ -46,9 +64,10 @@ export const fetchQueryWithReauth: BaseQueryFn<
                 }
 
                 result = await baseQuery(args, api, extraOptions)
+                await showError(result.error)
             }
             finally {
-                if (result.error) {
+                if (result.error && authState.user) {
                     try {
                         await api.dispatch(userApi.endpoints.logout.initiate({
                             accessToken: authState.accessToken,

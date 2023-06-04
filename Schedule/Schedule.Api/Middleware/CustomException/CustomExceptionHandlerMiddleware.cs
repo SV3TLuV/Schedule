@@ -30,32 +30,37 @@ public sealed class CustomExceptionHandlerMiddleware
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var code = HttpStatusCode.InternalServerError;
-        var result = string.Empty;
+        var result = "Неизвестная ошибка.";
+        
         switch (exception)
         {
             case UnauthorizedAccessException:
                 code = HttpStatusCode.Unauthorized;
+                result = "Нет авторизован.";
                 break;
-            case ValidationException validationException:
+            case ValidationException:
                 code = HttpStatusCode.BadRequest;
-                result = JsonConvert.SerializeObject(validationException.Errors);
+                result = "Некорректный запрос.";
                 break;
             case NotFoundException:
                 code = HttpStatusCode.NotFound;
+                result = "Не найдено.";
+                break;
+            case AuthorizationException:
+                code = HttpStatusCode.BadRequest;
+                result = "Неверный логин или пароль.";
                 break;
         }
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
 
-        if (string.IsNullOrEmpty(result))
-            result = JsonConvert.SerializeObject(new
-            {
-                Error = exception.Message
-            });
-
         Log.Error(exception, "{@Exception}", exception);
 
-        return context.Response.WriteAsync(result);
+        return context.Response.WriteAsync( 
+            JsonConvert.SerializeObject(new
+            {
+                error = result
+            }));
     }
 }

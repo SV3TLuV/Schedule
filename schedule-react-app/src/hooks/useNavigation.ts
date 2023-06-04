@@ -1,6 +1,6 @@
 import {useAppDispatch, useTypedSelector} from "./redux.ts";
 import {useNavigate} from "react-router-dom";
-import {setCurrentPage} from "../store/slices/applicationSlice.ts";
+import {setCurrentPage} from "../store/slices";
 import {useCallback} from "react";
 
 export const useNavigation = () => {

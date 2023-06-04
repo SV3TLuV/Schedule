@@ -1,9 +1,9 @@
 import {baseApi} from "./baseApi.ts";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {ITemplate} from "../../features/models/ITemplate.ts";
+import {IPagedList} from "../../features/models";
+import {ITemplate} from "../../features/models";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {IGetTemplateListQuery} from "../../features/queries/IGetTemplateListQuery.ts";
+import {HttpMethod} from "../../common/enums";
+import {IGetTemplateListQuery} from "../../features/queries";
 import {ApiTags} from "./apiTags.ts";
 
 export const templateApi = baseApi.injectEndpoints({

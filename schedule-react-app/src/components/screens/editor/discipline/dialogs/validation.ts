@@ -1,8 +1,4 @@
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
-
-export const disciplineValidation = {
-    required: ValidationMessage.REQUIRED
-}
+import {ValidationMessage} from "../../../../../common/enums";
 
 export const nameValidation = {
     required: ValidationMessage.REQUIRED,

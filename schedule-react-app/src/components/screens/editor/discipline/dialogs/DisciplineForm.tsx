@@ -1,25 +1,21 @@
-import {IDiscipline} from "../../../../../features/models/IDiscipline";
-import {useGetDisciplineTypesQuery} from "../../../../../store/apis/discplineTypeApi";
-import {useGetSpecialitiesQuery} from "../../../../../store/apis/specialityApi";
+import {IDiscipline} from "../../../../../features/models";
+import {useGetDisciplineTypesQuery} from "../../../../../store/apis";
+import {useGetSpecialitiesQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Loading} from "../../../../ui/Loading";
+import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Select} from "../../../../ui/Select";
-import {useGetTermsQuery} from "../../../../../store/apis/termApi";
+import {Select} from "../../../../ui";
+import {useGetTermsQuery} from "../../../../../store/apis";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {ISpeciality} from "../../../../../features/models/ISpeciality.ts";
-import {ITerm} from "../../../../../features/models/ITerm.ts";
-import {IDisciplineType} from "../../../../../features/models/IDisciplineType.ts";
-import {
-    codeValidation,
-    nameValidation,
-    totalHoursValidation
-} from "./validation";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useInfinitySelect} from "../../../../../hooks";
+import {ISpeciality} from "../../../../../features/models";
+import {ITerm} from "../../../../../features/models";
+import {IDisciplineType} from "../../../../../features/models";
+import {codeValidation, nameValidation, totalHoursValidation} from "./validation";
 import {disciplineTypeValidation} from "../../disciplineType/validation";
 import {termValidation} from "../../term/validation";
-import {specialityValidation} from "../../speciality/Dialogs/validation";
+import {specialityValidation} from "../../speciality/Dialogs";
 
 interface IDisciplineForm {
     title: string

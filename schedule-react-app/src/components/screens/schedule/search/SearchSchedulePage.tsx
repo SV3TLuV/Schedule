@@ -1,12 +1,12 @@
 import {Card, Col, Container, Form, Row} from "react-bootstrap";
-import {Select} from "../../../ui/Select.tsx";
+import {Select} from "../../../ui";
 import {Controller, useForm, useWatch} from "react-hook-form";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
-import {useInfinitySelect} from "../../../../hooks/useInfinitySelect.ts";
-import {IGroup} from "../../../../features/models/IGroup.ts";
-import {useGetCurrentTimetableQuery} from "../../../../store/apis/timetableApi.ts";
-import {IGetCurrentTimetableQuery} from "../../../../features/queries/IGetCurrentTimetableQuery.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {useGetGroupsQuery} from "../../../../store/apis";
+import {useInfinitySelect} from "../../../../hooks";
+import {IGroup} from "../../../../features/models";
+import {useGetCurrentTimetableQuery} from "../../../../store/apis";
+import {IGetCurrentTimetableQuery} from "../../../../features/queries";
 import {LessonDisplay} from "./LessonDisplay.tsx";
 
 interface ISearchSchedulePageState {

@@ -1,8 +1,4 @@
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
-
-export const groupValidation = {
-    required: ValidationMessage.REQUIRED
-}
+import {ValidationMessage} from "../../../../../common/enums";
 
 export const numberValidation = {
     required: ValidationMessage.REQUIRED,

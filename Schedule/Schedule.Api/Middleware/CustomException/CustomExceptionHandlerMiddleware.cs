@@ -36,7 +36,7 @@ public sealed class CustomExceptionHandlerMiddleware
         {
             case UnauthorizedAccessException:
                 code = HttpStatusCode.Unauthorized;
-                result = "Нет авторизован.";
+                result = "Не авторизован.";
                 break;
             case ValidationException:
                 code = HttpStatusCode.BadRequest;

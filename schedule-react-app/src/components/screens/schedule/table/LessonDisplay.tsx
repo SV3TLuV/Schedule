@@ -1,7 +1,7 @@
 import {Col, Row} from "react-bootstrap";
 import clsx from "clsx";
 import styles from "./styles.module.css";
-import {ILesson} from "../../../../features/models/ILesson.ts";
+import {ILesson} from "../../../../features/models";
 import {getShortFio} from "../../../../utils/getShortFio.ts";
 
 interface ILessonDisplay {

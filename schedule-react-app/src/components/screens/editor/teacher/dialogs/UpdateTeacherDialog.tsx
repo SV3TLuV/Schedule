@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {ITeacher} from "../../../../../features/models/ITeacher";
-import {useUpdateTeacherMutation} from "../../../../../store/apis/teacherApi";
+import {IDialog} from "../../../../../features/models";
+import {ITeacher} from "../../../../../features/models";
+import {useUpdateTeacherMutation} from "../../../../../store/apis";
 import {TeacherForm} from "./TeacherForm";
 
 interface IUpdateTeacherDialog extends IDialog {

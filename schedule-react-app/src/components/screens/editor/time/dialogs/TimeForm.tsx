@@ -1,15 +1,15 @@
-import {ITime} from "../../../../../features/models/ITime";
-import {useGetTimeTypesQuery} from "../../../../../store/apis/timeTypeApi";
+import {ITime} from "../../../../../features/models";
+import {useGetTimeTypesQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Loading} from "../../../../ui/Loading";
+import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Select} from "../../../../ui/Select";
+import {Select} from "../../../../ui";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {ITimeType} from "../../../../../features/models/ITimeType.ts";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useInfinitySelect} from "../../../../../hooks";
+import {ITimeType} from "../../../../../features/models";
 import {durationValidation, endValidation, lessonNumberValidation, startValidation} from "./validation";
-import {timeTypeValidation} from "../../timeType/dialogs/validation";
+import {timeTypeValidation} from "../../timeType/dialogs";
 
 interface ITimeForm {
     title: string

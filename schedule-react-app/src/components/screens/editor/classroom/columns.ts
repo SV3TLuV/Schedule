@@ -1,5 +1,5 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {IClassroomType} from "../../../features/models/IClassroomType.ts";
+import {IClassroomType} from "../../../../features/models";
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },

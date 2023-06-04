@@ -1,6 +1,6 @@
 import {Container, Tab, Tabs} from "react-bootstrap";
 import {Outlet} from "react-router-dom";
-import {useTabs} from "../../../../hooks/useTabs.ts";
+import {useTabs} from "../../../../hooks";
 
 export const TeachersEditorPage = () => {
     const {key, onSelect} = useTabs({

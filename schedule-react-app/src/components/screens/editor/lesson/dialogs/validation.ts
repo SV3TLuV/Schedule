@@ -1,6 +1,6 @@
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage.ts";
-import {ITeacher} from "../../../../../features/models/ITeacher.ts";
-import {IClassroom} from "../../../../../features/models/IClassroom.ts";
+import {ValidationMessage} from "../../../../../common/enums";
+import {ITeacher} from "../../../../../features/models";
+import {IClassroom} from "../../../../../features/models";
 
 export const numberValidation = {
     required: ValidationMessage.REQUIRED,

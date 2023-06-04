@@ -1,21 +1,21 @@
-import {ILessonTemplate} from "../../../../../features/models/ILessonTemplate.ts";
-import {ITime} from "../../../../../features/models/ITime.ts";
-import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
-import {ITeacher} from "../../../../../features/models/ITeacher.ts";
-import {IClassroom} from "../../../../../features/models/IClassroom.ts";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useGetTimesQuery} from "../../../../../store/apis/timeApi.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi.ts";
-import {useGetTeachersQuery} from "../../../../../store/apis/teacherApi.ts";
-import {useGetClassroomsQuery} from "../../../../../store/apis/classroomApi.ts";
+import {ILessonTemplate} from "../../../../../features/models";
+import {ITime} from "../../../../../features/models";
+import {IDiscipline} from "../../../../../features/models";
+import {ITeacher} from "../../../../../features/models";
+import {IClassroom} from "../../../../../features/models";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useGetTimesQuery} from "../../../../../store/apis";
+import {useInfinitySelect} from "../../../../../hooks";
+import {useGetDisciplinesQuery} from "../../../../../store/apis";
+import {useGetTeachersQuery} from "../../../../../store/apis";
+import {useGetClassroomsQuery} from "../../../../../store/apis";
 import {useMemo} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Button, Form, Modal} from "react-bootstrap";
 import {classroomsValidation, numberValidation, subgroupValidation, teachersValidation} from "./validation.ts";
 import {TextField} from "@mui/material";
-import {Select} from "../../../../ui/Select.tsx";
-import {IGroup} from "../../../../../features/models/IGroup.ts";
+import {Select} from "../../../../ui";
+import {IGroup} from "../../../../../features/models";
 
 interface ILessonTemplateForm {
     title: string

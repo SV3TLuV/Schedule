@@ -2,7 +2,7 @@ import {GridToolbarContainer} from "@mui/x-data-grid";
 import {Button, InputGroup} from "react-bootstrap";
 import {ChangeEvent, useState} from "react";
 import {IconButton, InputAdornment, TextField} from "@mui/material";
-import {IPaginationQueryWithFilters} from "../../../features/queries/IPaginationQueryWithFilters.ts";
+import {IPaginationQueryWithFilters} from "../../../features/queries";
 import {HiOutlineSearch} from "react-icons/hi";
 import {MdOutlineClear} from "react-icons/md";
 

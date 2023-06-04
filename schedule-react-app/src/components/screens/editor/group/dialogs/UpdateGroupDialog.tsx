@@ -1,7 +1,7 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {IGroup} from "../../../../../features/models/IGroup";
+import {IDialog} from "../../../../../features/models";
+import {IGroup} from "../../../../../features/models";
 import {GroupForm} from "./GroupForm";
-import {useUpdateGroupMutation} from "../../../../../store/apis/groupApi";
+import {useUpdateGroupMutation} from "../../../../../store/apis";
 
 interface IUpdateGroupDialog extends IDialog {
     group: IGroup

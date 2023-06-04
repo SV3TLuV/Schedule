@@ -1,5 +1,5 @@
 import {Container, Tab, Tabs} from "react-bootstrap";
-import {useTabs} from "../../../../hooks/useTabs.ts";
+import {useTabs} from "../../../../hooks";
 import {Outlet} from "react-router-dom";
 
 export const TimeTypesEditorPage = () => {

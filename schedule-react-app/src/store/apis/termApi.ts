@@ -1,9 +1,9 @@
 import {baseApi} from "./baseApi.ts";
-import {IPagedList} from "../../features/models/IPagedList";
-import {ITerm} from "../../features/models/ITerm";
-import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters";
+import {IPagedList} from "../../features/models";
+import {ITerm} from "../../features/models";
+import {IPaginationQueryWithFilters} from "../../features/queries";
 import {buildUrlArguments} from "../../utils/buildUrlArguments";
-import {HttpMethod} from "../../common/enums/HttpMethod";
+import {HttpMethod} from "../../common/enums";
 import {ApiTags} from "./apiTags.ts";
 
 export const termApi = baseApi.injectEndpoints({

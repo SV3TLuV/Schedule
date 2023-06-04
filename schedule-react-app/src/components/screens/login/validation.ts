@@ -1,4 +1,4 @@
-import {ValidationMessage} from "../../../common/enums/ValidationMessage.ts";
+import {ValidationMessage} from "../../../common/enums";
 
 export const loginValidation = {
     required: ValidationMessage.REQUIRED,

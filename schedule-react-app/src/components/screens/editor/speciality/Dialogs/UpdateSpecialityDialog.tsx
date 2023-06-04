@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {ISpeciality} from "../../../../../features/models/ISpeciality";
-import {useUpdateSpecialityMutation} from "../../../../../store/apis/specialityApi";
+import {IDialog} from "../../../../../features/models";
+import {ISpeciality} from "../../../../../features/models";
+import {useUpdateSpecialityMutation} from "../../../../../store/apis";
 import {SpecialityForm} from "./SpecialityForm";
 
 interface IUpdateSpecialityDialog extends IDialog {

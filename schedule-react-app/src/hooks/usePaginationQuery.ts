@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {QueryFilter} from "../common/enums/QueryFilter";
-import {IPaginationQueryWithFilters} from "../features/queries/IPaginationQueryWithFilters.ts";
+import {QueryFilter} from "../common/enums";
+import {IPaginationQueryWithFilters} from "../features/queries";
 
 interface IUsePaginationQuery {
     filter?: QueryFilter

@@ -1,9 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {IAuthorizationResult} from "../../features/models/IAuthorizationResult.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {login, logout} from "../slices/authSlice.ts";
-import {ILogoutCommand} from "../../features/commands/ILogoutCommand.ts";
-import {IRefreshCommand} from "../../features/commands/IRefreshCommand.ts";
+import {IAuthorizationResult} from "../../features/models";
+import {HttpMethod} from "../../common/enums";
+import {login, logout} from "../slices";
+import {ILogoutCommand} from "../../features/commands";
+import {IRefreshCommand} from "../../features/commands";
 import {AppState} from "../store.ts";
 import {ApiTags} from "./apiTags.ts";
 
@@ -29,10 +29,10 @@ export const accountApi = createApi({
             }),
             async onQueryStarted(_, {dispatch, queryFulfilled}) {
                 try {
-                    await dispatch(logout())
                     await queryFulfilled
                 } catch (e) {
                     console.log(e)
+                    await dispatch(logout())
                 }
             },
             transformErrorResponse: (error) => {

@@ -1,6 +1,6 @@
-import {ITimetable} from "../../../../features/models/ITimetable.ts";
+import {ITimetable} from "../../../../features/models";
 import {useEffect, useMemo, useRef, useState} from "react";
-import {ILesson} from "../../../../features/models/ILesson.ts";
+import {ILesson} from "../../../../features/models";
 import {chunk} from "../../../../utils/chunk.ts";
 import {CSSTransition} from "react-transition-group";
 import {LessonDisplay} from "./LessonDisplay.tsx";

@@ -1,7 +1,7 @@
-import {ILesson} from "../../../../features/models/ILesson.ts";
+import {ILesson} from "../../../../features/models";
 import {Col, Container, Row} from "react-bootstrap";
 import {getShortFio} from "../../../../utils/getShortFio.ts";
-import {LessonFormTypography} from "../../editor/lesson/forms/LessonFormTypography.tsx";
+import {LessonFormTypography} from "../../editor/lesson/forms";
 
 export const LessonDisplay = ({lesson}: { lesson: ILesson }) => {
     return (

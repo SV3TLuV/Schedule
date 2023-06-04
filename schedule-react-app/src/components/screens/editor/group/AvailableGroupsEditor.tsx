@@ -1,14 +1,14 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {useDeleteGroupMutation, useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {useDeleteGroupMutation, useGetGroupsQuery} from "../../../../store/apis";
 import {EditorToolbar} from "../EditorToolbar.tsx";
-import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
-import {CreateGroupDialog} from "./dialogs/CreateGroupDialog";
-import {useDialog} from "../../../../hooks/useDialog";
+import {DataGridWithPagination} from "../../../ui";
+import {CreateGroupDialog} from "./dialogs";
+import {useDialog} from "../../../../hooks";
 import {useState} from "react";
-import {IGroup} from "../../../../features/models/IGroup";
-import {UpdateGroupDialog} from "./dialogs/UpdateGroupDialog";
+import {IGroup} from "../../../../features/models";
+import {UpdateGroupDialog} from "./dialogs";
 
 export const AvailableGroupsEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery()

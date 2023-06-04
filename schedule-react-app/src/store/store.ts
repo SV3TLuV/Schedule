@@ -3,10 +3,10 @@ import {persistReducer} from "redux-persist";
 import storage from "redux-persist/es/storage";
 import persistStore from "redux-persist/es/persistStore";
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
-import {baseApi} from "./apis/baseApi";
+import {baseApi} from "./apis";
 import applicationReducer from "./slices/applicationSlice.ts";
 import authSlice from "./slices/authSlice.ts";
-import {accountApi} from "./apis/accountApi.ts";
+import {accountApi} from "./apis";
 
 const rootReducer = combineReducers({
     [accountApi.reducerPath]: accountApi.reducer,

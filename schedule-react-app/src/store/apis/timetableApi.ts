@@ -1,11 +1,11 @@
 import {baseApi} from "./baseApi.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {ITimetable} from "../../features/models/ITimetable.ts";
+import {HttpMethod} from "../../common/enums";
+import {IPagedList} from "../../features/models";
+import {ITimetable} from "../../features/models";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
-import {IGetCurrentTimetableQuery} from "../../features/queries/IGetCurrentTimetableQuery.ts";
-import {IGetTimetableListQuery} from "../../features/queries/IGetTimetableListQuery.ts";
-import {ICurrentTimetable} from "../../features/models/ICurrentTimetable.ts";
+import {IGetCurrentTimetableQuery} from "../../features/queries";
+import {IGetTimetableListQuery} from "../../features/queries";
+import {ICurrentTimetable} from "../../features/models";
 import {ApiTags} from "./apiTags.ts";
 
 export const timetableApi = baseApi.injectEndpoints({

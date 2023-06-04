@@ -1,7 +1,7 @@
-import {ISpeciality} from "../../../../../features/models/ISpeciality";
-import {useCreateSpecialityMutation} from "../../../../../store/apis/specialityApi";
+import {ISpeciality} from "../../../../../features/models";
+import {useCreateSpecialityMutation} from "../../../../../store/apis";
 import {SpecialityForm} from "./SpecialityForm";
-import {IDialog} from "../../../../../features/models/IDialog";
+import {IDialog} from "../../../../../features/models";
 
 export const CreateSpecialityDialog = ({ open, close }: IDialog) => {
     const [create] = useCreateSpecialityMutation()

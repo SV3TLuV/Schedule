@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {useCreateTimeMutation} from "../../../../../store/apis/timeApi";
-import {ITime} from "../../../../../features/models/ITime";
+import {IDialog} from "../../../../../features/models";
+import {useCreateTimeMutation} from "../../../../../store/apis";
+import {ITime} from "../../../../../features/models";
 import {TimeForm} from "./TimeForm";
 
 export const CreateTimeDialog = ({open, close}: IDialog) => {

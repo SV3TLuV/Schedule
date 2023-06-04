@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {ITimeType} from "../../../../../features/models/ITimeType";
-import {useUpdateTimeTypeMutation} from "../../../../../store/apis/timeTypeApi";
+import {IDialog} from "../../../../../features/models";
+import {ITimeType} from "../../../../../features/models";
+import {useUpdateTimeTypeMutation} from "../../../../../store/apis";
 import {TimeTypeForm} from "./TimeTypeForm";
 
 interface IUpdateTimeTypeDialog extends IDialog {

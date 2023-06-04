@@ -1,8 +1,8 @@
 import {baseApi} from "./baseApi.ts";
-import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
-import {IDate} from "../../features/models/IDate.ts";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
+import {IPaginationQueryWithFilters} from "../../features/queries";
+import {IDate} from "../../features/models";
+import {IPagedList} from "../../features/models";
+import {HttpMethod} from "../../common/enums";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {ApiTags} from "./apiTags.ts";
 

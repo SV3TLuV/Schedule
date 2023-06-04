@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {useCreateGroupMutation} from "../../../../../store/apis/groupApi";
-import {IGroup} from "../../../../../features/models/IGroup";
+import {IDialog} from "../../../../../features/models";
+import {useCreateGroupMutation} from "../../../../../store/apis";
+import {IGroup} from "../../../../../features/models";
 import {GroupForm} from "./GroupForm";
 
 export const CreateGroupDialog = ({ open, close }: IDialog) => {

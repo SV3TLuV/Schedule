@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IUser} from "../../features/models/IUser.ts";
+import {IUser} from "../../features/models";
 
 interface IAuthState {
     accessToken: string | null

@@ -1,5 +1,5 @@
-import {useTypedSelector} from "../hooks/redux.ts";
-import { Navigate } from "react-router-dom";
+import {useTypedSelector} from "../hooks";
+import {Navigate} from "react-router-dom";
 
 interface IRequireAuthProps {
     children: any

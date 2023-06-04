@@ -1,11 +1,11 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
-import {useGetGroupsQuery, useRestoreGroupMutation} from "../../../../store/apis/groupApi.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {QueryFilter} from "../../../../common/enums";
+import {useGetGroupsQuery, useRestoreGroupMutation} from "../../../../store/apis";
 import {EditorToolbar} from "../EditorToolbar.tsx";
-import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
-import {IGroup} from "../../../../features/models/IGroup.ts";
+import {DataGridWithPagination} from "../../../ui";
+import {IGroup} from "../../../../features/models";
 
 export const DeletedGroupsEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery({

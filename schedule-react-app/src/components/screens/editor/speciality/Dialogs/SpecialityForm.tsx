@@ -1,14 +1,14 @@
-import {ISpeciality} from "../../../../../features/models/ISpeciality";
+import {ISpeciality} from "../../../../../features/models";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Button, Form, Modal} from "react-bootstrap";
 import {TextField} from "@mui/material";
-import {Select} from "../../../../ui/Select.tsx";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useGetTermsQuery} from "../../../../../store/apis/termApi.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {ITerm} from "../../../../../features/models/ITerm.ts";
-import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
-import {ICourse} from "../../../../../features/models/ICourse.ts";
+import {Select} from "../../../../ui";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useGetTermsQuery} from "../../../../../store/apis";
+import {useInfinitySelect} from "../../../../../hooks";
+import {ITerm} from "../../../../../features/models";
+import {IDiscipline} from "../../../../../features/models";
+import {ICourse} from "../../../../../features/models";
 import {codeValidation, nameValidation, termsValidation} from "./validation";
 
 interface ISpecialityForm {

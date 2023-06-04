@@ -1,19 +1,19 @@
-import {IGroup} from "../../../../../features/models/IGroup";
-import {useGetTermsQuery} from "../../../../../store/apis/termApi";
-import {useGetSpecialitiesQuery} from "../../../../../store/apis/specialityApi";
-import {useGetGroupsQuery} from "../../../../../store/apis/groupApi";
+import {IGroup} from "../../../../../features/models";
+import {useGetTermsQuery} from "../../../../../store/apis";
+import {useGetSpecialitiesQuery} from "../../../../../store/apis";
+import {useGetGroupsQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Loading} from "../../../../ui/Loading";
+import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Select} from "../../../../ui/Select";
+import {Select} from "../../../../ui";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {ISpeciality} from "../../../../../features/models/ISpeciality.ts";
-import {ITerm} from "../../../../../features/models/ITerm.ts";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useInfinitySelect} from "../../../../../hooks";
+import {ISpeciality} from "../../../../../features/models";
+import {ITerm} from "../../../../../features/models";
 import {enrollmentYearValidation, numberValidation} from "./validation";
 import {termValidation} from "../../term/validation";
-import {specialityValidation} from "../../speciality/Dialogs/validation";
+import {specialityValidation} from "../../speciality/Dialogs";
 
 interface IGroupForm {
     title: string,

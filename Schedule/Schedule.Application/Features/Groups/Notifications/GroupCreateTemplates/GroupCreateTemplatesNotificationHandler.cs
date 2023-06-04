@@ -20,7 +20,7 @@ public sealed class GroupCreateTemplatesNotificationHandler
         _context = context;
         _mediator = mediator;
     }
-    
+
     public async Task Handle(GroupCreateTemplatesNotification notification, CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()
@@ -34,7 +34,7 @@ public sealed class GroupCreateTemplatesNotificationHandler
         var ids = await _context.Set<Day>()
             .Join(_context.Set<Term>(),
                 d => true,
-                t => true, 
+                t => true,
                 (d, t) => new { d.DayId, t.TermId })
             .Join(_context.Set<WeekType>(),
                 d => true,

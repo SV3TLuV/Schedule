@@ -32,7 +32,7 @@ public sealed class GetLessonQueryHandler : IRequestHandler<GetLessonQuery, Less
             .ThenInclude(e => e.Teacher)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.LessonId == request.Id, cancellationToken);
-        
+
         if (lesson is null)
             throw new NotFoundException(nameof(Lesson), request.Id);
 

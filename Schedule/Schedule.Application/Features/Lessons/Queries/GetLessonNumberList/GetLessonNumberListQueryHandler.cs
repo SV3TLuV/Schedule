@@ -15,7 +15,7 @@ public sealed class GetLessonNumberListQueryHandler
     {
         _context = context;
     }
-    
+
     public async Task<ICollection<int>> Handle(GetLessonNumberListQuery request,
         CancellationToken cancellationToken)
     {

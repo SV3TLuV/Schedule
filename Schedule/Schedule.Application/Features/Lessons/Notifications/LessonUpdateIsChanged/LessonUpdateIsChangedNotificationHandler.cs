@@ -13,7 +13,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
     {
         _context = context;
     }
-    
+
     public async Task Handle(LessonUpdateIsChangedNotification updateIsChangedNotification,
         CancellationToken cancellationToken)
     {
@@ -26,7 +26,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
             .Include(e => e.LessonTeacherClassrooms)
             .AsSplitQuery()
             .FirstAsync(e => e.LessonId == updateIsChangedNotification.Id, cancellationToken);
-        
+
         var template = await _context.Set<LessonTemplate>()
             .Include(e => e.Template)
             .ThenInclude(e => e.Group)
@@ -34,7 +34,7 @@ public sealed class LessonUpdateIsChangedNotificationHandler : INotificationHand
             .Include(e => e.LessonTemplateTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery()
-            .FirstOrDefaultAsync(e => 
+            .FirstOrDefaultAsync(e =>
                 e.Number == lesson.Number &&
                 e.Template.GroupId == lesson.Timetable.GroupId &&
                 e.Template.DayId == lesson.Timetable.Date.DayId &&

@@ -4,7 +4,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Persistence.Configurations;
 
-public sealed class LessonTeacherClassroomEntityTypeConfiguration 
+public sealed class LessonTeacherClassroomEntityTypeConfiguration
     : IEntityTypeConfiguration<LessonTeacherClassroom>
 {
     public void Configure(EntityTypeBuilder<LessonTeacherClassroom> builder)

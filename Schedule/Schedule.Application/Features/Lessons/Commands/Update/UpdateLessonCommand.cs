@@ -17,7 +17,7 @@ public sealed class UpdateLessonCommand : IRequest, IMapWith<Lesson>, IMapWith<L
 
     public ICollection<TeacherClassroomIdsViewModel>? TeacherClassroomIds { get; set; } =
         Array.Empty<TeacherClassroomIdsViewModel>();
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Lesson, UpdateLessonCommand>()
@@ -28,21 +28,21 @@ public sealed class UpdateLessonCommand : IRequest, IMapWith<Lesson>, IMapWith<L
                     .Select(ltc => new TeacherClassroomIdsViewModel
                     {
                         TeacherId = ltc.TeacherId,
-                        ClassroomId = ltc.ClassroomId,
+                        ClassroomId = ltc.ClassroomId
                     })));
-        
+
         profile.CreateMap<UpdateLessonCommand, Lesson>()
             .ForMember(lesson => lesson.LessonId, expression =>
                 expression.MapFrom(command => command.Id))
             .ForMember(lesson => lesson.LessonTeacherClassrooms, expression =>
-                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids =>
                     new LessonTeacherClassroom
                     {
                         LessonId = command.Id,
                         TeacherId = ids.TeacherId,
-                        ClassroomId = ids.ClassroomId,
+                        ClassroomId = ids.ClassroomId
                     })));
-        
+
         profile.CreateMap<LessonTemplate, UpdateLessonCommand>()
             .ForMember(command => command.Id, expression =>
                 expression.MapFrom(lesson => lesson.LessonTemplateId))
@@ -51,19 +51,19 @@ public sealed class UpdateLessonCommand : IRequest, IMapWith<Lesson>, IMapWith<L
                     .Select(ltc => new TeacherClassroomIdsViewModel
                     {
                         TeacherId = ltc.TeacherId,
-                        ClassroomId = ltc.ClassroomId,
+                        ClassroomId = ltc.ClassroomId
                     })));
-        
+
         profile.CreateMap<UpdateLessonCommand, LessonTemplate>()
             .ForMember(lesson => lesson.LessonTemplateId, expression =>
                 expression.MapFrom(command => command.Id))
             .ForMember(lesson => lesson.LessonTemplateTeacherClassrooms, expression =>
-                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids =>
                     new LessonTemplateTeacherClassroom
                     {
                         LessonTemplateId = command.Id,
                         TeacherId = ids.TeacherId,
-                        ClassroomId = ids.ClassroomId,
+                        ClassroomId = ids.ClassroomId
                     })));
     }
 }

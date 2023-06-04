@@ -33,7 +33,7 @@ public class TeacherViewModel : IMapWith<Teacher>
             .ForMember(viewModel => viewModel.Disciplines, expression =>
                 expression.MapFrom(teacher => teacher.TeacherDisciplines
                     .Select(td => td.Discipline)));
-        
+
         profile.CreateMap<TeacherViewModel, Teacher>()
             .ForMember(teacher => teacher.TeacherId, expression =>
                 expression.MapFrom(viewModel => viewModel.Id))

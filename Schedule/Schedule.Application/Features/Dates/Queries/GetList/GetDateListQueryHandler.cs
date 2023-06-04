@@ -26,20 +26,16 @@ public sealed class GetDateListQueryHandler
         var query = _context.Set<Date>()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
-            .Include(e => e.TimeType)
             .OrderByDescending(e => e.Value.Date)
             .AsNoTrackingWithIdentityResolution();
 
-        if (request.Search is not null)
-        {
-            query = query.Where(e => e.Value.ToString().Contains(request.Search));
-        }
-        
+        if (request.Search is not null) query = query.Where(e => e.Value.ToString().Contains(request.Search));
+
         var dates = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
-        
+
         var viewModels = _mapper.Map<List<DateViewModel>>(dates);
         var totalCount = await query.CountAsync(cancellationToken);
 

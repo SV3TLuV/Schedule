@@ -10,7 +10,7 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
 
     public string Number { get; set; } = null!;
 
-    public string Name => Speciality is not null 
+    public string Name => Speciality is not null
         ? $"{Speciality.Name}-{Number}"
         : "";
 
@@ -24,6 +24,19 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
 
     public ICollection<GroupViewModel> MergedGroups { get; set; } = null!;
 
+    public bool Equals(GroupViewModel? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Id == other.Id &&
+               Number == other.Number &&
+               EnrollmentYear == other.EnrollmentYear &&
+               IsDeleted == other.IsDeleted &&
+               Term.Equals(other.Term) &&
+               Speciality.Equals(other.Speciality) &&
+               MergedGroups.Equals(other.MergedGroups);
+    }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Group, GroupViewModel>()
@@ -35,7 +48,7 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
                     .Concat(group.GroupGroups1
                         .Select(gg => gg.Group))
                     .DistinctBy(g => g.GroupId)));
-        
+
         profile.CreateMap<GroupViewModel, Group>()
             .ForMember(group => group.GroupId, expression =>
                 expression.MapFrom(viewModel => viewModel.Id))
@@ -44,28 +57,15 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
                     .Select(g => new GroupGroup
                     {
                         GroupId = viewModel.Id,
-                        GroupId2 = g.Id,
+                        GroupId2 = g.Id
                     })));
-    }
-
-    public bool Equals(GroupViewModel? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id && 
-               Number == other.Number &&
-               EnrollmentYear == other.EnrollmentYear && 
-               IsDeleted == other.IsDeleted && 
-               Term.Equals(other.Term) && 
-               Speciality.Equals(other.Speciality) && 
-               MergedGroups.Equals(other.MergedGroups);
     }
 
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((GroupViewModel)obj);
     }
 

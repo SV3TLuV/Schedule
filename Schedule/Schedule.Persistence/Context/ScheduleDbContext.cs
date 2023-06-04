@@ -4,7 +4,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Persistence.Context;
 
-public partial class ScheduleDbContext : DbContext, IScheduleDbContext
+public class ScheduleDbContext : DbContext, IScheduleDbContext
 {
     public ScheduleDbContext(DbContextOptions<ScheduleDbContext> options)
         : base(options)
@@ -51,13 +51,16 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<GroupTransfer> GroupTransfers { get; set; } = null!;
 
+    public virtual DbSet<Role> Roles { get; set; } = null!;
+
+    public virtual DbSet<Session> Sessions { get; set; } = null!;
+
+    public virtual DbSet<User> Users { get; set; } = null!;
+
     public virtual DbSet<WeekType> WeekTypes { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ScheduleDbContext).Assembly);
-        OnModelCreatingPartial(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

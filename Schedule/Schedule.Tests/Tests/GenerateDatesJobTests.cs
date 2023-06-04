@@ -5,34 +5,6 @@ namespace Schedule.Tests.Tests;
 
 public sealed class GenerateDatesJobTests
 {
-    [Theory]
-    [MemberData(nameof(IsNeedGenerationCorrectData))]
-    public void Test_IsNeedGenerate_ReturnsTrue(DateTime last, DateTime now)
-    {
-        //Arrange
-        var job = TestContainer.Resolve<GenerateDatesJob>();
-        
-        //Act
-        var result = job.IsNeedGenerate(last, now);
-
-        //Assert
-        Assert.True(result);
-    }
-    
-    [Theory]
-    [MemberData(nameof(IsNeedGenerationIncorrectData))]
-    public void Test_IsNeedGenerate_ReturnsFalse(DateTime last, DateTime now)
-    {
-        //Arrange
-        var job = TestContainer.Resolve<GenerateDatesJob>();
-        
-        //Act
-        var result = job.IsNeedGenerate(last, now);
-
-        //Assert
-        Assert.False(result);
-    }
-
     public static IEnumerable<object[]> IsNeedGenerationCorrectData =>
         new[]
         {
@@ -62,7 +34,7 @@ public sealed class GenerateDatesJobTests
                 new DateTime(2023, 1, 8)
             }
         };
-    
+
     public static IEnumerable<object[]> IsNeedGenerationIncorrectData =>
         new[]
         {
@@ -90,6 +62,34 @@ public sealed class GenerateDatesJobTests
             {
                 new DateTime(2024, 5, 2),
                 new DateTime(2023, 4, 9)
-            },
+            }
         };
+
+    [Theory]
+    [MemberData(nameof(IsNeedGenerationCorrectData))]
+    public void Test_IsNeedGenerate_ReturnsTrue(DateTime last, DateTime now)
+    {
+        //Arrange
+        var job = TestContainer.Resolve<GenerateDatesJob>();
+
+        //Act
+        var result = job.IsNeedGenerate(last, now);
+
+        //Assert
+        Assert.True(result);
+    }
+
+    [Theory]
+    [MemberData(nameof(IsNeedGenerationIncorrectData))]
+    public void Test_IsNeedGenerate_ReturnsFalse(DateTime last, DateTime now)
+    {
+        //Arrange
+        var job = TestContainer.Resolve<GenerateDatesJob>();
+
+        //Act
+        var result = job.IsNeedGenerate(last, now);
+
+        //Assert
+        Assert.False(result);
+    }
 }

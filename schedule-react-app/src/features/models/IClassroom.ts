@@ -6,4 +6,3 @@ export interface IClassroom {
     types: IClassroomType[]
     isDeleted: boolean
 }
-

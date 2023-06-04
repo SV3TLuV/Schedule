@@ -28,16 +28,16 @@ public partial class Group
     public virtual ICollection<GroupGroup> GroupGroups1 { get; set; } =
         new List<GroupGroup>();
 
-    public virtual ICollection<GroupGroup> GroupGroups { get; set; } = 
+    public virtual ICollection<GroupGroup> GroupGroups { get; set; } =
         new List<GroupGroup>();
 
-    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = 
+    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } =
         new List<TeacherGroup>();
 }
 
 public partial class Group
 {
-    public string Name => Speciality is not null 
+    public string Name => Speciality is not null
         ? $"{Speciality.Name}-{Number}"
         : "";
 }

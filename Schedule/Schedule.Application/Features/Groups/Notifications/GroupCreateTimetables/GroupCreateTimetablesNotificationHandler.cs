@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Timetables.Commands.Create;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
@@ -23,8 +24,8 @@ public sealed class GroupCreateTimetablesNotificationHandler
         _dateInfoService = dateInfoService;
         _mediator = mediator;
     }
-    
-    public async Task Handle(GroupCreateTimetablesNotification notification, 
+
+    public async Task Handle(GroupCreateTimetablesNotification notification,
         CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()

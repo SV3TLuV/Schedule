@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Lessons.Commands.Create;
-using Schedule.Application.Features.Templates.Notifications.CreateLessonTemplates;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
@@ -21,7 +20,7 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
         _context = context;
         _mediator = mediator;
     }
-    
+
     public async Task Handle(TimetableCreateLessonsNotification notification, CancellationToken cancellationToken)
     {
         var timetable = await _context.Set<Timetable>()
@@ -30,16 +29,13 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
             .Include(e => e.Group)
             .FirstOrDefaultAsync(e => e.TimetableId == notification.TimetableId, cancellationToken);
 
-        if (timetable is null)
-        {
-            throw new NotFoundException(nameof(Timetable), notification.TimetableId);
-        }
+        if (timetable is null) throw new NotFoundException(nameof(Timetable), notification.TimetableId);
 
         var template = await _context.Set<Template>()
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
-            .FirstOrDefaultAsync(e => 
+            .FirstOrDefaultAsync(e =>
                 e.DayId == timetable.Date.DayId &&
                 e.WeekTypeId == timetable.Date.WeekTypeId &&
                 e.GroupId == timetable.GroupId &&
@@ -49,7 +45,7 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
         {
             var lessonTemplate = template?.LessonTemplates
                 .FirstOrDefault(e => e.Number == i);
-            
+
             var command = new CreateLessonCommand
             {
                 Number = i,

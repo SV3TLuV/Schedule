@@ -20,7 +20,7 @@ public sealed class GetTermQueryHandler : IRequestHandler<GetTermQuery, TermView
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<TermViewModel> Handle(GetTermQuery request,
         CancellationToken cancellationToken)
     {

@@ -11,12 +11,10 @@ public class DateViewModel : IMapWith<Date>
     public bool IsStudy { get; set; }
 
     public int Term { get; set; }
-    
+
     public string Value { get; set; } = null!;
 
     public DayViewModel Day { get; set; } = null!;
-
-    public TimeTypeViewModel TimeType { get; set; } = null!;
 
     public WeekTypeViewModel WeekType { get; set; } = null!;
 

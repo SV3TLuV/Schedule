@@ -33,7 +33,7 @@ public sealed class UpdateClassroomCommandHandler : IRequestHandler<UpdateClassr
             .Where(e => e.ClassroomId == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
-        
+
         _context.Set<Classroom>().Update(classroom);
         await _context.Set<ClassroomClassroomType>()
             .AddRangeAsync(classroom.ClassroomClassroomTypes, cancellationToken);

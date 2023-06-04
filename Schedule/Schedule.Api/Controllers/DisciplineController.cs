@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Disciplines.Commands.Create;
 using Schedule.Application.Features.Disciplines.Commands.Delete;
 using Schedule.Application.Features.Disciplines.Commands.Restore;
@@ -12,6 +13,7 @@ namespace Schedule.Api.Controllers;
 
 public class DisciplineController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DisciplineViewModel>> Get(int id)
     {
@@ -19,6 +21,7 @@ public class DisciplineController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<DisciplineViewModel>>> GetAll(
         [FromQuery] GetDisciplineListQuery query)
@@ -26,6 +29,7 @@ public class DisciplineController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateDisciplineCommand command)
     {
@@ -33,6 +37,7 @@ public class DisciplineController : BaseController
         return Created(string.Empty, id);
     }
 
+    [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreDiscipline")]
     public async Task<IActionResult> Post([FromBody] RestoreDisciplineCommand command)
@@ -40,7 +45,8 @@ public class DisciplineController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateDisciplineCommand command)
     {
@@ -48,6 +54,7 @@ public class DisciplineController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

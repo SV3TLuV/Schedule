@@ -15,7 +15,7 @@ public sealed class RestoreTimeTypeCommandHandler : IRequestHandler<RestoreTimeT
     {
         _context = context;
     }
-    
+
     public async Task Handle(RestoreTimeTypeCommand request, CancellationToken cancellationToken)
     {
         var timeType = await _context.Set<TimeType>()

@@ -20,7 +20,7 @@ public sealed class ApplicationModule : Module
     {
         _configuration = configuration;
     }
-    
+
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterAutoMapper(options =>
@@ -39,11 +39,11 @@ public sealed class ApplicationModule : Module
             })
             .As<IDbConnection>()
             .InstancePerDependency();
-        
+
         var services = new ServiceCollection();
 
         services.AddValidatorsFromAssembly(ThisAssembly);
-        
+
         builder.Populate(services);
     }
 }

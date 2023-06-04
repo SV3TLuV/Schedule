@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Queries.GetList;
 
-public sealed class GetLessonListQueryHandler 
+public sealed class GetLessonListQueryHandler
     : IRequestHandler<GetLessonListQuery, PagedList<LessonViewModel>>
 {
     private readonly IScheduleDbContext _context;
@@ -19,7 +19,7 @@ public sealed class GetLessonListQueryHandler
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<PagedList<LessonViewModel>> Handle(GetLessonListQuery request,
         CancellationToken cancellationToken)
     {

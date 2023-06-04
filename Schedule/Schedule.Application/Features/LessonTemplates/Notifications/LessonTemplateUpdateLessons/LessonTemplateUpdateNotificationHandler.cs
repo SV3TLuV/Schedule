@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Lessons.Commands.Update;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -10,9 +11,9 @@ namespace Schedule.Application.Features.LessonTemplates.Notifications.LessonTemp
 public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandler<LessonTemplateUpdateNotification>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
     private readonly IDateInfoService _dateInfoService;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public LessonTemplateUpdateNotificationHandler(
         IScheduleDbContext context,
@@ -35,7 +36,7 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
             .Include(e => e.LessonTemplateTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
             .FirstAsync(e => e.LessonTemplateId == notification.LessonTemplateId, cancellationToken);
-        
+
         var lessons = await _context.Set<Lesson>()
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Date)
@@ -44,7 +45,7 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => 
+            .Where(e =>
                 e.Number == lessonTemplate.Number &&
                 e.Timetable.GroupId == lessonTemplate.Template.GroupId &&
                 e.Timetable.Date.DayId == lessonTemplate.Template.DayId &&

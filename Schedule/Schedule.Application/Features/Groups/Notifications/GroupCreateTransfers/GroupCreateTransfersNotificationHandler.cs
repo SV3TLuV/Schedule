@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
 
-public sealed class GroupCreateTransfersNotificationHandler 
+public sealed class GroupCreateTransfersNotificationHandler
     : INotificationHandler<GroupCreateTransfersNotification>
 {
     private readonly IScheduleDbContext _context;
@@ -16,7 +16,7 @@ public sealed class GroupCreateTransfersNotificationHandler
     {
         _context = context;
     }
-    
+
     public async Task Handle(GroupCreateTransfersNotification notification,
         CancellationToken cancellationToken)
     {
@@ -27,7 +27,7 @@ public sealed class GroupCreateTransfersNotificationHandler
 
         if (group is null)
             throw new NotFoundException(nameof(Group), notification.Id);
-        
+
         for (var i = group.TermId; i < group.Speciality.MaxTermId; i++)
         {
             var nextTermId = i + 1;
@@ -37,7 +37,7 @@ public sealed class GroupCreateTransfersNotificationHandler
                 GroupId = group.GroupId,
                 NextTermId = nextTermId,
                 IsTransferred = false,
-                TransferDate = GetTransferDate(group.EnrollmentYear, group.TermId, nextTermId),
+                TransferDate = GetTransferDate(group.EnrollmentYear, group.TermId, nextTermId)
             }, cancellationToken);
         }
 

@@ -19,7 +19,7 @@ public class LessonTemplateViewModel : IMapWith<LessonTemplate>, IMapWith<Lesson
     public DisciplineViewModel Discipline { get; set; } = null!;
 
     public ICollection<TeacherClassroomViewModel> TeacherClassrooms { get; set; } = null!;
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<LessonTemplate, LessonTemplateViewModel>()
@@ -28,12 +28,12 @@ public class LessonTemplateViewModel : IMapWith<LessonTemplate>, IMapWith<Lesson
             .ForMember(viewModel => viewModel.TeacherClassrooms, expression =>
                 expression.MapFrom(lessonTemplate => lessonTemplate.LessonTemplateTeacherClassrooms))
             .ReverseMap();
-        
+
         profile.CreateMap<LessonTemplate, Lesson>()
             .ForMember(viewModel => viewModel.LessonId, expression =>
                 expression.MapFrom(lesson => lesson.LessonTemplateId))
             .ReverseMap();
-        
+
         profile.CreateMap<LessonTemplate, LessonViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(lesson => lesson.LessonTemplateId))

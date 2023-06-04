@@ -16,7 +16,7 @@ public sealed class LessonUpdateForUnitedGroupsNotificationHandler
     {
         _context = context;
     }
-    
+
     public async Task Handle(LessonUpdateForUnitedGroupsNotification notification,
         CancellationToken cancellationToken)
     {
@@ -26,16 +26,16 @@ public sealed class LessonUpdateForUnitedGroupsNotificationHandler
             .ThenInclude(e => e.GroupGroups)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.LessonId == notification.LessonId, cancellationToken);
-        
+
         if (lesson is null)
             throw new NotFoundException(nameof(Lesson), notification.LessonId);
-        
+
         var unitedGroupIds = lesson.Timetable.Group.GroupGroups.Select(e => e.GroupId2);
 
         var lessons = await _context.Set<Lesson>()
             .Include(e => e.Timetable)
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => 
+            .Where(e =>
                 e.Number == lesson.Number &&
                 unitedGroupIds.Contains(e.Timetable.GroupId) &&
                 e.Timetable.DateId == lesson.Timetable.DateId)

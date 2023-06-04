@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Days.Commands.Update;
 using Schedule.Application.Features.Days.Queries.Get;
 using Schedule.Application.Features.Days.Queries.GetCurrent;
@@ -10,6 +11,7 @@ namespace Schedule.Api.Controllers;
 
 public class DayController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DayViewModel>> Get(int id)
     {
@@ -17,6 +19,7 @@ public class DayController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     [Route("Current", Name = "CurrentDay")]
     public async Task<ActionResult<DayViewModel>> Get()
@@ -25,6 +28,7 @@ public class DayController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<DayViewModel>>> GetAll(
         [FromQuery] GetDayListQuery query)
@@ -32,6 +36,7 @@ public class DayController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateDayCommand command)
     {

@@ -23,7 +23,7 @@ public sealed class CreateDisciplineCommand : IRequest<int>, IMapWith<Discipline
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
                     discipline.Code.ToUpper()));
-        
+
         profile.CreateMap<CreateDisciplineCommand, Discipline>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(discipline =>

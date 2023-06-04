@@ -20,8 +20,8 @@ public sealed class GetCourseQueryHandler : IRequestHandler<GetCourseQuery, Cour
         _context = context;
         _mapper = mapper;
     }
-    
-    public async Task<CourseViewModel> Handle(GetCourseQuery request, 
+
+    public async Task<CourseViewModel> Handle(GetCourseQuery request,
         CancellationToken cancellationToken)
     {
         var course = await _context.Set<Course>()
@@ -30,7 +30,7 @@ public sealed class GetCourseQueryHandler : IRequestHandler<GetCourseQuery, Cour
 
         if (course is null)
             throw new NotFoundException(nameof(Course), request.Id);
-        
+
         return _mapper.Map<CourseViewModel>(course);
     }
 }

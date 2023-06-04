@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Specialities.Commands.Create;
 using Schedule.Application.Features.Specialities.Commands.Delete;
 using Schedule.Application.Features.Specialities.Commands.Restore;
@@ -12,6 +13,7 @@ namespace Schedule.Api.Controllers;
 
 public class SpecialityController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<SpecialityViewModel>> Get(int id)
     {
@@ -19,6 +21,7 @@ public class SpecialityController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<SpecialityViewModel>>> GetAll(
         [FromQuery] GetSpecialityListQuery query)
@@ -26,6 +29,7 @@ public class SpecialityController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateSpecialityCommand command)
     {
@@ -33,6 +37,7 @@ public class SpecialityController : BaseController
         return Created(string.Empty, id);
     }
 
+    [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreSpeciality")]
     public async Task<IActionResult> Post([FromBody] RestoreSpecialityCommand command)
@@ -40,7 +45,8 @@ public class SpecialityController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateSpecialityCommand command)
     {
@@ -48,6 +54,7 @@ public class SpecialityController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

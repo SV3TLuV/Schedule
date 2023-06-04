@@ -47,11 +47,11 @@ public partial class Lesson : IEquatable<LessonTemplate>
         {
             var lessonTeacherClassroom = LessonTeacherClassrooms.ElementAt(i);
             var templateTeacherClassroom = other.LessonTemplateTeacherClassrooms.ElementAt(i);
-            
+
             if (!lessonTeacherClassroom.Equals(templateTeacherClassroom))
                 return false;
         }
-        
+
         return true;
     }
 }

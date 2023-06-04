@@ -11,8 +11,8 @@ namespace Schedule.Application.Features.Lessons.Commands.Update;
 public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public UpdateLessonCommandHandler(IScheduleDbContext context,
         IMediator mediator,
@@ -22,7 +22,7 @@ public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCom
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     public async Task Handle(UpdateLessonCommand request,
         CancellationToken cancellationToken)
     {
@@ -37,7 +37,7 @@ public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCom
             .Where(entity => entity.LessonId == lessonDbo.LessonId)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
-        
+
         var lesson = _mapper.Map<Lesson>(request);
 
         foreach (var teacherClassroom in lesson.LessonTeacherClassrooms)

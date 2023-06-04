@@ -10,7 +10,7 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
     public required string Code { get; set; }
     public required string Name { get; set; }
     public required int MaxTermId { get; set; }
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Speciality, CreateSpecialityCommand>()
@@ -20,7 +20,7 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
                     speciality.Code.ToUpper()));
-        
+
         profile.CreateMap<CreateSpecialityCommand, Speciality>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>

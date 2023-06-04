@@ -35,10 +35,7 @@ public sealed class GetClassroomListQueryHandler
             _ => query
         };
 
-        if (request.Search is not null)
-        {
-            query = query.Where(e => e.Cabinet.StartsWith(request.Search));
-        }
+        if (request.Search is not null) query = query.Where(e => e.Cabinet.StartsWith(request.Search));
 
         var classrooms = await query
             .Skip((request.Page - 1) * request.PageSize)

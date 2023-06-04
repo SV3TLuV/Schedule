@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
@@ -7,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Notifications.LessonCreateForUnitedGroups;
 
-public sealed class LessonCreateForUnitedGroupsNotificationHandler 
+public sealed class LessonCreateForUnitedGroupsNotificationHandler
     : INotificationHandler<LessonCreateForUnitedGroupsNotification>
 {
     private readonly IScheduleDbContext _context;
@@ -17,7 +16,7 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
     {
         _context = context;
     }
-    
+
     public async Task Handle(LessonCreateForUnitedGroupsNotification notification,
         CancellationToken cancellationToken)
     {
@@ -27,7 +26,7 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
             .ThenInclude(e => e.GroupGroups)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.LessonId == notification.LessonId, cancellationToken);
-        
+
         if (lesson is null)
             throw new NotFoundException(nameof(Lesson), notification.LessonId);
 
@@ -51,7 +50,7 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
                 TimetableId = timetableId,
                 DisciplineId = lesson.DisciplineId,
                 IsChanged = lesson.IsChanged,
-                LessonTeacherClassrooms = lesson.LessonTeacherClassrooms,
+                LessonTeacherClassrooms = lesson.LessonTeacherClassrooms
             };
             await _context.Set<Lesson>().AddAsync(newLesson, cancellationToken);
         }

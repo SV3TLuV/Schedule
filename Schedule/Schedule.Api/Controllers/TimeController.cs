@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Times.Commands.Create;
 using Schedule.Application.Features.Times.Commands.Delete;
 using Schedule.Application.Features.Times.Commands.Restore;
@@ -12,6 +13,7 @@ namespace Schedule.Api.Controllers;
 
 public class TimeController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<TimeViewModel>> Get(int id)
     {
@@ -19,6 +21,7 @@ public class TimeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<TimeViewModel>>> GetAll(
         [FromQuery] GetTimeListQuery query)
@@ -26,6 +29,7 @@ public class TimeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateTimeCommand command)
     {
@@ -33,6 +37,7 @@ public class TimeController : BaseController
         return Created(string.Empty, id);
     }
 
+    [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreTime")]
     public async Task<IActionResult> Post([FromBody] RestoreTimeCommand command)
@@ -40,7 +45,8 @@ public class TimeController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateTimeCommand command)
     {
@@ -48,6 +54,7 @@ public class TimeController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

@@ -23,6 +23,6 @@ public class Teacher
     public virtual ICollection<TeacherDiscipline> TeacherDisciplines { get; set; } =
         new List<TeacherDiscipline>();
 
-    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } = 
+    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } =
         new List<TeacherGroup>();
 }

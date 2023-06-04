@@ -48,13 +48,11 @@ public sealed class GetGroupListQueryHandler
         };
 
         if (request.Search is not null)
-        {
-            query = query.Where(e => 
+            query = query.Where(e =>
                 (e.Speciality.Name + '-' + e.Number).StartsWith(request.Search) ||
                 e.Speciality.Code.StartsWith(request.Search) ||
                 e.Number.StartsWith(request.Search));
-        }
-        
+
         var groups = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)

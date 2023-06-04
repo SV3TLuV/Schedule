@@ -36,13 +36,11 @@ public sealed class GetTimeListQueryHandler : IRequestHandler<GetTimeListQuery, 
         };
 
         if (request.Search is not null)
-        {
-            query = query.Where(e => 
+            query = query.Where(e =>
                 e.Start.ToString().StartsWith(request.Search) ||
                 e.End.ToString().StartsWith(request.Search) ||
                 e.Type.Name.StartsWith(request.Search));
-        }
-        
+
         var times = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)

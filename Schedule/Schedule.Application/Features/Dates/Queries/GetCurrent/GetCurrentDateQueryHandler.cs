@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
@@ -30,7 +31,6 @@ public sealed class GetCurrentDateQueryHandler : IRequestHandler<GetCurrentDateQ
         var date = await _context.Set<Date>()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
-            .Include(e => e.TimeType)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.Value.Date == currentDate.Value.Date,
                 cancellationToken);

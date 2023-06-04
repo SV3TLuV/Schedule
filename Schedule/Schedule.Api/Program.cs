@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Schedule.Api.Common;
+using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
 using Schedule.Application.LoggerPolicies;
 using Schedule.Application.Modules;
@@ -11,15 +12,15 @@ using Serilog.Sinks.MSSqlServer;
 try
 {
     var applicationBuilder = WebApplication.CreateBuilder(args);
-    
+
     ConfigureLogger(applicationBuilder.Configuration);
-    
+
     applicationBuilder.Host
         .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
         {
             var configuration = applicationBuilder.Configuration;
-        
-            builder.RegisterModule<ApiModule>();
+
+            builder.RegisterModule(new ApiModule(configuration));
             builder.RegisterModule(new ApplicationModule(configuration));
         }))
         .ConfigureServices(services =>
@@ -35,9 +36,9 @@ try
         });
 
     var app = applicationBuilder.Build();
-    
+
     ConfigureApp(app);
-    
+
     app.Run();
 }
 catch (Exception e)
@@ -56,7 +57,9 @@ void ConfigureApp(WebApplication webApp)
         .UseSwagger()
         .UseSwaggerUI()
         .UseCors(Constants.CorsName)
+        .UseCustomExceptionHandler()
         .UseHttpsRedirection()
+        .UseAuthentication()
         .UseAuthorization();
     webApp.MapControllers();
 }
@@ -66,10 +69,10 @@ void ConfigureLogger(IConfiguration configuration)
     Log.Logger = new LoggerConfiguration()
         .WriteTo.MSSqlServer(
             configuration.GetConnectionString("ScheduleWin"),
-            sinkOptions: new MSSqlServerSinkOptions
+            new MSSqlServerSinkOptions
             {
                 TableName = "Logs",
-                AutoCreateSqlTable = true,
+                AutoCreateSqlTable = true
             })
         .Destructure.With<MaskingDestructuringPolicy>()
         .CreateLogger();

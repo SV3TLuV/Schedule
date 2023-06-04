@@ -1,6 +1,4 @@
-﻿using Schedule.Api.Middleware.CustomException;
-
-namespace Schedule.Api.Middleware;
+﻿namespace Schedule.Api.Middleware.CustomException;
 
 public static class CustomExceptionHandlerMiddlewareExtensions
 {

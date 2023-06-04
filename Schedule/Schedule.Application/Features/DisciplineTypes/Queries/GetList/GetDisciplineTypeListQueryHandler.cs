@@ -20,7 +20,7 @@ public sealed class GetDisciplineTypeListQueryHandler
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<PagedList<DisciplineTypeViewModel>> Handle(GetDisciplineTypeListQuery request,
         CancellationToken cancellationToken)
     {
@@ -29,7 +29,7 @@ public sealed class GetDisciplineTypeListQueryHandler
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
-        
+
         var viewModels = _mapper.Map<DisciplineTypeViewModel[]>(disciplines);
         var totalCount = await _context.Set<DisciplineType>().CountAsync(cancellationToken);
 

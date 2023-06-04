@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Dates.Commands.Create;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -12,8 +13,8 @@ public sealed class GenerateDatesJob : IJob
 {
     private readonly IScheduleDbContext _context;
     private readonly IDateInfoService _dateInfoService;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public GenerateDatesJob(IScheduleDbContext context,
         IDateInfoService dateInfoService,
@@ -31,7 +32,7 @@ public sealed class GenerateDatesJob : IJob
         var days = await _context.Set<Day>()
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
-        
+
         var lastDate = await _context.Set<Date>()
             .AsNoTrackingWithIdentityResolution()
             .OrderBy(e => e.DateId)
@@ -49,12 +50,12 @@ public sealed class GenerateDatesJob : IJob
         {
             var nextDate = _dateInfoService.GetNextDate(lastDate.Value);
             var day = days.First(e => e.DayId == nextDate.DayId);
-            
+
             nextDate.IsStudy = day.IsStudy;
-            
+
             var command = _mapper.Map<CreateDateCommand>(nextDate);
             await _mediator.Send(command);
-            
+
             lastDate = nextDate;
         }
     }

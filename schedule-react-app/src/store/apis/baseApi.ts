@@ -1,4 +1,5 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {createApi} from "@reduxjs/toolkit/query/react";
+import {fetchQueryWithReauth} from "../fetchBaseQueryWithReauth.ts";
 
 export enum ApiTags {
     Classroom = 'Classroom',
@@ -12,6 +13,7 @@ export enum ApiTags {
     Lesson = 'Lesson',
     LessonNumber = 'LessonNumber',
     LessonTemplate = 'LessonTemplate',
+    Roles = 'Role',
     Speciality = 'Speciality',
     Teacher = 'Teacher',
     Template = 'Template',
@@ -19,14 +21,13 @@ export enum ApiTags {
     Time = 'Time',
     Timetable = 'Timetable',
     TimeType = 'TimeType',
+    Users = 'User',
     WeekType = 'WeekType',
 }
 
 export const baseApi = createApi({
     reducerPath: 'BaseApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'https://localhost:7239/api/',
-    }),
+    baseQuery: fetchQueryWithReauth,
     tagTypes: Object.values(ApiTags),
     refetchOnReconnect: true,
     refetchOnFocus: true,

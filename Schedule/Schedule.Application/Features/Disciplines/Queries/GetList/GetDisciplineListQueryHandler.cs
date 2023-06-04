@@ -38,14 +38,12 @@ public sealed class GetDisciplineListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        
+
         if (request.Search is not null)
-        {
-            query = query.Where(e => 
+            query = query.Where(e =>
                 e.Name.StartsWith(request.Search) ||
                 e.Code.StartsWith(request.Search) ||
                 e.Speciality.Name.StartsWith(request.Search));
-        }
 
         var disciplines = await query
             .Skip((request.Page - 1) * request.PageSize)

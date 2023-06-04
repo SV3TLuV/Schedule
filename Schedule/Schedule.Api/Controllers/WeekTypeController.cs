@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.WeekTypes.Queries.Get;
 using Schedule.Application.Features.WeekTypes.Queries.GetCurrent;
 using Schedule.Application.Features.WeekTypes.Queries.GetList;
@@ -9,6 +10,7 @@ namespace Schedule.Api.Controllers;
 
 public class WeekTypeController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<WeekTypeViewModel>> Get(int id)
     {
@@ -16,6 +18,7 @@ public class WeekTypeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     [Route("Current", Name = "CurrentWeekType")]
     public async Task<ActionResult<WeekTypeViewModel>> Get()
@@ -24,6 +27,7 @@ public class WeekTypeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<WeekTypeViewModel>>> GetAll(
         [FromQuery] GetWeekTypeListQuery query)

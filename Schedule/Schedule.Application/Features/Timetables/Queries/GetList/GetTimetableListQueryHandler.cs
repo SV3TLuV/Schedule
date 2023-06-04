@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Timetables.Queries.GetList;
 
-public sealed class GetTimetableListQueryHandler 
+public sealed class GetTimetableListQueryHandler
     : IRequestHandler<GetTimetableListQuery, PagedList<TimetableViewModel>>
 {
     private readonly IScheduleDbContext _context;
@@ -19,7 +19,7 @@ public sealed class GetTimetableListQueryHandler
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<PagedList<TimetableViewModel>> Handle(GetTimetableListQuery request,
         CancellationToken cancellationToken)
     {
@@ -63,23 +63,17 @@ public sealed class GetTimetableListQueryHandler
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery();
 
-        if (request.DateId is not null)
-        {
-            query = query.Where(e => e.DateId == request.DateId);
-        }
-        
-        if (request.GroupId is not null)
-        {
-            query = query.Where(e => e.GroupId == request.GroupId);
-        }
-        
+        if (request.DateId is not null) query = query.Where(e => e.DateId == request.DateId);
+
+        if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
+
         var timetables = await query
             .OrderBy(e => e.Group.TermId)
             .ThenBy(e => string.Concat(e.Group.Speciality.Name, "-", e.Group.Number))
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
         var totalCount = await query.CountAsync(cancellationToken);
-        
+
         var viewModelIdsForRemove = new List<int>();
         var groupIds = new List<int>();
 
@@ -90,13 +84,9 @@ public sealed class GetTimetableListQueryHandler
                 .ToArray();
 
             if (viewModelGroupIds.Any(id => groupIds.Contains(id)))
-            {
                 viewModelIdsForRemove.Add(viewModel.Id);
-            }
             else
-            {
                 groupIds.AddRange(viewModelGroupIds);
-            }
         }
 
         var viewModelsResult = viewModels
@@ -104,7 +94,7 @@ public sealed class GetTimetableListQueryHandler
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .ToArray();
-        
+
         return new PagedList<TimetableViewModel>
         {
             PageSize = request.PageSize,

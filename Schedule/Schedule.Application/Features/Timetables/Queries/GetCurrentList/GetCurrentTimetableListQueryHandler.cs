@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Common.EqualityComparers;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -70,10 +71,7 @@ public sealed class GetCurrentTimetableListQueryHandler
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery();
 
-        if (request.GroupId is not null)
-        {
-            query = query.Where(e => e.GroupId == request.GroupId);
-        }
+        if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
 
         var timetables = await query
             .OrderBy(e => e.Group.TermId)
@@ -89,7 +87,7 @@ public sealed class GetCurrentTimetableListQueryHandler
             var ids = viewModel.Groups
                 .Select(g => (GroupId: g.Id, DateId: viewModel.Date.Id))
                 .ToList();
-            
+
             var hasDuplicate = false;
 
             foreach (var pair in ids)
@@ -103,16 +101,13 @@ public sealed class GetCurrentTimetableListQueryHandler
                 hashSet.Add(pair);
             }
 
-            if (hasDuplicate)
-            {
-                viewModelIdsForRemove.Add(viewModel.Id);
-            }
+            if (hasDuplicate) viewModelIdsForRemove.Add(viewModel.Id);
         }
 
         var viewModelsResult = viewModels
             .Where(v => !viewModelIdsForRemove.Contains(v.Id))
             .ToArray();
-        
+
         var groupedViewModels = viewModelsResult
             .GroupBy(viewModel => viewModel.Groups, new GroupViewModelsEqualityComparer())
             .ToArray();
@@ -123,7 +118,7 @@ public sealed class GetCurrentTimetableListQueryHandler
         {
             var groupedTimetableViewModels = groupedViewModel
                 .GroupBy(timetable => timetable.Date)
-                .Select(grouping => new GroupedViewModel<DateViewModel, TimetableViewModel>()
+                .Select(grouping => new GroupedViewModel<DateViewModel, TimetableViewModel>
                 {
                     Key = grouping.Key,
                     Items = grouping.ToArray()
@@ -140,9 +135,9 @@ public sealed class GetCurrentTimetableListQueryHandler
         var currentViewModels = currentTimetables
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToArray(); 
+            .ToArray();
         var totalCount = viewModels.Count;
-        
+
         return new PagedList<CurrentTimetableViewModel>
         {
             PageSize = request.PageSize,

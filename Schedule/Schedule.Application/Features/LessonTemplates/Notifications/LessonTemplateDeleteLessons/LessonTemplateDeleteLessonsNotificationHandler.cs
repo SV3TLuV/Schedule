@@ -1,18 +1,18 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Lessons.Commands.Delete;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateDeleteLessons;
 
-public sealed class LessonTemplateDeleteLessonsNotificationHandler 
+public sealed class LessonTemplateDeleteLessonsNotificationHandler
     : INotificationHandler<LessonTemplateDeleteLessonsNotification>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IDateInfoService _dateInfoService;
+    private readonly IMediator _mediator;
 
     public LessonTemplateDeleteLessonsNotificationHandler(
         IScheduleDbContext context,
@@ -23,7 +23,7 @@ public sealed class LessonTemplateDeleteLessonsNotificationHandler
         _mediator = mediator;
         _dateInfoService = dateInfoService;
     }
-    
+
     public async Task Handle(LessonTemplateDeleteLessonsNotification notification,
         CancellationToken cancellationToken)
     {
@@ -35,7 +35,7 @@ public sealed class LessonTemplateDeleteLessonsNotificationHandler
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => 
+            .Where(e =>
                 e.Number == notification.LessonTemplate.Number &&
                 e.Timetable.GroupId == notification.LessonTemplate.Template.GroupId &&
                 e.Timetable.Group.TermId == notification.LessonTemplate.Template.TermId &&

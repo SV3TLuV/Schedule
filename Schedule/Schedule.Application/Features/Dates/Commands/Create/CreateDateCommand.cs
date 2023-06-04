@@ -8,8 +8,6 @@ public sealed class CreateDateCommand : IRequest<int>, IMapWith<Date>
 {
     public DateTime Value { get; set; }
 
-    public int TimeTypeId { get; set; }
-
     public int Term { get; set; }
 
     public int DayId { get; set; }

@@ -12,6 +12,15 @@ public class TermViewModel : IMapWith<Term>, IEquatable<TermViewModel>
 
     public CourseViewModel Course { get; set; } = null!;
 
+    public bool Equals(TermViewModel? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Id == other.Id &&
+               CourseTerm == other.CourseTerm &&
+               Course.Equals(other.Course);
+    }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Term, TermViewModel>()
@@ -20,20 +29,11 @@ public class TermViewModel : IMapWith<Term>, IEquatable<TermViewModel>
             .ReverseMap();
     }
 
-    public bool Equals(TermViewModel? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id && 
-               CourseTerm == other.CourseTerm &&
-               Course.Equals(other.Course);
-    }
-
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((TermViewModel)obj);
     }
 

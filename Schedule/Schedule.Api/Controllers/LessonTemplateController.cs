@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.LessonTemplates.Commands.Create;
 using Schedule.Application.Features.LessonTemplates.Commands.Delete;
 using Schedule.Application.Features.LessonTemplates.Commands.Update;
@@ -11,6 +12,7 @@ namespace Schedule.Api.Controllers;
 
 public sealed class LessonTemplateController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<LessonTemplateViewModel>> Get(int id)
     {
@@ -18,20 +20,23 @@ public sealed class LessonTemplateController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<LessonTemplateViewModel>>> GetAll(
         [FromQuery] GetLessonTemplateListQuery query)
     {
         return Ok(await Mediator.Send(query));
     }
-    
+
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateLessonTemplateCommand command)
     {
         var id = await Mediator.Send(command);
         return Created(string.Empty, id);
     }
-    
+
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateLessonTemplateCommand command)
     {
@@ -39,6 +44,7 @@ public sealed class LessonTemplateController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

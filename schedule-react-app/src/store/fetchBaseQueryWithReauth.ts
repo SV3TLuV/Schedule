@@ -1,9 +1,9 @@
 import {BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
 import {Mutex} from "async-mutex";
 import {AppState} from "./store.ts";
-import {IRefreshCommand} from "../features/commands/IRefreshCommand.ts";
+import {IRefreshCommand} from "../features/commands";
 import {message} from "antd";
-import {accountApi} from "./apis/accountApi.ts";
+import {accountApi} from "./apis";
 
 const mutex = new Mutex()
 
@@ -46,7 +46,6 @@ export const fetchQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
     await mutex.waitForUnlock()
     let result = await baseQuery(args, api, extraOptions)
-    await showError(result.error)
     if (result.error && result.error.status === 401) {
         if (!mutex.isLocked()) {
             const release = await mutex.acquire()
@@ -73,5 +72,6 @@ export const fetchQueryWithReauth: BaseQueryFn<
             result = await baseQuery(args, api, extraOptions)
         }
     }
+    await showError(result.error)
     return result
 }

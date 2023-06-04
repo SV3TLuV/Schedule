@@ -1,4 +1,4 @@
-import {ITimeType} from "../../../../../features/models/ITimeType";
+import {ITimeType} from "../../../../../features/models";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Button, Form, Modal} from "react-bootstrap";
 import {TextField} from "@mui/material";

@@ -1,9 +1,9 @@
 import {Button, Card} from "react-bootstrap";
-import {ITimetable} from "../../../../../features/models/ITimetable.ts";
+import {ITimetable} from "../../../../../features/models";
 import {LessonForm} from "./LessonForm.tsx";
-import {useCreateLessonMutation} from "../../../../../store/apis/lessonApi.ts";
-import {numberValidation} from "../dialogs/validation.ts";
-import {ILesson} from "../../../../../features/models/ILesson.ts";
+import {useCreateLessonMutation} from "../../../../../store/apis";
+import {numberValidation} from "../dialogs";
+import {ILesson} from "../../../../../features/models";
 
 interface ITimetableForm {
     timetable: ITimetable

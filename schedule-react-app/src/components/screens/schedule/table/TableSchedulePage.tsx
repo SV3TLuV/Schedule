@@ -1,9 +1,9 @@
 import {Col, Container, Row} from "react-bootstrap";
-import {useGetCurrentTimetableQuery} from "../../../../store/apis/timetableApi.ts";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {IPaginationQuery} from "../../../../features/queries/IPaginationQuery.ts";
-import {IGetCurrentTimetableQuery} from "../../../../features/queries/IGetCurrentTimetableQuery.ts";
-import {Loading} from "../../../ui/Loading.tsx";
+import {useGetCurrentTimetableQuery} from "../../../../store/apis";
+import {usePaginationQuery} from "../../../../hooks";
+import {IPaginationQuery} from "../../../../features/queries";
+import {IGetCurrentTimetableQuery} from "../../../../features/queries";
+import {Loading} from "../../../ui";
 import {CurrentTimetableDisplay} from "./CurrentTimetableDisplay.tsx";
 import {useParams} from "react-router-dom";
 

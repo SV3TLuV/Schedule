@@ -1,8 +1,8 @@
 import {LessonForm} from "./LessonForm.tsx";
-import {IDialog} from "../../../../../features/models/IDialog.ts";
-import {ILesson} from "../../../../../features/models/ILesson.ts";
-import {useUpdateLessonMutation} from "../../../../../store/apis/lessonApi.ts";
-import {IGroup} from "../../../../../features/models/IGroup.ts";
+import {IDialog} from "../../../../../features/models";
+import {ILesson} from "../../../../../features/models";
+import {useUpdateLessonMutation} from "../../../../../store/apis";
+import {IGroup} from "../../../../../features/models";
 
 interface IUpdateLessonDialog extends IDialog {
     lesson: ILesson

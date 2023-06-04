@@ -1,7 +1,7 @@
 import {ClassroomForm} from "./ClassroomForm.tsx";
-import {useUpdateClassroomMutation} from "../../../../../store/apis/classroomApi.ts";
-import {IDialog} from "../../../../../features/models/IDialog.ts";
-import {IClassroom} from "../../../../../features/models/IClassroom.ts";
+import {useUpdateClassroomMutation} from "../../../../../store/apis";
+import {IDialog} from "../../../../../features/models";
+import {IClassroom} from "../../../../../features/models";
 
 interface IUpdateClassroomDialog extends IDialog {
     classroom: IClassroom

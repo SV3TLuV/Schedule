@@ -1,9 +1,9 @@
-import {ILesson} from "../../../../../features/models/ILesson.ts";
-import {useDeleteLessonMutation} from "../../../../../store/apis/lessonApi.ts";
-import {UpdateLessonDialog} from "../dialogs/UpdateLessonDialog.tsx";
-import {useDialog} from "../../../../../hooks/useDialog.ts";
+import {ILesson} from "../../../../../features/models";
+import {useDeleteLessonMutation} from "../../../../../store/apis";
+import {UpdateLessonDialog} from "../dialogs";
+import {useDialog} from "../../../../../hooks";
 import {BaseLessonForm} from "./BaseLessonForm.tsx";
-import {IGroup} from "../../../../../features/models/IGroup.ts";
+import {IGroup} from "../../../../../features/models";
 
 interface ILessonForm {
     lesson: ILesson

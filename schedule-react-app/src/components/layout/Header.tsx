@@ -1,9 +1,8 @@
 import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import {useNavigation} from "../../../hooks/useNavigation.ts";
 import {BiTable} from "react-icons/bi";
-import {useTypedSelector} from "../../../hooks/redux.ts";
-import {ILogoutCommand} from "../../../features/commands/ILogoutCommand.ts";
-import {useLogoutMutation} from "../../../store/apis/accountApi.ts";
+import {useNavigation, useTypedSelector} from "../../hooks";
+import {useLogoutMutation} from "../../store/apis";
+import {ILogoutCommand} from "../../features/commands";
 
 export const Header = () => {
     const {user, accessToken, refreshToken} = useTypedSelector(state => state.auth)
@@ -27,6 +26,7 @@ export const Header = () => {
     const goToClassroomsEditor = () => navigateTo('/editor/classrooms')
     const goToTimesEditor = () => navigateTo('/editor/times')
     const goToTimeTypesEditor = () => navigateTo('/editor/time-types')
+    const goToUsersEditor = () => navigateTo('/editor/users')
 
     return (
         <Navbar bg='light' expand='md' className='py-3'>
@@ -80,6 +80,11 @@ export const Header = () => {
                                     <NavDropdown.Item onClick={goToTimeTypesEditor}>
                                         Виды времени
                                     </NavDropdown.Item>
+                                    {user.role.id === 1 &&
+                                        <NavDropdown.Item onClick={goToUsersEditor}>
+                                            Пользователи
+                                        </NavDropdown.Item>
+                                    }
                                 </NavDropdown>
                                 <Nav.Link onClick={goToReports}>
                                     Отчеты

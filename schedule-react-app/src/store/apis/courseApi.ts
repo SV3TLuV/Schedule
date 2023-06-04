@@ -1,9 +1,9 @@
 import {baseApi} from "./baseApi.ts";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {ICourse} from "../../features/models/ICourse.ts";
+import {IPagedList} from "../../features/models";
+import {ICourse} from "../../features/models";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
+import {HttpMethod} from "../../common/enums";
+import {IPaginationQueryWithFilters} from "../../features/queries";
 import {ApiTags} from "./apiTags.ts";
 
 export const courseApi = baseApi.injectEndpoints({

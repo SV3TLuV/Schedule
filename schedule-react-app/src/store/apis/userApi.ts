@@ -1,12 +1,12 @@
 import {baseApi} from "./baseApi.ts";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {IUser} from "../../features/models/IUser.ts";
-import {IPaginationQuery} from "../../features/queries/IPaginationQuery.ts";
+import {IPagedList} from "../../features/models";
+import {IUser} from "../../features/models";
+import {IPaginationQuery} from "../../features/queries";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {IAuthorizationResult} from "../../features/models/IAuthorizationResult.ts";
-import {ILoginCommand} from "../../features/commands/ILoginCommand.ts";
-import {login} from "../slices/authSlice.ts";
+import {HttpMethod} from "../../common/enums";
+import {IAuthorizationResult} from "../../features/models";
+import {ILoginCommand} from "../../features/commands";
+import {login} from "../slices";
 import {ApiTags} from "./apiTags.ts";
 
 export const userApi = baseApi.injectEndpoints({
@@ -37,14 +37,10 @@ export const userApi = baseApi.injectEndpoints({
             }),
             async onQueryStarted(_, {dispatch, queryFulfilled}) {
                 try {
-                    console.log('login')
                     const {data} = await queryFulfilled
-                    console.log('data', data)
                     await dispatch(login(data))
                 } catch (e) {
                     console.log(e)
-                } finally {
-                    console.log('finally')
                 }
             },
         }),
@@ -52,7 +48,11 @@ export const userApi = baseApi.injectEndpoints({
             query: user => ({
                 url: ApiTags.Users,
                 method: HttpMethod.POST,
-                body: user,
+                body: {
+                    login: user.login,
+                    password: user.password,
+                    roleId: user.role.id
+                },
             }),
             invalidatesTags: [{type: ApiTags.Users}]
         }),
@@ -60,7 +60,12 @@ export const userApi = baseApi.injectEndpoints({
             query: user => ({
                 url: ApiTags.Users,
                 method: HttpMethod.PUT,
-                body: user,
+                body: {
+                    id: user.id,
+                    login: user.login,
+                    password: user.password,
+                    roleId: user.role.id
+                },
             }),
             invalidatesTags: [{type: ApiTags.Users}]
         }),

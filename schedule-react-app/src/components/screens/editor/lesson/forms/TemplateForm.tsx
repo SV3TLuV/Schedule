@@ -1,9 +1,9 @@
-import {ITemplate} from "../../../../../features/models/ITemplate.ts";
+import {ITemplate} from "../../../../../features/models";
 import {Button, Card} from "react-bootstrap";
 import {LessonTemplateForm} from "./LessonTemplateForm.tsx";
-import {useCreateLessonTemplateMutation} from "../../../../../store/apis/lessonTemplateApi.ts";
-import {ILessonTemplate} from "../../../../../features/models/ILessonTemplate.ts";
-import {numberValidation} from "../dialogs/validation.ts";
+import {useCreateLessonTemplateMutation} from "../../../../../store/apis";
+import {ILessonTemplate} from "../../../../../features/models";
+import {numberValidation} from "../dialogs";
 
 interface ITemplateForm {
     template: ITemplate

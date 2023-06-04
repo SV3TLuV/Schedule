@@ -2,8 +2,8 @@ import {useState} from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {IconButton} from "@mui/material";
 import {LessonFormTypography} from "./LessonFormTypography.tsx";
-import {ILesson} from "../../../../../features/models/ILesson.ts";
-import {ILessonTemplate} from "../../../../../features/models/ILessonTemplate.ts";
+import {ILesson} from "../../../../../features/models";
+import {ILessonTemplate} from "../../../../../features/models";
 import {AiOutlineDelete} from "react-icons/ai";
 import {getShortFio} from "../../../../../utils/getShortFio.ts";
 

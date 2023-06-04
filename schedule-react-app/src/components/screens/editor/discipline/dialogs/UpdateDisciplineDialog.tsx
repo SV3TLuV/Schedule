@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {IDiscipline} from "../../../../../features/models/IDiscipline";
-import {useUpdateDisciplineMutation} from "../../../../../store/apis/disciplineApi";
+import {IDialog} from "../../../../../features/models";
+import {IDiscipline} from "../../../../../features/models";
+import {useUpdateDisciplineMutation} from "../../../../../store/apis";
 import {DisciplineForm} from "./DisciplineForm";
 
 interface IUpdateDisciplineDialog extends IDialog {

@@ -1,6 +1,6 @@
-import {IDiscipline} from "../../../../../features/models/IDiscipline";
-import {IDialog} from "../../../../../features/models/IDialog";
-import {useCreateDisciplineMutation} from "../../../../../store/apis/disciplineApi";
+import {IDiscipline} from "../../../../../features/models";
+import {IDialog} from "../../../../../features/models";
+import {useCreateDisciplineMutation} from "../../../../../store/apis";
 import {DisciplineForm} from "./DisciplineForm";
 
 export const CreateDisciplineDialog = ({ open, close }: IDialog) => {

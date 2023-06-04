@@ -1,11 +1,11 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {useGetTeachersQuery, useRestoreTeacherMutation} from "../../../../store/apis/teacherApi.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {useGetTeachersQuery, useRestoreTeacherMutation} from "../../../../store/apis";
 import {EditorToolbar} from "../EditorToolbar.tsx";
-import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
-import {ITeacher} from "../../../../features/models/ITeacher.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
+import {DataGridWithPagination} from "../../../ui";
+import {ITeacher} from "../../../../features/models";
+import {QueryFilter} from "../../../../common/enums";
 
 export const DeletedTeachersEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery({

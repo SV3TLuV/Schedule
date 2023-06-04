@@ -1,14 +1,14 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {useDeleteTimeMutation, useGetTimesQuery} from "../../../../store/apis/timeApi.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {useDeleteTimeMutation, useGetTimesQuery} from "../../../../store/apis";
 import {EditorToolbar} from "../EditorToolbar.tsx";
-import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
-import {useDialog} from "../../../../hooks/useDialog";
+import {DataGridWithPagination} from "../../../ui";
+import {useDialog} from "../../../../hooks";
 import {useState} from "react";
-import {ITime} from "../../../../features/models/ITime";
-import {CreateTimeDialog} from "./dialogs/CreateTimeDialog";
-import {UpdateTimeDialog} from "./dialogs/UpdateTimeDialogs";
+import {ITime} from "../../../../features/models";
+import {CreateTimeDialog} from "./dialogs";
+import {UpdateTimeDialog} from "./dialogs";
 
 export const AvailableTimesEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery()

@@ -1,8 +1,4 @@
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
-
-export const classroomValidation = {
-    required: ValidationMessage.REQUIRED
-}
+import {ValidationMessage} from "../../../../../common/enums";
 
 export const cabinetValidation = {
     required: ValidationMessage.REQUIRED,

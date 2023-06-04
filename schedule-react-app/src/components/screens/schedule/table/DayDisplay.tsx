@@ -1,5 +1,5 @@
 import {Col} from "react-bootstrap";
-import {IDay} from "../../../../features/models/IDay.ts";
+import {IDay} from "../../../../features/models";
 
 interface IDayDisplay {
     day: IDay

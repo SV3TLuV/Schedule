@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Roles.Queries.GetList;
 
-public sealed class GetRoleListQueryHandler : IRequestHandler<GetRoleListQuery, ICollection<RoleViewModel>>
+public sealed class GetRoleListQueryHandler : IRequestHandler<GetRoleListQuery, PagedList<RoleViewModel>>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -20,12 +20,25 @@ public sealed class GetRoleListQueryHandler : IRequestHandler<GetRoleListQuery, 
         _mapper = mapper;
     }
 
-    public async Task<ICollection<RoleViewModel>> Handle(GetRoleListQuery request,
+    public async Task<PagedList<RoleViewModel>> Handle(GetRoleListQuery request,
         CancellationToken cancellationToken)
     {
-        var roles = await _context.Set<Role>()
-            .AsNoTrackingWithIdentityResolution()
+        var query = _context.Set<Role>()
+            .AsNoTrackingWithIdentityResolution();
+
+        var roles = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .ToListAsync(cancellationToken);
-        return _mapper.Map<List<RoleViewModel>>(roles);
+        var totalCount = await query.CountAsync(cancellationToken);
+        var viewModels = _mapper.Map<List<RoleViewModel>>(roles);
+
+        return new PagedList<RoleViewModel>
+        {
+            PageSize = request.PageSize,
+            PageNumber = request.Page,
+            TotalCount = totalCount,
+            Items = viewModels
+        };
     }
 }

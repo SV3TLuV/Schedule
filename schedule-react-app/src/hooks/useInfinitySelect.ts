@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
-import {IPagedList} from "../features/models/IPagedList.ts";
-import {IPaginationQueryWithFilters} from "../features/queries/IPaginationQueryWithFilters.ts";
+import {IPagedList} from "../features/models";
+import {IPaginationQueryWithFilters} from "../features/queries";
 
 interface useInfinitySelect<T> {
     data?: IPagedList<T>

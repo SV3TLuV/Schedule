@@ -1,5 +1,5 @@
 import {Card, Col, Row} from "react-bootstrap";
-import {ICurrentTimetable} from "../../../../features/models/ICurrentTimetable.ts";
+import {ICurrentTimetable} from "../../../../features/models";
 import "./animations.css";
 import {LessonListDisplay} from "./LessonListDisplay.tsx";
 import {DayDisplay} from "./DayDisplay.tsx";

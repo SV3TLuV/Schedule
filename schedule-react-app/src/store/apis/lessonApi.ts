@@ -1,10 +1,10 @@
 import {baseApi} from "./baseApi.ts";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {ILesson} from "../../features/models/ILesson.ts";
-import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
+import {IPagedList} from "../../features/models";
+import {ILesson} from "../../features/models";
+import {IPaginationQueryWithFilters} from "../../features/queries";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
-import {HttpMethod} from "../../common/enums/HttpMethod.ts";
-import {IUpdateFilledLessonsTimeCommand} from "../../features/commands/IUpdateFilledLessonsTimeCommand.ts";
+import {HttpMethod} from "../../common/enums";
+import {IUpdateFilledLessonsTimeCommand} from "../../features/commands";
 import {ApiTags} from "./apiTags.ts";
 
 export const lessonApi = baseApi.injectEndpoints({

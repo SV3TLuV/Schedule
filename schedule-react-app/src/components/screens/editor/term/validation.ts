@@ -1,4 +1,4 @@
-import {ValidationMessage} from "../../../../common/enums/ValidationMessage";
+import {ValidationMessage} from "../../../../common/enums";
 
 export const termValidation = {
     required: ValidationMessage.REQUIRED

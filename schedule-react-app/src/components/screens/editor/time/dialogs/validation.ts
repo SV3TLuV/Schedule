@@ -1,8 +1,4 @@
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
-
-export const timeValidation = {
-    required: ValidationMessage.REQUIRED
-}
+import {ValidationMessage} from "../../../../../common/enums";
 
 export const startValidation = {
     required: ValidationMessage.REQUIRED,

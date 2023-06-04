@@ -1,14 +1,14 @@
 import {Button, Form, Modal} from "react-bootstrap";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {IUpdateFilledLessonsTimeCommand} from "../../../../../features/commands/IUpdateFilledLessonsTimeCommand.ts";
-import {useGetLessonNumbersQuery, useUpdateFilledLessonsTimeMutation} from "../../../../../store/apis/lessonApi.ts";
-import {ITimeType} from "../../../../../features/models/ITimeType.ts";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useGetTimeTypesQuery} from "../../../../../store/apis/timeTypeApi.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {timeTypeValidation} from "../../timeType/dialogs/validation.ts";
-import {Select} from "../../../../ui/Select.tsx";
-import {IDialog} from "../../../../../features/models/IDialog.ts";
+import {IUpdateFilledLessonsTimeCommand} from "../../../../../features/commands";
+import {useGetLessonNumbersQuery, useUpdateFilledLessonsTimeMutation} from "../../../../../store/apis";
+import {ITimeType} from "../../../../../features/models";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useGetTimeTypesQuery} from "../../../../../store/apis";
+import {useInfinitySelect} from "../../../../../hooks";
+import {timeTypeValidation} from "../../timeType/dialogs";
+import {Select} from "../../../../ui";
+import {IDialog} from "../../../../../features/models";
 
 interface IUpdateLessonTimeDialog extends IDialog{
     dateId: number

@@ -1,15 +1,15 @@
-import {ITeacher} from "../../../../../features/models/ITeacher";
-import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi";
+import {ITeacher} from "../../../../../features/models";
+import {useGetDisciplinesQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Loading} from "../../../../ui/Loading";
+import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Select} from "../../../../ui/Select";
-import {useGetGroupsQuery} from "../../../../../store/apis/groupApi";
+import {Select} from "../../../../ui";
+import {useGetGroupsQuery} from "../../../../../store/apis";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
-import {IGroup} from "../../../../../features/models/IGroup.ts";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useInfinitySelect} from "../../../../../hooks";
+import {IDiscipline} from "../../../../../features/models";
+import {IGroup} from "../../../../../features/models";
 import {emailValidation, middleNameValidation, nameValidation, surnameValidation} from "./validation";
 
 interface ITeacherForm {

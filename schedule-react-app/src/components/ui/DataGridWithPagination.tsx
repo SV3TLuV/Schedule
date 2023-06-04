@@ -1,6 +1,6 @@
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {IPagedList} from "../../features/models/IPagedList.ts";
-import {IPaginationQuery} from "../../features/queries/IPaginationQuery.ts";
+import {IPagedList} from "../../features/models";
+import {IPaginationQuery} from "../../features/queries";
 import {Pagination} from "antd";
 import {Button} from "react-bootstrap";
 import {JSXElementConstructor, useMemo} from "react";

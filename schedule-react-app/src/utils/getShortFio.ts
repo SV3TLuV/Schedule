@@ -1,4 +1,4 @@
-import {ITeacher} from "../features/models/ITeacher.ts";
+import {ITeacher} from "../features/models";
 
 export const getShortFio = (teacher: ITeacher | undefined) => {
     if (!teacher)

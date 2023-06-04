@@ -1,10 +1,10 @@
 import {Container} from "react-bootstrap";
 import {columns} from "./columns.ts";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {QueryFilter} from "../../../../common/enums/QueryFilter.ts";
-import {useGetTimesQuery, useRestoreTimeMutation} from "../../../../store/apis/timeApi.ts";
-import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
-import {ITime} from "../../../../features/models/ITime.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {QueryFilter} from "../../../../common/enums";
+import {useGetTimesQuery, useRestoreTimeMutation} from "../../../../store/apis";
+import {DataGridWithPagination} from "../../../ui";
+import {ITime} from "../../../../features/models";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 
 export const DeletedTimesEditor = () => {

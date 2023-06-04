@@ -1,13 +1,13 @@
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Button, Form, Modal} from "react-bootstrap";
-import {IClassroom} from "../../../../../features/models/IClassroom.ts";
-import {useGetClassroomTypesQuery} from "../../../../../store/apis/classroomTypeApi.ts";
-import {Loading} from "../../../../ui/Loading.tsx";
-import {Select} from "../../../../ui/Select.tsx";
+import {IClassroom} from "../../../../../features/models";
+import {useGetClassroomTypesQuery} from "../../../../../store/apis";
+import {Loading} from "../../../../ui";
+import {Select} from "../../../../ui";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {IClassroomType} from "../../../../../features/models/IClassroomType.ts";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useInfinitySelect} from "../../../../../hooks";
+import {IClassroomType} from "../../../../../features/models";
 import {cabinetValidation, typesValidation} from "./validation";
 
 interface IClassroomForm {
@@ -71,7 +71,7 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                         name='cabinet'
                         rules={cabinetValidation}
                         render={({field}) => (
-                            <Form.Group className='m-3' >
+                            <Form.Group className='m-3'>
                                 <TextField
                                     fullWidth
                                     label='Кабинет'

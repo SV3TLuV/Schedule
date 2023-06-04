@@ -1,5 +1,5 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {ITimeType} from "../../../../features/models/ITimeType.ts";
+import {ITimeType} from "../../../../features/models";
 
 function getHourWord(number: number): string {
     let word: string;

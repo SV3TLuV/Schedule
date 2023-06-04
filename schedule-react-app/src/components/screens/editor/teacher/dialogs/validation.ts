@@ -1,8 +1,4 @@
-import {ValidationMessage} from "../../../../../common/enums/ValidationMessage";
-
-export const teacherValidation = {
-    required: ValidationMessage.REQUIRED
-}
+import {ValidationMessage} from "../../../../../common/enums";
 
 export const nameValidation = {
     required: ValidationMessage.REQUIRED,
@@ -50,12 +46,4 @@ export const emailValidation = {
 
         return true
     }
-}
-
-export const groupsValidation = {
-    required: ValidationMessage.REQUIRED
-}
-
-export const disciplinesValidation = {
-    required: ValidationMessage.REQUIRED
 }

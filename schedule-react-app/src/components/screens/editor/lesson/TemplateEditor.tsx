@@ -1,19 +1,19 @@
 import {Col, Container, Form, Row} from "react-bootstrap";
 import {Controller, useForm, useWatch} from "react-hook-form";
-import {IWeekType} from "../../../../features/models/IWeekType.ts";
-import {ITerm} from "../../../../features/models/ITerm.ts";
-import {IDay} from "../../../../features/models/IDay.ts";
-import {useGetCurrentWeekTypeQuery, useGetWeekTypesQuery} from "../../../../store/apis/weekTypeApi.ts";
-import {useGetCurrentDayQuery, useGetDaysQuery} from "../../../../store/apis/dayApi.ts";
-import {Select} from "../../../ui/Select.tsx";
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {useInfinitySelect} from "../../../../hooks/useInfinitySelect.ts";
-import {useGetTermsQuery} from "../../../../store/apis/termApi.ts";
-import {useGetTemplatesQuery} from "../../../../store/apis/templateApi.ts";
-import {ITemplate} from "../../../../features/models/ITemplate.ts";
-import {TemplateForm} from "./forms/TemplateForm.tsx";
-import {IGroup} from "../../../../features/models/IGroup.ts";
-import {useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
+import {IWeekType} from "../../../../features/models";
+import {ITerm} from "../../../../features/models";
+import {IDay} from "../../../../features/models";
+import {useGetCurrentWeekTypeQuery, useGetWeekTypesQuery} from "../../../../store/apis";
+import {useGetCurrentDayQuery, useGetDaysQuery} from "../../../../store/apis";
+import {Select} from "../../../ui";
+import {usePaginationQuery} from "../../../../hooks";
+import {useInfinitySelect} from "../../../../hooks";
+import {useGetTermsQuery} from "../../../../store/apis";
+import {useGetTemplatesQuery} from "../../../../store/apis";
+import {ITemplate} from "../../../../features/models";
+import {TemplateForm} from "./forms";
+import {IGroup} from "../../../../features/models";
+import {useGetGroupsQuery} from "../../../../store/apis";
 
 interface ITemplateEditorState {
     weekType: IWeekType

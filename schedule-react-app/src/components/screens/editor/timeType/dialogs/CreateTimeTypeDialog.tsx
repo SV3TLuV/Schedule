@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {useCreateTimeTypeMutation} from "../../../../../store/apis/timeTypeApi";
-import {ITimeType} from "../../../../../features/models/ITimeType";
+import {IDialog} from "../../../../../features/models";
+import {useCreateTimeTypeMutation} from "../../../../../store/apis";
+import {ITimeType} from "../../../../../features/models";
 import {TimeTypeForm} from "./TimeTypeForm";
 
 export const CreateTimeTypeDialog = ({open, close}: IDialog) => {

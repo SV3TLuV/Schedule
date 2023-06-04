@@ -1,17 +1,14 @@
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {
-    useDeleteClassroomMutation,
-    useGetClassroomsQuery,
-} from "../../../../store/apis/classroomApi.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {useDeleteClassroomMutation, useGetClassroomsQuery,} from "../../../../store/apis";
 import {Container} from "react-bootstrap";
-import {DataGridWithPagination} from "../../../ui/DataGridWithPagination.tsx";
+import {DataGridWithPagination} from "../../../ui";
 import {columns} from "./columns.ts";
-import {CreateClassroomDialog} from "./dialogs/CreateClassroomDialog.tsx";
-import {UpdateClassroomDialog} from "./dialogs/UpdateClassroomDialog.tsx";
+import {CreateClassroomDialog} from "./dialogs";
+import {UpdateClassroomDialog} from "./dialogs";
 import {EditorToolbar} from "../EditorToolbar.tsx";
 import {useState} from "react";
-import {IClassroom} from "../../../../features/models/IClassroom.ts";
-import {useDialog} from "../../../../hooks/useDialog.ts";
+import {IClassroom} from "../../../../features/models";
+import {useDialog} from "../../../../hooks";
 
 export const AvailableClassroomsEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery()

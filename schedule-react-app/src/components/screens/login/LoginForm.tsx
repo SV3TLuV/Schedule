@@ -1,12 +1,12 @@
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {ILoginCommand} from "../../../features/commands/ILoginCommand.ts";
-import {useNavigation} from "../../../hooks/useNavigation.ts";
+import {ILoginCommand} from "../../../features/commands";
+import {useNavigation} from "../../../hooks";
 import {loginValidation, passwordValidation} from "./validation.ts";
 import {FaUser} from "react-icons/fa";
-import {useTypedSelector} from "../../../hooks/redux.ts";
+import {useTypedSelector} from "../../../hooks";
 import {Navigate} from "react-router-dom";
-import {useLoginMutation} from "../../../store/apis/userApi.ts";
+import {useLoginMutation} from "../../../store/apis";
 
 export const LoginForm = () => {
     const {user} = useTypedSelector(state => state.auth)

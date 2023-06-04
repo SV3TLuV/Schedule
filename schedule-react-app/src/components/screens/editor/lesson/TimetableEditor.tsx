@@ -1,18 +1,18 @@
-import {usePaginationQuery} from "../../../../hooks/usePaginationQuery.ts";
-import {useGetCurrentDateQuery, useGetDatesQuery} from "../../../../store/apis/dateApi.ts";
-import {useInfinitySelect} from "../../../../hooks/useInfinitySelect.ts";
-import {IDate} from "../../../../features/models/IDate.ts";
+import {usePaginationQuery} from "../../../../hooks";
+import {useGetCurrentDateQuery, useGetDatesQuery} from "../../../../store/apis";
+import {useInfinitySelect} from "../../../../hooks";
+import {IDate} from "../../../../features/models";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {Select} from "../../../ui/Select.tsx";
+import {Select} from "../../../ui";
 import {Controller, useForm, useWatch} from "react-hook-form";
-import {IGroup} from "../../../../features/models/IGroup.ts";
-import {useGetGroupsQuery} from "../../../../store/apis/groupApi.ts";
-import {ITimetable} from "../../../../features/models/ITimetable.ts";
-import {useGetTimetablesQuery} from "../../../../store/apis/timetableApi.ts";
-import {TimetableForm} from "./forms/TimetableForm.tsx";
-import {IPagedList} from "../../../../features/models/IPagedList.ts";
-import {useDialog} from "../../../../hooks/useDialog.ts";
-import {UpdateLessonTimeDialog} from "./dialogs/UpdateLessonTimeDialog.tsx";
+import {IGroup} from "../../../../features/models";
+import {useGetGroupsQuery} from "../../../../store/apis";
+import {ITimetable} from "../../../../features/models";
+import {useGetTimetablesQuery} from "../../../../store/apis";
+import {TimetableForm} from "./forms";
+import {IPagedList} from "../../../../features/models";
+import {useDialog} from "../../../../hooks";
+import {UpdateLessonTimeDialog} from "./dialogs";
 
 interface ITimetableEditorState {
     group: IGroup

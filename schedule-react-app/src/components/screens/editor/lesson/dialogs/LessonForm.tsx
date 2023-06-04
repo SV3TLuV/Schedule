@@ -1,21 +1,21 @@
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {ILesson} from "../../../../../features/models/ILesson.ts";
+import {ILesson} from "../../../../../features/models";
 import {Button, Form, Modal} from "react-bootstrap";
-import {usePaginationQuery} from "../../../../../hooks/usePaginationQuery.ts";
-import {useGetTimesQuery} from "../../../../../store/apis/timeApi.ts";
-import {useInfinitySelect} from "../../../../../hooks/useInfinitySelect.ts";
-import {useGetDisciplinesQuery} from "../../../../../store/apis/disciplineApi.ts";
-import {ITime} from "../../../../../features/models/ITime.ts";
-import {IDiscipline} from "../../../../../features/models/IDiscipline.ts";
-import {ITeacher} from "../../../../../features/models/ITeacher.ts";
-import {useGetTeachersQuery} from "../../../../../store/apis/teacherApi.ts";
-import {useGetClassroomsQuery} from "../../../../../store/apis/classroomApi.ts";
-import {IClassroom} from "../../../../../features/models/IClassroom.ts";
+import {usePaginationQuery} from "../../../../../hooks";
+import {useGetTimesQuery} from "../../../../../store/apis";
+import {useInfinitySelect} from "../../../../../hooks";
+import {useGetDisciplinesQuery} from "../../../../../store/apis";
+import {ITime} from "../../../../../features/models";
+import {IDiscipline} from "../../../../../features/models";
+import {ITeacher} from "../../../../../features/models";
+import {useGetTeachersQuery} from "../../../../../store/apis";
+import {useGetClassroomsQuery} from "../../../../../store/apis";
+import {IClassroom} from "../../../../../features/models";
 import {TextField} from "@mui/material";
-import {Select} from "../../../../ui/Select.tsx";
+import {Select} from "../../../../ui";
 import {useMemo} from "react";
 import {classroomsValidation, numberValidation, subgroupValidation, teachersValidation} from "./validation";
-import {IGroup} from "../../../../../features/models/IGroup.ts";
+import {IGroup} from "../../../../../features/models";
 
 interface ILessonForm {
     title: string

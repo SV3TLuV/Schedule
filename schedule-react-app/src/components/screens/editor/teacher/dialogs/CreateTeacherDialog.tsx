@@ -1,6 +1,6 @@
-import {IDialog} from "../../../../../features/models/IDialog";
-import {useCreateTeacherMutation} from "../../../../../store/apis/teacherApi";
-import {ITeacher} from "../../../../../features/models/ITeacher";
+import {IDialog} from "../../../../../features/models";
+import {useCreateTeacherMutation} from "../../../../../store/apis";
+import {ITeacher} from "../../../../../features/models";
 import {TeacherForm} from "./TeacherForm";
 
 export const CreateTeacherDialog = ({open, close}: IDialog) => {

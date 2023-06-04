@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Schedule.Application.Common.Behaviors;
 
-public class LoggingBehavior<TRequest, TResponse>
+public sealed class LoggingBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse> where TRequest
     : IRequest<TResponse>
 {

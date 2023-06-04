@@ -1,9 +1,13 @@
-import {ApiTags, baseApi} from "./baseApi.ts";
+import {baseApi} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IUser} from "../../features/models/IUser.ts";
 import {IPaginationQuery} from "../../features/queries/IPaginationQuery.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
+import {IAuthorizationResult} from "../../features/models/IAuthorizationResult.ts";
+import {ILoginCommand} from "../../features/commands/ILoginCommand.ts";
+import {login} from "../slices/authSlice.ts";
+import {ApiTags} from "./apiTags.ts";
 
 export const userApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -24,6 +28,25 @@ export const userApi = baseApi.injectEndpoints({
         getUser: builder.query<IUser, number>({
             query: id => `${ApiTags.Users}/${id}`,
             providesTags: result => [{type: ApiTags.Users, id: result?.id}]
+        }),
+        login: builder.mutation<IAuthorizationResult, ILoginCommand>({
+            query: command => ({
+                url: `${ApiTags.Users}/login`,
+                method: HttpMethod.POST,
+                body: command,
+            }),
+            async onQueryStarted(_, {dispatch, queryFulfilled}) {
+                try {
+                    console.log('login')
+                    const {data} = await queryFulfilled
+                    console.log('data', data)
+                    await dispatch(login(data))
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    console.log('finally')
+                }
+            },
         }),
         createUser: builder.mutation<number, IUser>({
             query: user => ({
@@ -56,6 +79,7 @@ export const {
     useLazyGetUsersQuery,
     useGetUserQuery,
     useLazyGetUserQuery,
+    useLoginMutation,
     useCreateUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,

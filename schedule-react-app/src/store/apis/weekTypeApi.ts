@@ -1,9 +1,10 @@
-import {ApiTags, baseApi} from "./baseApi.ts";
+import {baseApi} from "./baseApi.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IWeekType} from "../../features/models/IWeekType.ts";
 import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
+import {ApiTags} from "./apiTags.ts";
 
 export const weekTypeApi = baseApi.injectEndpoints({
     endpoints: builder => ({

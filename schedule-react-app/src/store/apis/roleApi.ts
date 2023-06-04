@@ -1,5 +1,6 @@
-import {ApiTags, baseApi} from "./baseApi.ts";
+import {baseApi} from "./baseApi.ts";
 import {IRole} from "../../features/models/IRole.ts";
+import {ApiTags} from "./apiTags.ts";
 
 export const roleApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({

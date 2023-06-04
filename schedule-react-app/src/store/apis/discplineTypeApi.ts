@@ -1,9 +1,10 @@
-import {ApiTags, baseApi} from "./baseApi";
+import {baseApi} from "./baseApi.ts";
 import {IDisciplineType} from "../../features/models/IDisciplineType";
 import {IPagedList} from "../../features/models/IPagedList";
 import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters";
 import {HttpMethod} from "../../common/enums/HttpMethod";
 import {buildUrlArguments} from "../../utils/buildUrlArguments";
+import {ApiTags} from "./apiTags.ts";
 
 export const disciplineTypeApi = baseApi.injectEndpoints({
     endpoints: builder => ({

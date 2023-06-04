@@ -1,36 +1,26 @@
-import {createApi} from "@reduxjs/toolkit/dist/query/react";
-import {baseQuery} from "../fetchBaseQueryWithReauth.ts";
-import {ApiTags} from "./baseApi.ts";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {IAuthorizationResult} from "../../features/models/IAuthorizationResult.ts";
-import {ILoginCommand} from "../../features/commands/ILoginCommand.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {login, logout} from "../slices/authSlice.ts";
 import {ILogoutCommand} from "../../features/commands/ILogoutCommand.ts";
 import {IRefreshCommand} from "../../features/commands/IRefreshCommand.ts";
 import {AppState} from "../store.ts";
+import {ApiTags} from "./apiTags.ts";
 
 export const accountApi = createApi({
     reducerPath: 'BaseApi',
-    baseQuery: baseQuery,
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'https://localhost:7239/api/',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        },
+        mode: "cors",
+    }),
     tagTypes: Object.values(ApiTags),
     refetchOnReconnect: true,
     refetchOnFocus: true,
     endpoints: builder => ({
-        login: builder.mutation<IAuthorizationResult, ILoginCommand>({
-            query: command => ({
-                url: `${ApiTags.Users}/login`,
-                method: HttpMethod.POST,
-                body: command,
-            }),
-            async onQueryStarted(_, {dispatch, queryFulfilled}) {
-                try {
-                    const {data} = await queryFulfilled
-                    dispatch(login(data))
-                } catch (e) {
-                    console.log(e)
-                }
-            }
-        }),
         logout: builder.mutation<void, ILogoutCommand>({
             query: command => ({
                 url: `${ApiTags.Users}/logout`,
@@ -39,16 +29,16 @@ export const accountApi = createApi({
             }),
             async onQueryStarted(_, {dispatch, queryFulfilled}) {
                 try {
+                    await dispatch(logout())
                     await queryFulfilled
                 } catch (e) {
                     console.log(e)
-                } finally {
-                    await dispatch(logout())
                 }
             },
             transformErrorResponse: (error) => {
                 throw error
-            }
+            },
+            transformResponse: (response: void) => response
         }),
         refresh: builder.mutation<IAuthorizationResult, IRefreshCommand>({
             query: command => ({
@@ -58,7 +48,6 @@ export const accountApi = createApi({
             }),
             async onQueryStarted(_, {dispatch, queryFulfilled, getState}) {
                 try {
-                    console.log('try refresh start')
                     const {data} = await queryFulfilled
                     await dispatch(login(data))
                 } catch (e) {
@@ -72,13 +61,13 @@ export const accountApi = createApi({
             },
             transformErrorResponse: (error) => {
                 throw error
-            }
+            },
+            transformResponse: (response: IAuthorizationResult) => response
         }),
     })
 })
 
 export const {
-    useLoginMutation,
     useLogoutMutation,
     useRefreshMutation,
 } = accountApi

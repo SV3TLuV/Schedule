@@ -1,9 +1,10 @@
-import {ApiTags, baseApi} from "./baseApi.ts";
+import {baseApi} from "./baseApi.ts";
 import {IPagedList} from "../../features/models/IPagedList.ts";
 import {IPaginationQueryWithFilters} from "../../features/queries/IPaginationQueryWithFilters.ts";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {HttpMethod} from "../../common/enums/HttpMethod.ts";
 import {ILessonTemplate} from "../../features/models/ILessonTemplate.ts";
+import {ApiTags} from "./apiTags.ts";
 
 export const lessonTemplateApi = baseApi.injectEndpoints({
     endpoints: builder => ({

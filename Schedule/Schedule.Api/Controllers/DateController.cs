@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Dates.Queries.Get;
 using Schedule.Application.Features.Dates.Queries.GetCurrent;
 using Schedule.Application.Features.Dates.Queries.GetList;
@@ -9,6 +10,7 @@ namespace Schedule.Api.Controllers;
 
 public class DateController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DateViewModel>> Get(int id)
     {
@@ -16,6 +18,7 @@ public class DateController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     [Route("Current", Name = "CurrentDate")]
     public async Task<ActionResult<DateViewModel>> Get()
@@ -24,6 +27,7 @@ public class DateController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<DateViewModel>>> GetAll(
         [FromQuery] GetDateListQuery query)

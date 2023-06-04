@@ -1,7 +1,7 @@
 import {createBrowserRouter, createRoutesFromElements, Outlet, Route, useLocation} from "react-router-dom";
 import {useAppDispatch, useTypedSelector} from "./hooks/redux.ts";
 import {useEffect} from "react";
-import {setCurrentPage} from "./store/slices/routeSlice.tsx";
+import {setCurrentPage} from "./store/slices/applicationSlice.ts";
 import {LoginPage} from "./components/screens/login/LoginPage.tsx";
 import {ReportsPage} from "./components/screens/reports/ReportsPage.tsx";
 import {SearchSchedulePage} from "./components/screens/schedule/search/SearchSchedulePage.tsx";
@@ -32,6 +32,7 @@ import {DeletedTimesEditor} from "./components/screens/editor/time/DeletedTimesE
 import {AvailableTimeTypesEditor} from "./components/screens/editor/timeType/AvailableTimeTypesEditor.tsx";
 import {DeletedTimeTypesEditor} from "./components/screens/editor/timeType/DeletedTimeTypesEditor.tsx";
 import {EditorPage} from "./components/screens/EditorPage.tsx";
+import {RequireAuth} from "./hok/RequireAuth.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.application)
@@ -58,8 +59,16 @@ export const router = createBrowserRouter(
                 <Route path='search' element={<SearchSchedulePage/>}/>
                 <Route path='table/:page' element={<TableSchedulePage/>}/>
             </Route>
-            <Route path='reports' element={<ReportsPage/>}/>
-            <Route path='editor' element={<EditorPage/>}>
+            <Route path='reports' element={
+                <RequireAuth>
+                    <ReportsPage/>
+                </RequireAuth>
+            }/>
+            <Route path='editor' element={
+                <RequireAuth>
+                    <EditorPage/>
+                </RequireAuth>
+            }>
                 <Route path='classrooms' element={<ClassroomsEditorPage/>}>
                     <Route path='available' element={<AvailableClassroomsEditor/>}/>
                     <Route path='deleted' element={<DeletedClassroomsEditor/>}/>

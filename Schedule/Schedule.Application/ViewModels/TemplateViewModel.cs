@@ -11,7 +11,7 @@ public class TemplateViewModel : IMapWith<Template>
     public DayViewModel Day { get; set; } = null!;
 
     public TermViewModel Term { get; set; } = null!;
-    
+
     public ICollection<GroupViewModel> Groups { get; set; } = null!;
 
     public string GroupNames => string.Join(" ", Groups.Select(g => g.Name));

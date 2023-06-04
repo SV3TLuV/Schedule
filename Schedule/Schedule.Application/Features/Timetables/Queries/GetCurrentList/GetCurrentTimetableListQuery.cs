@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Timetables.Queries.GetCurrentList;
 
-public sealed record GetCurrentTimetableListQuery 
+public sealed record GetCurrentTimetableListQuery
     : PaginatedQuery, IRequest<PagedList<CurrentTimetableViewModel>>
 {
     public int? GroupId { get; init; }

@@ -15,7 +15,7 @@ public sealed class LessonDeleteForUnitedGroupsNotificationHandler
     {
         _context = context;
     }
-    
+
     public async Task Handle(LessonDeleteForUnitedGroupsNotification notification,
         CancellationToken cancellationToken)
     {
@@ -25,13 +25,13 @@ public sealed class LessonDeleteForUnitedGroupsNotificationHandler
 
         var lessons = await _context.Set<Lesson>()
             .Include(e => e.Timetable)
-            .Where(e => 
+            .Where(e =>
                 e.Number == notification.Lesson.Number &&
                 unitedGroupIds.Contains(e.Timetable.GroupId) &&
                 e.Timetable.DateId == notification.Lesson.Timetable.DateId)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
-        
+
         _context.Set<Lesson>().RemoveRange(lessons);
         await _context.SaveChangesAsync(cancellationToken);
     }

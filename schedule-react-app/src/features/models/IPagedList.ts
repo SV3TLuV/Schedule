@@ -5,4 +5,3 @@ export interface IPagedList<T> {
     totalPages: number;
     items: T[];
 }
-

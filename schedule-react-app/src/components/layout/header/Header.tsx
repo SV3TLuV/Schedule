@@ -1,9 +1,19 @@
 import {Button, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {useNavigation} from "../../../hooks/useNavigation.ts";
 import {BiTable} from "react-icons/bi";
+import {useTypedSelector} from "../../../hooks/redux.ts";
+import {useLogoutMutation} from "../../../store/apis/userApi.ts";
+import {ILogoutCommand} from "../../../features/commands/ILogoutCommand.ts";
 
 export const Header = () => {
+    const {user, accessToken, refreshToken} = useTypedSelector(state => state.auth)
+    const [logout] = useLogoutMutation()
     const {navigateTo} = useNavigation()
+
+    const handleLogout = () => logout({
+        accessToken,
+        refreshToken
+    } as ILogoutCommand)
 
     const goToLogin = () => navigateTo('/login')
     const goToScheduleSearch = () => navigateTo('/schedule/search')
@@ -43,44 +53,60 @@ export const Header = () => {
                                 Таблица
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <NavDropdown title='Редактор'>
-                            <NavDropdown.Item onClick={goToPairsEditor}>
-                                Пары
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToSpecialitiesEditor}>
-                                Специальности
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToDisciplinesEditor}>
-                                Дисциплины
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToGroupsEditor}>
-                                Группы
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToTeachersEditor}>
-                                Преподаватели
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToClassroomsEditor}>
-                                Кабинеты
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToTimesEditor}>
-                                Время
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={goToTimeTypesEditor}>
-                                Виды времени
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                        <Nav.Link onClick={goToReports}>
-                            Отчеты
-                        </Nav.Link>
+                        {user &&
+                            <>
+                                <NavDropdown title='Редактор'>
+                                    <NavDropdown.Item onClick={goToPairsEditor}>
+                                        Пары
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToSpecialitiesEditor}>
+                                        Специальности
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToDisciplinesEditor}>
+                                        Дисциплины
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToGroupsEditor}>
+                                        Группы
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToTeachersEditor}>
+                                        Преподаватели
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToClassroomsEditor}>
+                                        Кабинеты
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToTimesEditor}>
+                                        Время
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToTimeTypesEditor}>
+                                        Виды времени
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                                <Nav.Link onClick={goToReports}>
+                                    Отчеты
+                                </Nav.Link>
+                            </>
+                        }
                     </Nav>
-                    <Button
-                        onClick={goToLogin}
-                        className='ms-md-2'
-                        variant='primary'
-                        role='button'
-                    >
-                        Войти
-                    </Button>
+                    {!user &&
+                        <Button
+                            onClick={goToLogin}
+                            className='ms-md-2'
+                            variant='primary'
+                            role='button'
+                        >
+                            Войти
+                        </Button>
+                    }
+                    {user &&
+                        <Button
+                            onClick={handleLogout}
+                            className='ms-md-2'
+                            variant='primary'
+                            role='button'
+                        >
+                            Выйти
+                        </Button>
+                    }
                 </Navbar.Collapse>
             </Container>
         </Navbar>

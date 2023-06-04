@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Groups.Commands.Create;
 using Schedule.Application.Features.Groups.Commands.Delete;
 using Schedule.Application.Features.Groups.Commands.Restore;
@@ -12,6 +13,7 @@ namespace Schedule.Api.Controllers;
 
 public class GroupController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<GroupViewModel>> Get(int id)
     {
@@ -26,6 +28,7 @@ public class GroupController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateGroupCommand command)
     {
@@ -33,6 +36,7 @@ public class GroupController : BaseController
         return Created(string.Empty, id);
     }
 
+    [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreGroup")]
     public async Task<IActionResult> Post([FromBody] RestoreGroupCommand command)
@@ -41,6 +45,7 @@ public class GroupController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateGroupCommand command)
     {
@@ -48,6 +53,7 @@ public class GroupController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

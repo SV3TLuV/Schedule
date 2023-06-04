@@ -23,7 +23,7 @@ public sealed class UpdateSpecialityCommand : IRequest, IMapWith<Speciality>
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
                     speciality.Code.ToUpper()));
-        
+
         profile.CreateMap<UpdateSpecialityCommand, Speciality>()
             .ForMember(speciality => speciality.SpecialityId, expression =>
                 expression.MapFrom(command => command.Id))

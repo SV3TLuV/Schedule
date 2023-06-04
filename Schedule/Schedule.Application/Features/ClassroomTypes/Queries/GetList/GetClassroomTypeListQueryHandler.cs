@@ -32,12 +32,9 @@ public sealed class GetClassroomTypeListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        
-        if (request.Search is not null)
-        {
-            query = query.Where(e => e.Name.StartsWith(request.Search));
-        }
-        
+
+        if (request.Search is not null) query = query.Where(e => e.Name.StartsWith(request.Search));
+
         var classroomTypes = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)

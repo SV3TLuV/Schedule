@@ -7,9 +7,9 @@ namespace Schedule.Application.ViewModels;
 public sealed class TeacherClassroomIdsViewModel : IMapWith<TeacherClassroomViewModel>
 {
     public required int TeacherId { get; set; }
-    
+
     public int? ClassroomId { get; set; }
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<TeacherClassroomIdsViewModel, TeacherClassroomViewModel>()
@@ -22,7 +22,7 @@ public sealed class TeacherClassroomIdsViewModel : IMapWith<TeacherClassroomView
                 expression.MapFrom(ids => ids.ClassroomId.HasValue
                     ? new Classroom { ClassroomId = ids.ClassroomId.Value }
                     : null));
-        
+
         profile.CreateMap<TeacherClassroomViewModel, TeacherClassroomIdsViewModel>()
             .ForMember(destination => destination.TeacherId, expression =>
                 expression.MapFrom(viewModel => viewModel.Teacher.Id))

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Teachers.Commands.Create;
 using Schedule.Application.Features.Teachers.Commands.Delete;
 using Schedule.Application.Features.Teachers.Commands.Restore;
@@ -12,6 +13,7 @@ namespace Schedule.Api.Controllers;
 
 public sealed class TeacherController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<TeacherViewModel>> Get(int id)
     {
@@ -19,20 +21,23 @@ public sealed class TeacherController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<TeacherViewModel>>> GetAll(
         [FromQuery] GetTeacherListQuery query)
     {
         return Ok(await Mediator.Send(query));
     }
-    
+
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateTeacherCommand command)
     {
         var id = await Mediator.Send(command);
         return Created(string.Empty, id);
     }
-    
+
+    [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreTeacher")]
     public async Task<IActionResult> Post([FromBody] RestoreTeacherCommand command)
@@ -41,6 +46,7 @@ public sealed class TeacherController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateTeacherCommand command)
     {
@@ -48,6 +54,7 @@ public sealed class TeacherController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

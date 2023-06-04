@@ -36,7 +36,7 @@ public sealed class UpdateTeacherCommand : IRequest, IMapWith<Teacher>
             .ForMember(command => command.DisciplineIds, expression =>
                 expression.MapFrom(teacher => teacher.TeacherDisciplines
                     .Select(discipline => discipline.DisciplineId)));
-        
+
         profile.CreateMap<UpdateTeacherCommand, Teacher>()
             .ForMember(teacher => teacher.TeacherId, expression =>
                 expression.MapFrom(command => command.Id))

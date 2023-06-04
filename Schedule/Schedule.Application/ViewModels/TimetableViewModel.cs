@@ -11,7 +11,7 @@ public class TimetableViewModel : IMapWith<Timetable>
     public DateViewModel Date { get; set; } = null!;
 
     public ICollection<GroupViewModel> Groups { get; set; } = null!;
-    
+
     public string GroupNames => string.Join(" ", Groups.Select(g => g.Name));
 
     public ICollection<LessonViewModel> Lessons { get; set; } = null!;
@@ -27,7 +27,7 @@ public class TimetableViewModel : IMapWith<Timetable>
                         .Select(e => e.Group2))
                     .Concat(timetable.Group.GroupGroups1
                         .Select(e => e.Group))));
-        
+
         profile.CreateMap<TimetableViewModel, Timetable>()
             .ForMember(timetable => timetable.TimetableId, expression =>
                 expression.MapFrom(viewModel => viewModel.Id))

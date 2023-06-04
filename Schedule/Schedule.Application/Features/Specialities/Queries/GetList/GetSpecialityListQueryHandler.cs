@@ -35,13 +35,11 @@ public sealed class GetSpecialityListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        
+
         if (request.Search is not null)
-        {
             query = query.Where(e =>
                 e.Name.StartsWith(request.Search) ||
                 e.Code.StartsWith(request.Search));
-        }
 
         var specialities = await query
             .Skip((request.Page - 1) * request.PageSize)

@@ -24,7 +24,7 @@ public sealed class UpdateClassroomCommand : IRequest, IMapWith<Classroom>
                 expression.MapFrom(classroom =>
                     classroom.Cabinet.ToLower()))
             .ReverseMap();
-        
+
         profile.CreateMap<UpdateClassroomCommand, Classroom>()
             .ForMember(classroom => classroom.ClassroomId, expression =>
                 expression.MapFrom(command => command.Id))
@@ -32,7 +32,7 @@ public sealed class UpdateClassroomCommand : IRequest, IMapWith<Classroom>
                 expression.MapFrom(command =>
                     command.TypeIds.Select(id => new ClassroomClassroomType
                     {
-                        ClassroomTypeId = id,
+                        ClassroomTypeId = id
                     })))
             .ForMember(classroom => classroom.Cabinet, expression =>
                 expression.MapFrom(command =>

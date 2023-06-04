@@ -15,7 +15,7 @@ public sealed class RestoreSpecialityCommandHandler : IRequestHandler<RestoreSpe
     {
         _context = context;
     }
-    
+
     public async Task Handle(RestoreSpecialityCommand request, CancellationToken cancellationToken)
     {
         var speciality = await _context.Set<Speciality>()

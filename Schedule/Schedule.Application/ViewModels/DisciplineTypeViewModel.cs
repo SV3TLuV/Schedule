@@ -9,7 +9,7 @@ public class DisciplineTypeViewModel : IMapWith<DisciplineType>
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<DisciplineType, DisciplineTypeViewModel>()

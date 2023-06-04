@@ -10,8 +10,8 @@ public sealed class CreateLessonTemplateCommandHandler
     : IRequestHandler<CreateLessonTemplateCommand, int>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public CreateLessonTemplateCommandHandler(IScheduleDbContext context,
         IMediator mediator,
@@ -21,7 +21,7 @@ public sealed class CreateLessonTemplateCommandHandler
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     public async Task<int> Handle(CreateLessonTemplateCommand request,
         CancellationToken cancellationToken)
     {
@@ -30,7 +30,7 @@ public sealed class CreateLessonTemplateCommandHandler
 
         foreach (var teacherClassroom in lessonTemplate.LessonTemplateTeacherClassrooms)
             teacherClassroom.LessonTemplateId = lessonTemplate.LessonTemplateId;
-        
+
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonTemplateCreateLessonsNotification(lessonTemplate.LessonTemplateId),
             cancellationToken);

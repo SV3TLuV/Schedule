@@ -13,8 +13,18 @@ public class SpecialityViewModel : IMapWith<Speciality>, IEquatable<SpecialityVi
     public string Name { get; set; } = null!;
 
     public int MaxTermId { get; set; }
-    
+
     public bool IsDeleted { get; set; }
+
+    public bool Equals(SpecialityViewModel? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Id == other.Id &&
+               Code == other.Code &&
+               Name == other.Name &&
+               IsDeleted == other.IsDeleted;
+    }
 
     public void Map(Profile profile)
     {
@@ -22,16 +32,6 @@ public class SpecialityViewModel : IMapWith<Speciality>, IEquatable<SpecialityVi
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(speciality => speciality.SpecialityId))
             .ReverseMap();
-    }
-
-    public bool Equals(SpecialityViewModel? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id && 
-               Code == other.Code &&
-               Name == other.Name &&
-               IsDeleted == other.IsDeleted;
     }
 
     public override bool Equals(object? obj)

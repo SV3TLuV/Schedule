@@ -15,7 +15,7 @@ public sealed class UpdateClassroomTypeCommand : IRequest, IMapWith<ClassroomTyp
         profile.CreateMap<ClassroomType, UpdateClassroomTypeCommand>()
             .ForMember(command => command.Id, expression =>
                 expression.MapFrom(classroomType => classroomType.ClassroomTypeId));
-        
+
         profile.CreateMap<UpdateClassroomTypeCommand, ClassroomType>()
             .ForMember(classroomType => classroomType.ClassroomTypeId, expression =>
                 expression.MapFrom(command => command.Id));

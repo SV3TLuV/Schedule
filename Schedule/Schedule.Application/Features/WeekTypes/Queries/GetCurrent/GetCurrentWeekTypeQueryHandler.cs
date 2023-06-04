@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;

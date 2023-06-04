@@ -30,7 +30,7 @@ public sealed class UpdateTeacherCommandHandler : IRequestHandler<UpdateTeacherC
             throw new NotFoundException(nameof(Teacher), request.Id);
 
         var teacher = _mapper.Map<Teacher>(request);
-        
+
         await _context.Set<TeacherGroup>()
             .Where(entity => entity.TeacherId == request.Id)
             .AsNoTrackingWithIdentityResolution()
@@ -40,7 +40,7 @@ public sealed class UpdateTeacherCommandHandler : IRequestHandler<UpdateTeacherC
             .Where(entity => entity.TeacherId == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
-        
+
         _context.Set<Teacher>().Update(teacher);
         await _context.Set<TeacherGroup>().AddRangeAsync(teacher.TeacherGroups, cancellationToken);
         await _context.Set<TeacherDiscipline>().AddRangeAsync(teacher.TeacherDisciplines, cancellationToken);

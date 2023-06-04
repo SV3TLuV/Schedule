@@ -20,7 +20,7 @@ public sealed class GetTimetableQueryHandler : IRequestHandler<GetTimetableQuery
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<TimetableViewModel> Handle(GetTimetableQuery request, CancellationToken cancellationToken)
     {
         var timetable = await _context.Set<Timetable>()
@@ -56,11 +56,11 @@ public sealed class GetTimetableQueryHandler : IRequestHandler<GetTimetableQuery
             throw new NotFoundException(nameof(Timetable), request.Id);
 
         var viewModel = _mapper.Map<TimetableViewModel>(timetable);
-        
+
         viewModel.Groups = viewModel.Groups
             .OrderBy(e => e.Speciality.Code)
             .ToArray();
-        
+
         return viewModel;
     }
 }

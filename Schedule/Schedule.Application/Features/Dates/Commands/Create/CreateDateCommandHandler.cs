@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Features.Dates.Notifications;
 using Schedule.Application.Features.Dates.Notifications.CreateTimetables;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -10,8 +9,8 @@ namespace Schedule.Application.Features.Dates.Commands.Create;
 public sealed class CreateDateCommandHandler : IRequestHandler<CreateDateCommand, int>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public CreateDateCommandHandler(
         IScheduleDbContext context,

@@ -26,7 +26,7 @@ public sealed class CreateClassroomCommand : IRequest<int>, IMapWith<Classroom>
                 expression.MapFrom(command =>
                     command.TypeIds.Select(id => new ClassroomClassroomType
                     {
-                        ClassroomTypeId = id,
+                        ClassroomTypeId = id
                     })))
             .ForMember(classroom => classroom.Cabinet, expression =>
                 expression.MapFrom(command =>

@@ -33,7 +33,7 @@ public sealed class CreateTeacherCommand : IRequest<int>, IMapWith<Teacher>
             .ForMember(command => command.DisciplineIds, expression =>
                 expression.MapFrom(teacher => teacher.TeacherDisciplines
                     .Select(discipline => discipline.DisciplineId)));
-        
+
         profile.CreateMap<CreateTeacherCommand, Teacher>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(teacher =>

@@ -12,8 +12,8 @@ public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
     public required int TermId { get; set; }
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
-    public ICollection<int>? MergedGroupIds { get; set; } 
-    
+    public ICollection<int>? MergedGroupIds { get; set; }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Group, UpdateGroupCommand>()
@@ -22,7 +22,7 @@ public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
             .ForMember(command => command.MergedGroupIds, expression =>
                 expression.MapFrom(group => group.GroupGroups
                     .Select(groupGroup => groupGroup.GroupId2)));
-        
+
         profile.CreateMap<UpdateGroupCommand, Group>()
             .ForMember(group => group.GroupId, expression =>
                 expression.MapFrom(command => command.Id))
@@ -31,7 +31,7 @@ public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
                     .Select(groupId => new GroupGroup
                     {
                         GroupId = command.Id,
-                        GroupId2 = groupId,
+                        GroupId2 = groupId
                     })));
     }
 }

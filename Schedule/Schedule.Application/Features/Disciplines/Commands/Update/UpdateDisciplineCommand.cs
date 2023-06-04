@@ -26,7 +26,7 @@ public sealed class UpdateDisciplineCommand : IRequest, IMapWith<Discipline>
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
                     discipline.Code.ToUpper()));
-        
+
         profile.CreateMap<UpdateDisciplineCommand, Discipline>()
             .ForMember(discipline => discipline.DisciplineId, expression =>
                 expression.MapFrom(command => command.Id))

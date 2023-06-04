@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Dates.Notifications.CreateTimetables;
 
-public sealed class DateCreateTimetablesNotificationHandler 
+public sealed class DateCreateTimetablesNotificationHandler
     : INotificationHandler<DateCreateTimetablesNotification>
 {
     private readonly IScheduleDbContext _context;
@@ -19,7 +19,7 @@ public sealed class DateCreateTimetablesNotificationHandler
         _context = context;
         _mediator = mediator;
     }
-    
+
     public async Task Handle(DateCreateTimetablesNotification notification, CancellationToken cancellationToken)
     {
         var groupIds = await _context.Set<Group>()
@@ -27,7 +27,7 @@ public sealed class DateCreateTimetablesNotificationHandler
             .Where(group => !group.IsDeleted)
             .Select(e => e.GroupId)
             .ToListAsync(cancellationToken);
-        
+
         var commands = groupIds
             .Select(groupId => new CreateTimetableCommand
             {

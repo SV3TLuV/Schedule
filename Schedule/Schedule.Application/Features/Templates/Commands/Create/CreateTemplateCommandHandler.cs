@@ -9,8 +9,8 @@ namespace Schedule.Application.Features.Templates.Commands.Create;
 public sealed class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateCommand, int>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public CreateTemplateCommandHandler(
         IScheduleDbContext context,
@@ -21,7 +21,7 @@ public sealed class CreateTemplateCommandHandler : IRequestHandler<CreateTemplat
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     public async Task<int> Handle(CreateTemplateCommand request, CancellationToken cancellationToken)
     {
         var template = _mapper.Map<Template>(request);

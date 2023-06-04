@@ -38,15 +38,13 @@ public sealed class GetTeacherListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        
+
         if (request.Search is not null)
-        {
             query = query.Where(e =>
                 e.Name.StartsWith(request.Search) ||
                 e.Surname.StartsWith(request.Search) ||
                 e.MiddleName.StartsWith(request.Search) ||
                 e.Email.StartsWith(request.Search));
-        }
 
         var teachers = await query
             .Skip((request.Page - 1) * request.PageSize)

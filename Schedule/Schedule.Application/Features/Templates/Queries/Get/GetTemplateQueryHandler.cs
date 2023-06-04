@@ -53,16 +53,16 @@ public sealed class GetTemplateQueryHandler : IRequestHandler<GetTemplateQuery, 
             .ThenInclude(e => e.Classroom)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TemplateId == request.Id, cancellationToken);
-        
+
         if (template is null)
             throw new NotFoundException(nameof(Template), request.Id);
-        
+
         var viewModel = _mapper.Map<TemplateViewModel>(template);
-        
+
         viewModel.Groups = viewModel.Groups
             .OrderBy(e => e.Speciality.Code)
             .ToArray();
-        
+
         return viewModel;
     }
 }

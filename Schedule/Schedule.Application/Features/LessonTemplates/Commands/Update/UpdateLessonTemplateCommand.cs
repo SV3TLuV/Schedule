@@ -14,9 +14,10 @@ public sealed class UpdateLessonTemplateCommand : IRequest, IMapWith<LessonTempl
     public required int? TimeId { get; set; }
     public required int TemplateId { get; set; }
     public required int? DisciplineId { get; set; }
+
     public ICollection<TeacherClassroomIdsViewModel> TeacherClassroomIds { get; set; }
         = Array.Empty<TeacherClassroomIdsViewModel>();
-    
+
     public void Map(Profile profile)
     {
         profile.CreateMap<LessonTemplate, UpdateLessonTemplateCommand>()
@@ -27,20 +28,20 @@ public sealed class UpdateLessonTemplateCommand : IRequest, IMapWith<LessonTempl
                     .Select(ltc => new TeacherClassroomIdsViewModel
                     {
                         TeacherId = ltc.TeacherId,
-                        ClassroomId = ltc.ClassroomId,
+                        ClassroomId = ltc.ClassroomId
                     })));
-        
+
         profile.CreateMap<UpdateLessonTemplateCommand, LessonTemplate>()
             .ForMember(lessonTemplate => lessonTemplate.LessonTemplateId, expression =>
                 expression.MapFrom(command => command.Id))
-            .ForMember(lesson => lesson.LessonTemplateTeacherClassrooms, 
+            .ForMember(lesson => lesson.LessonTemplateTeacherClassrooms,
                 expression =>
-                    expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                    expression.MapFrom(command => command.TeacherClassroomIds.Select(ids =>
                         new LessonTemplateTeacherClassroom
                         {
                             LessonTemplateId = command.Id,
                             TeacherId = ids.TeacherId,
-                            ClassroomId = ids.ClassroomId,
+                            ClassroomId = ids.ClassroomId
                         })));
     }
 }

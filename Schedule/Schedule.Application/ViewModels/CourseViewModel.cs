@@ -8,19 +8,19 @@ public class CourseViewModel : IMapWith<Course>, IEquatable<CourseViewModel>
 {
     public int Id { get; set; }
 
+    public bool Equals(CourseViewModel? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Id == other.Id;
+    }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Course, CourseViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(course => course.CourseId))
             .ReverseMap();
-    }
-
-    public bool Equals(CourseViewModel? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id;
     }
 
     public override bool Equals(object? obj)

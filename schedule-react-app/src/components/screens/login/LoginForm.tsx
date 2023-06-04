@@ -4,21 +4,30 @@ import {ILoginCommand} from "../../../features/commands/ILoginCommand.ts";
 import {useNavigation} from "../../../hooks/useNavigation.ts";
 import {loginValidation, passwordValidation} from "./validation.ts";
 import {FaUser} from "react-icons/fa";
+import {useLoginMutation} from "../../../store/apis/userApi.ts";
+import {useTypedSelector} from "../../../hooks/redux.ts";
+import {Navigate} from "react-router-dom";
 
 export const LoginForm = () => {
+    const {user} = useTypedSelector(state => state.auth)
+    const [login] = useLoginMutation()
+
     const {control, handleSubmit, formState: { errors }} = useForm<ILoginCommand>({
         mode: 'onChange'
     })
     const {navigateTo} = useNavigation();
 
     const onSubmit: SubmitHandler<ILoginCommand> = async data => {
-        console.log(data)
+        await login(data)
     }
 
     const navigateToSchedule = () => navigateTo('/schedule/search')
 
     return (
         <Container>
+            {user &&
+                <Navigate to='/schedule/search'/>
+            }
             <Row className='justify-content-center'>
                 <Col md={6} xl={4}>
                     <Card

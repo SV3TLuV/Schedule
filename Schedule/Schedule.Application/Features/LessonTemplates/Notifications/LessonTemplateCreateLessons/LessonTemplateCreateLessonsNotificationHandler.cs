@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Lessons.Commands.Create;
 using Schedule.Application.Features.Lessons.Commands.Update;
 using Schedule.Core.Common.Interfaces;
@@ -8,13 +9,13 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateCreateLessons;
 
-public sealed class LessonTemplateCreateLessonsNotificationHandler 
+public sealed class LessonTemplateCreateLessonsNotificationHandler
     : INotificationHandler<LessonTemplateCreateLessonsNotification>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
     private readonly IDateInfoService _dateInfoService;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public LessonTemplateCreateLessonsNotificationHandler(
         IScheduleDbContext context,
@@ -27,7 +28,7 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
         _mapper = mapper;
         _dateInfoService = dateInfoService;
     }
-    
+
     public async Task Handle(LessonTemplateCreateLessonsNotification notification,
         CancellationToken cancellationToken)
     {
@@ -43,7 +44,7 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
             .Include(e => e.Date)
             .Include(e => e.Lessons)
             .AsNoTrackingWithIdentityResolution()
-            .Where(e => 
+            .Where(e =>
                 e.GroupId == lessonTemplate.Template.GroupId &&
                 e.Date.DayId == lessonTemplate.Template.DayId &&
                 e.Group.TermId == lessonTemplate.Template.TermId &&
@@ -54,7 +55,7 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
         foreach (var timetable in timetables)
         {
             var lesson = timetable.Lessons.FirstOrDefault(lesson => lesson.Number == lessonTemplate.Number);
-            
+
             if (lesson is not null)
             {
                 var command = _mapper.Map<UpdateLessonCommand>(lessonTemplate);
@@ -66,7 +67,7 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
             {
                 var command = _mapper.Map<CreateLessonCommand>(lessonTemplate);
                 command.TimetableId = timetable.TimetableId;
-                await _mediator.Send(command, cancellationToken);   
+                await _mediator.Send(command, cancellationToken);
             }
         }
     }

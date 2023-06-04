@@ -28,7 +28,7 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
             .Where(entity => entity.GroupId == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
-        
+
         _context.Set<Group>().Remove(group);
         await _context.SaveChangesAsync(cancellationToken);
     }

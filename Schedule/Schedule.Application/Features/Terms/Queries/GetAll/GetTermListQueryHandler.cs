@@ -19,7 +19,7 @@ public sealed class GetTermListQueryHandler : IRequestHandler<GetTermListQuery, 
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<PagedList<TermViewModel>> Handle(GetTermListQuery request,
         CancellationToken cancellationToken)
     {

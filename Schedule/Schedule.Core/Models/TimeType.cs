@@ -8,7 +8,5 @@ public class TimeType
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<Date> Dates { get; set; } = new List<Date>();
-
     public virtual ICollection<Time> Times { get; set; } = new List<Time>();
 }

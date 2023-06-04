@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.DisciplineTypes.Queries.Get;
 using Schedule.Application.Features.DisciplineTypes.Queries.GetList;
 using Schedule.Application.ViewModels;
@@ -8,6 +9,7 @@ namespace Schedule.Api.Controllers;
 
 public class DisciplineTypeController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DisciplineTypeViewModel>> Get(int id)
     {
@@ -15,6 +17,7 @@ public class DisciplineTypeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<DisciplineTypeViewModel>>> GetAll(
         [FromQuery] GetDisciplineTypeListQuery query)

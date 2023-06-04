@@ -26,7 +26,6 @@ public sealed class GetDateQueryHandler : IRequestHandler<GetDateQuery, DateView
         var date = await _context.Set<Date>()
             .Include(e => e.Day)
             .Include(e => e.WeekType)
-            .Include(e => e.TimeType)
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DateId == request.Id, cancellationToken);
 

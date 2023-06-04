@@ -15,7 +15,7 @@ public sealed class RestoreTeacherCommandHandler : IRequestHandler<RestoreTeache
     {
         _context = context;
     }
-    
+
     public async Task Handle(RestoreTeacherCommand request, CancellationToken cancellationToken)
     {
         var teacher = await _context.Set<Teacher>()

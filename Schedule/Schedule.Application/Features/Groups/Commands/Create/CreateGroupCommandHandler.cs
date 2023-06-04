@@ -30,7 +30,7 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
 
         foreach (var groupGroup in group.GroupGroups)
             groupGroup.GroupId = group.GroupId;
-        
+
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new GroupCreateTemplatesNotification(group.GroupId), cancellationToken);
         await _mediator.Publish(new GroupCreateTimetablesNotification(group.GroupId), cancellationToken);

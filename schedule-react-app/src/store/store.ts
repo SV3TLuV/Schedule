@@ -4,17 +4,19 @@ import storage from "redux-persist/es/storage";
 import persistStore from "redux-persist/es/persistStore";
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
 import {baseApi} from "./apis/baseApi";
-import applicationReducer from "./slices/routeSlice.tsx";
+import applicationReducer from "./slices/applicationSlice.ts";
+import authSlice from "./slices/authSlice.ts";
 
 const rootReducer = combineReducers({
     [baseApi.reducerPath]: baseApi.reducer,
-    application: applicationReducer
+    application: applicationReducer,
+    auth: authSlice
 });
 
 const persistedReducer = persistReducer({
     key: 'root',
     storage,
-    whitelist: [],
+    whitelist: ['auth'],
 }, rootReducer);
 
 export const setupStore = () => {

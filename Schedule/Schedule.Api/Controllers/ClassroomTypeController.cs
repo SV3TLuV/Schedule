@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.ClassroomTypes.Commands.Create;
 using Schedule.Application.Features.ClassroomTypes.Commands.Delete;
 using Schedule.Application.Features.ClassroomTypes.Commands.Restore;
@@ -12,6 +13,7 @@ namespace Schedule.Api.Controllers;
 
 public class ClassroomTypeController : BaseController
 {
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ClassroomTypeViewModel>> Get(int id)
     {
@@ -19,6 +21,7 @@ public class ClassroomTypeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<PagedList<ClassroomTypeViewModel>>> GetAll(
         [FromQuery] GetClassroomTypeListQuery query)
@@ -26,6 +29,7 @@ public class ClassroomTypeController : BaseController
         return Ok(await Mediator.Send(query));
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateClassroomTypeCommand command)
     {
@@ -33,6 +37,7 @@ public class ClassroomTypeController : BaseController
         return Created(string.Empty, id);
     }
 
+    [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreClassroomType")]
     public async Task<IActionResult> Post([FromBody] RestoreClassroomTypeCommand command)
@@ -40,7 +45,8 @@ public class ClassroomTypeController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
-    
+
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateClassroomTypeCommand command)
     {
@@ -48,6 +54,7 @@ public class ClassroomTypeController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

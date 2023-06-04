@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Groups.Commands.Update;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -12,8 +13,8 @@ public sealed class TransferGroupsJob : IJob
 {
     private readonly IScheduleDbContext _context;
     private readonly IDateInfoService _dateInfoService;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public TransferGroupsJob(IScheduleDbContext context,
         IDateInfoService dateInfoService,
@@ -25,7 +26,7 @@ public sealed class TransferGroupsJob : IJob
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     public async Task Execute(IJobExecutionContext context)
     {
         var groups = await _context.Set<Group>()
@@ -41,7 +42,7 @@ public sealed class TransferGroupsJob : IJob
                 .AsNoTrackingWithIdentityResolution()
                 .OrderBy(e => e.NextTermId)
                 .FirstOrDefaultAsync(e => e.GroupId == group.GroupId && !e.IsTransferred);
-            
+
             if (transfer is null)
                 continue;
 
@@ -51,7 +52,7 @@ public sealed class TransferGroupsJob : IJob
             group.TermId = transfer.NextTermId;
             var command = _mapper.Map<UpdateGroupCommand>(group);
             await _mediator.Send(command);
-            
+
             transfer.IsTransferred = true;
             _context.Set<GroupTransfer>().Update(transfer);
             await _context.SaveChangesAsync();

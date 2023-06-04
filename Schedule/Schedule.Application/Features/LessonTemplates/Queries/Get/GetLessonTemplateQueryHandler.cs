@@ -21,8 +21,8 @@ public sealed class GetLessonTemplateQueryHandler
         _context = context;
         _mapper = mapper;
     }
-    
-    public async Task<LessonTemplateViewModel> Handle(GetLessonTemplateQuery request, 
+
+    public async Task<LessonTemplateViewModel> Handle(GetLessonTemplateQuery request,
         CancellationToken cancellationToken)
     {
         var template = await _context.Set<LessonTemplate>()
@@ -38,7 +38,7 @@ public sealed class GetLessonTemplateQueryHandler
 
         if (template is null)
             throw new NotFoundException(nameof(LessonTemplate), request.Id);
-        
+
         return _mapper.Map<LessonTemplateViewModel>(template);
     }
 }

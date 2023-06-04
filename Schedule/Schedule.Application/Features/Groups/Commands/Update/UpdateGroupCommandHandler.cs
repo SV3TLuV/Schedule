@@ -28,14 +28,14 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
             throw new NotFoundException(nameof(Group), request.Id);
 
         var group = _mapper.Map<Group>(request);
-        
+
         await _context.Set<GroupGroup>()
             .Where(e =>
                 e.GroupId == request.Id ||
                 e.GroupId2 == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
-        
+
         _context.Set<Group>().Update(group);
         await _context.Set<GroupGroup>().AddRangeAsync(group.GroupGroups, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);

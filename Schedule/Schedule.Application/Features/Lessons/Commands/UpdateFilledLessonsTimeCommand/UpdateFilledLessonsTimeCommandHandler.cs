@@ -10,8 +10,8 @@ namespace Schedule.Application.Features.Lessons.Commands.UpdateFilledLessonsTime
 public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<UpdateFilledLessonsTimeCommand>
 {
     private readonly IScheduleDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public UpdateFilledLessonsTimeCommandHandler(
         IScheduleDbContext context,
@@ -22,7 +22,7 @@ public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<Upda
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     public async Task Handle(UpdateFilledLessonsTimeCommand request,
         CancellationToken cancellationToken)
     {
@@ -47,7 +47,7 @@ public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<Upda
             lessonQuery = lessonQuery.Where(e => request.PairNumbers.Contains(e.Number));
             timeQuery = timeQuery.Where(e => request.PairNumbers.Contains(e.LessonNumber));
         }
-        
+
         var lessons = await lessonQuery.ToListAsync(cancellationToken);
         var times = await timeQuery.ToListAsync(cancellationToken);
 
@@ -55,11 +55,8 @@ public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<Upda
         {
             var time = times.FirstOrDefault(e => e.LessonNumber == lesson.Number);
 
-            if (time is null)
-            {
-                continue;
-            }
-            
+            if (time is null) continue;
+
             var command = _mapper.Map<UpdateLessonCommand>(lesson);
             command.TimeId = time.TimeId;
             await _mediator.Send(command, cancellationToken);

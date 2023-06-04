@@ -18,7 +18,7 @@ public sealed class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCom
         _context = context;
         _mediator = mediator;
     }
-    
+
     public async Task Handle(DeleteLessonCommand request,
         CancellationToken cancellationToken)
     {

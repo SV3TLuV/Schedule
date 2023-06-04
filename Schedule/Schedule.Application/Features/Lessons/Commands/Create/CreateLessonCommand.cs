@@ -13,6 +13,7 @@ public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>, IMapW
     public int? Subgroup { get; set; }
     public int? TimeId { get; set; }
     public int? DisciplineId { get; set; }
+
     public ICollection<TeacherClassroomIdsViewModel> TeacherClassroomIds { get; set; } =
         Array.Empty<TeacherClassroomIdsViewModel>();
 
@@ -24,34 +25,34 @@ public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>, IMapW
                     .Select(ltc => new TeacherClassroomIdsViewModel
                     {
                         TeacherId = ltc.TeacherId,
-                        ClassroomId = ltc.ClassroomId,
+                        ClassroomId = ltc.ClassroomId
                     })));
-        
+
         profile.CreateMap<CreateLessonCommand, Lesson>()
             .ForMember(lesson => lesson.LessonTeacherClassrooms, expression =>
-                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids =>
                     new LessonTeacherClassroom
                     {
                         TeacherId = ids.TeacherId,
-                        ClassroomId = ids.ClassroomId,
+                        ClassroomId = ids.ClassroomId
                     })));
-        
+
         profile.CreateMap<LessonTemplate, CreateLessonCommand>()
             .ForMember(command => command.TeacherClassroomIds, expression =>
                 expression.MapFrom(lesson => lesson.LessonTemplateTeacherClassrooms
                     .Select(ltc => new TeacherClassroomIdsViewModel
                     {
                         TeacherId = ltc.TeacherId,
-                        ClassroomId = ltc.ClassroomId,
+                        ClassroomId = ltc.ClassroomId
                     })));
-        
+
         profile.CreateMap<CreateLessonCommand, LessonTemplate>()
             .ForMember(lesson => lesson.LessonTemplateTeacherClassrooms, expression =>
-                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids => 
+                expression.MapFrom(command => command.TeacherClassroomIds.Select(ids =>
                     new LessonTemplateTeacherClassroom
                     {
                         TeacherId = ids.TeacherId,
-                        ClassroomId = ids.ClassroomId,
+                        ClassroomId = ids.ClassroomId
                     })));
     }
 }

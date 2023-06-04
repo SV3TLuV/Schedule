@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using Schedule.Core.Common.Interfaces;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Core.Models;
 using WeekType = Schedule.Core.Common.Enums.WeekType;
 
@@ -27,7 +27,7 @@ public sealed class DateInfoService : IDateInfoService
             WeekTypeId = (int)GetWeekType(dateTime)
         };
     }
-    
+
     public int CurrentTerm => GetTerm(CurrentDateTime);
     public DateTime CurrentDateTime => DateTime.Now;
     public Date CurrentDate => GetDate(CurrentDateTime);

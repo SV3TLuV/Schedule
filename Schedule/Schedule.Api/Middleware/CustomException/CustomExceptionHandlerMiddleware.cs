@@ -14,7 +14,7 @@ public sealed class CustomExceptionHandlerMiddleware
     {
         _next = next;
     }
-    
+
     public async Task Invoke(HttpContext context)
     {
         try
@@ -49,12 +49,10 @@ public sealed class CustomExceptionHandlerMiddleware
         context.Response.StatusCode = (int)code;
 
         if (string.IsNullOrEmpty(result))
-        {
             result = JsonConvert.SerializeObject(new
             {
                 Error = exception.Message
             });
-        }
 
         Log.Error(exception, "{@Exception}", exception);
 

@@ -19,7 +19,7 @@ public sealed class GetDisciplineTypeQueryHandler : IRequestHandler<GetDisciplin
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<DisciplineTypeViewModel> Handle(GetDisciplineTypeQuery request,
         CancellationToken cancellationToken)
     {

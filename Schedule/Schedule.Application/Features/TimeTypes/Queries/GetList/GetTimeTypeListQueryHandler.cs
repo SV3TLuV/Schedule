@@ -33,11 +33,8 @@ public sealed class GetTimeTypeListQueryHandler
             QueryFilter.Deleted => query.Where(e => e.IsDeleted),
             _ => query
         };
-        
-        if (request.Search is not null)
-        {
-            query = query.Where(e => e.Name.StartsWith(request.Search));
-        }
+
+        if (request.Search is not null) query = query.Where(e => e.Name.StartsWith(request.Search));
 
         var timeTypes = await query
             .Skip((request.Page - 1) * request.PageSize)

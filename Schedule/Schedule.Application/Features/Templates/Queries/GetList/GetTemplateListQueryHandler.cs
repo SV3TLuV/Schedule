@@ -63,33 +63,21 @@ public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateLis
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery();
 
-        if (request.WeekTypeId is not null)
-        {
-            query = query.Where(e => e.WeekTypeId == request.WeekTypeId);
-        }
-        
-        if (request.TermId is not null)
-        {
-            query = query.Where(e => e.TermId == request.TermId);
-        }
-        
-        if (request.DayId is not null)
-        {
-            query = query.Where(e => e.DayId == request.DayId);
-        }
-        
-        if (request.GroupId is not null)
-        {
-            query = query.Where(e => e.GroupId == request.GroupId);
-        }
-        
+        if (request.WeekTypeId is not null) query = query.Where(e => e.WeekTypeId == request.WeekTypeId);
+
+        if (request.TermId is not null) query = query.Where(e => e.TermId == request.TermId);
+
+        if (request.DayId is not null) query = query.Where(e => e.DayId == request.DayId);
+
+        if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
+
         var templates = await query
             .OrderBy(e => e.Group.TermId)
             .ThenBy(e => string.Concat(e.Group.Speciality.Name, "-", e.Group.Number))
             .ToListAsync(cancellationToken);
         var viewModels = _mapper.Map<List<TemplateViewModel>>(templates);
         var totalCount = await query.CountAsync(cancellationToken);
-        
+
         var viewModelIdsForRemove = new List<int>();
         var groupIds = new List<int>();
 

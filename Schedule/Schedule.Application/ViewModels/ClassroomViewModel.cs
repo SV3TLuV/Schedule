@@ -20,10 +20,10 @@ public class ClassroomViewModel : IMapWith<Classroom>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(classroom => classroom.ClassroomId))
             .ForMember(viewModel => viewModel.Types, expression =>
-                expression.MapFrom(classroom => 
+                expression.MapFrom(classroom =>
                     classroom.ClassroomClassroomTypes.Select(classroomClassroomType =>
                         classroomClassroomType.ClassroomType)));
-        
+
         profile.CreateMap<ClassroomViewModel, Classroom>()
             .ForMember(classroom => classroom.ClassroomId, expression =>
                 expression.MapFrom(viewModel => viewModel.Id))

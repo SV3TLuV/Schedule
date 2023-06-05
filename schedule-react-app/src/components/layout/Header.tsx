@@ -17,7 +17,7 @@ export const Header = () => {
     const goToLogin = () => navigateTo('/login')
     const goToScheduleSearch = () => navigateTo('/schedule/search')
     const goToScheduleTable = () => navigateTo('/schedule/table/1')
-    const goToReports = () => navigateTo('/reports')
+    //const goToReports = () => navigateTo('/reports')
     const goToPairsEditor = () => navigateTo('/editor/lessons')
     const goToSpecialitiesEditor = () => navigateTo('/editor/specialities')
     const goToDisciplinesEditor = () => navigateTo('/editor/disciplines')
@@ -86,9 +86,9 @@ export const Header = () => {
                                         </NavDropdown.Item>
                                     }
                                 </NavDropdown>
-                                <Nav.Link onClick={goToReports}>
+{/*                                <Nav.Link onClick={goToReports}>
                                     Отчеты
-                                </Nav.Link>
+                                </Nav.Link>*/}
                             </>
                         }
                     </Nav>

@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Update;
 
-public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand>
+public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
     {
         var groupDbo = await _context.Set<Group>()
             .AsNoTrackingWithIdentityResolution()
@@ -39,5 +39,6 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
         _context.Set<Group>().Update(group);
         await _context.Set<GroupGroup>().AddRangeAsync(group.GroupGroups, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

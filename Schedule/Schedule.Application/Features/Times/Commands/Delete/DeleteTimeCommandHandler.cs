@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Times.Commands.Delete;
 
-public sealed class DeleteTimeCommandHandler : IRequestHandler<DeleteTimeCommand>
+public sealed class DeleteTimeCommandHandler : IRequestHandler<DeleteTimeCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteTimeCommandHandler : IRequestHandler<DeleteTimeCommand
         _context = context;
     }
 
-    public async Task Handle(DeleteTimeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteTimeCommand request, CancellationToken cancellationToken)
     {
         var time = await _context.Set<Time>()
             .AsNoTrackingWithIdentityResolution()
@@ -26,5 +26,6 @@ public sealed class DeleteTimeCommandHandler : IRequestHandler<DeleteTimeCommand
 
         _context.Set<Time>().Remove(time);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

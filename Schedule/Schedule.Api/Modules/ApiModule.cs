@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
 using Schedule.Api.Common;
+using Schedule.Api.Common.Behavior;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Jobs;
@@ -37,6 +38,8 @@ public sealed class ApiModule : Module
             .SingleInstance();
 
         var services = new ServiceCollection();
+
+        services.AddSignalR();
 
         services
             .AddCors(options => options.AddPolicy(Constants.CorsName, policy =>
@@ -71,6 +74,7 @@ public sealed class ApiModule : Module
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
+            .AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationBehavior<,>))
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
                 options.UseSqlServer("Name=ScheduleWin"))

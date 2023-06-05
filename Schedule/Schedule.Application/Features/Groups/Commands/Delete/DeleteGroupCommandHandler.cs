@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Delete;
 
-public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand>
+public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
         _context = context;
     }
 
-    public async Task Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()
             .AsNoTrackingWithIdentityResolution()
@@ -31,5 +31,6 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
 
         _context.Set<Group>().Remove(group);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

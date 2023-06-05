@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.LessonTemplates.Commands.Delete;
 
-public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteLessonTemplateCommand>
+public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteLessonTemplateCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMediator _mediator;
@@ -19,7 +19,7 @@ public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteL
         _mediator = mediator;
     }
 
-    public async Task Handle(DeleteLessonTemplateCommand request,
+    public async Task<Unit> Handle(DeleteLessonTemplateCommand request,
         CancellationToken cancellationToken)
     {
         var lessonTemplate = await _context.Set<LessonTemplate>()
@@ -33,5 +33,6 @@ public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteL
         _context.Set<LessonTemplate>().Remove(lessonTemplate);
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonTemplateDeleteLessonsNotification(lessonTemplate), cancellationToken);
+        return Unit.Value;
     }
 }

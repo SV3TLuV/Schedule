@@ -1,9 +1,8 @@
 using System.Text.Json.Serialization;
-using System.Threading.RateLimiting;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.RateLimiting;
 using Schedule.Api.Common;
+using Schedule.Api.Hubs;
 using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
 using Schedule.Application.LoggerPolicies;
@@ -64,6 +63,7 @@ void ConfigureApp(WebApplication webApp)
         .UseAuthentication()
         .UseAuthorization();
     webApp.MapControllers();
+    webApp.MapHub<NotificationHub>("/hub/notification");
 }
 
 void ConfigureLogger(IConfiguration configuration)

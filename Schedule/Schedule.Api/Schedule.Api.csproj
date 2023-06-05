@@ -7,24 +7,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac.WebApi2" Version="6.1.1"/>
-        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5"/>
+        <PackageReference Include="Autofac.WebApi2" Version="6.1.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-        <PackageReference Include="Quartz.AspNetCore" Version="3.6.2"/>
-        <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.6.2"/>
-        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.6.2"/>
-        <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.3.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Quartz.AspNetCore" Version="3.6.2" />
+        <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.6.2" />
+        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.6.2" />
+        <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.3.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Schedule.Application\Schedule.Application.csproj"/>
+        <ProjectReference Include="..\Schedule.Application\Schedule.Application.csproj" />
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Sessions.Commands.Update;
 
-public sealed class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand>
+public sealed class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public sealed class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionC
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateSessionCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateSessionCommand request, CancellationToken cancellationToken)
     {
         var sessionDbo = await _context.Set<Session>()
             .AsNoTrackingWithIdentityResolution()
@@ -32,5 +32,6 @@ public sealed class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionC
         var session = _mapper.Map<Session>(request);
         _context.Set<Session>().Update(session);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

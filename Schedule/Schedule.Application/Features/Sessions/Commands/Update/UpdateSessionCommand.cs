@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Sessions.Commands.Update;
 
-public sealed class UpdateSessionCommand : IRequest, IMapWith<Session>
+public sealed class UpdateSessionCommand : IRequest<Unit>, IMapWith<Session>
 {
     public Guid Id { get; set; }
 

@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Teachers.Commands.Delete;
 
-public sealed class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherCommand>
+public sealed class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherC
         _context = context;
     }
 
-    public async Task Handle(DeleteTeacherCommand request,
+    public async Task<Unit> Handle(DeleteTeacherCommand request,
         CancellationToken cancellationToken)
     {
         var teacher = await _context.Set<Teacher>()
@@ -27,5 +27,6 @@ public sealed class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherC
 
         _context.Set<Teacher>().Remove(teacher);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

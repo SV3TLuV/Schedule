@@ -2,4 +2,4 @@
 
 namespace Schedule.Application.Features.Times.Commands.Delete;
 
-public sealed record DeleteTimeCommand(int Id) : IRequest;
+public sealed record DeleteTimeCommand(int Id) : IRequest<Unit>;

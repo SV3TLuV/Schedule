@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Times.Commands.Update;
 
-public sealed class UpdateTimeCommand : IRequest, IMapWith<Time>
+public sealed class UpdateTimeCommand : IRequest<Unit>, IMapWith<Time>
 {
     public required int Id { get; set; }
     public required string Start { get; set; }

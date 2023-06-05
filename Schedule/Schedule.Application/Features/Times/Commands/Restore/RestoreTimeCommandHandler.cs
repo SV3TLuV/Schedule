@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Times.Commands.Restore;
 
-public sealed class RestoreTimeCommandHandler : IRequestHandler<RestoreTimeCommand>
+public sealed class RestoreTimeCommandHandler : IRequestHandler<RestoreTimeCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -16,7 +16,7 @@ public sealed class RestoreTimeCommandHandler : IRequestHandler<RestoreTimeComma
         _context = context;
     }
 
-    public async Task Handle(RestoreTimeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(RestoreTimeCommand request, CancellationToken cancellationToken)
     {
         var time = await _context.Set<Time>()
             .FirstOrDefaultAsync(e => e.TimeId == request.Id, cancellationToken);
@@ -27,5 +27,6 @@ public sealed class RestoreTimeCommandHandler : IRequestHandler<RestoreTimeComma
         time.IsDeleted = false;
         _context.Set<Time>().Update(time);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

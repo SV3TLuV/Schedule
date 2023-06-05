@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Disciplines.Commands.Update;
 
-public sealed class UpdateDisciplineCommand : IRequest, IMapWith<Discipline>
+public sealed class UpdateDisciplineCommand : IRequest<Unit>, IMapWith<Discipline>
 {
     public required int Id { get; set; }
     public required string Name { get; set; }

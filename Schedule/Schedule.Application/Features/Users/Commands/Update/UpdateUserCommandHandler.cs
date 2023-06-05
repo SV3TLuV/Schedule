@@ -8,7 +8,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Users.Commands.Update;
 
-public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
+public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var userDbo = await _context.Set<User>()
             .AsNoTrackingWithIdentityResolution()
@@ -34,5 +34,6 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
         user.PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password, HashType.SHA512);
         _context.Set<User>().Update(user);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

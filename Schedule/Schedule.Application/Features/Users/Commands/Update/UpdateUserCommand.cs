@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Users.Commands.Update;
 
-public sealed class UpdateUserCommand : IRequest, IMapWith<User>
+public sealed class UpdateUserCommand : IRequest<Unit>, IMapWith<User>
 {
     public int Id { get; set; }
 

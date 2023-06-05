@@ -8,7 +8,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.LessonTemplates.Commands.Update;
 
-public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateLessonTemplateCommand>
+public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateLessonTemplateCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateL
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateLessonTemplateCommand request,
+    public async Task<Unit> Handle(UpdateLessonTemplateCommand request,
         CancellationToken cancellationToken)
     {
         var lessonTemplateDbo = await _context.Set<LessonTemplate>()
@@ -50,5 +50,6 @@ public sealed class UpdateLessonTemplateCommandHandler : IRequestHandler<UpdateL
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonTemplateUpdateNotification(lessonTemplate.LessonTemplateId),
             cancellationToken);
+        return Unit.Value;
     }
 }

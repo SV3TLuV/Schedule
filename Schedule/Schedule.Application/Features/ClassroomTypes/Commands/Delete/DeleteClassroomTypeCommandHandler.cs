@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.ClassroomTypes.Commands.Delete;
 
-public sealed class DeleteClassroomTypeCommandHandler : IRequestHandler<DeleteClassroomTypeCommand>
+public sealed class DeleteClassroomTypeCommandHandler : IRequestHandler<DeleteClassroomTypeCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteClassroomTypeCommandHandler : IRequestHandler<DeleteCl
         _context = context;
     }
 
-    public async Task Handle(DeleteClassroomTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteClassroomTypeCommand request, CancellationToken cancellationToken)
     {
         var classroomType = await _context.Set<ClassroomType>()
             .AsNoTrackingWithIdentityResolution()
@@ -26,5 +26,6 @@ public sealed class DeleteClassroomTypeCommandHandler : IRequestHandler<DeleteCl
 
         _context.Set<ClassroomType>().Remove(classroomType);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Schedule.Application.Features.Users.Commands.Logout;
 
-public sealed class LogoutCommand : IRequest
+public sealed class LogoutCommand : IRequest<Unit>
 {
     public required string AccessToken { get; set; }
     

@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Disciplines.Commands.Update;
 
-public sealed class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisciplineCommand>
+public sealed class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisciplineCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public sealed class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisci
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateDisciplineCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateDisciplineCommand request, CancellationToken cancellationToken)
     {
         var disciplineDbo = await _context.Set<Discipline>()
             .AsNoTrackingWithIdentityResolution()
@@ -30,5 +30,6 @@ public sealed class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisci
         var discipline = _mapper.Map<Discipline>(request);
         _context.Set<Discipline>().Update(discipline);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

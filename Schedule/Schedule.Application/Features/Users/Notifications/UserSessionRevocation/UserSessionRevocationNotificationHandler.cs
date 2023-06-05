@@ -4,7 +4,7 @@ using Schedule.Application.Features.Sessions.Commands.Delete;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Users.Notifications;
+namespace Schedule.Application.Features.Users.Notifications.UserSessionRevocation;
 
 public sealed class UserSessionRevocationNotificationHandler
     : INotificationHandler<UserSessionRevocationNotification>

@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Update;
 
-public sealed class UpdateSpecialityCommandHandler : IRequestHandler<UpdateSpecialityCommand>
+public sealed class UpdateSpecialityCommandHandler : IRequestHandler<UpdateSpecialityCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public sealed class UpdateSpecialityCommandHandler : IRequestHandler<UpdateSpeci
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateSpecialityCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateSpecialityCommand request, CancellationToken cancellationToken)
     {
         var specialityDbo = await _context.Set<Speciality>()
             .AsNoTrackingWithIdentityResolution()
@@ -30,5 +30,6 @@ public sealed class UpdateSpecialityCommandHandler : IRequestHandler<UpdateSpeci
         var speciality = _mapper.Map<Speciality>(request);
         _context.Set<Speciality>().Update(speciality);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Classrooms.Commands.Update;
 
-public sealed class UpdateClassroomCommand : IRequest, IMapWith<Classroom>
+public sealed class UpdateClassroomCommand : IRequest<Unit>, IMapWith<Classroom>
 {
     public required int Id { get; set; }
     public required string Cabinet { get; set; }

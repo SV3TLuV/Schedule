@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Commands.Update;
 
-public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTypeCommand>
+public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTypeCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTyp
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateTimeTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateTimeTypeCommand request, CancellationToken cancellationToken)
     {
         var timeTypeDbo = await _context.Set<TimeType>()
             .AsNoTrackingWithIdentityResolution()
@@ -30,5 +30,6 @@ public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTyp
         var timeType = _mapper.Map<TimeType>(request);
         _context.Set<TimeType>().Update(timeType);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Users.Commands.Delete;
 
-public sealed class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
+public sealed class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -16,7 +16,7 @@ public sealed class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand
         _context = context;
     }
 
-    public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _context.Set<User>()
             .AsNoTrackingWithIdentityResolution()
@@ -27,5 +27,6 @@ public sealed class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand
 
         _context.Set<User>().Remove(user);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

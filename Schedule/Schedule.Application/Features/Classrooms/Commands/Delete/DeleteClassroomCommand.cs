@@ -2,4 +2,4 @@
 
 namespace Schedule.Application.Features.Classrooms.Commands.Delete;
 
-public sealed record DeleteClassroomCommand(int Id) : IRequest;
+public sealed record DeleteClassroomCommand(int Id) : IRequest<Unit>;

@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Disciplines.Commands.Delete;
 
-public sealed class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisciplineCommand>
+public sealed class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisciplineCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisci
         _context = context;
     }
 
-    public async Task Handle(DeleteDisciplineCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteDisciplineCommand request, CancellationToken cancellationToken)
     {
         var discipline = await _context.Set<Discipline>()
             .AsNoTrackingWithIdentityResolution()
@@ -26,5 +26,6 @@ public sealed class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisci
 
         _context.Set<Discipline>().Remove(discipline);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

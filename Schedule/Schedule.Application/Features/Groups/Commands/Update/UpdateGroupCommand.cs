@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Update;
 
-public sealed class UpdateGroupCommand : IRequest, IMapWith<Group>
+public sealed class UpdateGroupCommand : IRequest<Unit>, IMapWith<Group>
 {
     public required int Id { get; set; }
     public required string Number { get; set; }

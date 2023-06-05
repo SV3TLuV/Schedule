@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Commands.Update;
 
-public sealed class UpdateLessonCommand : IRequest, IMapWith<Lesson>, IMapWith<LessonTemplate>
+public sealed class UpdateLessonCommand : IRequest<Unit>, IMapWith<Lesson>, IMapWith<LessonTemplate>
 {
     public required int Id { get; set; }
     public required int Number { get; set; }

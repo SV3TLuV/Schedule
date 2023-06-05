@@ -9,7 +9,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Users.Commands.Logout;
 
-public sealed class LogoutCommandHandler : IRequestHandler<LogoutCommand>
+public sealed class LogoutCommandHandler : IRequestHandler<LogoutCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMediator _mediator;
@@ -25,7 +25,7 @@ public sealed class LogoutCommandHandler : IRequestHandler<LogoutCommand>
         _mediator = mediator;
     }
 
-    public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(LogoutCommand request, CancellationToken cancellationToken)
     {
         var principal = _tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
         var sidClaim = principal.FindFirst(ClaimTypes.Sid);
@@ -45,5 +45,6 @@ public sealed class LogoutCommandHandler : IRequestHandler<LogoutCommand>
             throw new NotFoundException("Invalid RefreshToken");
 
         await _mediator.Send(new DeleteSessionCommand(sessionId), cancellationToken);
+        return Unit.Value;
     }
 }

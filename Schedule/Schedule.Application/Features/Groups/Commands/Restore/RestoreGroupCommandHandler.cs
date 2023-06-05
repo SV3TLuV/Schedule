@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Restore;
 
-public sealed class RestoreGroupCommandHandler : IRequestHandler<RestoreGroupCommand>
+public sealed class RestoreGroupCommandHandler : IRequestHandler<RestoreGroupCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -16,7 +16,7 @@ public sealed class RestoreGroupCommandHandler : IRequestHandler<RestoreGroupCom
         _context = context;
     }
 
-    public async Task Handle(RestoreGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(RestoreGroupCommand request, CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
@@ -27,5 +27,6 @@ public sealed class RestoreGroupCommandHandler : IRequestHandler<RestoreGroupCom
         group.IsDeleted = false;
         _context.Set<Group>().Update(group);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

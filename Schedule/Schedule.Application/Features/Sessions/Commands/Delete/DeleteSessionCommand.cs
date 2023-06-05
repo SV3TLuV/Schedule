@@ -2,4 +2,4 @@
 
 namespace Schedule.Application.Features.Sessions.Commands.Delete;
 
-public sealed record DeleteSessionCommand(Guid Id) : IRequest;
+public sealed record DeleteSessionCommand(Guid Id) : IRequest<Unit>;

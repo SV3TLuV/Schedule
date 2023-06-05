@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Commands.Delete;
 
-public sealed class DeleteTimeTypeCommandHandler : IRequestHandler<DeleteTimeTypeCommand>
+public sealed class DeleteTimeTypeCommandHandler : IRequestHandler<DeleteTimeTypeCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteTimeTypeCommandHandler : IRequestHandler<DeleteTimeTyp
         _context = context;
     }
 
-    public async Task Handle(DeleteTimeTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteTimeTypeCommand request, CancellationToken cancellationToken)
     {
         var timeType = await _context.Set<TimeType>()
             .AsNoTrackingWithIdentityResolution()
@@ -26,5 +26,6 @@ public sealed class DeleteTimeTypeCommandHandler : IRequestHandler<DeleteTimeTyp
 
         _context.Set<TimeType>().Remove(timeType);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

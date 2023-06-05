@@ -7,7 +7,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Commands.UpdateFilledLessonsTimeCommand;
 
-public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<UpdateFilledLessonsTimeCommand>
+public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<UpdateFilledLessonsTimeCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<Upda
         _mapper = mapper;
     }
 
-    public async Task Handle(UpdateFilledLessonsTimeCommand request,
+    public async Task<Unit> Handle(UpdateFilledLessonsTimeCommand request,
         CancellationToken cancellationToken)
     {
         var lessonQuery = _context.Set<Lesson>()
@@ -61,5 +61,7 @@ public sealed class UpdateFilledLessonsTimeCommandHandler : IRequestHandler<Upda
             command.TimeId = time.TimeId;
             await _mediator.Send(command, cancellationToken);
         }
+
+        return Unit.Value;
     }
 }

@@ -2,4 +2,4 @@
 
 namespace Schedule.Application.Features.Users.Commands.Delete;
 
-public sealed record DeleteUserCommand(int Id) : IRequest;
+public sealed record DeleteUserCommand(int Id) : IRequest<Unit>;

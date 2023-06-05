@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Teachers.Commands.Restore;
 
-public sealed class RestoreTeacherCommandHandler : IRequestHandler<RestoreTeacherCommand>
+public sealed class RestoreTeacherCommandHandler : IRequestHandler<RestoreTeacherCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -16,7 +16,7 @@ public sealed class RestoreTeacherCommandHandler : IRequestHandler<RestoreTeache
         _context = context;
     }
 
-    public async Task Handle(RestoreTeacherCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(RestoreTeacherCommand request, CancellationToken cancellationToken)
     {
         var teacher = await _context.Set<Teacher>()
             .FirstOrDefaultAsync(e => e.TeacherId == request.Id, cancellationToken);
@@ -27,5 +27,6 @@ public sealed class RestoreTeacherCommandHandler : IRequestHandler<RestoreTeache
         teacher.IsDeleted = false;
         _context.Set<Teacher>().Update(teacher);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

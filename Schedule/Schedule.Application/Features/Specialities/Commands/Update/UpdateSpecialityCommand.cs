@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Update;
 
-public sealed class UpdateSpecialityCommand : IRequest, IMapWith<Speciality>
+public sealed class UpdateSpecialityCommand : IRequest<Unit>, IMapWith<Speciality>
 {
     public required int Id { get; set; }
     public required string Code { get; set; }

@@ -6,7 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Delete;
 
-public sealed class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpecialityCommand>
+public sealed class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpecialityCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpeci
         _context = context;
     }
 
-    public async Task Handle(DeleteSpecialityCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteSpecialityCommand request, CancellationToken cancellationToken)
     {
         var speciality = await _context.Set<Speciality>()
             .AsNoTrackingWithIdentityResolution()
@@ -26,5 +26,6 @@ public sealed class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpeci
 
         _context.Set<Speciality>().Remove(speciality);
         await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

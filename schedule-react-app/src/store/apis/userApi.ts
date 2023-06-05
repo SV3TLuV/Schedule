@@ -16,25 +16,25 @@ export const userApi = baseApi.injectEndpoints({
     endpoints: builder => ({
         getUsers: builder.query<IPagedList<IUser>, IPaginationQuery | void>({
             query: query => ({
-                url: `${ApiTags.Users}?${buildUrlArguments(query ?? {})}`,
+                url: `${ApiTags.User}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,
             }),
             providesTags: result => [
-                ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Users, id} as const)),
+                ...(result?.items ?? []).map(({id}) => ({type: ApiTags.User, id} as const)),
                 {
-                    type: ApiTags.Users,
+                    type: ApiTags.User,
                     id: 'LIST',
                     page: result?.pageNumber
                 }
             ]
         }),
         getUser: builder.query<IUser, number>({
-            query: id => `${ApiTags.Users}/${id}`,
-            providesTags: result => [{type: ApiTags.Users, id: result?.id}]
+            query: id => `${ApiTags.User}/${id}`,
+            providesTags: result => [{type: ApiTags.User, id: result?.id}]
         }),
         login: builder.mutation<IAuthorizationResult, ILoginCommand>({
             query: command => ({
-                url: `${ApiTags.Users}/login`,
+                url: `${ApiTags.User}/login`,
                 method: HttpMethod.POST,
                 body: command,
             }),
@@ -49,7 +49,7 @@ export const userApi = baseApi.injectEndpoints({
         }),
         logout: builder.mutation<void, ILogoutCommand>({
             query: command => ({
-                url: `${ApiTags.Users}/logout`,
+                url: `${ApiTags.User}/logout`,
                 method: HttpMethod.POST,
                 body: command,
             }),
@@ -65,7 +65,7 @@ export const userApi = baseApi.injectEndpoints({
         refresh: builder.mutation<IAuthorizationResult, IRefreshCommand>({
             queryFn: async (command, api, extraOptions) => {
                 const response = await baseQuery({
-                    url: `${ApiTags.Users}/refresh`,
+                    url: `${ApiTags.User}/refresh`,
                     method: HttpMethod.POST,
                     body: command,
                 }, api, extraOptions)
@@ -85,7 +85,7 @@ export const userApi = baseApi.injectEndpoints({
         }),
         createUser: builder.mutation<number, IUser>({
             query: user => ({
-                url: ApiTags.Users,
+                url: ApiTags.User,
                 method: HttpMethod.POST,
                 body: {
                     login: user.login,
@@ -93,11 +93,11 @@ export const userApi = baseApi.injectEndpoints({
                     roleId: user.role.id
                 },
             }),
-            invalidatesTags: [{type: ApiTags.Users}]
+            invalidatesTags: [{type: ApiTags.User}]
         }),
         updateUser: builder.mutation<number, IUser>({
             query: user => ({
-                url: ApiTags.Users,
+                url: ApiTags.User,
                 method: HttpMethod.PUT,
                 body: {
                     id: user.id,
@@ -106,14 +106,14 @@ export const userApi = baseApi.injectEndpoints({
                     roleId: user.role.id
                 },
             }),
-            invalidatesTags: [{type: ApiTags.Users}]
+            invalidatesTags: [{type: ApiTags.User}]
         }),
         deleteUser: builder.mutation<number, number>({
             query: id => ({
-                url: `${ApiTags.Users}/${id}`,
+                url: `${ApiTags.User}/${id}`,
                 method: HttpMethod.DELETE,
             }),
-            invalidatesTags: [{type: ApiTags.Users}]
+            invalidatesTags: [{type: ApiTags.User}]
         }),
     }),
 })

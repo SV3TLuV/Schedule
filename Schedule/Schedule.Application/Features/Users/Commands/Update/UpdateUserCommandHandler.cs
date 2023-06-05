@@ -3,6 +3,7 @@ using BCrypt.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Users.Notifications;
+using Schedule.Application.Features.Users.Notifications.UserSessionRevocation;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -38,7 +39,7 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
         user.PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password, HashType.SHA512);
         _context.Set<User>().Update(user);
         await _context.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new UserSessionRevocationNotification(user.UserId), cancellationToken);
+        await _mediator.Publish(new UserSessionRevocationNotification(request.Id), cancellationToken);
         return Unit.Value;
     }
 }

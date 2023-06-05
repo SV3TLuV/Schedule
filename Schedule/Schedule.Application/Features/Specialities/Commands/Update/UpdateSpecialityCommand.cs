@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using Schedule.Application.Common.Attributes;
+using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Update;
 
+[SignalRNotification(typeof(Speciality), CommandTypes.Update)]
 public sealed class UpdateSpecialityCommand : IRequest<Unit>, IMapWith<Speciality>
 {
     public required int Id { get; set; }

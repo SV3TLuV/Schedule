@@ -38,7 +38,7 @@ export const dateApi = baseApi.injectEndpoints({
                 {type: ApiTags.Date, id: 'CURRENT'},
                 {type: ApiTags.Date, id: result?.id},
             ]
-        }),
+        })
     }),
 })
 

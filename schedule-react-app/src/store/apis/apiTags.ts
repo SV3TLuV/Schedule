@@ -10,7 +10,7 @@ export enum ApiTags {
     Lesson = 'Lesson',
     LessonNumber = 'LessonNumber',
     LessonTemplate = 'LessonTemplate',
-    Roles = 'Role',
+    Role = 'Role',
     Speciality = 'Speciality',
     Teacher = 'Teacher',
     Template = 'Template',
@@ -18,6 +18,6 @@ export enum ApiTags {
     Time = 'Time',
     Timetable = 'Timetable',
     TimeType = 'TimeType',
-    Users = 'User',
+    User = 'User',
     WeekType = 'WeekType',
 }

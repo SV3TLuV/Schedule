@@ -30,7 +30,7 @@ export const disciplineTypeApi = baseApi.injectEndpoints({
             providesTags: (_, __, id) => [
                 {type: ApiTags.DisciplineType, id}
             ]
-        })
+        }),
     })
 })
 

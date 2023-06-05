@@ -53,7 +53,7 @@ export const dayApi = baseApi.injectEndpoints({
                 {type: ApiTags.Date},
                 {type: ApiTags.Template},
             ]
-        })
+        }),
     }),
 })
 

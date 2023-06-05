@@ -92,7 +92,7 @@ export const groupApi = baseApi.injectEndpoints({
                 {type: ApiTags.Timetable },
                 {type: ApiTags.Template },
             ]
-        })
+        }),
     }),
 })
 

@@ -8,12 +8,12 @@ export const roleApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getRoles: builder.query<IPagedList<IRole>, IPaginationQuery | void>({
             query: () => ({
-                url: `${ApiTags.Roles}`,
+                url: `${ApiTags.Role}`,
                 method: "GET",
             }),
             providesTags: result => [
-                ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Roles, id} as const)),
-                { type: ApiTags.Roles, id: 'LIST' }
+                ...(result?.items ?? []).map(({id}) => ({type: ApiTags.Role, id} as const)),
+                { type: ApiTags.Role, id: 'LIST' }
             ]
         }),
     }),

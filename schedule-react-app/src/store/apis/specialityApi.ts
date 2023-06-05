@@ -84,7 +84,7 @@ export const specialityApi = baseApi.injectEndpoints({
                 {type: ApiTags.Group},
                 {type: ApiTags.Discipline},
             ]
-        })
+        }),
     }),
 })
 

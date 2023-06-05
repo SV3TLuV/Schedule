@@ -89,7 +89,7 @@ export const disciplineApi = baseApi.injectEndpoints({
                 { type: ApiTags.Discipline },
                 { type: ApiTags.Lesson }
             ]
-        })
+        }),
     }),
 })
 

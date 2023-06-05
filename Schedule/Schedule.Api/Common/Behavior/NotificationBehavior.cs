@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using System.Reflection;
+using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Schedule.Api.Hubs;
+using Schedule.Application.Common.Attributes;
 
 namespace Schedule.Api.Common.Behavior;
 
@@ -9,7 +11,6 @@ public sealed class NotificationBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly IHubContext<NotificationHub> _hubContext;
-    private const string Command = "Command";
 
     public NotificationBehavior(
         IHubContext<NotificationHub> hubContext)
@@ -21,29 +22,17 @@ public sealed class NotificationBehavior<TRequest, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var requestName = typeof(TRequest).Name;
+        var requestType = typeof(TRequest);
+        var attribute = requestType.GetCustomAttribute(typeof(SignalRNotificationAttribute));
 
-        if (!requestName.EndsWith(Command))
-            return await next();
-
-        var commandType = FirstWord(requestName);
-        var objName = requestName
-            .Replace(commandType, string.Empty)
-            .Replace(Command, string.Empty);
+        if (attribute is SignalRNotificationAttribute notificationAttribute)
+        {
+            await _hubContext.Clients.All.SendAsync(
+                "notified",
+                notificationAttribute.ObjectType.Name,
+                cancellationToken: cancellationToken);
+        }
         
-        await _hubContext.Clients.All.SendAsync(
-            "notified",
-            objName,
-            cancellationToken: cancellationToken);
-
         return await next();
-    }
-    
-    private static string FirstWord(string line)
-    {
-        for (var i = 0; i < line.Length; i++)
-            if (char.IsUpper(line[i]) && i != 0)
-                return line[..i];
-        return line;
     }
 }

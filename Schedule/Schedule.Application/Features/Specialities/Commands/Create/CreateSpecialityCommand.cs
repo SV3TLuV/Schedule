@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using Schedule.Application.Common.Attributes;
+using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Create;
 
+[SignalRNotification(typeof(Speciality), CommandTypes.Create)]
 public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality>
 {
     public required string Code { get; set; }

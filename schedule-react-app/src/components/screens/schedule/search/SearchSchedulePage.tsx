@@ -40,7 +40,6 @@ export const SearchSchedulePage = () => {
         dateCount: 6
     } as IGetCurrentTimetableQuery, {
         skip: selectedGroup === null,
-        pollingInterval: 7500
     })
 
     return (

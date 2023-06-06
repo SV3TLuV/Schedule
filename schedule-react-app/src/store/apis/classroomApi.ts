@@ -47,8 +47,7 @@ export const classroomApi = baseApi.injectEndpoints({
                 url: ApiTags.Classroom,
                 method: HttpMethod.POST,
                 body: {
-                    cabinet: classroom.cabinet,
-                    typeIds: classroom.types.map(t => t.id)
+                    cabinet: classroom.cabinet
                 }
             }),
             invalidatesTags: () => [
@@ -62,7 +61,6 @@ export const classroomApi = baseApi.injectEndpoints({
                 body: {
                     id: classroom.id,
                     cabinet: classroom.cabinet,
-                    typeIds: classroom.types.map(t => t.id)
                 }
             }),
             invalidatesTags: () => [

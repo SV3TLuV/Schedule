@@ -11,7 +11,3 @@ export const cabinetValidation = {
         return true
     }
 }
-
-export const typesValidation = {
-    required: ValidationMessage.REQUIRED
-}

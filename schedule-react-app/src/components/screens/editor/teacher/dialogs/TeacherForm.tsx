@@ -1,15 +1,7 @@
 import {ITeacher} from "../../../../../features/models";
-import {useGetDisciplinesQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Select} from "../../../../ui";
-import {useGetGroupsQuery} from "../../../../../store/apis";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks";
-import {useInfinitySelect} from "../../../../../hooks";
-import {IDiscipline} from "../../../../../features/models";
-import {IGroup} from "../../../../../features/models";
 import {emailValidation, middleNameValidation, nameValidation, surnameValidation} from "./validation";
 
 interface ITeacherForm {
@@ -21,30 +13,6 @@ interface ITeacherForm {
 }
 
 export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherForm) => {
-    const [disciplineQuery, setDisciplineQuery] = usePaginationQuery()
-    const {data: disciplineData} = useGetDisciplinesQuery(disciplineQuery)
-    const {
-        options: disciplines,
-        loadMore: loadMoreDisciplines,
-        search: searchDisciplines
-    } = useInfinitySelect<IDiscipline>({
-        query: disciplineQuery,
-        setQuery: setDisciplineQuery,
-        data: disciplineData
-    })
-
-    const [groupQuery, setGroupQuery] = usePaginationQuery()
-    const {data: groupData} = useGetGroupsQuery(groupQuery)
-    const {
-        options: groups,
-        loadMore: loadMoreGroups,
-        search: searchGroups
-    } = useInfinitySelect<IGroup>({
-        query: groupQuery,
-        setQuery: setGroupQuery,
-        data: groupData
-    })
-
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ITeacher>({
         values: teacher,
         mode: 'onChange',
@@ -58,10 +26,6 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
     const handleClose = () => {
         reset(teacher)
         onClose()
-    }
-
-    if (!disciplines || !groups) {
-        return <Loading/>
     }
 
     return (
@@ -148,46 +112,6 @@ export const TeacherForm = ({title, show, teacher, onClose, onSave}: ITeacherFor
                                     onChange={field.onChange}
                                     error={!!errors.email?.message}
                                     helperText={errors.email?.message}
-                                />
-                            </Form.Group>
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name='groups'
-                        render={({field}) => (
-                            <Form.Group className='m-3' >
-                                <Select
-                                    onChange={field.onChange}
-                                    onLoadMore={loadMoreGroups}
-                                    onSearch={searchGroups}
-                                    value={field.value}
-                                    options={groups}
-                                    fields='name'
-                                    label='Группы'
-                                    multiple
-                                    error={!!errors.groups?.message}
-                                    helperText={errors.groups?.message}
-                                />
-                            </Form.Group>
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name='disciplines'
-                        render={({field}) => (
-                            <Form.Group className='m-3' >
-                                <Select
-                                    onChange={field.onChange}
-                                    onLoadMore={loadMoreDisciplines}
-                                    onSearch={searchDisciplines}
-                                    value={field.value}
-                                    options={disciplines}
-                                    fields='name'
-                                    label='Дисциплины'
-                                    multiple
-                                    error={!!errors.disciplines?.message}
-                                    helperText={errors.disciplines?.message}
                                 />
                             </Form.Group>
                         )}

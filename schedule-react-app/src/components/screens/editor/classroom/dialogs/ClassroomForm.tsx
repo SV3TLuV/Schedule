@@ -1,14 +1,8 @@
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Button, Form, Modal} from "react-bootstrap";
 import {IClassroom} from "../../../../../features/models";
-import {useGetClassroomTypesQuery} from "../../../../../store/apis";
-import {Loading} from "../../../../ui";
-import {Select} from "../../../../ui";
 import {TextField} from "@mui/material";
-import {usePaginationQuery} from "../../../../../hooks";
-import {useInfinitySelect} from "../../../../../hooks";
-import {IClassroomType} from "../../../../../features/models";
-import {cabinetValidation, typesValidation} from "./validation";
+import {cabinetValidation} from "./validation";
 
 interface IClassroomForm {
     title: string
@@ -19,18 +13,6 @@ interface IClassroomForm {
 }
 
 export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassroomForm) => {
-    const [typeQuery, setTypeQuery] = usePaginationQuery()
-    const {data: typeData} = useGetClassroomTypesQuery(typeQuery)
-    const {
-        options: types,
-        loadMore: loadMoreTypes,
-        search: searchTypes
-    } = useInfinitySelect<IClassroomType>({
-        query: typeQuery,
-        setQuery: setTypeQuery,
-        data: typeData
-    })
-
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IClassroom>({
         values: classroom,
         mode: 'onChange',
@@ -44,10 +26,6 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
     const handleClose = () => {
         reset(classroom)
         onClose()
-    }
-
-    if (!types) {
-        return <Loading/>
     }
 
     return (
@@ -80,27 +58,6 @@ export const ClassroomForm = ({title, show, classroom, onClose, onSave}: IClassr
                                     onChange={field.onChange}
                                     error={!!errors.cabinet?.message}
                                     helperText={errors.cabinet?.message}
-                                />
-                            </Form.Group>
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name='types'
-                        rules={typesValidation}
-                        render={({field}) => (
-                            <Form.Group className='m-3'>
-                                <Select
-                                    onChange={field.onChange}
-                                    onLoadMore={loadMoreTypes}
-                                    onSearch={searchTypes}
-                                    value={field.value}
-                                    options={types}
-                                    fields='name'
-                                    label='Виды'
-                                    multiple
-                                    error={!!errors.types?.message}
-                                    helperText={errors.types?.message}
                                 />
                             </Form.Group>
                         )}

@@ -1,6 +1,4 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {IGroup} from "../../../../features/models";
-import {IDiscipline} from "../../../../features/models";
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },
@@ -8,20 +6,4 @@ export const columns: GridColDef[] = [
     { field: 'name', headerName: 'Имя', width: 120 },
     { field: 'middleName', headerName: 'Отчество', width: 120 },
     { field: 'email', headerName: 'Почта', width: 280 },
-    {
-        field: 'groups',
-        headerName: 'Группы',
-        width: 120,
-        renderCell: props => (props.value as IGroup[])
-            .map(group => group.name)
-            .join(',')
-    },
-    {
-        field: 'disciplines',
-        headerName: 'Дисциплины',
-        width: 140,
-        renderCell: props => (props.value as IDiscipline[])
-            .map(discipline => discipline.name)
-            .join(',')
-    }
 ]

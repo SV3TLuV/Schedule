@@ -53,8 +53,6 @@ export const teacherApi = baseApi.injectEndpoints({
                     name: teacher.name,
                     middleName: teacher.middleName,
                     email: teacher.email,
-                    groupIds: teacher.groups.map(g => g.id),
-                    disciplineIds: teacher.disciplines.map(d => d.id),
                 }
             }),
             invalidatesTags: () => [
@@ -71,8 +69,6 @@ export const teacherApi = baseApi.injectEndpoints({
                     name: teacher.name,
                     middleName: teacher.middleName,
                     email: teacher.email,
-                    groupIds: teacher.groups.map(g => g.id),
-                    disciplineIds: teacher.disciplines.map(d => d.id),
                 }
             }),
             invalidatesTags: () => [

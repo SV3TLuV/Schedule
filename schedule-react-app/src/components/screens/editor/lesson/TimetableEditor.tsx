@@ -1,4 +1,4 @@
-import {usePaginationQuery} from "../../../../hooks";
+import {usePaginationQuery, useTypedSelector} from "../../../../hooks";
 import {useGetCurrentDateQuery, useGetDatesQuery} from "../../../../store/apis";
 import {useInfinitySelect} from "../../../../hooks";
 import {IDate} from "../../../../features/models";
@@ -13,6 +13,7 @@ import {TimetableForm} from "./forms";
 import {IPagedList} from "../../../../features/models";
 import {useDialog} from "../../../../hooks";
 import {UpdateLessonTimeDialog} from "./dialogs";
+import {downloadReportForDate} from "../../../../store/apis/reportApi.tsx";
 
 interface ITimetableEditorState {
     group: IGroup
@@ -20,6 +21,8 @@ interface ITimetableEditorState {
 }
 
 export const TimetableEditor = () => {
+    const { accessToken } = useTypedSelector(state => state.auth)
+
     const {data: currentDate} = useGetCurrentDateQuery()
 
     const {control, formState: {errors}} = useForm<ITimetableEditorState>({
@@ -87,6 +90,12 @@ export const TimetableEditor = () => {
         }
     }
 
+    const handleSave = async () => {
+        if (selectedDate && accessToken) {
+            await downloadReportForDate(selectedDate.id, accessToken)
+        }
+    }
+
     return (
         <Container
             onScroll={handleScroll}
@@ -144,12 +153,20 @@ export const TimetableEditor = () => {
                         </Form.Group>
                     )}
                 />
-                <Form.Group>
+                <Form.Group className='text-center my-2'>
                     <Button
-                        className='d-flex mx-auto my-2'
+                        className='d-inline-block mx-2'
+                        style={{ minWidth: '160px' }}
                         onClick={updateTimeDialog.show}
                     >
                         Изменить время
+                    </Button>
+                    <Button
+                        className='d-inline-block mx-2'
+                        style={{ minWidth: '160px' }}
+                        onClick={handleSave}
+                    >
+                        Сохранить в Excel
                     </Button>
                 </Form.Group>
             </Row>

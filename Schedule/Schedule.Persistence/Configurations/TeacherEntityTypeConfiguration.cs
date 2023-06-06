@@ -14,10 +14,5 @@ public sealed class TeacherEntityTypeConfiguration : IEntityTypeConfiguration<Te
         builder.Property(e => e.MiddleName).HasMaxLength(40);
         builder.Property(e => e.Name).HasMaxLength(40);
         builder.Property(e => e.Surname).HasMaxLength(40);
-        builder.HasMany(e => e.TeacherDisciplines)
-            .WithOne(e => e.Teacher)
-            .HasForeignKey(e => e.TeacherId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_TeacherDisciplines_Teachers");
     }
 }

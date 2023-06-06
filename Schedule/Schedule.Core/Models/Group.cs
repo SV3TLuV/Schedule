@@ -30,9 +30,6 @@ public partial class Group
 
     public virtual ICollection<GroupGroup> GroupGroups { get; set; } =
         new List<GroupGroup>();
-
-    public virtual ICollection<TeacherGroup> TeacherGroups { get; set; } =
-        new List<TeacherGroup>();
 }
 
 public partial class Group

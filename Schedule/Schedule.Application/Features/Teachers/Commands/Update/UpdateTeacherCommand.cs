@@ -32,13 +32,7 @@ public sealed class UpdateTeacherCommand : IRequest<Unit>, IMapWith<Teacher>
                     teacher.Surname.Capitalize()))
             .ForMember(command => command.MiddleName, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.MiddleName.Capitalize()))
-            .ForMember(command => command.GroupIds, expression =>
-                expression.MapFrom(teacher => teacher.TeacherGroups
-                    .Select(group => group.GroupId)))
-            .ForMember(command => command.DisciplineIds, expression =>
-                expression.MapFrom(teacher => teacher.TeacherDisciplines
-                    .Select(discipline => discipline.DisciplineId)));
+                    teacher.MiddleName.Capitalize()));
 
         profile.CreateMap<UpdateTeacherCommand, Teacher>()
             .ForMember(teacher => teacher.TeacherId, expression =>
@@ -51,18 +45,6 @@ public sealed class UpdateTeacherCommand : IRequest<Unit>, IMapWith<Teacher>
                     teacher.Surname.Capitalize()))
             .ForMember(command => command.MiddleName, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.MiddleName.Capitalize()))
-            .ForMember(teacher => teacher.TeacherGroups, expression =>
-                expression.MapFrom(command => command.GroupIds
-                    .Select(id => new TeacherGroup
-                    {
-                        GroupId = id
-                    })))
-            .ForMember(teacher => teacher.TeacherDisciplines, expression =>
-                expression.MapFrom(command => command.DisciplineIds
-                    .Select(id => new TeacherDiscipline
-                    {
-                        DisciplineId = id
-                    })));
+                    teacher.MiddleName.Capitalize()));
     }
 }

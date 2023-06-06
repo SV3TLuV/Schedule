@@ -13,8 +13,6 @@ public class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Classroom> Classrooms { get; set; } = null!;
 
-    public virtual DbSet<ClassroomType> ClassroomTypes { get; set; } = null!;
-
     public virtual DbSet<Course> Courses { get; set; } = null!;
 
     public virtual DbSet<Date> Dates { get; set; } = null!;

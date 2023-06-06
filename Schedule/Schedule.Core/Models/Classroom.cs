@@ -13,7 +13,4 @@ public class Classroom
 
     public virtual ICollection<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } =
         new List<LessonTemplateTeacherClassroom>();
-
-    public virtual ICollection<ClassroomClassroomType> ClassroomClassroomTypes { get; set; } =
-        new List<ClassroomClassroomType>();
 }

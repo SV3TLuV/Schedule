@@ -12,10 +12,6 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
         builder.HasIndex(e => new { e.Code, e.Name, e.SpecialityId }, "IX_Disciplines").IsUnique();
         builder.Property(e => e.Code).HasMaxLength(20);
         builder.Property(e => e.Name).HasMaxLength(50);
-        builder.HasMany(e => e.TeacherDisciplines)
-            .WithOne(e => e.Discipline)
-            .HasForeignKey(e => e.DisciplineId)
-            .HasConstraintName("FK_TeacherDisciplines_Disciplines");
         builder.HasOne(d => d.DisciplineType)
             .WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.DisciplineTypeId)

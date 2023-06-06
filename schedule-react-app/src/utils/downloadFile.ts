@@ -8,9 +8,9 @@ export async function downloadFile(url: string, params: object, accessToken: str
             method: HttpMethod.GET,
             url: `${url}?${buildUrlArguments(params)}`,
             headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': `Bearer: ${accessToken}`
+                'Authorization': `Bearer ${accessToken}`
             },
+            withCredentials: true,
             responseType: 'blob'
         })
 

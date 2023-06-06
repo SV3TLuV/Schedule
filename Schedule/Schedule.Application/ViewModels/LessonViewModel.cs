@@ -16,9 +16,9 @@ public class LessonViewModel : IMapWith<Lesson>
 
     public bool IsChanged { get; set; }
 
-    public TimeViewModel Time { get; set; } = null!;
+    public TimeViewModel? Time { get; set; }
 
-    public DisciplineViewModel Discipline { get; set; } = null!;
+    public DisciplineViewModel? Discipline { get; set; }
 
     public ICollection<TeacherClassroomViewModel> TeacherClassrooms { get; set; } = null!;
 

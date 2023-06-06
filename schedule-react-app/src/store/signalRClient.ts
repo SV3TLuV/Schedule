@@ -19,9 +19,10 @@ import {
     timetableApi, timeTypeApi, userApi, weekTypeApi
 } from "./apis";
 import {AppDispatch, AppState} from "./store.ts";
+import {API_URL} from "../configuration.ts";
 
 const connection = new HubConnectionBuilder()
-    .withUrl('https://localhost:7239/hub/notification', {
+    .withUrl(`${API_URL}/hub/notification`, {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
     })

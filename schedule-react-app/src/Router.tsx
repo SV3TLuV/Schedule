@@ -63,11 +63,11 @@ export const router = createBrowserRouter(
                 <Route path='search' element={<SearchSchedulePage/>}/>
                 <Route path='table/:page' element={<TableSchedulePage/>}/>
             </Route>
-{/*            <Route path='reports' element={
+            <Route path='reports' element={
                 <RequireAuth>
                     <ReportsPage/>
                 </RequireAuth>
-            }/>*/}
+            }/>
             <Route path='editor' element={
                 <RequireAuth>
                     <EditorPage/>

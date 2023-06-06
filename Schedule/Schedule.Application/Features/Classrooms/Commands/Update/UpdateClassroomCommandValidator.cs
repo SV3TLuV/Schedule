@@ -12,8 +12,5 @@ public class UpdateClassroomCommandValidator : AbstractValidator<UpdateClassroom
         RuleFor(query => query.Cabinet)
             .MaximumLength(10)
             .NotEmpty();
-        RuleFor(query => query.TypeIds)
-            .SetValidator(new IdsValidator())
-            .NotEmpty();
     }
 }

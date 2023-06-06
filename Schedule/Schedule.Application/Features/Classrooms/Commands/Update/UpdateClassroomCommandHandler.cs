@@ -28,15 +28,7 @@ public sealed class UpdateClassroomCommandHandler : IRequestHandler<UpdateClassr
             throw new NotFoundException(nameof(Classroom), request.Id);
 
         var classroom = _mapper.Map<Classroom>(request);
-
-        await _context.Set<ClassroomClassroomType>()
-            .Where(e => e.ClassroomId == request.Id)
-            .AsNoTrackingWithIdentityResolution()
-            .ExecuteDeleteAsync(cancellationToken);
-
         _context.Set<Classroom>().Update(classroom);
-        await _context.Set<ClassroomClassroomType>()
-            .AddRangeAsync(classroom.ClassroomClassroomTypes, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }

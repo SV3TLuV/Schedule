@@ -27,7 +27,4 @@ public class Discipline
     public virtual Speciality Speciality { get; set; } = null!;
 
     public virtual Term Term { get; set; } = null!;
-
-    public virtual ICollection<TeacherDiscipline> TeacherDisciplines { get; set; } =
-        new List<TeacherDiscipline>();
 }

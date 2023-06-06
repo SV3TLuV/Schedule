@@ -1,6 +1,5 @@
 export * from './IAuthorizationResult.ts'
 export * from './IClassroom.ts'
-export * from './IClassroomType.ts'
 export * from './ICourse.ts'
 export * from './ICurrentTimetable.ts'
 export * from './IDate.ts'

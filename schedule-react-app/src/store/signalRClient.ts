@@ -2,7 +2,6 @@ import {HttpTransportType, HubConnectionBuilder, LogLevel, signalMiddleware, wit
 import {ApiTags} from "./apis/apiTags.ts";
 import {
     classroomApi,
-    classroomTypeApi,
     courseApi,
     dateApi,
     dayApi,
@@ -41,13 +40,6 @@ const callbacks = withCallbacks<AppDispatch, AppState>()
                 dispatch(classroomApi.util.invalidateTags([
                     {type: ApiTags.Classroom},
                     {type: ApiTags.Lesson}
-                ]))
-                break
-            case ApiTags.ClassroomType:
-                dispatch(classroomTypeApi.util.invalidateTags([
-                    {type: ApiTags.ClassroomType},
-                    {type: ApiTags.Classroom},
-                    {type: ApiTags.Lesson},
                 ]))
                 break
             case ApiTags.Course:

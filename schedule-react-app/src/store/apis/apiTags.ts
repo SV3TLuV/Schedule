@@ -1,6 +1,5 @@
 export enum ApiTags {
     Classroom = 'Classroom',
-    ClassroomType = 'ClassroomType',
     Course = 'Course',
     Date = 'Date',
     Day = 'Day',

@@ -1,6 +1,5 @@
 export * from './baseApi.ts'
 export * from './classroomApi.ts'
-export * from './classroomTypeApi.ts'
 export * from './courseApi.ts'
 export * from './dateApi.ts'
 export * from './dayApi.ts'

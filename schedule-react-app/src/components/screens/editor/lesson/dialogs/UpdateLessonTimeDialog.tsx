@@ -64,9 +64,8 @@ export const UpdateLessonTimeDialog = ({ open, close, dateId }: IUpdateLessonTim
         >
             <Form
                 onSubmit={handleSubmit(onSubmit)}
-                className='text-center'
             >
-                <Modal.Header>
+                <Modal.Header className='text-center'>
                     <Modal.Title>
                         Изменить время пар
                     </Modal.Title>
@@ -77,6 +76,9 @@ export const UpdateLessonTimeDialog = ({ open, close, dateId }: IUpdateLessonTim
                         name='pairNumbers'
                         render={({field}) => (
                             <Form.Group className='m-3' >
+                                <Form.Text>
+                                    (Оставить пустым, для изменения всех)
+                                </Form.Text>
                                 <Select
                                     onChange={field.onChange}
                                     value={field.value}

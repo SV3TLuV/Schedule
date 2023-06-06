@@ -1,10 +1,10 @@
 import {Button, Card, Form, FormGroup, Row} from "react-bootstrap";
 import {useInfinitySelect, usePaginationQuery, useTypedSelector} from "../../../../hooks";
 import {useGetDatesQuery} from "../../../../store/apis";
-import {IDate, ITimeType} from "../../../../features/models";
+import {IDate} from "../../../../features/models";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Select} from "../../../ui";
-import {downloadReportForDateRange} from "../../../../store/apis/reportApi.tsx";
+import {downloadTimetableReport} from "../../../../store/apis/reportApi.ts";
 import {dateValidation} from "./validation.ts";
 
 interface IDateRangeReportForm {
@@ -45,7 +45,9 @@ export const DateRangeReportForm = () => {
             return;
         }
 
-        await downloadReportForDateRange(data.startDate.id, data.endDate.id, accessToken)
+        if (accessToken) {
+            await downloadTimetableReport(data.startDate.id, data.endDate.id, accessToken)
+        }
     }
 
     return (

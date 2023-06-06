@@ -1,46 +1,98 @@
 ﻿using ClosedXML.Excel;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Lessons.Queries.GetLessonNumberList;
 using Schedule.Application.Features.Timetables.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
+using Schedule.Core.Common.Interfaces;
+using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Reports.Queries.GetReportForDate;
+namespace Schedule.Application.Features.Reports.Queries.GetTimetableReport;
 
-public sealed class GetReportForDateQueryHandler : IRequestHandler<GetReportForDateQuery, ReportViewModel>
+public sealed class GetTimetableReportQueryHandler : IRequestHandler<GetTimetableReportQuery, ReportViewModel>
 {
+    private readonly IScheduleDbContext _context;
     private readonly IMediator _mediator;
 
-    public GetReportForDateQueryHandler(
+    public GetTimetableReportQueryHandler(
+        IScheduleDbContext context,
         IMediator mediator)
     {
+        _context = context;
         _mediator = mediator;
     }
-
-    public async Task<ReportViewModel> Handle(GetReportForDateQuery request,
+    
+    public async Task<ReportViewModel> Handle(GetTimetableReportQuery request,
         CancellationToken cancellationToken)
     {
-        var getLessonNumberListQuery = new GetLessonNumberListQuery(request.DateId);
+        var dates = await _context.Set<Date>()
+            .AsNoTrackingWithIdentityResolution()
+            .Where(e => e.DateId >= request.StartDateId && e.DateId <= request.EndDateId)
+            .OrderBy(e => e.DateId)
+            .ToListAsync(cancellationToken);
+        
+        var startDate = dates.FirstOrDefault();
+        var endDate = dates.LastOrDefault();
+        
+        if (startDate is null)
+        {
+            throw new NotFoundException(nameof(Date), request.StartDateId);
+        }
+        
+        if (endDate is null)
+        {
+            throw new NotFoundException(nameof(Date), request.EndDateId);
+        }
+        
+        using var book = new XLWorkbook();
+
+        foreach (var date in dates)
+        {
+            await GenerateForDateAsync(book, date.DateId, cancellationToken);
+        }
+
+        await using var memory = new MemoryStream();
+        book.SaveAs(memory);
+        
+        var reportName = startDate.DateId == endDate.DateId
+            ? $"Report-{startDate.Value}.xlsx"
+            : $"Report-[{startDate.Value} - {endDate.Value}].xlsx";
+        
+        return new ReportViewModel
+        {
+            Content = memory.ToArray(),
+            ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ReportName = reportName
+        };
+    }
+
+    private async Task GenerateForDateAsync(IXLWorkbook book, int dateId,
+        CancellationToken cancellationToken = default)
+    {
+        var getLessonNumberListQuery = new GetLessonNumberListQuery(dateId);
         var lessonNumbers = await _mediator.Send(getLessonNumberListQuery, cancellationToken);
         var maxLessonNumber = lessonNumbers.Max();
-
+        
         var getTimetableListQuery = new GetTimetableListQuery
         {
             Page = 1,
             PageSize = 100,
-            DateId = request.DateId,
+            DateId = dateId,
         };
         var timetableData = await _mediator.Send(getTimetableListQuery, cancellationToken);
 
         if (!timetableData.Items.Any())
         {
-            throw new NotFoundException("Timetables", request.DateId);
+            return;
         }
 
         var date = timetableData.Items.First().Date;
-        using var book = new XLWorkbook();
+        
         book.AddWorksheet($"{date.Value}");
-        var worksheet = book.Worksheet(1);
+        
+        var worksheet = book.Worksheets.Last();
+        
         ApplyWorksheetStyles(worksheet);
         AddDay(worksheet, date.Day, maxLessonNumber);
         AddPairNumbers(worksheet, lessonNumbers);
@@ -61,19 +113,8 @@ public sealed class GetReportForDateQueryHandler : IRequestHandler<GetReportForD
             getTimetableListQuery.Page++;
             timetableData = await _mediator.Send(getTimetableListQuery, cancellationToken);
         }
-        
-        await using var memory = new MemoryStream();
-        book.SaveAs(memory);
-
-        return new ReportViewModel
-        {
-            Content = memory.ToArray(),
-            ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            ReportName = $"Report-{date.Value}.xlsx"
-        };
     }
     
-        
     private static void ApplyWorksheetStyles(IXLWorksheet worksheet)
     {
         worksheet.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;

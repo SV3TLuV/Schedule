@@ -75,7 +75,7 @@ export const SearchSchedulePage = () => {
                     />
                 </Col>
             </Row>
-            <Row className='d-flex flex-column'>
+            <Row className='d-flex'>
                 {timetables && timetables.items.map(current => (
                     current.dates.map(date => (
                         date.items.map(timetable => (

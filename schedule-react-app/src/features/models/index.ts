@@ -24,3 +24,4 @@ export * from './ITimetable.ts'
 export * from './ITimeType.ts'
 export * from './IUser.ts'
 export * from './IWeekType.ts'
+export {IReportType} from "./IReportType.ts";

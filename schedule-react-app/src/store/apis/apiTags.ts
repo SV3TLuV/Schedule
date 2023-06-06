@@ -9,6 +9,7 @@ export enum ApiTags {
     Lesson = 'Lesson',
     LessonNumber = 'LessonNumber',
     LessonTemplate = 'LessonTemplate',
+    Report = 'Report',
     Role = 'Role',
     Speciality = 'Speciality',
     Teacher = 'Teacher',

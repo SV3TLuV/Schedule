@@ -52,7 +52,8 @@ public sealed class ApiModule : Module
                         HttpMethods.Delete)
                     .AllowAnyHeader()
                     .AllowCredentials()
-                    .SetIsOriginAllowed(_ => true);
+                    .SetIsOriginAllowed(_ => true)
+                    .WithExposedHeaders("content-disposition");
             }))
             .ConfigureApplicationCookie(options => { options.Cookie.SameSite = SameSiteMode.None; })
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

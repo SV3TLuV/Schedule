@@ -37,7 +37,6 @@ export const store = setupStore()
 export const persistor = persistStore(store)
 export type AppStore = ReturnType<typeof setupStore>
 export type AppState = ReturnType<typeof rootReducer>
-//export type AppDispatch = AppStore['dispatch']
 export type Action<ReturnValue = void> = SignalAction<
     ReturnValue,
     AppState,

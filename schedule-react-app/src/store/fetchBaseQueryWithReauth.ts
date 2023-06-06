@@ -11,14 +11,14 @@ const mutex = new Mutex()
 export const baseQuery = fetchBaseQuery({
     baseUrl: `${API_URL}/api`,
     headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
     },
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
         const accessToken = (getState() as AppState).auth.accessToken;
         if (accessToken) {
-            headers.set("Authorization", `Bearer ${accessToken}`)
+            headers.set('Authorization', `Bearer ${accessToken}`)
         }
         return headers
     }

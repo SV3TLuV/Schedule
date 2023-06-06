@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Schedule.Application.Features.Base.Validators;
 
-namespace Schedule.Application.Features.Reports.Queries.GetReportForDateRange;
+namespace Schedule.Application.Features.Reports.Queries.GetTimetableReport;
 
-public sealed class GetReportForDateRangeQueryValidator : AbstractValidator<GetReportForDateRangeQuery>
+public sealed class GetTimetableReportQueryValidator : AbstractValidator<GetTimetableReportQuery>
 {
-    public GetReportForDateRangeQueryValidator()
+    public GetTimetableReportQueryValidator()
     {
         RuleFor(query => query.StartDateId)
             .SetValidator(new IdValidator());

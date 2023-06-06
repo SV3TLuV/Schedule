@@ -13,7 +13,7 @@ import {TimetableForm} from "./forms";
 import {IPagedList} from "../../../../features/models";
 import {useDialog} from "../../../../hooks";
 import {UpdateLessonTimeDialog} from "./dialogs";
-import {downloadReportForDate} from "../../../../store/apis/reportApi.tsx";
+import {downloadTimetableReport} from "../../../../store/apis/reportApi.ts";
 
 interface ITimetableEditorState {
     group: IGroup
@@ -92,7 +92,7 @@ export const TimetableEditor = () => {
 
     const handleSave = async () => {
         if (selectedDate && accessToken) {
-            await downloadReportForDate(selectedDate.id, accessToken)
+            await downloadTimetableReport(selectedDate.id, selectedDate.id, accessToken)
         }
     }
 

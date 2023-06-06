@@ -19,9 +19,5 @@ public class CreateTeacherCommandValidator : AbstractValidator<CreateTeacherComm
         RuleFor(query => query.Email)
             .MaximumLength(200)
             .NotEmpty();
-        RuleFor(query => query.DisciplineIds)
-            .SetValidator(new IdsValidator());
-        RuleFor(query => query.GroupIds)
-            .SetValidator(new IdsValidator());
     }
 }

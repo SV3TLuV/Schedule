@@ -16,8 +16,6 @@ public sealed class UpdateTeacherCommand : IRequest<Unit>, IMapWith<Teacher>
     public required string Surname { get; set; }
     public required string MiddleName { get; set; }
     public required string Email { get; set; }
-    public required ICollection<int> GroupIds { get; set; }
-    public required ICollection<int> DisciplineIds { get; set; }
 
     public void Map(Profile profile)
     {

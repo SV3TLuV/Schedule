@@ -12,7 +12,6 @@ public sealed class UpdateClassroomCommand : IRequest<Unit>, IMapWith<Classroom>
 {
     public required int Id { get; set; }
     public required string Cabinet { get; set; }
-    public required int[] TypeIds { get; set; }
 
     public void Map(Profile profile)
     {

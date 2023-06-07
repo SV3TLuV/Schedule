@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Features.Groups.Notifications.GroupDeleteTransfers;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -9,10 +10,14 @@ namespace Schedule.Application.Features.Groups.Commands.Delete;
 public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
+    private readonly IMediator _mediator;
 
-    public DeleteGroupCommandHandler(IScheduleDbContext context)
+    public DeleteGroupCommandHandler(
+        IScheduleDbContext context,
+        IMediator mediator)
     {
         _context = context;
+        _mediator = mediator;
     }
 
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
@@ -31,6 +36,7 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
 
         _context.Set<Group>().Remove(group);
         await _context.SaveChangesAsync(cancellationToken);
+        await _mediator.Publish(new GroupDeleteTransfersNotification(group.GroupId), cancellationToken);
         return Unit.Value;
     }
 }

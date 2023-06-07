@@ -41,13 +41,15 @@ public sealed class GroupCreateTimetablesNotificationHandler
             .Select(e => e.DateId)
             .ToListAsync(cancellationToken);
 
-        foreach (var dateId in dateIds)
-        {
-            var command = new CreateTimetableCommand
+        var commands = dateIds.Select(id =>
+            new CreateTimetableCommand
             {
                 GroupId = group.GroupId,
-                DateId = dateId
-            };
+                DateId = id
+            });
+        
+        foreach (var command in commands)
+        {
             await _mediator.Send(command, cancellationToken);
         }
     }

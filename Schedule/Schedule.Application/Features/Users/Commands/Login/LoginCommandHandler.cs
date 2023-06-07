@@ -38,7 +38,7 @@ public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authoriz
             .FirstOrDefaultAsync(e => e.Login == request.Login, cancellationToken);
 
         if (user is null || !BCrypt.Net.BCrypt.EnhancedVerify(request.Password, user.PasswordHash, HashType.SHA512))
-            throw new IncrorrectAuthorizationDataException();
+            throw new IncorrectAuthorizationDataException();
 
         var command = new CreateSessionCommand
         {

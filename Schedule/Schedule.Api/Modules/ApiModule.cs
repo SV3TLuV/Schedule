@@ -78,7 +78,7 @@ public sealed class ApiModule : Module
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationBehavior<,>))
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-                options.UseSqlServer("Name=ScheduleWin"))
+                options.UseSqlServer($"Name={Constants.ConnectionStringName}"))
             .AddQuartzServer(options => { options.WaitForJobsToComplete = true; })
             .AddQuartz(configuration =>
             {

@@ -53,6 +53,8 @@ public sealed class GroupCreateTemplatesNotificationHandler
             });
 
         foreach (var command in commands)
+        {
             await _mediator.Send(command, cancellationToken);
+        }
     }
 }

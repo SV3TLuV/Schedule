@@ -30,6 +30,7 @@ public sealed class GetDisciplineListQueryHandler
             .ThenInclude(e => e.Course)
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)
+            .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch

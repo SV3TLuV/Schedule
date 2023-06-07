@@ -33,6 +33,7 @@ public sealed class GetLessonListQueryHandler
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .ToListAsync(cancellationToken);
 
         var totalCount = await _context.Set<Lesson>().CountAsync(cancellationToken);

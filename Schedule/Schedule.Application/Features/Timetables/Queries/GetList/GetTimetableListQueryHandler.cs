@@ -61,8 +61,8 @@ public sealed class GetTimetableListQueryHandler
             .ThenInclude(e => e.Classroom)
             .OrderBy(e => e.TimetableId)
             .Where(e => !e.Group.IsDeleted)
-            .AsNoTrackingWithIdentityResolution()
-            .AsSplitQuery();
+            .AsSplitQuery()
+            .AsNoTrackingWithIdentityResolution();
 
         if (request.DateId is not null) query = query.Where(e => e.DateId == request.DateId);
 

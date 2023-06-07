@@ -33,6 +33,7 @@ public sealed class GetLessonTemplateListQueryHandler
             .ThenInclude(e => e.Teacher)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
 

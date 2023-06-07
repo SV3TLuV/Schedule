@@ -37,7 +37,7 @@ async function showError(error: FetchBaseQueryError | undefined) {
         msg = `[${status}] ${(data as any)?.error}`
     }
 
-    message.error(msg);
+    message.error(msg, 5);
 }
 
 export const fetchQueryWithReauth: BaseQueryFn<

@@ -50,6 +50,11 @@ public sealed class CustomExceptionHandlerMiddleware
                 code = HttpStatusCode.BadRequest;
                 result = "Неверный логин или пароль.";
                 break;
+            case AlreadyExistsException alreadyExistsException:
+                code = HttpStatusCode.Conflict;
+                result = $"{alreadyExistsException.Value} уже существует, или ранее был удален.\n" +
+                         $"Вы можете восстановить его на вкладке 'Удаленные'";
+                break;
         }
 
         context.Response.ContentType = "application/json";

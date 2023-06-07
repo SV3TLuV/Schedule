@@ -27,6 +27,17 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
         if (groupDbo is null)
             throw new NotFoundException(nameof(Group), request.Id);
 
+        var searched = await _context.Set<Group>()
+            .AsNoTrackingWithIdentityResolution()
+            .Include(e => e.Speciality)
+            .FirstOrDefaultAsync(e =>
+                e.Number == request.Number &&
+                e.SpecialityId == request.SpecialityId &&
+                e.EnrollmentYear == request.EnrollmentYear, cancellationToken);
+
+        if (searched is not null)
+            throw new AlreadyExistsException($"Группа: {searched.Name}");
+        
         var group = _mapper.Map<Group>(request);
 
         await _context.Set<GroupGroup>()

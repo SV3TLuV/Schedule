@@ -27,6 +27,17 @@ public sealed class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisci
         if (disciplineDbo is null)
             throw new NotFoundException(nameof(Discipline), request.Id);
 
+        var searched = await _context.Set<Discipline>()
+            .AsNoTrackingWithIdentityResolution()
+            .FirstOrDefaultAsync(e =>
+                e.TermId == request.TermId &&
+                e.Name == request.Name &&
+                e.Code == request.Code &&
+                e.SpecialityId == request.SpecialityId, cancellationToken);
+
+        if (searched is not null)
+            throw new AlreadyExistsException($"Дисциплина: {searched.Name}");
+        
         var discipline = _mapper.Map<Discipline>(request);
         _context.Set<Discipline>().Update(discipline);
         await _context.SaveChangesAsync(cancellationToken);

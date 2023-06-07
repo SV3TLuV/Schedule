@@ -28,6 +28,17 @@ public sealed class UpdateTimeCommandHandler : IRequestHandler<UpdateTimeCommand
             throw new NotFoundException(nameof(Time), request.Id);
 
         var time = _mapper.Map<Time>(request);
+        
+        var searched = await _context.Set<Time>()
+            .AsNoTrackingWithIdentityResolution()
+            .FirstOrDefaultAsync(e =>
+                e.Start == time.Start &&
+                e.End == time.End &&
+                e.TypeId == time.TypeId, cancellationToken);
+
+        if (searched is not null)
+            throw new AlreadyExistsException($"Время: {time.Start}-{time.End}");
+        
         _context.Set<Time>().Update(time);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;

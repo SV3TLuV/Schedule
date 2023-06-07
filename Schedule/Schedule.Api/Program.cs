@@ -64,8 +64,8 @@ void ConfigureApp(WebApplication webApp)
         .UseCustomExceptionHandler()
         .UseSwagger()
         .UseSwaggerUI()
-        .UseCors(Constants.CorsName)
         .UseHttpsRedirection()
+        .UseCors(Constants.CorsName)
         .UseAuthentication()
         .UseAuthorization();
     webApp.MapControllers();

@@ -35,6 +35,7 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
             .ThenInclude(e => e.Group)
             .Include(e => e.LessonTemplateTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .FirstAsync(e => e.LessonTemplateId == notification.LessonTemplateId, cancellationToken);
 
         var lessons = await _context.Set<Lesson>()
@@ -45,6 +46,7 @@ public sealed class LessonTemplateUpdateNotificationHandler : INotificationHandl
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .Where(e =>
                 e.Number == lessonTemplate.Number &&
                 e.Timetable.GroupId == lessonTemplate.Template.GroupId &&

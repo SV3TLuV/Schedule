@@ -25,6 +25,7 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .FirstOrDefaultAsync(e => e.LessonId == notification.LessonId, cancellationToken);
 
         if (lesson is null)

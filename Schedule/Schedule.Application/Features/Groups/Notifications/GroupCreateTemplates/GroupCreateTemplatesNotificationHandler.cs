@@ -40,7 +40,9 @@ public sealed class GroupCreateTemplatesNotificationHandler
                 d => true,
                 w => true,
                 (d, w) => new { d.DayId, d.TermId, w.WeekTypeId })
+            .Where(e => e.TermId <= group.Speciality.MaxTermId)
             .AsNoTrackingWithIdentityResolution()
+            .AsSplitQuery()
             .ToListAsync(cancellationToken);
 
         var commands = ids.Select(item =>

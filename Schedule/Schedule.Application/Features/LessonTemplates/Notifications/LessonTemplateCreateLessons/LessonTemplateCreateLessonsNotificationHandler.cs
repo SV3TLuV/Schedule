@@ -43,6 +43,7 @@ public sealed class LessonTemplateCreateLessonsNotificationHandler
         var timetables = await _context.Set<Timetable>()
             .Include(e => e.Date)
             .Include(e => e.Lessons)
+            .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution()
             .Where(e =>
                 e.GroupId == lessonTemplate.Template.GroupId &&

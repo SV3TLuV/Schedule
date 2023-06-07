@@ -24,13 +24,6 @@ public sealed class
     public async Task Handle(TemplateCreateLessonTemplatesNotification notification,
         CancellationToken cancellationToken)
     {
-        var template = await _context.Set<Template>()
-            .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => e.TemplateId == notification.TemplateId, cancellationToken);
-
-        if (template is null)
-            throw new NotFoundException(nameof(Template), notification.TemplateId);
-
         for (var i = 1; i <= 4; i++)
         {
             var command = new CreateLessonTemplateCommand

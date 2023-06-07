@@ -164,7 +164,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     value={field.value}
                                     options={types}
                                     fields='name'
-                                    label='Тип'
+                                    label='Вид'
                                     error={!!errors.type?.message}
                                     helperText={errors.type?.message}
                                 />

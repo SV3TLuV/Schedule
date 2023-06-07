@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Schedule.Api.Common;
-using Schedule.Api.Common.Behavior;
 using Schedule.Api.Hubs;
 using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
@@ -27,11 +26,12 @@ try
         }))
         .ConfigureServices(services =>
         {
+            /*
             services
                 .AddMemoryCache()
                 .AddMiniProfiler(options => options.RouteBasePath = "/profiler")
                 .AddEntityFramework();
-            
+                */
             services
                 .AddEndpointsApiExplorer()
                 .AddSwaggerGen()
@@ -70,14 +70,14 @@ void ConfigureApp(WebApplication webApp)
         .UseAuthorization();
     webApp.MapControllers();
     webApp.MapHub<NotificationHub>("/hub/notification");
-    webApp.UseMiniProfiler();
+    //webApp.UseMiniProfiler();
 }
 
 void ConfigureLogger(IConfiguration configuration)
 {
     Log.Logger = new LoggerConfiguration()
         .WriteTo.MSSqlServer(
-            configuration.GetConnectionString("ScheduleWin"),
+            configuration.GetConnectionString(Constants.ConnectionStringName),
             new MSSqlServerSinkOptions
             {
                 TableName = "Logs",

@@ -46,7 +46,7 @@ public sealed class CustomExceptionHandlerMiddleware
                 code = HttpStatusCode.NotFound;
                 result = "Не найдено.";
                 break;
-            case IncrorrectAuthorizationDataException:
+            case IncorrectAuthorizationDataException:
                 code = HttpStatusCode.BadRequest;
                 result = "Неверный логин или пароль.";
                 break;

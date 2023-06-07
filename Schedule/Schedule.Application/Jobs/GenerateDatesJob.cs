@@ -65,6 +65,8 @@ public sealed class GenerateDatesJob : IJob
         var currentWeek = _dateInfoService.GetWeekOfYear(now);
         var lastWeek = _dateInfoService.GetWeekOfYear(last);
 
+        if (last.Year < now.Year)
+            return true;
         if (lastWeek < currentWeek && last.Year == now.Year)
             return true;
         if (lastWeek == currentWeek)

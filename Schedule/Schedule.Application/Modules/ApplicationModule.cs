@@ -31,15 +31,6 @@ public sealed class ApplicationModule : Module
             .WithAllOpenGenericHandlerTypesRegistered()
             .Build());
 
-        builder
-            .Register(_ =>
-            {
-                var connectionString = _configuration.GetConnectionString("ScheduleWin");
-                return new SqlConnection(connectionString);
-            })
-            .As<IDbConnection>()
-            .InstancePerDependency();
-
         var services = new ServiceCollection();
 
         services.AddValidatorsFromAssembly(ThisAssembly);

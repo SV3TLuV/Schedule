@@ -38,6 +38,7 @@ public sealed class GetGroupListQueryHandler
             .ThenInclude(e => e.Course)
             .OrderBy(e => e.Term.CourseId)
             .ThenBy(e => e.Speciality.Code)
+            .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch

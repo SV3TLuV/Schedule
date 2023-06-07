@@ -68,8 +68,8 @@ public sealed class GetCurrentTimetableListQueryHandler
             .ThenInclude(e => e.Classroom)
             .Where(e => dateIds.Contains(e.DateId))
             .Where(e => !e.Group.IsDeleted)
-            .AsNoTrackingWithIdentityResolution()
-            .AsSplitQuery();
+            .AsSplitQuery()
+            .AsNoTrackingWithIdentityResolution();
 
         if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
 

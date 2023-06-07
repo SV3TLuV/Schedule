@@ -60,8 +60,8 @@ public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateLis
             .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
-            .AsNoTrackingWithIdentityResolution()
-            .AsSplitQuery();
+            .AsSplitQuery()
+            .AsNoTrackingWithIdentityResolution();
 
         if (request.WeekTypeId is not null) query = query.Where(e => e.WeekTypeId == request.WeekTypeId);
 

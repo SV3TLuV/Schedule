@@ -44,10 +44,11 @@ public sealed class GroupCreateTransfersNotificationHandler
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    private static DateTime GetTransferDate(int enrollmentYear, int startTermId, int termId)
+    private static DateTime GetTransferDate(int enrollmentYear, int groupTermId, int termId)
     {
-        var termOffset = termId - startTermId;
-        var transferYear = enrollmentYear + Convert.ToInt32(Math.Floor((double)(termOffset + 1) / 2));
+        const int startTermId = 1;
+        var termOffset = termId - groupTermId;
+        var transferYear = enrollmentYear + Convert.ToInt32(Math.Ceiling((termId - startTermId) / 2.0));
         var transferMonth = termOffset % 2 == 0 ? 8 : 1;
         return new DateTime(transferYear, transferMonth, 1);
     }

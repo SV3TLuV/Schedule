@@ -60,6 +60,7 @@ public sealed class GetTemplateListQueryHandler : IRequestHandler<GetTemplateLis
             .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
+            .Where(e => !e.Group.IsDeleted)
             .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution();
 

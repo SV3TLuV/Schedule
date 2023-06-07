@@ -34,6 +34,7 @@ public sealed class LessonTemplateDeleteLessonsNotificationHandler
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.Term)
             .Include(e => e.LessonTeacherClassrooms)
+            .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution()
             .Where(e =>
                 e.Number == notification.LessonTemplate.Number &&

@@ -28,13 +28,6 @@ public sealed class GroupCreateTimetablesNotificationHandler
     public async Task Handle(GroupCreateTimetablesNotification notification,
         CancellationToken cancellationToken)
     {
-        var group = await _context.Set<Group>()
-            .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => e.GroupId == notification.Id, cancellationToken);
-
-        if (group is null)
-            throw new NotFoundException(nameof(Group), notification.Id);
-
         var dateIds = await _context.Set<Date>()
             .AsNoTrackingWithIdentityResolution()
             .Where(e => e.Value.Date >= _dateInfoService.CurrentDateTime.Date)
@@ -44,7 +37,7 @@ public sealed class GroupCreateTimetablesNotificationHandler
         var commands = dateIds.Select(id =>
             new CreateTimetableCommand
             {
-                GroupId = group.GroupId,
+                GroupId = notification.Id,
                 DateId = id
             });
         

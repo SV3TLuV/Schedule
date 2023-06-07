@@ -35,6 +35,13 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
         if (userDbo is null)
             throw new NotFoundException(nameof(User), request.Id);
 
+        var searched = await _context.Set<User>()
+            .AsNoTrackingWithIdentityResolution()
+            .FirstOrDefaultAsync(e => e.Login == request.Login, cancellationToken);
+
+        if (searched is not null)
+            throw new AlreadyExistsException($"Пользователь: {searched.Login}");
+        
         var user = _mapper.Map<User>(request);
         user.PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password, HashType.SHA512);
         _context.Set<User>().Update(user);

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTemplates;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTimetables;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
+using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -25,6 +27,17 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
 
     public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
+        var searched = await _context.Set<Group>()
+            .AsNoTrackingWithIdentityResolution()
+            .Include(e => e.Speciality)
+            .FirstOrDefaultAsync(e =>
+                e.Number == request.Number &&
+                e.SpecialityId == request.SpecialityId &&
+                e.EnrollmentYear == request.EnrollmentYear, cancellationToken);
+
+        if (searched is not null)
+            throw new AlreadyExistsException($"Группа: {searched.Name}");
+        
         var group = _mapper.Map<Group>(request);
         await _context.Set<Group>().AddAsync(group, cancellationToken);
 

@@ -29,6 +29,18 @@ public sealed class UpdateTeacherCommandHandler : IRequestHandler<UpdateTeacherC
         if (teacherDbo is null)
             throw new NotFoundException(nameof(Teacher), request.Id);
 
+        var searched = await _context.Set<Teacher>()
+            .AsNoTrackingWithIdentityResolution()
+            .FirstOrDefaultAsync(e =>
+                e.Name == request.Name &&
+                e.Surname == request.Surname &&
+                e.MiddleName == request.MiddleName &&
+                e.Email == request.Email, cancellationToken);
+
+        if (searched is not null)
+            throw new AlreadyExistsException(
+                $"Преподаватель: {searched.Surname} {searched.Name} {searched.MiddleName}");
+        
         var teacher = _mapper.Map<Teacher>(request);
         _context.Set<Teacher>().Update(teacher);
         await _context.SaveChangesAsync(cancellationToken);

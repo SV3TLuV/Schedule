@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+
+  database:
+    container_name: SqlServer
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@ssw0rd
+      - MSSQL_PID=Express
+
+  api:
+    container_name: Api
+    image: api
+    build:
+      context: ./Schedule
+      dockerfile: Schedule.Api/Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - database
+    restart: always
+  
+  react:
+    container_name: React
+    image: react
+    build: ./schedule-react-app
+    depends_on:
+      - api
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./:/app
+    restart: always
+    stdin_open: true
+    tty: true

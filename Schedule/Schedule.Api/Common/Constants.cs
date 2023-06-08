@@ -3,5 +3,5 @@
 internal static class Constants
 {
     public const string CorsName = "CORS";
-    public const string ConnectionStringName = "ScheduleWin";
+    public const string ConnectionStringName = "Docker";
 }

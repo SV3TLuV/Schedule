@@ -7,7 +7,6 @@ import {usePaginationQuery} from "../../../../../hooks";
 import {useGetTermsQuery} from "../../../../../store/apis";
 import {useInfinitySelect} from "../../../../../hooks";
 import {ITerm} from "../../../../../features/models";
-import {IDiscipline} from "../../../../../features/models";
 import {ICourse} from "../../../../../features/models";
 import {codeValidation, nameValidation, termsValidation} from "./validation";
 
@@ -24,7 +23,6 @@ interface ISpecialityFormState {
     code: string
     name: string
     term: ITerm
-    disciplines: IDiscipline[]
 }
 
 export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpecialityForm) => {
@@ -49,7 +47,6 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
             courseTerm: 0,
             course: {} as ICourse
         } as ITerm,
-        disciplines: speciality.disciplines,
     }
 
     const {control, handleSubmit, reset, formState: {errors}} = useForm<ISpecialityFormState>({
@@ -63,7 +60,6 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
             code: data.code,
             name: data.name,
             maxTermId: data.term.id,
-            disciplines: data.disciplines,
         } as ISpeciality)
         handleClose()
     }

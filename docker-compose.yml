@@ -19,7 +19,7 @@ services:
       context: ./Schedule
       dockerfile: Schedule.Api/Dockerfile
     ports:
-      - "8081:8080"
+      - "5292:5291"
     depends_on:
       - database
     restart: always
@@ -31,7 +31,7 @@ services:
     depends_on:
       - api
     ports:
-      - "3001:3000"
+      - "3001:5173"
     volumes:
       - ./:/app
     restart: always

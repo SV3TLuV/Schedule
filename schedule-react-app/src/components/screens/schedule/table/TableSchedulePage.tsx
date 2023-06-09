@@ -17,7 +17,9 @@ export const TableSchedulePage = () => {
     const {data: timetables} = useGetCurrentTimetableQuery({
         ...timetableQuery as IPaginationQuery,
         dateCount: 2
-    } as IGetCurrentTimetableQuery)
+    } as IGetCurrentTimetableQuery, {
+        pollingInterval: 5000
+    })
 
     if (!timetables) {
         return <Loading/>

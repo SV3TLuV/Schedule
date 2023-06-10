@@ -11,5 +11,23 @@ public sealed class TimeTypeEntityTypeConfiguration : IEntityTypeConfiguration<T
         builder.ToTable(tb => tb.HasTrigger("TimeTypes_Delete"));
         builder.HasIndex(e => e.Name, "IX_TimeTypes").IsUnique();
         builder.Property(e => e.Name).HasMaxLength(50);
+        builder.HasData(new TimeType[]
+        {
+            new()
+            {
+                TimeTypeId = 1,
+                Name = "Стандартное",
+            },
+            new()
+            {
+                TimeTypeId = 2,
+                Name = "Сокращенное",
+            },
+            new()
+            {
+                TimeTypeId = 3,
+                Name = "Понедельник",
+            },
+        });
     }
 }

@@ -6,9 +6,10 @@
         <entry key="Common:buildConfiguration" value="Debug" />
         <entry key="Common:dbContextFolder" value="Context" />
         <entry key="Common:dbContextName" value="ScheduleDbContext" />
+        <entry key="Common:f04d3607-a33b-4583-90e6-1f33fdaeaa88:dbContext" value="Schedule.Persistence.Context.ScheduleDbContext" />
         <entry key="Common:generateOnConfiguring" value="false" />
         <entry key="Common:noBuild" value="false" />
-        <entry key="Common:outputFolder" value="Entities" />
+        <entry key="Common:outputFolder" value="Migrations" />
         <entry key="Common:provider" value="Microsoft.EntityFrameworkCore.SqlServer" />
         <entry key="Common:targetFramework" value="net7.0" />
         <entry key="Common:useAttributes" value="false" />

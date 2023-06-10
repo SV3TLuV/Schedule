@@ -15,5 +15,22 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .HasForeignKey(d => d.RoleId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Users_Roles");
+        builder.HasData(new User[]
+        {
+            new()
+            {
+                UserId = 1,
+                Login = "Admin",
+                PasswordHash = "$2a$11$/AKGJmbjT9.J/pdMmIk7S.VItgYYrknXhoPAUsTRIUqzIUXVw25zq",
+                RoleId = 1,
+            },
+            new()
+            {
+                UserId = 2,
+                Login = "Editor",
+                PasswordHash = "$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i",
+                RoleId = 2,
+            },
+        });
     }
 }

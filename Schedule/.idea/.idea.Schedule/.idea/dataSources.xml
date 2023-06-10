@@ -15,5 +15,12 @@
       <jdbc-url>Server=sql.bsite.net\MSSQL2016;Database=gewofo6202_Schedule;TrustServerCertificate=True;MultipleActiveResultSets=True;</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Schedule@localhost" uuid="f1eddffc-9359-4744-89ce-1b584bac9a6c">
+      <driver-ref>sqlserver.jb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
+      <jdbc-url>Server=localhost;Database=Schedule</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

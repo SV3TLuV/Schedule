@@ -11,5 +11,18 @@ public sealed class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
         builder.HasKey(e => e.RoleId);
         builder.HasIndex(e => e.Name, "IX_Roles").IsUnique();
         builder.Property(e => e.Name).HasMaxLength(30);
+        builder.HasData(new Role[]
+        {
+            new()
+            {
+                RoleId = 1,
+                Name = "Admin",
+            },
+            new()
+            {
+                RoleId = 2,
+                Name = "Editor",
+            }
+        });
     }
 }

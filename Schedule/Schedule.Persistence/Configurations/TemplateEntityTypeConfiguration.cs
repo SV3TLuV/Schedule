@@ -10,6 +10,7 @@ public sealed class TemplateEntityTypeConfiguration : IEntityTypeConfiguration<T
     {
         builder.ToTable(tb => tb.HasTrigger("Templates_Insert"));
         builder.HasIndex(e => new { e.GroupId, e.TermId, e.DayId, e.WeekTypeId }, "IX_Templates_1").IsUnique();
+        builder.HasIndex(e => e.GroupId, "IX_Templates_GroupId");
         builder.HasOne(d => d.Day).WithMany(p => p.Templates)
             .HasForeignKey(d => d.DayId)
             .OnDelete(DeleteBehavior.ClientSetNull)

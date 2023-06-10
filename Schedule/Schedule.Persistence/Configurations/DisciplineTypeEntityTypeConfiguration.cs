@@ -11,5 +11,23 @@ public sealed class DisciplineTypeEntityTypeConfiguration
     {
         builder.ToTable("DisciplineType");
         builder.Property(e => e.Name).HasMaxLength(30);
+        builder.HasData(new DisciplineType[]
+        {
+            new ()
+            {
+                DisciplineTypeId = 1,
+                Name = "Дисциплина",
+            },
+            new ()
+            {
+                DisciplineTypeId = 2,
+                Name = "Практика",
+            },
+            new ()
+            {
+                DisciplineTypeId = 3,
+                Name = "Внекласная деятельность",
+            },
+        });
     }
 }

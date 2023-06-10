@@ -14,7 +14,9 @@ using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Jobs;
 using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
+using Schedule.Persistence.Common.Interfaces;
 using Schedule.Persistence.Context;
+using Schedule.Persistence.Initializers;
 
 namespace Schedule.Api.Modules;
 
@@ -76,6 +78,7 @@ public sealed class ApiModule : Module
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationBehavior<,>))
+            .AddTransient<IDbInitializer, DatabaseInitializer>()
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
                 options.UseSqlServer($"Name={Constants.ConnectionStringName}"))

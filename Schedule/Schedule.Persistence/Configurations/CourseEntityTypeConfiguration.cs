@@ -9,5 +9,28 @@ public sealed class CourseEntityTypeConfiguration : IEntityTypeConfiguration<Cou
     public void Configure(EntityTypeBuilder<Course> builder)
     {
         builder.Property(e => e.CourseId).ValueGeneratedNever();
+        builder.HasData(new Course[]
+        {
+            new()
+            {
+                CourseId = 1,
+            },
+            new()
+            {
+                CourseId = 2,
+            },
+            new()
+            {
+                CourseId = 3,
+            },
+            new()
+            {
+                CourseId = 4,
+            },
+            new()
+            {
+                CourseId = 5,
+            },
+        });
     }
 }

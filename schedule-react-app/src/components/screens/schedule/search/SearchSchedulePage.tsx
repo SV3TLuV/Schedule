@@ -56,6 +56,11 @@ export const SearchSchedulePage = () => {
                         name='group'
                         render={({field}) => (
                             <Form.Group className='p-0'>
+                                {!selectedGroup &&
+                                    <Form.Text>
+                                        Выберите группу
+                                    </Form.Text>
+                                }
                                 <Select
                                     onChange={(e) => {
                                         field.onChange(e)

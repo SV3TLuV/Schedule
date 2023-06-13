@@ -21,6 +21,7 @@ services:
     container_name: Api
     image: api
     build:
+      network: host
       context: ./Schedule
       dockerfile: Schedule.Api/Dockerfile
     ports:
@@ -40,7 +41,10 @@ services:
   react:
     container_name: React
     image: react
-    build: ./schedule-react-app
+    build: 
+      network: host
+      context: ./schedule-react-app
+      dockerfile: Dockerfile
     depends_on:
       - api
     ports:

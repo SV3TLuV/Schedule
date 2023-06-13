@@ -31,11 +31,15 @@ export const Header = () => {
     return (
         <Navbar bg='light' expand='md' className='py-3'>
             <Container>
-                <Navbar.Brand className='navbar-brand d-flex align-items-center'>
+                <Navbar.Brand
+                    className='navbar-brand d-flex align-items-center'
+                    href='/'
+                    onClick={goToScheduleSearch}
+                >
                     <span className='bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon'>
                         <BiTable size='1em' />
                     </span>
-                    <span className='fw-bolder'>
+                    <span className='fw-bolder my-auto mx-auto'>
                         <strong>Расписание</strong>
                     </span>
                 </Navbar.Brand>

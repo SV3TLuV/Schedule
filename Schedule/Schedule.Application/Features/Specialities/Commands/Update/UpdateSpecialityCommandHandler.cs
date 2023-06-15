@@ -26,15 +26,6 @@ public sealed class UpdateSpecialityCommandHandler : IRequestHandler<UpdateSpeci
 
         if (specialityDbo is null)
             throw new NotFoundException(nameof(Speciality), request.Id);
-
-        var searched = await _context.Set<Speciality>()
-            .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e =>
-                e.Name == request.Name &&
-                e.Code == request.Code, cancellationToken);
-
-        if (searched is not null)
-            throw new AlreadyExistsException($"Специальность: {searched.Name}");
         
         var speciality = _mapper.Map<Speciality>(request);
         _context.Set<Speciality>().Update(speciality);

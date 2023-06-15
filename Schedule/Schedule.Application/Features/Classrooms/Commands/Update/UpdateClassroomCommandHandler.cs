@@ -27,14 +27,6 @@ public sealed class UpdateClassroomCommandHandler : IRequestHandler<UpdateClassr
         if (classroomDbo is null)
             throw new NotFoundException(nameof(Classroom), request.Id);
 
-        var searched = await _context.Set<Classroom>()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e =>
-                e.Cabinet == request.Cabinet, cancellationToken);
-
-        if (searched is not null)
-            throw new AlreadyExistsException($"Кабинет: {searched.Cabinet}");
-        
         var classroom = _mapper.Map<Classroom>(request);
         _context.Set<Classroom>().Update(classroom);
         await _context.SaveChangesAsync(cancellationToken);

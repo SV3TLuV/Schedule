@@ -12,7 +12,7 @@ export const CurrentTimetableDisplay = ({timetable}: ICurrentTimetableDisplay) =
     return (
         <Card className='h-100 w-100 bg-dark text-white font-weight-bold'>
             <Card.Body className='p-0 h-100'>
-                <p className='text-uppercase fw-bolder text-center mb-0 fs-14'>
+                <p className='text-uppercase text-truncate fw-bolder text-center mb-0 fs-14'>
                     <span className="text-decoration-underline">
                         {timetable.groupNames}
                     </span>

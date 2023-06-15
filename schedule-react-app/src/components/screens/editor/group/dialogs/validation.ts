@@ -4,6 +4,10 @@ export const numberValidation = {
     required: ValidationMessage.REQUIRED,
     validate: (value: string) => {
         const maxLength = 2
+        const numberRegex = /^\d+$/;
+
+        if (!numberRegex.test(value))
+            return ValidationMessage.INCORRECT_DATA
 
         if (value.length != maxLength)
             return ValidationMessage.REQUIRED_LENGTH + maxLength
@@ -14,14 +18,14 @@ export const numberValidation = {
 
 export const enrollmentYearValidation = {
     required: ValidationMessage.REQUIRED,
-    validate: (value: number) => {
+    validate: (value: string) => {
         const requiredLength = 4
-        const valueString = value.toString()
+        const numberRegex = /^\d+$/;
 
-        if (isNaN(value))
+        if (!numberRegex.test(value))
             return ValidationMessage.INCORRECT_DATA
 
-        if (valueString.length != requiredLength)
+        if (value.length != requiredLength)
             return ValidationMessage.REQUIRED_LENGTH + requiredLength
 
         return true

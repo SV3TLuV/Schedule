@@ -55,11 +55,10 @@ export const userApi = baseApi.injectEndpoints({
             }),
             async onQueryStarted(_, {dispatch, queryFulfilled}) {
                 try {
+                    await dispatch(logout())
                     await queryFulfilled
                 } catch (e) {
                     console.log(e)
-                } finally {
-                    await dispatch(logout())
                 }
             },
         }),

@@ -25,5 +25,13 @@ export const codeValidation = {
 }
 
 export const totalHoursValidation = {
-    required: ValidationMessage.REQUIRED
+    required: ValidationMessage.REQUIRED,
+    validate: (value: string) => {
+        const numberRegex = /^\d+$/;
+
+        if (!numberRegex.test(value))
+            return ValidationMessage.INCORRECT_DATA
+
+        return true
+    }
 }

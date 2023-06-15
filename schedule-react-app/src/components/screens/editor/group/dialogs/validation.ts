@@ -18,14 +18,15 @@ export const numberValidation = {
 
 export const enrollmentYearValidation = {
     required: ValidationMessage.REQUIRED,
-    validate: (value: string) => {
+    validate: (value: number) => {
         const requiredLength = 4
+        const stringValue = value.toString()
         const numberRegex = /^\d+$/;
 
-        if (!numberRegex.test(value))
+        if (!numberRegex.test(stringValue))
             return ValidationMessage.INCORRECT_DATA
 
-        if (value.length != requiredLength)
+        if (stringValue.length != requiredLength)
             return ValidationMessage.REQUIRED_LENGTH + requiredLength
 
         return true

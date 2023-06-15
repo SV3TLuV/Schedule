@@ -6,6 +6,8 @@ import {IGetCurrentTimetableQuery} from "../../../../features/queries";
 import {Loading} from "../../../ui";
 import {CurrentTimetableDisplay} from "./CurrentTimetableDisplay.tsx";
 import {useParams} from "react-router-dom";
+import {chunk} from "../../../../utils/chunk.ts";
+import {ICurrentTimetable} from "../../../../features/models";
 
 export const TableSchedulePage = () => {
     const {page} = useParams()
@@ -14,16 +16,18 @@ export const TableSchedulePage = () => {
         pageSize: 24,
         page: page ? parseInt(page) : 1
     })
-    const {data: timetables} = useGetCurrentTimetableQuery({
+    const {data: timetableData} = useGetCurrentTimetableQuery({
         ...timetableQuery as IPaginationQuery,
         dateCount: 2
     } as IGetCurrentTimetableQuery, {
         pollingInterval: 5000
     })
 
-    if (!timetables) {
+    if (!timetableData) {
         return <Loading/>
     }
+
+    const timetableChunks: ICurrentTimetable[][] = chunk(timetableData.items, 6)
 
     return (
         <Container
@@ -35,22 +39,23 @@ export const TableSchedulePage = () => {
             }}
             fluid
         >
-            <Row className='h-100'>
-                {timetables.items.map(timetable => (
-                    <Col
-                        key={timetable.groupNames}
-                        xs={2}
-                        style={{
-                            height: '25%',
-                            padding: '10px'
-                        }}
-                    >
-                        <CurrentTimetableDisplay
-                            timetable={timetable}
-                        />
-                    </Col>
-                ))}
-            </Row>
+            {timetableChunks.map((timetables, index) => (
+                <Row className='h-25' key={index}>
+                    {timetables.map(timetable => (
+                        <Col
+                            key={timetable.groupNames}
+                            xs={2}
+                            style={{
+                                padding: '10px'
+                            }}
+                        >
+                            <CurrentTimetableDisplay
+                                timetable={timetable}
+                            />
+                        </Col>
+                    ))}
+                </Row>
+            ))}
         </Container>
     )
 }

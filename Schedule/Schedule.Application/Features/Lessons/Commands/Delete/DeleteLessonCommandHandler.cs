@@ -31,6 +31,11 @@ public sealed class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCom
         if (lesson is null)
             throw new NotFoundException(nameof(Lesson), request.Id);
 
+        await _context.Set<LessonTeacherClassroom>()
+            .AsNoTrackingWithIdentityResolution()
+            .Where(e => e.LessonId == lesson.LessonId)
+            .ExecuteDeleteAsync(cancellationToken);
+        
         _context.Set<Lesson>().Remove(lesson);
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonDeleteForUnitedGroupsNotification(lesson), cancellationToken);

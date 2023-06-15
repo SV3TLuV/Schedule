@@ -24,12 +24,16 @@ public sealed class DeleteLessonTemplateCommandHandler : IRequestHandler<DeleteL
     {
         var lessonTemplate = await _context.Set<LessonTemplate>()
             .Include(e => e.Template)
-            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.LessonTemplateId == request.Id, cancellationToken);
 
         if (lessonTemplate is null)
             throw new NotFoundException(nameof(LessonTemplate), request.Id);
 
+        await _context.Set<LessonTemplateTeacherClassroom>()
+            .AsNoTrackingWithIdentityResolution()
+            .Where(e => e.LessonTemplateId == lessonTemplate.LessonTemplateId)
+            .ExecuteDeleteAsync(cancellationToken);
+        
         _context.Set<LessonTemplate>().Remove(lessonTemplate);
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonTemplateDeleteLessonsNotification(lessonTemplate), cancellationToken);

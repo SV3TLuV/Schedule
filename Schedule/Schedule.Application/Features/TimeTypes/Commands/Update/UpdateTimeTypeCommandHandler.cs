@@ -27,13 +27,6 @@ public sealed class UpdateTimeTypeCommandHandler : IRequestHandler<UpdateTimeTyp
         if (timeTypeDbo is null)
             throw new NotFoundException(nameof(TimeType), request.Id);
 
-        var searched = await _context.Set<TimeType>()
-            .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(e => e.Name == request.Name, cancellationToken);
-
-        if (searched is not null)
-            throw new AlreadyExistsException($"Вид времени: {searched.Name}");
-        
         var timeType = _mapper.Map<TimeType>(request);
         _context.Set<TimeType>().Update(timeType);
         await _context.SaveChangesAsync(cancellationToken);

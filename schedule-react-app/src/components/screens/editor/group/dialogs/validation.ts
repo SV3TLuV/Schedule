@@ -1,4 +1,5 @@
 import {ValidationMessage} from "../../../../../common/enums";
+import {IGroup} from "../../../../../features/models";
 
 export const numberValidation = {
     required: ValidationMessage.REQUIRED,
@@ -28,6 +29,17 @@ export const enrollmentYearValidation = {
 
         if (stringValue.length != requiredLength)
             return ValidationMessage.REQUIRED_LENGTH + requiredLength
+
+        return true
+    }
+}
+
+export const mergedGroupsValidation = {
+    validate: (value: IGroup[]) => {
+        const maxLength = 1;
+
+        if (value.length > maxLength)
+            return ValidationMessage.MAX_LENGTH + maxLength
 
         return true
     }

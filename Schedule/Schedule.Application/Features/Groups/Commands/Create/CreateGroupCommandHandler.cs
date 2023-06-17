@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTemplates;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTimetables;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
+using Schedule.Application.Features.Groups.Notifications.GroupUpdateForMergedGroups;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -40,14 +41,11 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
         
         var group = _mapper.Map<Group>(request);
         await _context.Set<Group>().AddAsync(group, cancellationToken);
-
-        foreach (var groupGroup in group.GroupGroups)
-            groupGroup.GroupId = group.GroupId;
-
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new GroupCreateTemplatesNotification(group.GroupId), cancellationToken);
         await _mediator.Publish(new GroupCreateTimetablesNotification(group.GroupId), cancellationToken);
         await _mediator.Publish(new GroupCreateTransfersNotification(group.GroupId), cancellationToken);
+        await _mediator.Publish(new GroupUpdateForMergedGroupsNotification(group.GroupId), cancellationToken);
         return group.GroupId;
     }
 }

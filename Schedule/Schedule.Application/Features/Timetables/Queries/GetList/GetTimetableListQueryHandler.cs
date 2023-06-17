@@ -49,6 +49,8 @@ public sealed class GetTimetableListQueryHandler
             .ThenInclude(e => e.Course)
             .Include(e => e.Date)
             .ThenInclude(e => e.Day)
+            .Include(e => e.Date)
+            .ThenInclude(e => e.WeekType)
             .Include(e => e.Lessons)
             .ThenInclude(e => e.Discipline)
             .Include(e => e.Lessons)

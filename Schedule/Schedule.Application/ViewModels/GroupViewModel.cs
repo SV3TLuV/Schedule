@@ -44,10 +44,7 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
                 expression.MapFrom(group => group.GroupId))
             .ForMember(viewModel => viewModel.MergedGroups, expression =>
                 expression.MapFrom(group => group.GroupGroups
-                    .Select(gg => gg.Group2)
-                    .Concat(group.GroupGroups1
-                        .Select(gg => gg.Group))
-                    .DistinctBy(g => g.GroupId)));
+                    .Select(gg => gg.Group2)));
 
         profile.CreateMap<GroupViewModel, Group>()
             .ForMember(group => group.GroupId, expression =>

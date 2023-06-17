@@ -5,12 +5,9 @@ using Schedule.Api.Common;
 using Schedule.Api.Hubs;
 using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
-using Schedule.Application.LoggerPolicies;
 using Schedule.Application.Modules;
-using Schedule.Persistence.Common.Interfaces;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using StackExchange.Profiling.Internal;
 
 try
 {
@@ -46,8 +43,8 @@ try
 
     var app = applicationBuilder.Build();
 
-    // var initializer = app.Services.GetRequiredService<IDbInitializer>();
-    // await initializer.InitializeAsync();
+    /*var initializer = app.Services.GetRequiredService<IDbInitializer>();
+    await initializer.InitializeAsync();*/
     
     ConfigureApp(app);
 
@@ -88,6 +85,5 @@ void ConfigureLogger(IConfiguration configuration)
                 TableName = "Logs",
                 AutoCreateSqlTable = true
             })
-        .Destructure.With<MaskingDestructuringPolicy>()
         .CreateLogger();
 }

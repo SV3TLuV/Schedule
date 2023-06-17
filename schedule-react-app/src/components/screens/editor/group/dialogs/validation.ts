@@ -35,8 +35,11 @@ export const enrollmentYearValidation = {
 }
 
 export const mergedGroupsValidation = {
-    validate: (value: IGroup[]) => {
+    validate: (value: IGroup[] | null) => {
         const maxLength = 1;
+
+        if (!value)
+            return true
 
         if (value.length > maxLength)
             return ValidationMessage.MAX_LENGTH + maxLength

@@ -6,6 +6,7 @@ using Schedule.Api.Hubs;
 using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
 using Schedule.Application.Modules;
+using Schedule.Persistence.Common.Interfaces;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 

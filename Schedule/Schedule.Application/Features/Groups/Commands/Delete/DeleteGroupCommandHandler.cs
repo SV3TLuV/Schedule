@@ -30,7 +30,9 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
             throw new NotFoundException(nameof(Group), request.Id);
 
         await _context.Set<GroupGroup>()
-            .Where(entity => entity.GroupId == request.Id)
+            .Where(entity =>
+                entity.GroupId == request.Id ||
+                entity.GroupId2 == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
 

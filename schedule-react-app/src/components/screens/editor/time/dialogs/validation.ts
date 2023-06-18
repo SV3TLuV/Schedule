@@ -25,13 +25,23 @@ export const endValidation = {
 }
 
 export const durationValidation = {
-    required: ValidationMessage.REQUIRED
+    required: ValidationMessage.REQUIRED,
+    validate: (value: number) => {
+        const numberRegex = /^\d+$/;
+
+        if (!numberRegex.test(value.toString()))
+            return ValidationMessage.INCORRECT_DATA
+    }
 }
 
 export const lessonNumberValidation = {
     required: ValidationMessage.REQUIRED,
     validate: (value: number) => {
         const maxValue = 8
+        const numberRegex = /^\d+$/;
+
+        if (!numberRegex.test(value.toString()))
+            return ValidationMessage.INCORRECT_DATA
 
         if (value > maxValue)
             return ValidationMessage.MAX_VALUE + 8

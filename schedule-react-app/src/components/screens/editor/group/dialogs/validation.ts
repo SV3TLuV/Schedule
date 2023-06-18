@@ -1,12 +1,17 @@
 import {ValidationMessage} from "../../../../../common/enums";
+import {IGroup} from "../../../../../features/models";
 
 export const numberValidation = {
     required: ValidationMessage.REQUIRED,
     validate: (value: string) => {
-        const maxLength = 2
+        const requiredLength = 2
+        const numberRegex = /^\d+$/;
 
-        if (value.length != maxLength)
-            return ValidationMessage.REQUIRED_LENGTH + maxLength
+        if (!numberRegex.test(value))
+            return ValidationMessage.INCORRECT_DATA
+
+        if (value.length != requiredLength)
+            return ValidationMessage.REQUIRED_LENGTH + requiredLength
 
         return true
     }
@@ -16,13 +21,28 @@ export const enrollmentYearValidation = {
     required: ValidationMessage.REQUIRED,
     validate: (value: number) => {
         const requiredLength = 4
-        const valueString = value.toString()
+        const stringValue = value.toString()
+        const numberRegex = /^\d+$/;
 
-        if (isNaN(value))
+        if (!numberRegex.test(stringValue))
             return ValidationMessage.INCORRECT_DATA
 
-        if (valueString.length != requiredLength)
+        if (stringValue.length != requiredLength)
             return ValidationMessage.REQUIRED_LENGTH + requiredLength
+
+        return true
+    }
+}
+
+export const mergedGroupsValidation = {
+    validate: (value: IGroup[] | null) => {
+        const maxLength = 1;
+
+        if (!value)
+            return true
+
+        if (value.length > maxLength)
+            return ValidationMessage.MAX_LENGTH + maxLength
 
         return true
     }

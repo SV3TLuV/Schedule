@@ -11,7 +11,7 @@ import {usePaginationQuery} from "../../../../../hooks";
 import {useInfinitySelect} from "../../../../../hooks";
 import {ISpeciality} from "../../../../../features/models";
 import {ITerm} from "../../../../../features/models";
-import {enrollmentYearValidation, numberValidation} from "./validation";
+import {enrollmentYearValidation, mergedGroupsValidation, numberValidation} from "./validation";
 import {termValidation} from "../../term/validation";
 import {specialityValidation} from "../../speciality/Dialogs";
 
@@ -179,6 +179,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                     <Controller
                         control={control}
                         name='mergedGroups'
+                        rules={mergedGroupsValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select

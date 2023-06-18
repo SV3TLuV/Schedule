@@ -1,0 +1,19 @@
+﻿# This is a generated file. Not intended for manual editing.
+version: "3.9"
+services:
+  api:
+    build:
+      context: "C:\\Users\\Volk2\\Desktop\\Расписание"
+      dockerfile: "Schedule/Schedule.Api/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net7.0/Schedule.Api.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+    image: "api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Volk2\\Desktop\\Расписание\\Schedule\\Schedule.Api:/app:rw"
+    working_dir: "/app"

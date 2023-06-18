@@ -1,0 +1,138 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+    //id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'com.example.schedulemobile'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.schedulemobile"
+        minSdk 26
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        signingConfig signingConfigs.debug
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.2'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+subprojects {
+    tasks.withType(KotlinCompile).configureEach {
+        kotlinOptions {
+            if (project.findProperty("ScheduleMobile.enableComposeCompilerReports") == "true") {
+                freeCompilerArgs += [
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                                project.buildDir.absolutePath + "/compose_metrics"
+                ]
+                freeCompilerArgs += [
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                                project.buildDir.absolutePath + "/compose_metrics"
+                ]
+            }
+        }
+    }
+}
+
+dependencies {
+
+    // SignalR
+    implementation("com.microsoft.signalr:signalr:7.0.0")
+    implementation("org.java-websocket:Java-WebSocket:1.5.3")
+
+    // Paging
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha20")
+
+    // Retrofit
+        def retrofit_version = "2.9.0"
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // OkHttp BOM and its version
+    implementation platform('com.squareup.okhttp3:okhttp-bom:5.0.0-alpha.10')
+    implementation "com.squareup.okhttp3:okhttp"
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
+
+    // Hilt
+    def hilt_version = '2.45'
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Lifecycle things (coroutines)
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+    // Accompanist
+    implementation "com.google.accompanist:accompanist-pager:0.28.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.28.0"
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.activity:activity-compose:1.7.0'
+    implementation 'androidx.compose.ui:ui:1.5.0-alpha02'
+    implementation "androidx.compose.ui:ui-tooling-preview:1.5.0-alpha02"
+    implementation 'androidx.compose.material3:material3:1.1.0-beta02'
+    implementation 'androidx.compose.material:material:1.4.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.0-alpha02"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.5.0-alpha02"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.5.0-alpha02"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+}
+
+kapt {
+    correctErrorTypes true
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

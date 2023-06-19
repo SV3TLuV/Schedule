@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Schedule@DESKTOP-K1HVLLT" uuid="6e5528b5-9d5a-4fb5-8b5a-bbec82a9b2c8">
+    <data-source source="LOCAL" name="@192.168.0.252" uuid="01b8279a-de21-4274-9772-17ae72b3cc45">
       <driver-ref>sqlserver.jb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
-      <jdbc-url>Server=DESKTOP-K1HVLLT\SQLEXPRESS;Database=Schedule;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True;</jdbc-url>
+      <jdbc-url>Server=192.168.0.252</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="gewofo6202_Schedule@sql.bsite.net" uuid="0dcd83f4-424a-40dd-bf45-2b68937991c9">
-      <driver-ref>sqlserver.jb</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
-      <jdbc-url>Server=sql.bsite.net\MSSQL2016;Database=gewofo6202_Schedule;TrustServerCertificate=True;MultipleActiveResultSets=True;</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="Schedule@localhost" uuid="f1eddffc-9359-4744-89ce-1b584bac9a6c">
+    <data-source source="LOCAL" name="Schedule@localhost" uuid="49bd069e-76d7-466e-8a5d-7cc5e2899817">
       <driver-ref>sqlserver.jb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>

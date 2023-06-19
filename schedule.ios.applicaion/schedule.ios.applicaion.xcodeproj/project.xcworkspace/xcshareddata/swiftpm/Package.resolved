@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "swift-http",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/BinaryBirds/swift-http.git",
+      "state" : {
+        "revision" : "8b573967d26ef5401af2507aa5546da5f36235cc",
+        "version" : "1.2.3"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log",
+      "state" : {
+        "revision" : "32e8d724467f8fe623624570367e3d50c5638e46",
+        "version" : "1.5.2"
+      }
+    }
+  ],
+  "version" : 2
+}

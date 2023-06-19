@@ -22,7 +22,7 @@ try
             var configuration = applicationBuilder.Configuration;
             
             builder.RegisterModule(new ApiModule(configuration));
-            builder.RegisterModule(new ApplicationModule(configuration));
+            builder.RegisterModule<ApplicationModule>();
         }))
         .ConfigureServices(services =>
         {

@@ -34,7 +34,7 @@
 		203542512A3F631900A0C666 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2035423A2A3F631900A0C666 /* Course.swift */; };
 		203542672A3F63ED00A0C666 /* SwiftHttp in Frameworks */ = {isa = PBXBuildFile; productRef = 203542662A3F63ED00A0C666 /* SwiftHttp */; };
 		2035426E2A3F681A00A0C666 /* ScheduleApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2035426D2A3F681A00A0C666 /* ScheduleApi.swift */; };
-		20681D9B2A3F7FE60006D8BD /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20681D9A2A3F7FE60006D8BD /* ArrayExtensions.swift */; };
+		20A3C5DC2A40303E00BEDD6F /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A3C5DA2A40303E00BEDD6F /* ArrayExtensions.swift */; };
 		20F6B1852A3F806700DCA8DE /* SelectGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F6B1802A3F806700DCA8DE /* SelectGroupView.swift */; };
 		20F6B1862A3F806700DCA8DE /* TimetableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F6B1812A3F806700DCA8DE /* TimetableView.swift */; };
 		20F6B1872A3F806700DCA8DE /* CurrentTimetableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F6B1822A3F806700DCA8DE /* CurrentTimetableView.swift */; };
@@ -91,7 +91,7 @@
 		2035423E2A3F631900A0C666 /* TeacherClassroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherClassroom.swift; sourceTree = "<group>"; };
 		2035426A2A3F64AD00A0C666 /* schedule-ios-applicaion-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "schedule-ios-applicaion-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2035426D2A3F681A00A0C666 /* ScheduleApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleApi.swift; sourceTree = "<group>"; };
-		20681D9A2A3F7FE60006D8BD /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
+		20A3C5DA2A40303E00BEDD6F /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		20F6B1802A3F806700DCA8DE /* SelectGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectGroupView.swift; sourceTree = "<group>"; };
 		20F6B1812A3F806700DCA8DE /* TimetableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableView.swift; sourceTree = "<group>"; };
 		20F6B1822A3F806700DCA8DE /* CurrentTimetableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentTimetableView.swift; sourceTree = "<group>"; };
@@ -149,10 +149,10 @@
 		203541D52A3F62D300A0C666 /* schedule.ios.applicaion */ = {
 			isa = PBXGroup;
 			children = (
+				20A3C5D92A40303E00BEDD6F /* Utils */,
 				20F6B18A2A3F807000DCA8DE /* ViewModels */,
 				20F6B17F2A3F806700DCA8DE /* Views */,
 				2035426A2A3F64AD00A0C666 /* schedule-ios-applicaion-Info.plist */,
-				203542602A3F633500A0C666 /* Utils */,
 				2035422B2A3F631800A0C666 /* Models */,
 				203541D62A3F62D300A0C666 /* schedule_ios_applicaionApp.swift */,
 				203541DA2A3F62D300A0C666 /* Assets.xcassets */,
@@ -213,13 +213,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		203542602A3F633500A0C666 /* Utils */ = {
+		20A3C5D92A40303E00BEDD6F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				20681D9A2A3F7FE60006D8BD /* ArrayExtensions.swift */,
+				20A3C5DA2A40303E00BEDD6F /* ArrayExtensions.swift */,
 			);
-			name = Utils;
-			path = ../../../../Downloads/schedule.ios.application/schedule.ios.application/Utils;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		20F6B17F2A3F806700DCA8DE /* Views */ = {
@@ -393,6 +392,7 @@
 				203542402A3F631900A0C666 /* Teacher.swift in Sources */,
 				2035424B2A3F631900A0C666 /* Timetable.swift in Sources */,
 				203542492A3F631900A0C666 /* Discipline.swift in Sources */,
+				20A3C5DC2A40303E00BEDD6F /* ArrayExtensions.swift in Sources */,
 				203542462A3F631900A0C666 /* Time.swift in Sources */,
 				203542472A3F631900A0C666 /* Classroom.swift in Sources */,
 				2035426E2A3F681A00A0C666 /* ScheduleApi.swift in Sources */,
@@ -402,7 +402,6 @@
 				203542442A3F631900A0C666 /* Speciality.swift in Sources */,
 				2035424D2A3F631900A0C666 /* Group.swift in Sources */,
 				20F6B1872A3F806700DCA8DE /* CurrentTimetableView.swift in Sources */,
-				20681D9B2A3F7FE60006D8BD /* ArrayExtensions.swift in Sources */,
 				203542502A3F631900A0C666 /* TimeType.swift in Sources */,
 				2035424E2A3F631900A0C666 /* Term.swift in Sources */,
 				2035423F2A3F631900A0C666 /* TeacherClassroom.swift in Sources */,

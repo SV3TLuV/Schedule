@@ -44,8 +44,8 @@ try
 
     var app = applicationBuilder.Build();
 
-    /*var initializer = app.Services.GetRequiredService<IDbInitializer>();
-    await initializer.InitializeAsync();*/
+    var initializer = app.Services.GetRequiredService<IDbInitializer>();
+    await initializer.InitializeAsync();
     
     ConfigureApp(app);
 
@@ -67,7 +67,7 @@ void ConfigureApp(WebApplication webApp)
         .UseCustomExceptionHandler()
         .UseSwagger()
         .UseSwaggerUI()
-        .UseHttpsRedirection()
+//        .UseHttpsRedirection()
         .UseCors(Constants.CorsName)
         .UseAuthentication()
         .UseAuthorization();

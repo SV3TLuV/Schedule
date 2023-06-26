@@ -27,12 +27,12 @@ services:
       dockerfile: Schedule.Api/Dockerfile
     ports:
       - "5000:80"
-      - "5001:443"
+#      - "5001:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_URLS=http://+:80
+#      - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd
+#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     depends_on:
       - database
     restart: always
@@ -44,7 +44,7 @@ services:
     image: react
     build: 
       network: host
-      context: ./schedule-react-app
+      context: ./schedule.web.application
       dockerfile: Dockerfile
     depends_on:
       - api

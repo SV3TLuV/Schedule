@@ -140,6 +140,18 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
         }
     }
 
+    const handleClear = () => {
+        // @ts-ignore
+        reset(value => ({
+            ...value,
+            subgroup: '',
+            time: null,
+            discipline: null,
+            teachers: [],
+            classrooms: []
+        }))
+    }
+
     const handleClose = () => {
         reset(defaultValue)
         onClose()
@@ -279,6 +291,13 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
                             </Form.Group>
                         )}
                     />
+                    <Button
+                        className='mx-auto'
+                        variant="outline-danger"
+                        onClick={handleClear}
+                    >
+                        Очистить
+                    </Button>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button type='submit' className='mx-auto'>

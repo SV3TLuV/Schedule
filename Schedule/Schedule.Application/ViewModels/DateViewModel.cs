@@ -24,7 +24,7 @@ public class DateViewModel : IMapWith<Date>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(date => date.DateId))
             .ForMember(viewModel => viewModel.Value, expression =>
-                expression.MapFrom(date => date.Value.ToShortDateString()))
+                expression.MapFrom(date => date.Value.ToString("dd.MM.yyyy")))
             .ReverseMap();
     }
 }

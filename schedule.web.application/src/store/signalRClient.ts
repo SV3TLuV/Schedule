@@ -29,8 +29,6 @@ const connection = new HubConnectionBuilder()
     .withAutomaticReconnect()
     .build();
 
-connection.start()
-
 const callbacks = withCallbacks<AppDispatch, AppState>()
     .add('notified', (objName: string) =>
         (dispatch) => {

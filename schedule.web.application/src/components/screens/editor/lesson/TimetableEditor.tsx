@@ -34,7 +34,7 @@ export const TimetableEditor = () => {
     })
 
     const [dateQuery, setDateQuery] = usePaginationQuery()
-    const {data: dateData} = useGetDatesQuery(dateQuery)
+    const {data: dateData} = useGetDatesQuery({ ...dateQuery, educationalOnly: true })
     const {
         options: dates,
         loadMore: loadMoreDates,

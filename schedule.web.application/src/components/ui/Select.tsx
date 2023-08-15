@@ -85,6 +85,8 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
     }, [groupByKey])
     
     const isOptionEqualToValue = useCallback((option: T, value: T) => {
+        if (typeof option !== typeof value)
+            return false
         return option.id === value.id
     }, [])
 

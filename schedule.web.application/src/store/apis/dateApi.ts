@@ -1,14 +1,14 @@
 import {baseApi} from "./baseApi.ts";
-import {IPaginationQueryWithFilters} from "../../features/queries";
 import {IDate} from "../../features/models";
 import {IPagedList} from "../../features/models";
 import {HttpMethod} from "../../common/enums";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {ApiTags} from "./apiTags.ts";
+import {IGetDatesQuery} from "../../features/queries/IGetDatesQuery.ts";
 
 export const dateApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getDates: builder.query<IPagedList<IDate>, IPaginationQueryWithFilters | void>({
+        getDates: builder.query<IPagedList<IDate>, IGetDatesQuery | void>({
             query: query => ({
                 url: `${ApiTags.Date}?${buildUrlArguments(query ?? {})}`,
                 method: HttpMethod.GET,

@@ -19,10 +19,9 @@ import {
     timetableApi, timeTypeApi, userApi, weekTypeApi
 } from "./apis";
 import {AppDispatch, AppState} from "./store.ts";
-import {SIGNAL_R_URL} from "../configuration.ts";
 
 const connection = new HubConnectionBuilder()
-    .withUrl(`${SIGNAL_R_URL}/hub/notification`, {
+    .withUrl(`${import.meta.env.VITE_API_URL}/hub/notification`, {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
     })

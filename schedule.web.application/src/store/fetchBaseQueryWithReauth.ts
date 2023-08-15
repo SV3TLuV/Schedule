@@ -4,12 +4,11 @@ import {AppState} from "./store.ts";
 import {IRefreshCommand} from "../features/commands";
 import {message} from "antd";
 import {userApi} from "./apis";
-import {API_URL} from "../configuration.ts";
 
 const mutex = new Mutex()
 
 export const baseQuery = fetchBaseQuery({
-    baseUrl: `${API_URL}/api`,
+    baseUrl: `${import.meta.env.VITE_API_URL}/api`,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

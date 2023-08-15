@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
+using Quartz.AspNetCore;
 using Schedule.Api.Common;
 using Schedule.Api.Common.Behavior;
 using Schedule.Application.Common.Behaviors;

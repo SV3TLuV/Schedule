@@ -16,15 +16,15 @@
         <PackageReference Include="AutoBogus.Moq" Version="2.13.1" />
         <PackageReference Include="AutoBogus.NSubstitute" Version="2.13.1" />
         <PackageReference Include="AutoBogus.Templating" Version="2.13.1" />
-        <PackageReference Include="Autofac" Version="7.0.1" />
+        <PackageReference Include="Autofac" Version="7.1.0" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Faker.Net" Version="2.0.154" />
-        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.1" />
-        <PackageReference Include="Moq" Version="4.18.4" />
-        <PackageReference Include="xunit" Version="2.4.2" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.1.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
+        <PackageReference Include="Moq" Version="4.20.69" />
+        <PackageReference Include="xunit" Version="2.5.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>

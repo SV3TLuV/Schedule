@@ -8,4 +8,5 @@ namespace Schedule.Application.Features.Dates.Queries.GetList;
 public sealed record GetDateListQuery : PaginatedQuery, IRequest<PagedList<DateViewModel>>
 {
     public string? Search { get; set; }
+    public bool EducationalOnly { get; set; } = false;
 }

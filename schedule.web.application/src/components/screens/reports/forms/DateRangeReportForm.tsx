@@ -20,7 +20,7 @@ export const DateRangeReportForm = () => {
     })
 
     const [dateQuery, setDateQuery] = usePaginationQuery()
-    const {data: dateData} = useGetDatesQuery(dateQuery)
+    const {data: dateData} = useGetDatesQuery({ ...dateQuery, educationalOnly: false })
     const {
         options: dates,
         loadMore: loadMoreDates,

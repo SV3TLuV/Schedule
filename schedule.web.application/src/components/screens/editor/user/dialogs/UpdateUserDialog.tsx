@@ -14,7 +14,7 @@ export const UpdateUserDialog = ({user, open, close}: IUpdateUserDialog) => {
 
     return (
         <UserForm
-            title='Обновление времени'
+            title='Обновление пользователя'
             show={open}
             user={user}
             onClose={close}

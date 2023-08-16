@@ -36,6 +36,13 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         data: specialityData
     })
 
+    const {control, handleSubmit, getValues, reset, formState: {errors}} = useForm<IGroup>({
+        values: group,
+        mode: 'onChange',
+    })
+
+    const groupState = getValues()
+
     const [groupQuery, setGroupQuery] = usePaginationQuery()
     const {data: groupData} = useGetGroupsQuery(groupQuery)
     const {
@@ -48,9 +55,9 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         data: groupData
     })
     const groupOptions = groups
-        .filter(g => g.id !== group.id)
-        .filter(g => group.term ? g.term.id === group.term.id : true)
-        .filter(g => group.speciality ? g.speciality.id === group.speciality.id : true)
+        .filter(g => g.id !== groupState.id)
+        .filter(g => groupState.term ? g.term.id === groupState.term.id : false)
+        .filter(g => groupState.speciality ? g.speciality.id === groupState.speciality.id : false)
 
     const [termQuery, setTermQuery] = usePaginationQuery()
     const {data: termData} = useGetTermsQuery(termQuery)
@@ -62,11 +69,6 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         query: termQuery,
         setQuery: setTermQuery,
         data: termData
-    })
-
-    const {control, handleSubmit, reset, formState: {errors}} = useForm<IGroup>({
-        values: group,
-        mode: 'onChange',
     })
 
     const onSubmit: SubmitHandler<IGroup> = data => {

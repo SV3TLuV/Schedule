@@ -16,6 +16,8 @@ services:
       - sqldata:/var/opt/sqlserver/sqldata
       - sqllog:/var/opt/sqlserver/sqllog
       - sqlbackup:/var/opt/sqlserver/sqlbackups
+    logging:
+      driver: none
     restart: always
 
   api:
@@ -32,10 +34,12 @@ services:
       - ASPNETCORE_URLS=http://+:80
     depends_on:
       - database
-    restart: always
     volumes:
       - ~/.aspnet/https:/https:ro
-  
+    logging:
+      driver: none
+    restart: always
+
   react:
     container_name: React
     image: react
@@ -49,8 +53,10 @@ services:
       - "3000:3000"
     environment:
       - VITE_API_URL=http://192.168.1.158:5000
-    restart: always
     stdin_open: true
+    logging:
+      driver: none
+    restart: always
 
 volumes:
   sqlsystem:

@@ -39,6 +39,7 @@ export const DataGridWithPagination = <T extends { id: number }>(
                 field: "update-btn",
                 headerName: "Изменить",
                 width: 90,
+                sortable: false,
                 renderCell: props => {
                     const handleClick = () => onUpdate(props.row as T)
 
@@ -59,6 +60,7 @@ export const DataGridWithPagination = <T extends { id: number }>(
                 field: "restore-btn",
                 headerName: "Восстановить",
                 width: 150,
+                sortable: false,
                 renderCell: props => {
                     const handleClick = () => onRestore(props.row as T)
 
@@ -79,6 +81,7 @@ export const DataGridWithPagination = <T extends { id: number }>(
                 field: "delete-btn",
                 headerName: "Удалить",
                 width: 80,
+                sortable: false,
                 renderCell: props => {
                     const handleClick = () => onDelete(props.row as T)
 

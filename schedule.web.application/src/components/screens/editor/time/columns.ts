@@ -21,6 +21,12 @@ function getHourWord(number: number): string {
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },
+    {
+        field: 'type',
+        headerName: 'Вид',
+        width: 120,
+        renderCell: props => (props.value as ITimeType).name
+    },
     { field: 'start', headerName: 'Начало', width: 120 },
     { field: 'end', headerName: 'Конец', width: 120 },
     { field: 'lessonNumber', headerName: 'Номер пары', width: 140 },
@@ -30,10 +36,4 @@ export const columns: GridColDef[] = [
         width: 140,
         renderCell: props => getHourWord(props.value as number)
     },
-    {
-        field: 'type',
-        headerName: 'Вид',
-        width: 120,
-        renderCell: props => (props.value as ITimeType).name
-    }
 ]

@@ -33,13 +33,23 @@ export const EditorToolbar = (
                     onChange={handleInput}
                     variant='filled'
                     fullWidth
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                            handleSearch()
+                        }
+                    }}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position='end'>
                                 <IconButton onClick={handleClear}>
                                     <MdOutlineClear/>
                                 </IconButton>
-                                <IconButton onClick={handleSearch}>
+                                <IconButton
+                                    onClick={handleSearch}
+                                    style={{
+                                        marginRight: '5px'
+                                    }}
+                                >
                                     <HiOutlineSearch/>
                                 </IconButton>
                                 {onCreate &&

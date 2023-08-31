@@ -75,7 +75,10 @@ public sealed class GetCurrentTimetableListQueryHandler
             .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution();
 
-        if (request.GroupId is not null) query = query.Where(e => e.GroupId == request.GroupId);
+        if (request.GroupId is not null)
+        {
+            query = query.Where(e => e.GroupId == request.GroupId);
+        }
 
         var timetables = await query
             .OrderBy(e => e.Group.TermId)
@@ -84,28 +87,36 @@ public sealed class GetCurrentTimetableListQueryHandler
         var viewModels = _mapper.Map<List<TimetableViewModel>>(timetables);
 
         var viewModelIdsForRemove = new List<int>();
-        var hashSet = new HashSet<(int, int)>();
+        var hashSet = new HashSet<ViewModelInfo>();
 
         foreach (var viewModel in viewModels)
         {
-            var ids = viewModel.Groups
-                .Select(g => (GroupId: g.Id, DateId: viewModel.Date.Id))
+            var infos = viewModel.Groups
+                .DistinctBy(g => g.Id)
+                .Select(g => new ViewModelInfo
+                {
+                    GroupId = g.Id, 
+                    DateId = viewModel.Date.Id
+                })
                 .ToList();
 
             var hasDuplicate = false;
 
-            foreach (var pair in ids)
+            foreach (var info in infos)
             {
-                if (hashSet.Contains(pair))
+                if (hashSet.Contains(info))
                 {
                     hasDuplicate = true;
                     break;
                 }
 
-                hashSet.Add(pair);
+                hashSet.Add(info);
             }
 
-            if (hasDuplicate) viewModelIdsForRemove.Add(viewModel.Id);
+            if (hasDuplicate)
+            {
+                viewModelIdsForRemove.Add(viewModel.Id);
+            }
         }
 
         var viewModelsResult = viewModels
@@ -165,5 +176,11 @@ public sealed class GetCurrentTimetableListQueryHandler
             .Select(e => e.DateId)
             .Take(request.DateCount)
             .ToListAsync(cancellationToken);
+    }
+
+    private sealed record ViewModelInfo
+    {
+        public int GroupId { get; set; }
+        public int DateId { get; set; }
     }
 }

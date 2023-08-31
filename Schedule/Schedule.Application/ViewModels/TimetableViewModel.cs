@@ -12,7 +12,7 @@ public class TimetableViewModel : IMapWith<Timetable>
 
     public ICollection<GroupViewModel> Groups { get; set; } = null!;
 
-    public string GroupNames => string.Join(" ", Groups.Select(g => g.Name));
+    public string GroupNames => string.Join(" ", Groups.Select(g => g.Name).Distinct());
 
     public ICollection<LessonViewModel> Lessons { get; set; } = null!;
 

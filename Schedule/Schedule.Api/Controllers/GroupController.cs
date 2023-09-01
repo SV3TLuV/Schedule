@@ -5,6 +5,7 @@ using Schedule.Application.Features.Groups.Commands.Delete;
 using Schedule.Application.Features.Groups.Commands.Restore;
 using Schedule.Application.Features.Groups.Commands.Update;
 using Schedule.Application.Features.Groups.Queries.Get;
+using Schedule.Application.Features.Groups.Queries.GetAvailableForJoin;
 using Schedule.Application.Features.Groups.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Models;
@@ -24,6 +25,15 @@ public class GroupController : BaseController
     [HttpGet]
     public async Task<ActionResult<PagedList<GroupViewModel>>> GetAll(
         [FromQuery] GetGroupListQuery query)
+    {
+        return Ok(await Mediator.Send(query));
+    }
+
+    [Authorize]
+    [HttpGet]
+    [Route("available-for-join", Name = "GetAvailableForJoin")]
+    public async Task<ActionResult<GroupViewModel[]>> GetAvailableForJoin(
+        [FromQuery] GetAvailableForJoinGroupQuery query)
     {
         return Ok(await Mediator.Send(query));
     }

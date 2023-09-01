@@ -5,6 +5,7 @@ import {HttpMethod} from "../../common/enums";
 import {IPaginationQueryWithFilters} from "../../features/queries";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {ApiTags} from "./apiTags.ts";
+import {IGetAvailableForJoinGroupQuery} from "../../features/queries/IGetAvailableForJoinGroupQuery.ts";
 
 export const groupApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -28,6 +29,13 @@ export const groupApi = baseApi.injectEndpoints({
                 method: HttpMethod.GET,
             }),
             providesTags: (_, __, id) => [{type: ApiTags.Group, id}]
+        }),
+        getGroupsAvailableForJoin: builder.query<IGroup[], IGetAvailableForJoinGroupQuery>({
+            query: query => ({
+                url: `${ApiTags.Group}/available-for-join?${buildUrlArguments(query ?? {})}`,
+                method: HttpMethod.GET,
+            }),
+            providesTags: () => [{type: ApiTags.Group}]
         }),
         restoreGroup: builder.mutation<number, number>({
             query: id => ({
@@ -101,6 +109,8 @@ export const {
     useLazyGetGroupsQuery,
     useGetGroupQuery,
     useLazyGetGroupQuery,
+    useGetGroupsAvailableForJoinQuery,
+    useLazyGetGroupsAvailableForJoinQuery,
     useCreateGroupMutation,
     useRestoreGroupMutation,
     useUpdateGroupMutation,

@@ -1,7 +1,6 @@
 import {IGroup} from "../../../../../features/models";
-import {useGetTermsQuery} from "../../../../../store/apis";
+import {useGetGroupsAvailableForJoinQuery, useGetTermsQuery} from "../../../../../store/apis";
 import {useGetSpecialitiesQuery} from "../../../../../store/apis";
-import {useGetGroupsQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
@@ -14,6 +13,7 @@ import {ITerm} from "../../../../../features/models";
 import {enrollmentYearValidation, mergedGroupsValidation, numberValidation} from "./validation";
 import {termValidation} from "../../term/validation";
 import {specialityValidation} from "../../speciality/Dialogs";
+import {IGetAvailableForJoinGroupQuery} from "../../../../../features/queries/IGetAvailableForJoinGroupQuery.ts";
 
 interface IGroupForm {
     title: string,
@@ -43,21 +43,11 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
 
     const groupState = getValues()
 
-    const [groupQuery, setGroupQuery] = usePaginationQuery()
-    const {data: groupData} = useGetGroupsQuery(groupQuery)
-    const {
-        options: groups,
-        loadMore: loadMoreGroups,
-        search: searchGroups
-    } = useInfinitySelect<IGroup>({
-        query: groupQuery,
-        setQuery: setGroupQuery,
-        data: groupData
-    })
-    const groupOptions = groups
-        .filter(g => g.id !== groupState.id)
-        .filter(g => groupState.term ? g.term.id === groupState.term.id : false)
-        .filter(g => groupState.speciality ? g.speciality.id === groupState.speciality.id : false)
+    const {data: availableGroups = []} = useGetGroupsAvailableForJoinQuery({
+        groupId: groupState?.id ?? null,
+        termId: groupState.term ? groupState.term.id : 0,
+        specialityId: groupState.speciality ? groupState.speciality.id : 0
+    } as IGetAvailableForJoinGroupQuery, { skip: !groupState.term || !groupState.speciality })
 
     const [termQuery, setTermQuery] = usePaginationQuery()
     const {data: termData} = useGetTermsQuery(termQuery)
@@ -81,7 +71,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         onClose()
     }
 
-    if (!terms || !specialities || !groupData) {
+    if (!terms || !specialities) {
         return <Loading/>
     }
 
@@ -186,10 +176,8 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                             <Form.Group className='m-3' >
                                 <Select
                                     onChange={field.onChange}
-                                    onLoadMore={loadMoreGroups}
-                                    onSearch={searchGroups}
                                     value={field.value}
-                                    options={groupOptions}
+                                    options={availableGroups}
                                     fields='name'
                                     label='Объединение с группой'
                                     multiple

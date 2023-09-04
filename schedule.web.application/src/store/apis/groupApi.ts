@@ -1,5 +1,5 @@
 import {baseApi} from "./baseApi.ts";
-import {IPagedList} from "../../features/models";
+import {IDiscipline, IPagedList} from "../../features/models";
 import {IGroup} from "../../features/models";
 import {HttpMethod} from "../../common/enums";
 import {IPaginationQueryWithFilters} from "../../features/queries";
@@ -36,6 +36,16 @@ export const groupApi = baseApi.injectEndpoints({
                 method: HttpMethod.GET,
             }),
             providesTags: () => [{type: ApiTags.Group}]
+        }),
+        getGroupDisciplines: builder.query<IDiscipline[], number>({
+            query: id => ({
+                url: `${ApiTags.Group}/get-group-disciplines?GroupId=${id}`,
+                method: HttpMethod.GET,
+            }),
+            providesTags: () => [
+                {type: ApiTags.Group },
+                {type: ApiTags.Discipline }
+            ]
         }),
         restoreGroup: builder.mutation<number, number>({
             query: id => ({
@@ -111,6 +121,8 @@ export const {
     useLazyGetGroupQuery,
     useGetGroupsAvailableForJoinQuery,
     useLazyGetGroupsAvailableForJoinQuery,
+    useGetGroupDisciplinesQuery,
+    useLazyGetGroupDisciplinesQuery,
     useCreateGroupMutation,
     useRestoreGroupMutation,
     useUpdateGroupMutation,

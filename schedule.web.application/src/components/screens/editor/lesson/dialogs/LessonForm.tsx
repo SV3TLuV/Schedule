@@ -2,9 +2,8 @@ import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {ILesson} from "../../../../../features/models";
 import {Button, Form, Modal} from "react-bootstrap";
 import {usePaginationQuery} from "../../../../../hooks";
-import {useGetTimesQuery} from "../../../../../store/apis";
+import {useGetGroupDisciplinesQuery, useGetTimesQuery} from "../../../../../store/apis";
 import {useInfinitySelect} from "../../../../../hooks";
-import {useGetDisciplinesQuery} from "../../../../../store/apis";
 import {ITime} from "../../../../../features/models";
 import {IDiscipline} from "../../../../../features/models";
 import {ITeacher} from "../../../../../features/models";
@@ -49,18 +48,7 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
         data: timeData
     })
 
-    const [disciplineQuery, setDisciplineQuery] = usePaginationQuery()
-    const {data: disciplineData} = useGetDisciplinesQuery(disciplineQuery)
-    const {
-        options: disciplines,
-        loadMore: loadMoreDisciplines,
-        search: searchDisciplines
-    } = useInfinitySelect<IDiscipline>({
-        query: disciplineQuery,
-        setQuery: setDisciplineQuery,
-        data: disciplineData
-    })
-    const disciplineOptions = disciplines.filter(d => d.term.id === group.term.id)
+    const {data: disciplines = []} = useGetGroupDisciplinesQuery(group.id)
 
     const [teacherQuery, setTeacherQuery] = usePaginationQuery()
     const {data: teacherData} = useGetTeachersQuery(teacherQuery)
@@ -236,10 +224,8 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
                             <Form.Group className='m-3'>
                                 <Select
                                     onChange={field.onChange}
-                                    onLoadMore={loadMoreDisciplines}
-                                    onSearch={searchDisciplines}
                                     value={field.value}
-                                    options={disciplineOptions}
+                                    options={disciplines}
                                     fields='name'
                                     label='Дисциплина'
                                     error={!!errors.discipline?.message}

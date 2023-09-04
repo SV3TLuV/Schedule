@@ -1,6 +1,5 @@
 import {ILesson} from "../../../../features/models";
 import {Col, Container, Row} from "react-bootstrap";
-import {getShortFio} from "../../../../utils/getShortFio.ts";
 import {LessonFormTypography} from "../../editor/lesson/forms";
 
 export const LessonDisplay = ({lesson}: { lesson: ILesson }) => {
@@ -28,7 +27,7 @@ export const LessonDisplay = ({lesson}: { lesson: ILesson }) => {
             <Row>
                 <Col className='p-0' xs={8}>
                     <LessonFormTypography
-                        text={getShortFio(lesson.teacherClassrooms?.at(0)?.teacher)}
+                        text={lesson.teacherClassrooms?.at(0)?.teacher?.shortFio ?? ''}
                         isChanged={lesson.isChanged}
                     />
                 </Col>
@@ -42,7 +41,7 @@ export const LessonDisplay = ({lesson}: { lesson: ILesson }) => {
             <Row>
                 <Col className='p-0' xs={8}>
                     <LessonFormTypography
-                        text={getShortFio(lesson.teacherClassrooms?.at(1)?.teacher)}
+                        text={lesson.teacherClassrooms?.at(1)?.teacher?.shortFio ?? ''}
                         isChanged={lesson.isChanged}
                     />
                 </Col>

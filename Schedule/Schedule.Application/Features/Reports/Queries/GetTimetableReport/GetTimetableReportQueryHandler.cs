@@ -156,13 +156,13 @@ public sealed class GetTimetableReportQueryHandler : IRequestHandler<GetTimetabl
             belowCell = belowCell.CellBelow();
 
             var teacherClassrooms = lesson.TeacherClassrooms.ToList();
-            belowCell.Value = teacherClassrooms.ElementAtOrDefault(0)?.Teacher.Surname ?? "";
+            belowCell.Value = teacherClassrooms.ElementAtOrDefault(0)?.Teacher.ShortFio ?? "";
             belowCell.WorksheetColumn().Width = 20;
             belowCell.CellRight().Value = teacherClassrooms.ElementAtOrDefault(0)?.Classroom?.Cabinet ?? "";
             belowCell.CellRight().WorksheetColumn().Width = 10;
             belowCell = belowCell.CellBelow();
 
-            belowCell.Value = teacherClassrooms.ElementAtOrDefault(1)?.Teacher.Surname ?? "";
+            belowCell.Value = teacherClassrooms.ElementAtOrDefault(1)?.Teacher.ShortFio ?? "";
             belowCell.WorksheetColumn().Width = 20;
             belowCell.CellRight().Value = teacherClassrooms.ElementAtOrDefault(1)?.Classroom?.Cabinet ?? "";
             belowCell.CellRight().WorksheetColumn().Width = 10;

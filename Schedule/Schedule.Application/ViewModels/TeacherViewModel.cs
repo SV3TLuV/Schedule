@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Schedule.Core.Common.Extensions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -16,6 +17,8 @@ public class TeacherViewModel : IMapWith<Teacher>
 
     public string Email { get; set; } = null!;
 
+    public string ShortFio => $"{Surname} {Name.FirstOrEmpty()}.{MiddleName.FirstOrEmpty()}.";
+    
     public bool IsDeleted { get; set; }
 
     public void Map(Profile profile)

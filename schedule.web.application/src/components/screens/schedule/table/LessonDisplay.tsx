@@ -2,7 +2,6 @@ import {Col, Row} from "react-bootstrap";
 import clsx from "clsx";
 import styles from "./styles.module.css";
 import {ILesson} from "../../../../features/models";
-import {getShortFio} from "../../../../utils/getShortFio.ts";
 
 interface ILessonDisplay {
     lesson: ILesson
@@ -81,9 +80,9 @@ export const LessonDisplay = ({lesson}: ILessonDisplay) => {
                                 padding: '1px',
                             }}
                         >
-                            {getShortFio(lesson?.teacherClassrooms?.at(0)?.teacher)}
+                            {lesson?.teacherClassrooms?.at(0)?.teacher?.shortFio ?? ''}
                             <br/>
-                            {getShortFio(lesson?.teacherClassrooms?.at(1)?.teacher)}
+                            {lesson?.teacherClassrooms?.at(1)?.teacher?.shortFio ?? ''}
                         </p>
                     </Col>
                     <Col

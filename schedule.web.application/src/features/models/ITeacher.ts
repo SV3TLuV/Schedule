@@ -5,4 +5,5 @@ export interface ITeacher {
     middleName: string
     email: string
     isDeleted: boolean
+    shortFio: string
 }

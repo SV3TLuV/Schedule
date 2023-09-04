@@ -5,7 +5,6 @@ import {LessonFormTypography} from "./LessonFormTypography.tsx";
 import {ILesson} from "../../../../../features/models";
 import {ILessonTemplate} from "../../../../../features/models";
 import {AiOutlineDelete} from "react-icons/ai";
-import {getShortFio} from "../../../../../utils/getShortFio.ts";
 
 interface IBaseLessonForm {
     item: ILesson | ILessonTemplate
@@ -68,7 +67,7 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>
                         <LessonFormTypography
-                            text={getShortFio(item?.teacherClassrooms?.at(0)?.teacher)}
+                            text={item?.teacherClassrooms?.at(0)?.teacher?.shortFio ?? ''}
                             isChanged={itemIsChanged}
                         />
                     </Col>
@@ -82,7 +81,7 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
                 <Row className='my-1'>
                     <Col className='p-0' xs={7}>
                         <LessonFormTypography
-                            text={getShortFio(item?.teacherClassrooms?.at(1)?.teacher)}
+                            text={item?.teacherClassrooms?.at(1)?.teacher?.shortFio ?? ''}
                             isChanged={itemIsChanged}
                         />
                     </Col>

@@ -8,6 +8,6 @@ export const baseApi = createApi({
     tagTypes: Object.values(ApiTags),
     refetchOnReconnect: true,
     refetchOnFocus: true,
-    keepUnusedDataFor: 10,
+    keepUnusedDataFor: 0,
     endpoints: () => ({}),
 })

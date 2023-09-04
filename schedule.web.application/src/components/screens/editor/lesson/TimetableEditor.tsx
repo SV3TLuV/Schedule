@@ -66,7 +66,7 @@ export const TimetableEditor = () => {
         pageSize: timetableQuery.pageSize,
         dateId: selectedDate.id,
         groupId: selectedGroup?.id,
-    })
+    }, { skip: !selectedDate?.id })
     const {
         options: timetables,
         loadMore: loadMoreTimetables,

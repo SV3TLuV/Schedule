@@ -14,7 +14,7 @@ public class TemplateViewModel : IMapWith<Template>
 
     public ICollection<GroupViewModel> Groups { get; set; } = null!;
 
-    public string GroupNames => string.Join(" ", Groups.Select(g => g.Name));
+    public string GroupNames => string.Join(" ", Groups.Select(g => g.Name).Distinct());
 
     public WeekTypeViewModel WeekType { get; set; } = null!;
 

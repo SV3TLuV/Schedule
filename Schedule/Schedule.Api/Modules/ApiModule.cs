@@ -77,7 +77,6 @@ public sealed class ApiModule : Module
 
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
-            .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationBehavior<,>))
             .AddTransient<IDbInitializer, DatabaseInitializer>()
             .AddFluentValidationAutoValidation()

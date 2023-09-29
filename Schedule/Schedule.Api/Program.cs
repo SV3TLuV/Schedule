@@ -7,59 +7,43 @@ using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
 using Schedule.Application.Modules;
 using Schedule.Persistence.Common.Interfaces;
-using Serilog;
-using Serilog.Sinks.MSSqlServer;
 
-try
-{
-    var applicationBuilder = WebApplication.CreateBuilder(args);
+var applicationBuilder = WebApplication.CreateBuilder(args);
 
-    ConfigureLogger(applicationBuilder.Configuration);
-
-    applicationBuilder.Host
-        .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
-        {
-            var configuration = applicationBuilder.Configuration;
+applicationBuilder.Host
+    .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
+    {
+        var configuration = applicationBuilder.Configuration;
             
-            builder.RegisterModule(new ApiModule(configuration));
-            builder.RegisterModule<ApplicationModule>();
-        }))
-        .ConfigureServices(services =>
-        {
-            /*
-            services
-                .AddMemoryCache()
-                .AddMiniProfiler(options => options.RouteBasePath = "/profiler")
-                .AddEntityFramework();
-                */
-            services
-                .AddEndpointsApiExplorer()
-                .AddSwaggerGen()
-                .AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                });
-        });
+        builder.RegisterModule(new ApiModule(configuration));
+        builder.RegisterModule<ApplicationModule>();
+    }))
+    .ConfigureServices(services =>
+    {
+        /*
+        services
+            .AddMemoryCache()
+            .AddMiniProfiler(options => options.RouteBasePath = "/profiler")
+            .AddEntityFramework();
+            */
+        services
+            .AddEndpointsApiExplorer()
+            .AddSwaggerGen()
+            .AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
+    });
 
-    var app = applicationBuilder.Build();
+var app = applicationBuilder.Build();
 
-    var initializer = app.Services.GetRequiredService<IDbInitializer>();
-    await initializer.InitializeAsync();
+var initializer = app.Services.GetRequiredService<IDbInitializer>();
+await initializer.InitializeAsync();
     
-    ConfigureApp(app);
+ConfigureApp(app);
 
-    app.Run();
-}
-catch (Exception e)
-{
-    Log.Fatal(e, "Fatal error on start app");
-}
-finally
-{
-    await Log.CloseAndFlushAsync();
-}
-
+app.Run();
 
 void ConfigureApp(WebApplication webApp)
 {
@@ -74,17 +58,4 @@ void ConfigureApp(WebApplication webApp)
     webApp.MapControllers();
     webApp.MapHub<NotificationHub>("/hub/notification");
     //webApp.UseMiniProfiler();
-}
-
-void ConfigureLogger(IConfiguration configuration)
-{
-    Log.Logger = new LoggerConfiguration()
-        .WriteTo.MSSqlServer(
-            configuration.GetConnectionString(Constants.ConnectionStringName),
-            new MSSqlServerSinkOptions
-            {
-                TableName = "Logs",
-                AutoCreateSqlTable = true
-            })
-        .CreateLogger();
 }

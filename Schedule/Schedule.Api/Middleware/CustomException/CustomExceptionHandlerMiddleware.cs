@@ -2,7 +2,6 @@
 using FluentValidation;
 using Newtonsoft.Json;
 using Schedule.Core.Common.Exceptions;
-using Serilog;
 
 namespace Schedule.Api.Middleware.CustomException;
 
@@ -59,8 +58,6 @@ public sealed class CustomExceptionHandlerMiddleware
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
-
-        Log.Error(exception, "{@Exception}", exception);
 
         return context.Response.WriteAsync( 
             JsonConvert.SerializeObject(new

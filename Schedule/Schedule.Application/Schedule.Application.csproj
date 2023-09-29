@@ -11,16 +11,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="7.2.0" />
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-        <PackageReference Include="ClosedXML" Version="0.102.0" />
+        <PackageReference Include="ClosedXML" Version="0.102.1" />
         <PackageReference Include="FluentValidation" Version="11.7.1" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
         <PackageReference Include="MediatR" Version="12.1.1" />
-        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="7.0.10" />
+        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="7.0.11" />
         <PackageReference Include="Quartz" Version="3.7.0" />
-        <PackageReference Include="Serilog" Version="3.0.1" />
     </ItemGroup>
 
 

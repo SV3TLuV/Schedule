@@ -50,12 +50,12 @@ void ConfigureApp(WebApplication webApp)
     webApp
         .UseCustomExceptionHandler()
         .UseSwagger()
-        .UseSwaggerUI()
-//        .UseHttpsRedirection()
-        .UseCors(Constants.CorsName)
-        .UseAuthentication()
-        .UseAuthorization();
+        .UseSwaggerUI();
+    //webApp.UseMiniProfiler();
+    webApp.UseRouting();
+    webApp.UseCors(Constants.CorsName);
+    webApp.UseAuthentication();
+    webApp.UseAuthorization();
     webApp.MapControllers();
     webApp.MapHub<NotificationHub>("/hub/notification");
-    //webApp.UseMiniProfiler();
 }

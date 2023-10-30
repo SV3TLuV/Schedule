@@ -52,7 +52,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - VITE_API_URL=http://192.168.1.158:5000
+      - VITE_API_URL=http://localhost:5000
     stdin_open: true
     logging:
       driver: none

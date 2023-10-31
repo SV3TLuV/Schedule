@@ -24,6 +24,7 @@ public sealed class LessonUpdateForUnitedGroupsNotificationHandler
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
+            .Include(e => e.LessonTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery()
             .FirstOrDefaultAsync(e => e.LessonId == notification.LessonId, cancellationToken);
@@ -42,14 +43,27 @@ public sealed class LessonUpdateForUnitedGroupsNotificationHandler
                 e.Timetable.DateId == lesson.Timetable.DateId)
             .ToListAsync(cancellationToken);
 
+        await _context.Set<LessonTeacherClassroom>()
+            .Where(e => lessons.Select(l => l.LessonId).Contains(e.LessonId))
+            .ExecuteDeleteAsync(cancellationToken);
+        
         foreach (var lessonToUpdate in lessons)
         {
             lessonToUpdate.TimeId = lesson.TimeId;
             lessonToUpdate.Subgroup = lesson.Subgroup;
             lessonToUpdate.IsChanged = lesson.IsChanged;
             lessonToUpdate.DisciplineId = lesson.DisciplineId;
-            lessonToUpdate.LessonTeacherClassrooms = lesson.LessonTeacherClassrooms;
             _context.Set<Lesson>().Update(lessonToUpdate);
+            
+            var newTeacherClassrooms = lesson.LessonTeacherClassrooms
+                .Select(e => new LessonTeacherClassroom
+                {
+                    LessonId = lessonToUpdate.LessonId,
+                    TeacherId = e.TeacherId,
+                    ClassroomId = e.ClassroomId
+                })
+                .ToArray();
+            await _context.Set<LessonTeacherClassroom>().AddRangeAsync(newTeacherClassrooms, cancellationToken);
         }
 
         await _context.SaveChangesAsync(cancellationToken);

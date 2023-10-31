@@ -32,6 +32,10 @@ public sealed class LessonDeleteForUnitedGroupsNotificationHandler
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync(cancellationToken);
 
+        await _context.Set<LessonTeacherClassroom>()
+            .Where(e => lessons.Select(l => l.LessonId).Contains(e.LessonId))
+            .ExecuteDeleteAsync(cancellationToken);
+        
         _context.Set<Lesson>().RemoveRange(lessons);
         await _context.SaveChangesAsync(cancellationToken);
     }

@@ -5,7 +5,6 @@ using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
 using Schedule.Application.Features.Groups.Notifications.GroupDeleteTransfers;
 using Schedule.Application.Features.Groups.Notifications.GroupUpdateForMergedGroups;
-using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;

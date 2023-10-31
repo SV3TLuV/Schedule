@@ -17,7 +17,7 @@ namespace Schedule.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -623,7 +623,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("TermId");
 
-                    b.HasIndex(new[] { "Code", "Name", "SpecialityId" }, "IX_Disciplines")
+                    b.HasIndex(new[] { "Code", "Name", "SpecialityId", "TermId" }, "IX_Disciplines")
                         .IsUnique();
 
                     b.ToTable("Disciplines", t =>
@@ -677,6 +677,11 @@ namespace Schedule.Persistence.Migrations
 
                     b.Property<int>("EnrollmentYear")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsAfterEleven")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1208,7 +1213,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 1,
                             Start = new TimeSpan(0, 8, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1218,7 +1223,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 2,
                             Start = new TimeSpan(0, 9, 55, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1228,7 +1233,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 3,
                             Start = new TimeSpan(0, 11, 40, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1238,7 +1243,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 4,
                             Start = new TimeSpan(0, 13, 5, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1248,7 +1253,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 5,
                             Start = new TimeSpan(0, 14, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1258,7 +1263,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 0,
                             Start = new TimeSpan(0, 8, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1268,7 +1273,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 1,
                             Start = new TimeSpan(0, 9, 20, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1278,7 +1283,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 2,
                             Start = new TimeSpan(0, 11, 10, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1288,7 +1293,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 3,
                             Start = new TimeSpan(0, 13, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1298,7 +1303,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 4,
                             Start = new TimeSpan(0, 15, 20, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1308,7 +1313,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 5,
                             Start = new TimeSpan(0, 17, 10, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         });
                 });
 
@@ -1431,7 +1436,7 @@ namespace Schedule.Persistence.Migrations
                             UserId = 2,
                             Login = "Editor",
                             PasswordHash = "$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i",
-                            RoleId = 1
+                            RoleId = 2
                         });
                 });
 

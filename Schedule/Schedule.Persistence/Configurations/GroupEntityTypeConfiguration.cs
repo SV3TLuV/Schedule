@@ -17,6 +17,8 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
         builder.Property(e => e.Number)
             .HasMaxLength(2)
             .IsUnicode(false);
+        builder.Property(e => e.IsAfterEleven)
+            .HasDefaultValue(false);
         builder.HasOne(d => d.Speciality)
             .WithMany(p => p.Groups)
             .HasForeignKey(d => d.SpecialityId)

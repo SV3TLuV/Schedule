@@ -12,6 +12,8 @@ public partial class Group
 
     public int EnrollmentYear { get; set; }
 
+    public bool IsAfterEleven { get; set; }
+    
     public bool IsDeleted { get; set; }
 
     public virtual Speciality Speciality { get; set; } = null!;

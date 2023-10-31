@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTemplates;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTimetables;
 using Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
@@ -15,15 +16,19 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
 {
     private readonly IScheduleDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IDateInfoService _dateInfoService;
     private readonly IMediator _mediator;
 
-    public CreateGroupCommandHandler(IScheduleDbContext context,
+    public CreateGroupCommandHandler(
+        IScheduleDbContext context,
         IMediator mediator,
-        IMapper mapper)
+        IMapper mapper,
+        IDateInfoService dateInfoService)
     {
         _context = context;
         _mediator = mediator;
         _mapper = mapper;
+        _dateInfoService = dateInfoService;
     }
 
     public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
@@ -40,6 +45,11 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
             throw new AlreadyExistsException($"Группа: {searched.Name}");
         
         var group = _mapper.Map<Group>(request);
+        
+        var realGroupTerm = _dateInfoService.GetGroupTerm(group.EnrollmentYear);
+        
+        group.TermId = group.IsAfterEleven ? realGroupTerm + 2 : realGroupTerm;
+        
         await _context.Set<Group>().AddAsync(group, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new GroupCreateTemplatesNotification(group.GroupId), cancellationToken);

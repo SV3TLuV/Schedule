@@ -68,10 +68,10 @@ export const groupApi = baseApi.injectEndpoints({
                 body: {
                     number: group.number.toString(),
                     enrollmentYear: group.enrollmentYear,
-                    termId: group.term.id,
                     specialityId: group.speciality.id,
                     mergedGroupIds: (group.mergedGroups ?? [])
-                        .map(group => group.id)
+                        .map(group => group.id),
+                    isAfterEleven: group.isAfterEleven
                 },
             }),
             invalidatesTags: () => [
@@ -88,10 +88,10 @@ export const groupApi = baseApi.injectEndpoints({
                     id: group.id,
                     number: group.number.toString(),
                     enrollmentYear: group.enrollmentYear,
-                    termId: group.term.id,
                     specialityId: group.speciality.id,
                     mergedGroupIds: (group.mergedGroups ?? [])
-                        .map(group => group.id)
+                        .map(group => group.id),
+                    isAfterEleven: group.isAfterEleven
                 },
             }),
             invalidatesTags: () => [

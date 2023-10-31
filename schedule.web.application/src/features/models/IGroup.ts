@@ -10,4 +10,5 @@ export interface IGroup {
     speciality: ISpeciality
     mergedGroups: IGroup[]
     isDeleted: boolean
+    isAfterEleven: boolean
 }

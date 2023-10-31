@@ -1,5 +1,5 @@
 import {IGroup} from "../../../../../features/models";
-import {useGetGroupsAvailableForJoinQuery, useGetTermsQuery} from "../../../../../store/apis";
+import {useGetGroupsAvailableForJoinQuery} from "../../../../../store/apis";
 import {useGetSpecialitiesQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Loading} from "../../../../ui";
@@ -9,9 +9,7 @@ import {TextField} from "@mui/material";
 import {usePaginationQuery} from "../../../../../hooks";
 import {useInfinitySelect} from "../../../../../hooks";
 import {ISpeciality} from "../../../../../features/models";
-import {ITerm} from "../../../../../features/models";
 import {enrollmentYearValidation, mergedGroupsValidation, numberValidation} from "./validation";
-import {termValidation} from "../../term/validation";
 import {specialityValidation} from "../../speciality/Dialogs";
 import {IGetAvailableForJoinGroupQuery} from "../../../../../features/queries/IGetAvailableForJoinGroupQuery.ts";
 
@@ -49,18 +47,6 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         specialityId: groupState.speciality ? groupState.speciality.id : 0
     } as IGetAvailableForJoinGroupQuery, { skip: !groupState.term || !groupState.speciality })
 
-    const [termQuery, setTermQuery] = usePaginationQuery()
-    const {data: termData} = useGetTermsQuery(termQuery)
-    const {
-        options: terms,
-        loadMore: loadMoreTerms,
-        search: searchTerms
-    } = useInfinitySelect<ITerm>({
-        query: termQuery,
-        setQuery: setTermQuery,
-        data: termData
-    })
-
     const onSubmit: SubmitHandler<IGroup> = data => {
         onSave(data)
         handleClose()
@@ -71,7 +57,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         onClose()
     }
 
-    if (!terms || !specialities) {
+    if (!specialities) {
         return <Loading/>
     }
 
@@ -129,26 +115,6 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                     />
                     <Controller
                         control={control}
-                        name='term'
-                        rules={termValidation}
-                        render={({field}) => (
-                            <Form.Group className='m-3' >
-                                <Select
-                                    onChange={field.onChange}
-                                    onLoadMore={loadMoreTerms}
-                                    onSearch={searchTerms}
-                                    value={field.value}
-                                    options={terms}
-                                    fields='id'
-                                    label='Семестр'
-                                    error={!!errors.term?.message}
-                                    helperText={errors.term?.message}
-                                />
-                            </Form.Group>
-                        )}
-                    />
-                    <Controller
-                        control={control}
                         name='speciality'
                         rules={specialityValidation}
                         render={({field}) => (
@@ -183,6 +149,20 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     multiple
                                     error={!!errors.mergedGroups?.message}
                                     helperText={errors.mergedGroups?.message}
+                                />
+                            </Form.Group>
+                        )}
+                    />
+                    <Controller
+                        control={control}
+                        name='isAfterEleven'
+                        render={({field}) => (
+                            <Form.Group className='m-3' >
+                                <Form.Check
+                                    inline
+                                    onChange={field.onChange}
+                                    checked={field.value}
+                                    label='После 11 класса'
                                 />
                             </Form.Group>
                         )}

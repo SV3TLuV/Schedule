@@ -15,4 +15,6 @@ public interface IDateInfoService : IWeekInfoService, IDayInfoService
     Date GetNextDate(DateTime dateTime);
 
     int GetTerm(DateTime dateTime);
+
+    int GetGroupTerm(int enrollmentYear);
 }

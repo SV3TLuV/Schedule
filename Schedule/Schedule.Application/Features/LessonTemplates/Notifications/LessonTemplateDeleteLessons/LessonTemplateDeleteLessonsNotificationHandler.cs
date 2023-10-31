@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Features.Lessons.Commands.Delete;
+using Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateDeleteForUnitedGroups;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 

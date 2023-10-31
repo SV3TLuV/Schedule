@@ -71,6 +71,7 @@ export const TemplateEditor = () => {
         setQuery: setDayQuery,
         data: dayData
     })
+    const educationalDays = days.filter(d => d.isStudy)
 
     const [groupQuery, setGroupQuery] = usePaginationQuery()
     const {data: groupData} = useGetGroupsQuery(groupQuery)
@@ -163,7 +164,7 @@ export const TemplateEditor = () => {
                                 onLoadMore={loadMoreDays}
                                 onSearch={searchDays}
                                 value={field.value}
-                                options={days}
+                                options={educationalDays}
                                 fields='name'
                                 label='День'
                                 clearable={false}

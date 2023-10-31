@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateCreateForUnitedGroups;
 using Schedule.Application.Features.LessonTemplates.Notifications.LessonTemplateCreateLessons;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -33,6 +34,8 @@ public sealed class CreateLessonTemplateCommandHandler
 
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new LessonTemplateCreateLessonsNotification(lessonTemplate.LessonTemplateId),
+            cancellationToken);
+        await _mediator.Publish(new LessonTemplateCreateForUnitedGroupsNotification(lessonTemplate.LessonTemplateId),
             cancellationToken);
         return lessonTemplate.LessonTemplateId;
     }

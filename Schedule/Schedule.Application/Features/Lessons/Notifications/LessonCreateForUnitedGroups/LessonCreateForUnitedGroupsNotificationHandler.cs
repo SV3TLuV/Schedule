@@ -52,7 +52,6 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
                 TimetableId = timetableId,
                 DisciplineId = lesson.DisciplineId,
                 IsChanged = lesson.IsChanged,
-                LessonTeacherClassrooms = lesson.LessonTeacherClassrooms
             };
             await _context.Set<Lesson>().AddAsync(newLesson, cancellationToken);
             

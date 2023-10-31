@@ -24,6 +24,7 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
             .Include(e => e.Timetable)
             .ThenInclude(e => e.Group)
             .ThenInclude(e => e.GroupGroups)
+            .Include(e => e.LessonTeacherClassrooms)
             .AsNoTrackingWithIdentityResolution()
             .AsSplitQuery()
             .FirstOrDefaultAsync(e => e.LessonId == notification.LessonId, cancellationToken);
@@ -54,6 +55,16 @@ public sealed class LessonCreateForUnitedGroupsNotificationHandler
                 LessonTeacherClassrooms = lesson.LessonTeacherClassrooms
             };
             await _context.Set<Lesson>().AddAsync(newLesson, cancellationToken);
+            
+            var newTeacherClassrooms = lesson.LessonTeacherClassrooms
+                .Select(e => new LessonTeacherClassroom
+                {
+                    LessonId = newLesson.LessonId,
+                    TeacherId = e.TeacherId,
+                    ClassroomId = e.ClassroomId
+                })
+                .ToArray();
+            await _context.Set<LessonTeacherClassroom>().AddRangeAsync(newTeacherClassrooms, cancellationToken);
         }
 
         await _context.SaveChangesAsync(cancellationToken);

@@ -22,6 +22,12 @@
         <PackageReference Include="Quartz" Version="3.7.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\LessonTemplates\Notifications\LessonTemplateCreateForUnitedGroups\" />
+      <Folder Include="Features\LessonTemplates\Notifications\LessonTemplateDeleteForUnitedGroups\" />
+      <Folder Include="Features\LessonTemplates\Notifications\LessonTemplateUpdateForUnitedGroups\" />
+    </ItemGroup>
+
 
 
 </Project>

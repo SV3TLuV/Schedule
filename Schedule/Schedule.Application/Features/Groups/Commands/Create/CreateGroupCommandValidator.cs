@@ -13,7 +13,5 @@ public class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
             .NotEmpty();
         RuleFor(query => query.SpecialityId)
             .SetValidator(new IdValidator());
-        RuleFor(query => query.TermId)
-            .InclusiveBetween(1, 10);
     }
 }

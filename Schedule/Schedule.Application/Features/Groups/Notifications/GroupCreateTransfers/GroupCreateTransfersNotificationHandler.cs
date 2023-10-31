@@ -37,18 +37,18 @@ public sealed class GroupCreateTransfersNotificationHandler
                 GroupId = group.GroupId,
                 NextTermId = nextTermId,
                 IsTransferred = false,
-                TransferDate = GetTransferDate(group.EnrollmentYear, group.TermId, nextTermId)
+                TransferDate = GetTransferDate(group.EnrollmentYear, group.TermId, nextTermId, group.IsAfterEleven)
             }, cancellationToken);
         }
 
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    private static DateTime GetTransferDate(int enrollmentYear, int groupTermId, int termId)
+    private static DateTime GetTransferDate(int enrollmentYear, int groupTermId, int nextTermId, bool isAfterEleven)
     {
-        const int startTermId = 1;
-        var termOffset = termId - groupTermId;
-        var transferYear = enrollmentYear + Convert.ToInt32(Math.Ceiling((termId - startTermId) / 2.0));
+        var startTermId = isAfterEleven ? 3 : 1;
+        var termOffset = nextTermId - groupTermId;
+        var transferYear = enrollmentYear + Convert.ToInt32(Math.Ceiling((nextTermId - startTermId) / 2.0));
         var transferMonth = termOffset % 2 == 0 ? 8 : 1;
         return new DateTime(transferYear, transferMonth, 1);
     }

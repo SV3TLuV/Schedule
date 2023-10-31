@@ -26,6 +26,7 @@ public sealed class GetAvailableForJoinGroupQueryHandler
         CancellationToken cancellationToken)
     {
         var query = _context.Set<Group>()
+            .Where(e => !e.IsDeleted)
             .Where(e => e.TermId == request.TermId)
             .Where(e => e.SpecialityId == request.SpecialityId);
 

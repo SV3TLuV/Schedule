@@ -43,7 +43,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Cabinet" }, "IX_Classrooms")
                         .IsUnique();
 
-                    b.ToTable("Classrooms", t =>
+                    b.ToTable("Classrooms", null, t =>
                         {
                             t.HasTrigger("Classrooms_Delete");
                         });
@@ -454,7 +454,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasKey("CourseId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
 
                     b.HasData(
                         new
@@ -511,7 +511,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Value" }, "IX_Dates")
                         .IsUnique();
 
-                    b.ToTable("Dates");
+                    b.ToTable("Dates", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Day", b =>
@@ -535,7 +535,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Name" }, "IX_Days")
                         .IsUnique();
 
-                    b.ToTable("Days");
+                    b.ToTable("Days", (string)null);
 
                     b.HasData(
                         new
@@ -626,7 +626,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Code", "Name", "SpecialityId", "TermId" }, "IX_Disciplines")
                         .IsUnique();
 
-                    b.ToTable("Disciplines", t =>
+                    b.ToTable("Disciplines", null, t =>
                         {
                             t.HasTrigger("Disciplines_Delete");
                         });
@@ -707,7 +707,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Number", "EnrollmentYear", "SpecialityId" }, "IX_Groups")
                         .IsUnique();
 
-                    b.ToTable("Groups", t =>
+                    b.ToTable("Groups", null, t =>
                         {
                             t.HasTrigger("Groups_Delete");
 
@@ -749,7 +749,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("NextTermId");
 
-                    b.ToTable("GroupTransfers");
+                    b.ToTable("GroupTransfers", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Lesson", b =>
@@ -787,7 +787,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("TimetableId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.LessonTeacherClassroom", b =>
@@ -808,7 +808,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("LessonTeacherClassrooms");
+                    b.ToTable("LessonTeacherClassrooms", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.LessonTemplate", b =>
@@ -842,7 +842,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("TimeId");
 
-                    b.ToTable("LessonTemplates");
+                    b.ToTable("LessonTemplates", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.LessonTemplateTeacherClassroom", b =>
@@ -862,7 +862,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("LessonTemplateTeacherClassrooms");
+                    b.ToTable("LessonTemplateTeacherClassrooms", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Role", b =>
@@ -883,7 +883,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Name" }, "IX_Roles")
                         .IsUnique();
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -916,7 +916,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Sessions", (string)null);
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Speciality", b =>
@@ -950,7 +950,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Code", "Name" }, "IX_Specialities")
                         .IsUnique();
 
-                    b.ToTable("Specialities", t =>
+                    b.ToTable("Specialities", null, t =>
                         {
                             t.HasTrigger("Specialities_Delete");
                         });
@@ -992,7 +992,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Email" }, "IX_Teachers")
                         .IsUnique();
 
-                    b.ToTable("Teachers", t =>
+                    b.ToTable("Teachers", null, t =>
                         {
                             t.HasTrigger("Teachers_Delete");
                         });
@@ -1031,7 +1031,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Templates_GroupId");
 
-                    b.ToTable("Templates", t =>
+                    b.ToTable("Templates", null, t =>
                         {
                             t.HasTrigger("Templates_Insert");
                         });
@@ -1053,7 +1053,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "CourseId", "CourseTerm" }, "IX_Terms")
                         .IsUnique();
 
-                    b.ToTable("Terms");
+                    b.ToTable("Terms", (string)null);
 
                     b.HasData(
                         new
@@ -1149,7 +1149,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "TypeId", "LessonNumber" }, "IX_Times")
                         .IsUnique();
 
-                    b.ToTable("Times", t =>
+                    b.ToTable("Times", null, t =>
                         {
                             t.HasTrigger("Times_Delete");
                         });
@@ -1338,7 +1338,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Name" }, "IX_TimeTypes")
                         .IsUnique();
 
-                    b.ToTable("TimeTypes", t =>
+                    b.ToTable("TimeTypes", null, t =>
                         {
                             t.HasTrigger("TimeTypes_Delete");
                         });
@@ -1387,7 +1387,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Timetables_GroupId");
 
-                    b.ToTable("Timetables", t =>
+                    b.ToTable("Timetables", null, t =>
                         {
                             t.HasTrigger("Timetables_Insert");
                         });
@@ -1421,7 +1421,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Login" }, "IX_Users")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -1458,7 +1458,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Name" }, "IX_WeekTypes")
                         .IsUnique();
 
-                    b.ToTable("WeekTypes");
+                    b.ToTable("WeekTypes", (string)null);
 
                     b.HasData(
                         new

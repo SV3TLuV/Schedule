@@ -1,5 +1,4 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {ITerm} from "../../../../features/models";
 import {IGroup} from "../../../../features/models";
 
 export const columns: GridColDef[] = [
@@ -11,8 +10,10 @@ export const columns: GridColDef[] = [
         headerName: 'Курс | Семестр',
         width: 150,
         renderCell: props => {
-            const term = props.value as ITerm
-            return `Курс: ${term.course.id} | Семестр: ${term.id}`
+            const group = props.row as IGroup
+            const course = group.isAfterEleven ? group.term.course.id - 1 : group.term.course.id
+            const realTerm = group.isAfterEleven ? group.term.id - 2 : group.term.id
+            return `Курс: ${course} | Семестр: ${realTerm}`
         }
     },
     {

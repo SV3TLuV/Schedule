@@ -12,7 +12,7 @@ export const CreateGroupDialog = ({ open, close }: IDialog) => {
         <GroupForm
             title='Добавление группы'
             show={open}
-            group={{} as IGroup}
+            group={{ isAfterEleven: false } as IGroup}
             onClose={close}
             onSave={handleSave}
         />

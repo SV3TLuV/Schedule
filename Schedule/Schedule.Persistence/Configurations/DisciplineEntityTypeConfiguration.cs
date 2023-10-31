@@ -9,7 +9,7 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<Discipline> builder)
     {
         builder.ToTable(tb => tb.HasTrigger("Disciplines_Delete"));
-        builder.HasIndex(e => new { e.Code, e.Name, e.SpecialityId }, "IX_Disciplines").IsUnique();
+        builder.HasIndex(e => new { e.Code, e.Name, e.SpecialityId, e.TermId }, "IX_Disciplines").IsUnique();
         builder.Property(e => e.Code).HasMaxLength(20);
         builder.Property(e => e.Name).HasMaxLength(50);
         builder.HasOne(d => d.DisciplineType)

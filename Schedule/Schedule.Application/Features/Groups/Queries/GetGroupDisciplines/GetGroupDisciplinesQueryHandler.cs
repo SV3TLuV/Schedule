@@ -32,6 +32,8 @@ public sealed class GetGroupDisciplinesQueryHandler : IRequestHandler<GetGroupDi
             throw new NotFoundException(nameof(Group), request.GroupId); 
         
         var disciplines = await _context.Set<Discipline>()
+            .Include(e => e.Name)
+            .Include(e => e.Code)
             .Where(e => e.SpecialityId == group.SpecialityId)
             .Where(e => e.TermId == group.TermId)
             .AsNoTracking()

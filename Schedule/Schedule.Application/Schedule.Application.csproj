@@ -22,19 +22,6 @@
         <PackageReference Include="Quartz" Version="3.7.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\DisciplineCodes\Commands\Delete\" />
-      <Folder Include="Features\DisciplineCodes\Commands\Restore\" />
-      <Folder Include="Features\DisciplineCodes\Commands\Update\" />
-      <Folder Include="Features\DisciplineCodes\Queries\GetList\" />
-      <Folder Include="Features\DisciplineCodes\Queries\Get\" />
-      <Folder Include="Features\DisciplineNames\Commands\Delete\" />
-      <Folder Include="Features\DisciplineNames\Commands\Restore\" />
-      <Folder Include="Features\DisciplineNames\Commands\Update\" />
-      <Folder Include="Features\DisciplineNames\Queries\GetList\" />
-      <Folder Include="Features\DisciplineNames\Queries\Get\" />
-    </ItemGroup>
-
 
 
 </Project>

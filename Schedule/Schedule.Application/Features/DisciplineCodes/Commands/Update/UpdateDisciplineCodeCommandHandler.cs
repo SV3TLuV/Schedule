@@ -22,11 +22,11 @@ public sealed class UpdateDisciplineCodeCommandHandler : IRequestHandler<UpdateD
     
     public async Task<Unit> Handle(UpdateDisciplineCodeCommand request, CancellationToken cancellationToken)
     {
-        var disciplineDbo = await _context.Set<DisciplineCode>()
+        var disciplineCodeDbo = await _context.Set<DisciplineCode>()
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DisciplineCodeId == request.Id, cancellationToken);
 
-        if (disciplineDbo is null)
+        if (disciplineCodeDbo is null)
             throw new NotFoundException(nameof(DisciplineCode), request.Id);
 
         var disciplineCode = _mapper.Map<DisciplineCode>(request);

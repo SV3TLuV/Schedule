@@ -208,8 +208,7 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
                                     onSearch={searchTimes}
                                     value={field.value}
                                     options={times}
-                                    fields={['start', 'end']}
-                                    fieldSplitter='-'
+                                    renderValue={(item) => `${item.start}-${item.end}`}
                                     label='Время'
                                     error={!!errors.time?.message}
                                     helperText={errors.time?.message}
@@ -226,7 +225,7 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
                                     onChange={field.onChange}
                                     value={field.value}
                                     options={disciplines}
-                                    fields='name'
+                                    renderValue={(item) => item.name.name}
                                     label='Дисциплина'
                                     error={!!errors.discipline?.message}
                                     helperText={errors.discipline?.message}
@@ -246,8 +245,7 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
                                     onSearch={searchTeachers}
                                     value={field.value}
                                     options={teachers}
-                                    fields={['surname', 'name', 'middleName']}
-                                    fieldSplitter=' '
+                                    renderValue={(item) => `${item.surname} ${item.name} ${item.middleName}`}
                                     label='Преподаватели'
                                     multiple
                                     error={!!errors.teachers?.message}
@@ -268,7 +266,7 @@ export const LessonForm = ({ title, show, group, lesson, onClose, onSave }: ILes
                                     onSearch={searchClassrooms}
                                     value={field.value}
                                     options={classrooms}
-                                    fields='cabinet'
+                                    renderValue={(item) => item.cabinet}
                                     label='Кабинеты'
                                     multiple
                                     error={!!errors.classrooms?.message}

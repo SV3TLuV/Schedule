@@ -69,7 +69,7 @@ export const SearchSchedulePage = () => {
                                     onSearch={searchGroups}
                                     value={field.value}
                                     options={groups}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Группа'
                                     error={!!errors.group?.message}
                                     helperText={errors.group?.message}

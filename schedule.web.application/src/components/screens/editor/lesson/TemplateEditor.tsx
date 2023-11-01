@@ -141,7 +141,7 @@ export const TemplateEditor = () => {
                                 onSearch={searchWeekTypes}
                                 value={field.value}
                                 options={weekTypes}
-                                fields='name'
+                                renderValue={(item) => item.name}
                                 label='Вид недели'
                                 variant='filled'
                                 clearable={false}
@@ -165,7 +165,7 @@ export const TemplateEditor = () => {
                                 onSearch={searchDays}
                                 value={field.value}
                                 options={educationalDays}
-                                fields='name'
+                                renderValue={(item) => item.name}
                                 label='День'
                                 clearable={false}
                                 variant='filled'
@@ -189,7 +189,7 @@ export const TemplateEditor = () => {
                                 onSearch={searchTerms}
                                 value={field.value}
                                 options={terms}
-                                fields='id'
+                                renderValue={(item) => item.id}
                                 label='Семестр'
                                 clearable={false}
                                 variant='filled'
@@ -213,7 +213,7 @@ export const TemplateEditor = () => {
                                 onSearch={searchGroups}
                                 value={field.value}
                                 options={groups}
-                                fields='name'
+                                renderValue={(item) => item.name}
                                 label='Группа'
                                 variant='filled'
                                 error={!!errors.group?.message}

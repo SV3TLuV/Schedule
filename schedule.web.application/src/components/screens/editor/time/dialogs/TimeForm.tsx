@@ -151,7 +151,7 @@ export const TimeForm = ({title, show, time, onClose, onSave}: ITimeForm) => {
                                     onSearch={searchTypes}
                                     value={field.value}
                                     options={types}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Вид'
                                     error={!!errors.type?.message}
                                     helperText={errors.type?.message}

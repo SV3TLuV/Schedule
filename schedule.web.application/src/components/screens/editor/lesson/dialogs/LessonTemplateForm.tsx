@@ -207,8 +207,7 @@ export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose
                                     onSearch={searchTimes}
                                     value={field.value}
                                     options={times}
-                                    fields={['start', 'end']}
-                                    fieldSplitter='-'
+                                    renderValue={(item) => `${item.start}-${item.end}`}
                                     label='Время'
                                     error={!!errors.time?.message}
                                     helperText={errors.time?.message}
@@ -227,7 +226,7 @@ export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose
                                     onSearch={searchDisciplines}
                                     value={field.value}
                                     options={disciplineOptions}
-                                    fields='name'
+                                    renderValue={(item) => item.name.name}
                                     label='Дисциплина'
                                     error={!!errors.discipline?.message}
                                     helperText={errors.discipline?.message}
@@ -247,8 +246,7 @@ export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose
                                     onSearch={searchTeachers}
                                     value={field.value}
                                     options={teachers}
-                                    fields={['surname', 'name', 'middleName']}
-                                    fieldSplitter=' '
+                                    renderValue={(item) => `${item.surname} ${item.name} ${item.middleName}`}
                                     label='Преподаватели'
                                     multiple
                                     error={!!errors.teachers?.message}
@@ -269,7 +267,7 @@ export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose
                                     onSearch={searchClassrooms}
                                     value={field.value}
                                     options={classrooms}
-                                    fields='cabinet'
+                                    renderValue={(item) => item.cabinet}
                                     label='Кабинеты'
                                     multiple
                                     error={!!errors.classrooms?.message}

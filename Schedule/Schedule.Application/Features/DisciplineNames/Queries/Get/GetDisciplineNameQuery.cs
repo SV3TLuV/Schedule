@@ -1,6 +1,6 @@
-﻿namespace Schedule.Application.Features.DisciplineNames.Queries.Get;
+﻿using MediatR;
+using Schedule.Application.ViewModels;
 
-public class GetDisciplineNameQuery
-{
-    
-}
+namespace Schedule.Application.Features.DisciplineNames.Queries.Get;
+
+public sealed record GetDisciplineNameQuery(int Id) : IRequest<DisciplineNameViewModel>;

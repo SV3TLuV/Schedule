@@ -18,13 +18,14 @@ public sealed class DeleteClassroomCommandHandler : IRequestHandler<DeleteClassr
     public async Task<Unit> Handle(DeleteClassroomCommand request, CancellationToken cancellationToken)
     {
         var classroom = await _context.Set<Classroom>()
-            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 
         if (classroom is null)
             throw new NotFoundException(nameof(Classroom), request.Id);
 
-        _context.Set<Classroom>().Remove(classroom);
+        classroom.IsDeleted = true;
+        
+        _context.Set<Classroom>().Update(classroom);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }

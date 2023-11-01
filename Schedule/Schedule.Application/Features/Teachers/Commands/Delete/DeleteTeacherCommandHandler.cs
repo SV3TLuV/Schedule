@@ -19,13 +19,14 @@ public sealed class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherC
         CancellationToken cancellationToken)
     {
         var teacher = await _context.Set<Teacher>()
-            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TeacherId == request.Id, cancellationToken);
 
         if (teacher is null)
             throw new NotFoundException(nameof(Teacher), request.Id);
 
-        _context.Set<Teacher>().Remove(teacher);
+        teacher.IsDeleted = true;
+        
+        _context.Set<Teacher>().Update(teacher);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }

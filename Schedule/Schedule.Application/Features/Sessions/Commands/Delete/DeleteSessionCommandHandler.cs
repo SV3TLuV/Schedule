@@ -24,7 +24,7 @@ public sealed class DeleteSessionCommandHandler : IRequestHandler<DeleteSessionC
 
         if (session is null)
             throw new NotFoundException(nameof(Session), request.Id);
-
+        
         _context.Set<Session>().Remove(session);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;

@@ -4,6 +4,8 @@ export enum ApiTags {
     Date = 'Date',
     Day = 'Day',
     Discipline = 'Discipline',
+    DisciplineName = 'DisciplineName',
+    DisciplineCode = 'DisciplineCode',
     DisciplineType = 'DisciplineType',
     Group = 'Group',
     Lesson = 'Lesson',

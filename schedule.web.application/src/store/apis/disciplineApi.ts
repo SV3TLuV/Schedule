@@ -49,8 +49,8 @@ export const disciplineApi = baseApi.injectEndpoints({
                 url: ApiTags.Discipline,
                 method: HttpMethod.POST,
                 body: {
-                    name: discipline.name,
-                    code: discipline.code,
+                    nameId: discipline.name.id,
+                    codeId: discipline.code.id,
                     totalHours: discipline.totalHours,
                     specialityId: discipline.speciality.id,
                     disciplineTypeId: discipline.type.id,
@@ -67,8 +67,8 @@ export const disciplineApi = baseApi.injectEndpoints({
                 method: HttpMethod.PUT,
                 body: {
                     id: discipline.id,
-                    name: discipline.name,
-                    code: discipline.code,
+                    nameId: discipline.name.id,
+                    codeId: discipline.code.id,
                     totalHours: discipline.totalHours,
                     specialityId: discipline.speciality.id,
                     disciplineTypeId: discipline.type.id,

@@ -5,7 +5,7 @@ import {
     courseApi,
     dateApi,
     dayApi,
-    disciplineApi,
+    disciplineApi, disciplineCodeApi, disciplineNameApi,
     disciplineTypeApi,
     groupApi,
     lessonApi,
@@ -59,6 +59,20 @@ const callbacks = withCallbacks<AppDispatch, AppState>()
                 break
             case ApiTags.Discipline:
                 dispatch(disciplineApi.util.invalidateTags([
+                    { type: ApiTags.Discipline },
+                    { type: ApiTags.Lesson }
+                ]))
+                break
+            case ApiTags.DisciplineName:
+                dispatch(disciplineNameApi.util.invalidateTags([
+                    { type: ApiTags.DisciplineName },
+                    { type: ApiTags.Discipline },
+                    { type: ApiTags.Lesson }
+                ]))
+                break
+            case ApiTags.DisciplineCode:
+                dispatch(disciplineCodeApi.util.invalidateTags([
+                    { type: ApiTags.DisciplineCode },
                     { type: ApiTags.Discipline },
                     { type: ApiTags.Lesson }
                 ]))

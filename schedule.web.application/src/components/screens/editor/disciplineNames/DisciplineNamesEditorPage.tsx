@@ -1,10 +1,10 @@
-import {Container, Tab, Tabs} from "react-bootstrap";
 import {useTabs} from "../../../../hooks";
+import {Container, Tab, Tabs} from "react-bootstrap";
 import {Outlet} from "react-router-dom";
 
-export const DisciplinesEditorPage = () => {
+export const DisciplineNamesEditorPage = () => {
     const {key, onSelect} = useTabs({
-        baseUrl: '/editor/disciplines',
+        baseUrl: '/editor/discipline-names',
         defaultKey: 'available'
     })
 

@@ -1,20 +1,20 @@
-import {Container} from "react-bootstrap";
-import {columns} from "./columns.ts";
 import {usePaginationQuery} from "../../../../hooks";
 import {QueryFilter} from "../../../../common/enums";
-import {useGetDisciplinesQuery, useRestoreDisciplineMutation} from "../../../../store/apis";
-import {EditorToolbar} from "../EditorToolbar.tsx";
+import {Container} from "react-bootstrap";
 import {DataGridWithPagination} from "../../../ui";
-import {IDiscipline} from "../../../../features/models";
+import {EditorToolbar} from "../EditorToolbar.tsx";
+import {columns} from "./columns.ts";
+import {useGetDisciplineNamesQuery, useRestoreDisciplineNameMutation} from "../../../../store/apis";
+import {IDisciplineName} from "../../../../features/models";
 
-export const DeletedDisciplinesEditor = () => {
+export const DeletedDisciplineNamesEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery({
         filter: QueryFilter.Deleted
     })
-    const {data} = useGetDisciplinesQuery(paginationQuery)
-    const [restore] = useRestoreDisciplineMutation()
+    const {data} = useGetDisciplineNamesQuery(paginationQuery)
+    const [restore] = useRestoreDisciplineNameMutation()
 
-    const handleRestore = (discipline: IDiscipline) => restore(discipline.id)
+    const handleRestore = (disciplineName: IDisciplineName) => restore(disciplineName.id)
 
     return (
         <Container style={{height: 'calc(100vh - 114px)', padding: 0}}>

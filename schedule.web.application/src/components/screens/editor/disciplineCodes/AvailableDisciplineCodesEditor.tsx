@@ -1,29 +1,30 @@
+import {useDialog, usePaginationQuery} from "../../../../hooks";
+import {
+    useDeleteDisciplineCodeMutation,
+    useGetDisciplineCodesQuery,
+} from "../../../../store/apis";
+import {useState} from "react";
+import {IDisciplineCode} from "../../../../features/models";
 import {Container} from "react-bootstrap";
-import {columns} from "./columns.ts";
-import {usePaginationQuery} from "../../../../hooks";
-import {useDeleteDisciplineMutation, useGetDisciplinesQuery} from "../../../../store/apis";
 import {DataGridWithPagination} from "../../../ui";
 import {EditorToolbar} from "../EditorToolbar.tsx";
-import {CreateDisciplineDialog} from "./dialogs";
-import {useDialog} from "../../../../hooks";
-import {UpdateDisciplineDialog} from "./dialogs";
-import {useState} from "react";
-import {IDiscipline} from "../../../../features/models";
+import {CreateDisciplineCodeDialog, UpdateDisciplineCodeDialog} from "./dialogs";
+import {columns} from "./columns.ts";
 
-export const AvailableDisciplinesEditor = () => {
+export const AvailableDisciplineCodesEditor = () => {
     const [paginationQuery, setPaginationQuery] = usePaginationQuery()
-    const {data} = useGetDisciplinesQuery(paginationQuery)
-    const [selected, setSelected] = useState<IDiscipline>({} as IDiscipline)
-    const [remove] = useDeleteDisciplineMutation()
+    const {data} = useGetDisciplineCodesQuery(paginationQuery)
+    const [selected, setSelected] = useState<IDisciplineCode>({} as IDisciplineCode)
+    const [remove] = useDeleteDisciplineCodeMutation()
     const createDialog = useDialog()
     const updateDialog = useDialog()
 
-    const handleUpdate = (discipline: IDiscipline) => {
-        setSelected(discipline)
+    const handleUpdate = (disciplineCode: IDisciplineCode) => {
+        setSelected(disciplineCode)
         updateDialog.show()
     }
 
-    const handleDelete = (discipline: IDiscipline) => remove(discipline.id)
+    const handleDelete = (disciplineCode: IDisciplineCode) => remove(disciplineCode.id)
 
     return (
         <Container style={{ height: 'calc(100vh - 114px)', padding: 0 }}>
@@ -42,9 +43,8 @@ export const AvailableDisciplinesEditor = () => {
                 onUpdate={handleUpdate}
                 onDelete={handleDelete}
             />
-            <CreateDisciplineDialog {...createDialog}/>
-            <UpdateDisciplineDialog discipline={selected} {...updateDialog}/>
+            <CreateDisciplineCodeDialog {...createDialog}/>
+            <UpdateDisciplineCodeDialog disciplineCode={selected} {...updateDialog}/>
         </Container>
     )
 }
-

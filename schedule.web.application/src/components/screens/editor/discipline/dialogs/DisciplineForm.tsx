@@ -1,5 +1,9 @@
-import {IDiscipline} from "../../../../../features/models";
-import {useGetDisciplineTypesQuery} from "../../../../../store/apis";
+import {IDiscipline, IDisciplineCode, IDisciplineName} from "../../../../../features/models";
+import {
+    useGetDisciplineCodesQuery,
+    useGetDisciplineNamesQuery,
+    useGetDisciplineTypesQuery
+} from "../../../../../store/apis";
 import {useGetSpecialitiesQuery} from "../../../../../store/apis";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Loading} from "../../../../ui";
@@ -62,6 +66,30 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
         data: termData
     })
 
+    const [codeQuery, setCodeQuery] = usePaginationQuery()
+    const {data: codeData} = useGetDisciplineCodesQuery(codeQuery)
+    const {
+        options: codes,
+        loadMore: loadMoreCodes,
+        search: searchCodes
+    } = useInfinitySelect<IDisciplineCode>({
+        query: codeQuery,
+        setQuery: setCodeQuery,
+        data: codeData
+    })
+
+    const [nameQuery, setNameQuery] = usePaginationQuery()
+    const {data: nameData} = useGetDisciplineNamesQuery(nameQuery)
+    const {
+        options: names,
+        loadMore: loadMoreNames,
+        search: searchNames
+    } = useInfinitySelect<IDisciplineName>({
+        query: nameQuery,
+        setQuery: setNameQuery,
+        data: nameData
+    })
+
     const {control, handleSubmit, reset, formState: {errors}} = useForm<IDiscipline>({
         values: discipline,
         mode: 'onChange',
@@ -103,12 +131,14 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         rules={nameValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <TextField
-                                    fullWidth
-                                    size='small'
-                                    label='Название'
-                                    value={field.value}
+                                <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreNames}
+                                    onSearch={searchNames}
+                                    value={field.value}
+                                    options={names}
+                                    fields='name'
+                                    label='Название'
                                     error={!!errors.name?.message}
                                     helperText={errors.name?.message}
                                 />
@@ -121,12 +151,14 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                         rules={codeValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
-                                <TextField
-                                    fullWidth
-                                    label='Код'
-                                    size='small'
-                                    value={field.value}
+                                <Select
                                     onChange={field.onChange}
+                                    onLoadMore={loadMoreCodes}
+                                    onSearch={searchCodes}
+                                    value={field.value}
+                                    options={codes}
+                                    fields='name'
+                                    label='Код'
                                     error={!!errors.code?.message}
                                     helperText={errors.code?.message}
                                 />

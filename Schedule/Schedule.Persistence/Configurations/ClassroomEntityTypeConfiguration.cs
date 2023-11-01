@@ -8,7 +8,6 @@ public sealed class ClassroomEntityTypeConfiguration : IEntityTypeConfiguration<
 {
     public void Configure(EntityTypeBuilder<Classroom> builder)
     {
-        builder.ToTable(tb => tb.HasTrigger("Classrooms_Delete"));
         builder.HasIndex(e => e.Cabinet, "IX_Classrooms").IsUnique();
         builder.Property(e => e.Cabinet).HasMaxLength(10);
         builder.HasData(new Classroom[]

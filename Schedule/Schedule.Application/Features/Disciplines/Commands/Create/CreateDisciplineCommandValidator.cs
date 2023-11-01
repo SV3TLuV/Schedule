@@ -7,12 +7,10 @@ public class CreateDisciplineCommandValidator : AbstractValidator<CreateDiscipli
 {
     public CreateDisciplineCommandValidator()
     {
-        RuleFor(query => query.Name)
-            .MaximumLength(50)
-            .NotEmpty();
-        RuleFor(query => query.Code)
-            .MaximumLength(20)
-            .NotEmpty();
+        RuleFor(query => query.NameId)
+            .GreaterThan(0);
+        RuleFor(query => query.CodeId)
+            .GreaterThan(0);
         RuleFor(query => query.TotalHours)
             .GreaterThan(0);
         RuleFor(query => query.TermId)

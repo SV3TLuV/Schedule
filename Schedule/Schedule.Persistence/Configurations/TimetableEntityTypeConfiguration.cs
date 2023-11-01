@@ -11,13 +11,15 @@ public sealed class TimetableEntityTypeConfiguration : IEntityTypeConfiguration<
         builder.HasIndex(e => new { e.DateId, e.GroupId }, "IX_Timetables").IsUnique();
         builder.HasIndex(e => e.DateId, "IX_Timetables_DateId");
         builder.HasIndex(e => e.GroupId, "IX_Timetables_GroupId");
-        builder.HasOne(d => d.Date).WithMany(p => p.Timetables)
+        builder.HasOne(d => d.Date)
+            .WithMany(p => p.Timetables)
             .HasForeignKey(d => d.DateId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Timetables_Dates");
-        builder.HasOne(d => d.Group).WithMany(p => p.Timetables)
+        builder.HasOne(d => d.Group)
+            .WithMany(p => p.Timetables)
             .HasForeignKey(d => d.GroupId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_Timetables_Groups");
     }
 }

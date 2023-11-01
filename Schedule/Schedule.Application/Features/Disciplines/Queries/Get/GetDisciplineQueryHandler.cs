@@ -22,6 +22,8 @@ public sealed class GetDisciplineQueryHandler : IRequestHandler<GetDisciplineQue
     public async Task<DisciplineViewModel> Handle(GetDisciplineQuery request, CancellationToken cancellationToken)
     {
         var discipline = await _context.Set<Discipline>()
+            .Include(e => e.Name)
+            .Include(e => e.Code)
             .Include(e => e.DisciplineType)
             .Include(e => e.Term)
             .ThenInclude(e => e.Course)

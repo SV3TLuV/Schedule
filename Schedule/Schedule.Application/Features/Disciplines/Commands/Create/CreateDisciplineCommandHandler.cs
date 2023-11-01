@@ -24,8 +24,8 @@ public sealed class CreateDisciplineCommandHandler : IRequestHandler<CreateDisci
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e =>
                 e.TermId == request.TermId &&
-                e.Name == request.Name &&
-                e.Code == request.Code &&
+                e.NameId == request.NameId &&
+                e.CodeId == request.CodeId &&
                 e.SpecialityId == request.SpecialityId, cancellationToken);
 
         if (searched is not null)

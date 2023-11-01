@@ -4,6 +4,7 @@
     <option name="migrationsToStartupProjects">
       <map>
         <entry key="94ccc90b-6971-4a78-9c24-893185a28891" value="74be1ceb-95f9-4988-aea1-e77c0d42c430" />
+        <entry key="f04d3607-a33b-4583-90e6-1f33fdaeaa88" value="74be1ceb-95f9-4988-aea1-e77c0d42c430" />
       </map>
     </option>
     <option name="solutionLevelOptions">
@@ -14,7 +15,7 @@
     </option>
     <option name="startupToMigrationsProjects">
       <map>
-        <entry key="74be1ceb-95f9-4988-aea1-e77c0d42c430" value="94ccc90b-6971-4a78-9c24-893185a28891" />
+        <entry key="74be1ceb-95f9-4988-aea1-e77c0d42c430" value="f04d3607-a33b-4583-90e6-1f33fdaeaa88" />
       </map>
     </option>
   </component>

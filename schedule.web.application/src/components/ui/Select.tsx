@@ -72,7 +72,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
     ), [error, helperText, label, size, variant])
 
     const getOptionLabel = useCallback((option: T): string => {
-        return renderValue(option) ?? ""
+        return !isEmpty(option) ? renderValue(option) ?? "" : ""
     }, [renderValue])
     
     const groupBy = useCallback((option: T) => {

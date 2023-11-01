@@ -133,7 +133,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                                     onSearch={searchTerms}
                                     value={field.value}
                                     options={terms}
-                                    fields='id'
+                                    renderValue={(item) => item.id}
                                     label='Кол-во семестров'
                                     error={!!errors.term?.message}
                                     helperText={errors.term?.message}

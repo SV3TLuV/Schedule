@@ -119,7 +119,7 @@ export const TimetableEditor = () => {
                                 onSearch={searchDates}
                                 value={field.value}
                                 options={dates}
-                                fields='value'
+                                renderValue={(item) => item.value}
                                 label='Дата'
                                 variant='filled'
                                 clearable={false}
@@ -144,7 +144,7 @@ export const TimetableEditor = () => {
                                 onSearch={searchGroups}
                                 value={field.value}
                                 options={groups}
-                                fields='name'
+                                renderValue={(item) => item.name}
                                 label='Группа'
                                 variant='filled'
                                 error={!!errors.group?.message}

@@ -67,7 +67,7 @@ export const DateRangeReportForm = () => {
                                         onSearch={searchDates}
                                         value={field.value}
                                         options={dates}
-                                        fields={'value'}
+                                        renderValue={(item) => item.value}
                                         label='С'
                                         error={!!errors.startDate?.message}
                                         helperText={errors.startDate?.message}
@@ -87,7 +87,7 @@ export const DateRangeReportForm = () => {
                                         onSearch={searchDates}
                                         value={field.value}
                                         options={dates}
-                                        fields={'value'}
+                                        renderValue={(item) => item.value}
                                         label='По'
                                         error={!!errors.endDate?.message}
                                         helperText={errors.endDate?.message}

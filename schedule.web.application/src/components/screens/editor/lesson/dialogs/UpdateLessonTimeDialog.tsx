@@ -84,7 +84,7 @@ export const UpdateLessonTimeDialog = ({ open, close, dateId }: IUpdateLessonTim
                                     value={field.value}
                                     options={pairNumbersOptions}
                                     label='Номера пар'
-                                    fields='id'
+                                    renderValue={(item) => item.id}
                                     multiple
                                     error={!!errors.pairNumbers?.message}
                                     helperText={errors.pairNumbers?.message}
@@ -104,7 +104,7 @@ export const UpdateLessonTimeDialog = ({ open, close, dateId }: IUpdateLessonTim
                                     onSearch={searchTypes}
                                     value={field.value}
                                     options={types}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Вид времени'
                                     error={!!errors.timeType?.message}
                                     helperText={errors.timeType?.message}

@@ -125,8 +125,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     onSearch={searchSpecialities}
                                     value={field.value}
                                     options={specialities}
-                                    fields={['name', 'code']}
-                                    fieldSplitter=' | '
+                                    renderValue={(item) => `${item.name} | ${item.code}`}
                                     label='Специальность'
                                     error={!!errors.speciality?.message}
                                     helperText={errors.speciality?.message}
@@ -144,7 +143,7 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
                                     onChange={field.onChange}
                                     value={field.value}
                                     options={availableGroups}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Объединение с группой'
                                     multiple
                                     error={!!errors.mergedGroups?.message}

@@ -145,7 +145,7 @@ export const UserForm = ({title, show, user, onClose, onSave}: IUserForm) => {
                                     onSearch={searchRoles}
                                     value={field.value}
                                     options={roles}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Роль'
                                     error={!!errors.role?.message}
                                     helperText={errors.role?.message}

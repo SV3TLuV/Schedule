@@ -15,8 +15,7 @@ import {isEmpty} from "../../utils/isEmpty.ts";
 interface ISelect<T extends { id: any }, K extends keyof T> {
     options: T[],
     groupByKey?: K | null,
-    fields: K | K[],
-    fieldSplitter?: string,
+    renderValue: (item: T) => string,
     label: string,
     error?: boolean,
     helperText?: string,
@@ -35,8 +34,7 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
     {
         groupByKey,
         options,
-        fields,
-        fieldSplitter = ', ',
+        renderValue,
         label,
         error = false,
         helperText = '',
@@ -74,11 +72,8 @@ export const Select = memo<ISelect<any, any>>(<T extends { id: any }, K extends 
     ), [error, helperText, label, size, variant])
 
     const getOptionLabel = useCallback((option: T): string => {
-        return (fields instanceof Array ? fields : [fields])
-            .map(field => option[field])
-            .filter(value => value)
-            .join(fieldSplitter)
-    }, [fieldSplitter, fields])
+        return renderValue(option) ?? ""
+    }, [renderValue])
     
     const groupBy = useCallback((option: T) => {
         return groupByKey ? option[groupByKey] as string : ''

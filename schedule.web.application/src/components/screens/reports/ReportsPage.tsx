@@ -46,7 +46,7 @@ export const ReportsPage = () => {
                                 onChange={field.onChange}
                                 value={field.value}
                                 options={reportTypes}
-                                fields={'name'}
+                                renderValue={(item) => item.name}
                                 label='Вид'
                                 error={!!errors.reportType?.message}
                                 helperText={errors.reportType?.message}

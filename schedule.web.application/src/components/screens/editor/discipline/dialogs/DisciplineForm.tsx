@@ -137,7 +137,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     onSearch={searchNames}
                                     value={field.value}
                                     options={names}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Название'
                                     error={!!errors.name?.message}
                                     helperText={errors.name?.message}
@@ -157,7 +157,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     onSearch={searchCodes}
                                     value={field.value}
                                     options={codes}
-                                    fields='code'
+                                    renderValue={(item) => item.code}
                                     label='Код'
                                     error={!!errors.code?.message}
                                     helperText={errors.code?.message}
@@ -195,7 +195,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     onSearch={searchTypes}
                                     value={field.value}
                                     options={types}
-                                    fields='name'
+                                    renderValue={(item) => item.name}
                                     label='Вид'
                                     error={!!errors.type?.message}
                                     helperText={errors.type?.message}
@@ -215,7 +215,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     onSearch={searchTerms}
                                     value={field.value}
                                     options={terms}
-                                    fields='id'
+                                    renderValue={(item) => item.id}
                                     label='Семестр'
                                     error={!!errors.term?.message}
                                     helperText={errors.term?.message}
@@ -235,8 +235,7 @@ export const DisciplineForm = ({title, show, discipline, onClose, onSave}: IDisc
                                     onSearch={searchSpecialities}
                                     value={field.value}
                                     options={specialities}
-                                    fields={['name', 'code']}
-                                    fieldSplitter=' | '
+                                    renderValue={(item) => `${item.name} | ${item.code}`}
                                     label='Специальность'
                                     error={!!errors.speciality?.message}
                                     helperText={errors.speciality?.message}

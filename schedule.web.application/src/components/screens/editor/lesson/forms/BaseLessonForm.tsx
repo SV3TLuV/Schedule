@@ -52,7 +52,7 @@ export const BaseLessonForm = ({item, onChange, onDelete}: IBaseLessonForm) => {
             <div style={isBlurred ? {filter: 'blur(4px)'} : {}}>
                 <Row className='my-1'>
                     <LessonFormTypography
-                        text={item?.discipline?.name ?? ''}
+                        text={item?.discipline?.name.name ?? ''}
                         isChanged={itemIsChanged}
                     />
                 </Row>

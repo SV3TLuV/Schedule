@@ -52,7 +52,7 @@ export const DisciplineNameForm = ({title, show, disciplineName, onClose, onSave
                             <Form.Group className='m-3' >
                                 <TextField
                                     fullWidth
-                                    label='Код'
+                                    label='Название'
                                     size='small'
                                     value={field.value}
                                     onChange={field.onChange}

@@ -9,7 +9,7 @@ export const CreateDisciplineNameDialog = ({ open, close }: IDialog) => {
 
     return (
         <DisciplineNameForm
-            title='Добавление кода дисциплин'
+            title='Добавление названия для дисциплин'
             show={open}
             disciplineName={{} as IDisciplineName}
             onClose={close}

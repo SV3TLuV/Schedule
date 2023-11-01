@@ -13,7 +13,7 @@ export const UpdateDisciplineCodeDialog = ({disciplineCode, open, close}: IUpdat
 
     return (
         <DisciplineCodeForm
-            title='Обновление кода дисциплин'
+            title='Обновление кода для дисциплин'
             show={open}
             disciplineCode={disciplineCode}
             onClose={close}

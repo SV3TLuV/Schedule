@@ -13,7 +13,7 @@ export const UpdateDisciplineNameDialog = ({disciplineName, open, close}: IUpdat
 
     return (
         <DisciplineNameForm
-            title='Обновление названия дисциплин'
+            title='Обновление названия для дисциплин'
             show={open}
             disciplineName={disciplineName}
             onClose={close}

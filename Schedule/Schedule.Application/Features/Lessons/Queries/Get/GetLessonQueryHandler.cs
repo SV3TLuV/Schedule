@@ -25,6 +25,9 @@ public sealed class GetLessonQueryHandler : IRequestHandler<GetLessonQuery, Less
     {
         var lesson = await _context.Set<Lesson>()
             .Include(e => e.Discipline)
+            .ThenInclude(e => e.Name)
+            .Include(e => e.Discipline)
+            .ThenInclude(e => e.Code)
             .Include(e => e.Time)
             .Include(e => e.LessonTeacherClassrooms)
             .ThenInclude(e => e.Classroom)

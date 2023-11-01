@@ -27,6 +27,9 @@ public sealed class GetLessonTemplateQueryHandler
     {
         var template = await _context.Set<LessonTemplate>()
             .Include(e => e.Discipline)
+            .ThenInclude(e => e.Name)
+            .Include(e => e.Discipline)
+            .ThenInclude(e => e.Code)
             .Include(e => e.Time)
             .Include(e => e.LessonTemplateTeacherClassrooms)
             .ThenInclude(e => e.Classroom)

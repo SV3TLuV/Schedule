@@ -25,6 +25,9 @@ public sealed class GetLessonListQueryHandler
     {
         var lessons = await _context.Set<Lesson>()
             .Include(e => e.Discipline)
+            .ThenInclude(e => e.Name)
+            .Include(e => e.Discipline)
+            .ThenInclude(e => e.Code)
             .Include(e => e.Time)
             .Include(e => e.LessonTeacherClassrooms)
             .ThenInclude(e => e.Classroom)

@@ -14,7 +14,7 @@ public sealed class GroupTransferEntityTypeConfiguration
         builder.HasOne(d => d.Group)
             .WithMany(p => p.GroupTransfers)
             .HasForeignKey(d => d.GroupId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_TransferingGroupsHistory_Groups");
         builder.HasOne(d => d.NextTerm)
             .WithMany(p => p.GroupTransfers)

@@ -8,21 +8,31 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Discipline> builder)
     {
-        builder.HasIndex(e => new { e.Code, e.Name, e.SpecialityId, e.TermId }, "IX_Disciplines").IsUnique();
-        builder.Property(e => e.Code).HasMaxLength(20);
-        builder.Property(e => e.Name).HasMaxLength(50);
+        builder.HasIndex(e => new { e.CodeId, e.NameId, e.SpecialityId, e.TermId }, "IX_Disciplines").IsUnique();
         builder.HasOne(d => d.DisciplineType)
             .WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.DisciplineTypeId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Disciplines_DisciplineType");
-        builder.HasOne(d => d.Speciality).WithMany(p => p.Disciplines)
+        builder.HasOne(d => d.Speciality)
+            .WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.SpecialityId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_Disciplines_Specialities");
-        builder.HasOne(d => d.Term).WithMany(p => p.Disciplines)
+        builder.HasOne(d => d.Term)
+            .WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.TermId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Disciplines_Terms");
+        builder.HasOne(d => d.Name)
+            .WithMany(p => p.Disciplines)
+            .HasForeignKey(d => d.NameId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Disciplines_DisciplineNames");
+        builder.HasOne(d => d.Code)
+            .WithMany(p => p.Disciplines)
+            .HasForeignKey(d => d.CodeId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Disciplines_DisciplineCodes");
     }
 }

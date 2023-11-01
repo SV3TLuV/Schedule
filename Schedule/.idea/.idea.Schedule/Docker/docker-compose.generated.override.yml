@@ -1,18 +1,23 @@
-﻿# This is a generated file. Not intended for manual editing.
+# This is a generated file. Not intended for manual editing.
 version: "3.9"
 services:
   api:
     build:
-      context: "/Users/ivansvetlov/RiderProjects/Schedule/Schedule"
+      context: "C:\\Users\\Volk2\\RiderProjects\\Schedule\\Schedule"
       dockerfile: "Schedule.Api/Dockerfile"
       target: "base"
     command: []
     entrypoint:
     - "dotnet"
     - "/app/bin/Debug/net7.0/Schedule.Api.dll"
-    environment: {}
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      NUGET_PACKAGES: "C:\\Users\\Volk2\\.nuget\\packages"
+      NUGET_FALLBACK_PACKAGES: "C:\\Users\\Volk2\\.nuget\\packages"
     image: "api:dev"
     ports: []
     volumes:
-    - "/Users/ivansvetlov/RiderProjects/Schedule/Schedule/Schedule.Api:/app:rw"
+    - "C:\\Users\\Volk2\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "C:\\Users\\Volk2\\RiderProjects\\Schedule\\Schedule\\Schedule.Api:/app:rw"
+    - "C:\\Users\\Volk2\\RiderProjects\\Schedule\\Schedule:/src:rw"
     working_dir: "/app"

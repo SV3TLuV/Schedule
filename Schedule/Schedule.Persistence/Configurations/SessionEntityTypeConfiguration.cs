@@ -10,9 +10,10 @@ public sealed class SessionEntityTypeConfiguration : IEntityTypeConfiguration<Se
     {
         builder.HasKey(e => e.SessionId);
         builder.Property(e => e.RefreshToken).HasMaxLength(512);
-        builder.HasOne(d => d.User).WithMany()
+        builder.HasOne(d => d.User)
+            .WithMany(e => e.Sessions)
             .HasForeignKey(d => d.UserId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_Sessions_Users");
     }
 }

@@ -11,8 +11,8 @@ namespace Schedule.Application.Features.Disciplines.Commands.Update;
 public sealed class UpdateDisciplineCommand : IRequest<Unit>, IMapWith<Discipline>
 {
     public required int Id { get; set; }
-    public required string Name { get; set; }
-    public required string Code { get; set; }
+    public required int NameId { get; set; }
+    public required int CodeId { get; set; }
     public required int TotalHours { get; set; }
     public required int SpecialityId { get; set; }
     public required int DisciplineTypeId { get; set; }
@@ -22,22 +22,10 @@ public sealed class UpdateDisciplineCommand : IRequest<Unit>, IMapWith<Disciplin
     {
         profile.CreateMap<Discipline, UpdateDisciplineCommand>()
             .ForMember(command => command.Id, expression =>
-                expression.MapFrom(discipline => discipline.DisciplineId))
-            .ForMember(command => command.Name, expression =>
-                expression.MapFrom(discipline =>
-                    discipline.Name.ToUpper()))
-            .ForMember(command => command.Code, expression =>
-                expression.MapFrom(discipline =>
-                    discipline.Code.ToUpper()));
+                expression.MapFrom(discipline => discipline.DisciplineId));
 
         profile.CreateMap<UpdateDisciplineCommand, Discipline>()
             .ForMember(discipline => discipline.DisciplineId, expression =>
-                expression.MapFrom(command => command.Id))
-            .ForMember(command => command.Name, expression =>
-                expression.MapFrom(discipline =>
-                    discipline.Name.ToUpper()))
-            .ForMember(command => command.Code, expression =>
-                expression.MapFrom(discipline =>
-                    discipline.Code.ToUpper()));
+                expression.MapFrom(command => command.Id));
     }
 }

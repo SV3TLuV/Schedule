@@ -1,4 +1,4 @@
-﻿namespace Schedule.Application.Features.DisciplineCodes.Commands.Update;
+﻿namespace Schedule.Application.Features.DisciplineNames.Commands.Update;
 
 public class UpdateDisciplineNameCommand
 {

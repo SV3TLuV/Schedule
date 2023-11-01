@@ -1,4 +1,4 @@
-﻿namespace Schedule.Application.Features.DisciplineCodes.Commands.Delete;
+﻿namespace Schedule.Application.Features.DisciplineNames.Commands.Delete;
 
 public class DeleteDisciplineNameCommand
 {

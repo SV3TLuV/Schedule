@@ -1,4 +1,4 @@
-﻿namespace Schedule.Application.Features.DisciplineCodes.Queries.Get;
+﻿namespace Schedule.Application.Features.DisciplineNames.Queries.Get;
 
 public class GetDisciplineNameQuery
 {

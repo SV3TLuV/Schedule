@@ -11,9 +11,8 @@ public class UpdateDisciplineCommandValidator : AbstractValidator<UpdateDiscipli
             .SetValidator(new IdValidator());
         RuleFor(query => query.NameId)
             .GreaterThan(0);
-        RuleFor(query => query.Code)
-            .MaximumLength(20)
-            .NotEmpty();
+        RuleFor(query => query.CodeId)
+            .GreaterThan(0);
         RuleFor(query => query.TotalHours)
             .GreaterThan(0);
         RuleFor(query => query.TermId)

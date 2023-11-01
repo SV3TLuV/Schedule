@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Features.Disciplines.Commands.Create;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 

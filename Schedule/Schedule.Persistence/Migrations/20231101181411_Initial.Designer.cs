@@ -12,7 +12,7 @@ using Schedule.Persistence.Context;
 namespace Schedule.Persistence.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    [Migration("20230610083610_Initial")]
+    [Migration("20231101181411_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Schedule.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -46,10 +46,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Cabinet" }, "IX_Classrooms")
                         .IsUnique();
 
-                    b.ToTable("Classrooms", t =>
-                        {
-                            t.HasTrigger("Classrooms_Delete");
-                        });
+                    b.ToTable("Classrooms");
 
                     b.HasData(
                         new
@@ -593,10 +590,8 @@ namespace Schedule.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DisciplineId"));
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("CodeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DisciplineTypeId")
                         .HasColumnType("int");
@@ -604,10 +599,8 @@ namespace Schedule.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("NameId")
+                        .HasColumnType("int");
 
                     b.Property<int>("SpecialityId")
                         .HasColumnType("int");
@@ -622,17 +615,64 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("DisciplineTypeId");
 
+                    b.HasIndex("NameId");
+
                     b.HasIndex("SpecialityId");
 
                     b.HasIndex("TermId");
 
-                    b.HasIndex(new[] { "Code", "Name", "SpecialityId" }, "IX_Disciplines")
+                    b.HasIndex(new[] { "CodeId", "NameId", "SpecialityId", "TermId" }, "IX_Disciplines")
                         .IsUnique();
 
-                    b.ToTable("Disciplines", t =>
-                        {
-                            t.HasTrigger("Disciplines_Delete");
-                        });
+                    b.ToTable("Disciplines");
+                });
+
+            modelBuilder.Entity("Schedule.Core.Models.DisciplineCode", b =>
+                {
+                    b.Property<int>("DisciplineCodeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DisciplineCodeId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("DisciplineCodeId");
+
+                    b.HasIndex(new[] { "Code" }, "IX_DisciplineCodes")
+                        .IsUnique();
+
+                    b.ToTable("DisciplineCodes");
+                });
+
+            modelBuilder.Entity("Schedule.Core.Models.DisciplineName", b =>
+                {
+                    b.Property<int>("DisciplineNameId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DisciplineNameId"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("DisciplineNameId");
+
+                    b.HasIndex(new[] { "Name" }, "IX_DisciplineNames")
+                        .IsUnique();
+
+                    b.ToTable("DisciplineNames");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.DisciplineType", b =>
@@ -681,6 +721,11 @@ namespace Schedule.Persistence.Migrations
                     b.Property<int>("EnrollmentYear")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsAfterEleven")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -705,12 +750,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Number", "EnrollmentYear", "SpecialityId" }, "IX_Groups")
                         .IsUnique();
 
-                    b.ToTable("Groups", t =>
-                        {
-                            t.HasTrigger("Groups_Delete");
-
-                            t.HasTrigger("Groups_Insert");
-                        });
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.GroupGroup", b =>
@@ -777,7 +817,7 @@ namespace Schedule.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("LessonId")
-                        .HasName("PK_Pairs");
+                        .HasName("PK_Lessons");
 
                     b.HasIndex("DisciplineId");
 
@@ -800,7 +840,7 @@ namespace Schedule.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("LessonId", "TeacherId")
-                        .HasName("PK_PairTeachers");
+                        .HasName("PK_LessonTeachers");
 
                     b.HasIndex("ClassroomId");
 
@@ -948,10 +988,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Code", "Name" }, "IX_Specialities")
                         .IsUnique();
 
-                    b.ToTable("Specialities", t =>
-                        {
-                            t.HasTrigger("Specialities_Delete");
-                        });
+                    b.ToTable("Specialities");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Teacher", b =>
@@ -990,10 +1027,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Email" }, "IX_Teachers")
                         .IsUnique();
 
-                    b.ToTable("Teachers", t =>
-                        {
-                            t.HasTrigger("Teachers_Delete");
-                        });
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Template", b =>
@@ -1029,10 +1063,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Templates_GroupId");
 
-                    b.ToTable("Templates", t =>
-                        {
-                            t.HasTrigger("Templates_Insert");
-                        });
+                    b.ToTable("Templates");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Term", b =>
@@ -1147,10 +1178,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "TypeId", "LessonNumber" }, "IX_Times")
                         .IsUnique();
 
-                    b.ToTable("Times", t =>
-                        {
-                            t.HasTrigger("Times_Delete");
-                        });
+                    b.ToTable("Times");
 
                     b.HasData(
                         new
@@ -1211,7 +1239,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 1,
                             Start = new TimeSpan(0, 8, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1221,7 +1249,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 2,
                             Start = new TimeSpan(0, 9, 55, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1231,7 +1259,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 3,
                             Start = new TimeSpan(0, 11, 40, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1241,7 +1269,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 4,
                             Start = new TimeSpan(0, 13, 5, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1251,7 +1279,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 5,
                             Start = new TimeSpan(0, 14, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 2
                         },
                         new
                         {
@@ -1261,7 +1289,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 0,
                             Start = new TimeSpan(0, 8, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1271,7 +1299,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 1,
                             Start = new TimeSpan(0, 9, 20, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1281,7 +1309,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 2,
                             Start = new TimeSpan(0, 11, 10, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1291,7 +1319,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 3,
                             Start = new TimeSpan(0, 13, 30, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1301,7 +1329,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 4,
                             Start = new TimeSpan(0, 15, 20, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         },
                         new
                         {
@@ -1311,7 +1339,7 @@ namespace Schedule.Persistence.Migrations
                             IsDeleted = false,
                             LessonNumber = 5,
                             Start = new TimeSpan(0, 17, 10, 0, 0),
-                            TypeId = 1
+                            TypeId = 3
                         });
                 });
 
@@ -1336,10 +1364,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasIndex(new[] { "Name" }, "IX_TimeTypes")
                         .IsUnique();
 
-                    b.ToTable("TimeTypes", t =>
-                        {
-                            t.HasTrigger("TimeTypes_Delete");
-                        });
+                    b.ToTable("TimeTypes");
 
                     b.HasData(
                         new
@@ -1385,10 +1410,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Timetables_GroupId");
 
-                    b.ToTable("Timetables", t =>
-                        {
-                            t.HasTrigger("Timetables_Insert");
-                        });
+                    b.ToTable("Timetables");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.User", b =>
@@ -1434,7 +1456,7 @@ namespace Schedule.Persistence.Migrations
                             UserId = 2,
                             Login = "Editor",
                             PasswordHash = "$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i",
-                            RoleId = 1
+                            RoleId = 2
                         });
                 });
 
@@ -1492,15 +1514,28 @@ namespace Schedule.Persistence.Migrations
 
             modelBuilder.Entity("Schedule.Core.Models.Discipline", b =>
                 {
+                    b.HasOne("Schedule.Core.Models.DisciplineCode", "Code")
+                        .WithMany("Disciplines")
+                        .HasForeignKey("CodeId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Disciplines_DisciplineCodes");
+
                     b.HasOne("Schedule.Core.Models.DisciplineType", "DisciplineType")
                         .WithMany("Disciplines")
                         .HasForeignKey("DisciplineTypeId")
                         .IsRequired()
                         .HasConstraintName("FK_Disciplines_DisciplineType");
 
+                    b.HasOne("Schedule.Core.Models.DisciplineName", "Name")
+                        .WithMany("Disciplines")
+                        .HasForeignKey("NameId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Disciplines_DisciplineNames");
+
                     b.HasOne("Schedule.Core.Models.Speciality", "Speciality")
                         .WithMany("Disciplines")
                         .HasForeignKey("SpecialityId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_Disciplines_Specialities");
 
@@ -1510,7 +1545,11 @@ namespace Schedule.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Disciplines_Terms");
 
+                    b.Navigation("Code");
+
                     b.Navigation("DisciplineType");
+
+                    b.Navigation("Name");
 
                     b.Navigation("Speciality");
 
@@ -1560,6 +1599,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Group", "Group")
                         .WithMany("GroupTransfers")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_TransferingGroupsHistory_Groups");
 
@@ -1579,18 +1619,19 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Discipline", "Discipline")
                         .WithMany("Lessons")
                         .HasForeignKey("DisciplineId")
-                        .HasConstraintName("FK_Pairs_Disciplines");
+                        .HasConstraintName("FK_Lessons_Disciplines");
 
                     b.HasOne("Schedule.Core.Models.Time", "Time")
                         .WithMany("Lessons")
                         .HasForeignKey("TimeId")
-                        .HasConstraintName("FK_Pairs_Times");
+                        .HasConstraintName("FK_Lessons_Times");
 
                     b.HasOne("Schedule.Core.Models.Timetable", "Timetable")
                         .WithMany("Lessons")
                         .HasForeignKey("TimetableId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
-                        .HasConstraintName("FK_Pairs_Timetables");
+                        .HasConstraintName("FK_Lessons_Timetables");
 
                     b.Navigation("Discipline");
 
@@ -1604,19 +1645,22 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Classroom", "Classroom")
                         .WithMany("LessonTeacherClassrooms")
                         .HasForeignKey("ClassroomId")
-                        .HasConstraintName("FK_LessonTeacherClassrooms_Classrooms2");
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .HasConstraintName("FK_LessonTeacherClassrooms_Classrooms");
 
                     b.HasOne("Schedule.Core.Models.Lesson", "Lesson")
                         .WithMany("LessonTeacherClassrooms")
                         .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_LessonTeacherClassrooms_Lessons");
 
                     b.HasOne("Schedule.Core.Models.Teacher", "Teacher")
                         .WithMany("LessonTeacherClassrooms")
                         .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
-                        .HasConstraintName("FK_LessonTeacherClassrooms_Teachers1");
+                        .HasConstraintName("FK_LessonTeacherClassrooms_Teachers");
 
                     b.Navigation("Classroom");
 
@@ -1635,6 +1679,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Template", "Template")
                         .WithMany("LessonTemplates")
                         .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_LessonTemplates_Templates");
 
@@ -1655,17 +1700,20 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Classroom", "Classroom")
                         .WithMany("LessonTemplateTeacherClassrooms")
                         .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .HasConstraintName("FK_LessonTemplateTeacherClassrooms_Classrooms");
 
                     b.HasOne("Schedule.Core.Models.LessonTemplate", "LessonTemplate")
                         .WithMany("LessonTemplateTeacherClassrooms")
                         .HasForeignKey("LessonTemplateId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_LessonTemplateTeacherClassrooms_LessonTemplates");
 
                     b.HasOne("Schedule.Core.Models.Teacher", "Teacher")
                         .WithMany("LessonTemplateTeacherClassrooms")
                         .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_LessonTemplateTeacherClassrooms_Teachers");
 
@@ -1679,8 +1727,9 @@ namespace Schedule.Persistence.Migrations
             modelBuilder.Entity("Schedule.Core.Models.Session", b =>
                 {
                     b.HasOne("Schedule.Core.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_Sessions_Users");
 
@@ -1709,6 +1758,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Group", "Group")
                         .WithMany("Templates")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_Templates_Groups");
 
@@ -1749,6 +1799,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.TimeType", "Type")
                         .WithMany("Times")
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_Times_TimeTypes");
 
@@ -1766,6 +1817,7 @@ namespace Schedule.Persistence.Migrations
                     b.HasOne("Schedule.Core.Models.Group", "Group")
                         .WithMany("Timetables")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired()
                         .HasConstraintName("FK_Timetables_Groups");
 
@@ -1814,6 +1866,16 @@ namespace Schedule.Persistence.Migrations
                     b.Navigation("LessonTemplates");
 
                     b.Navigation("Lessons");
+                });
+
+            modelBuilder.Entity("Schedule.Core.Models.DisciplineCode", b =>
+                {
+                    b.Navigation("Disciplines");
+                });
+
+            modelBuilder.Entity("Schedule.Core.Models.DisciplineName", b =>
+                {
+                    b.Navigation("Disciplines");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.DisciplineType", b =>
@@ -1896,6 +1958,11 @@ namespace Schedule.Persistence.Migrations
             modelBuilder.Entity("Schedule.Core.Models.Timetable", b =>
                 {
                     b.Navigation("Lessons");
+                });
+
+            modelBuilder.Entity("Schedule.Core.Models.User", b =>
+                {
+                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.WeekType", b =>

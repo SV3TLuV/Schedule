@@ -3,7 +3,7 @@ using MediatR;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.DisciplineCodes.Commands.Create;
+namespace Schedule.Application.Features.DisciplineNames.Commands.Create;
 
 public sealed class CreateDisciplineNameCommand : IRequest<int>, IMapWith<DisciplineName>
 {

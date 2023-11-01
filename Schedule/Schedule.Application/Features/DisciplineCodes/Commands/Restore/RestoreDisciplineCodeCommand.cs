@@ -1,4 +1,4 @@
-﻿namespace Schedule.Application.Features.DisciplineNames.Commands.Restore;
+﻿namespace Schedule.Application.Features.DisciplineCodes.Commands.Restore;
 
 public class RestoreDisciplineCodeCommand
 {

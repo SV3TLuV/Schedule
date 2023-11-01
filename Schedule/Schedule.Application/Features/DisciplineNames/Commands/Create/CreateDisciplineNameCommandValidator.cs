@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Schedule.Application.Features.DisciplineCodes.Commands.Create;
+namespace Schedule.Application.Features.DisciplineNames.Commands.Create;
 
 public sealed class CreateDisciplineNameCommandValidator : AbstractValidator<CreateDisciplineNameCommand>
 {

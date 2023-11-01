@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Schedule.Application.Features.DisciplineNames.Commands.Create;
+namespace Schedule.Application.Features.DisciplineCodes.Commands.Create;
 
 public sealed class CreateDisciplineCodeCommandHandler : IRequestHandler<CreateDisciplineCodeCommand, int>
 {

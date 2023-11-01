@@ -34,6 +34,20 @@ import {EditorPage} from "./components/screens/EditorPage.tsx";
 import {RequireAuth} from "./hok";
 import {UsersEditor} from "./components/screens/editor";
 import {Header} from "./components/layout";
+import {DisciplineCodesEditorPage} from "./components/screens/editor/disciplineCodes/DisciplineCodesEditorPage.tsx";
+import {DisciplineNamesEditorPage} from "./components/screens/editor/disciplineNames/DisciplineNamesEditorPage.tsx";
+import {
+    AvailableDisciplineCodesEditor
+} from "./components/screens/editor/disciplineCodes/AvailableDisciplineCodesEditor.tsx";
+import {
+    DeletedDisciplineCodesEditor
+} from "./components/screens/editor/disciplineCodes/DeletedDisciplineCodesEditor.tsx";
+import {
+    DeletedDisciplineNamesEditor
+} from "./components/screens/editor/disciplineNames/DeletedDisciplineNamesEditor.tsx";
+import {
+    AvailableDisciplineNamesEditor
+} from "./components/screens/editor/disciplineNames/AvailableDisciplineNamesEditor.tsx";
 
 const Root = () => {
     const {isNavShowed} = useTypedSelector(state => state.application)
@@ -80,6 +94,14 @@ export const router = createBrowserRouter(
                 <Route path='disciplines' element={<DisciplinesEditorPage/>}>
                     <Route path='available' element={<AvailableDisciplinesEditor/>}/>
                     <Route path='deleted' element={<DeletedDisciplinesEditor/>}/>
+                </Route>
+                <Route path='discipline-codes' element={<DisciplineCodesEditorPage/>}>
+                    <Route path='available' element={<AvailableDisciplineCodesEditor/>}/>
+                    <Route path='deleted' element={<DeletedDisciplineCodesEditor/>}/>
+                </Route>
+                <Route path='discipline-names' element={<DisciplineNamesEditorPage/>}>
+                    <Route path='available' element={<AvailableDisciplineNamesEditor/>}/>
+                    <Route path='deleted' element={<DeletedDisciplineNamesEditor/>}/>
                 </Route>
                 <Route path='groups' element={<GroupsEditorPage/>}>
                     <Route path='available' element={<AvailableGroupsEditor/>}/>

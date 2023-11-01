@@ -1,7 +1,7 @@
 import {GridColDef} from "@mui/x-data-grid";
-import {IDisciplineType} from "../../../../features/models/IDisciplineType";
-import {ITerm} from "../../../../features/models/ITerm";
-import {ISpeciality} from "../../../../features/models/ISpeciality";
+import {IDisciplineType} from "../../../../features/models";
+import {ITerm} from "../../../../features/models";
+import {ISpeciality} from "../../../../features/models";
 
 export const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id' },

@@ -21,6 +21,8 @@ export const Header = () => {
     const goToPairsEditor = () => navigateTo('/editor/lessons')
     const goToSpecialitiesEditor = () => navigateTo('/editor/specialities')
     const goToDisciplinesEditor = () => navigateTo('/editor/disciplines')
+    const goToDisciplineNamesEditor = () => navigateTo('/editor/discipline-names')
+    const goToDisciplineCodesEditor = () => navigateTo('/editor/discipline-codes')
     const goToGroupsEditor = () => navigateTo('/editor/groups')
     const goToTeachersEditor = () => navigateTo('/editor/teachers')
     const goToClassroomsEditor = () => navigateTo('/editor/classrooms')
@@ -68,6 +70,12 @@ export const Header = () => {
                                     </NavDropdown.Item>
                                     <NavDropdown.Item onClick={goToDisciplinesEditor}>
                                         Дисциплины
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToDisciplineNamesEditor}>
+                                        Названия дисциплин
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={goToDisciplineCodesEditor}>
+                                        Коды дисциплин
                                     </NavDropdown.Item>
                                     <NavDropdown.Item onClick={goToGroupsEditor}>
                                         Группы

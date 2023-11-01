@@ -3,11 +3,11 @@
 public class Discipline
 {
     public int DisciplineId { get; set; }
+    
+    public int NameId { get; set; }
 
-    public string Name { get; set; } = null!;
-
-    public string Code { get; set; } = null!;
-
+    public int CodeId { get; set; }
+    
     public int TotalHours { get; set; }
 
     public int TermId { get; set; }
@@ -17,7 +17,11 @@ public class Discipline
     public int DisciplineTypeId { get; set; }
 
     public bool IsDeleted { get; set; }
-
+    
+    public DisciplineName Name { get; set; } = null!;
+    
+    public DisciplineCode Code { get; set; } = null!;
+    
     public virtual DisciplineType DisciplineType { get; set; } = null!;
 
     public virtual ICollection<LessonTemplate> LessonTemplates { get; set; } = new List<LessonTemplate>();

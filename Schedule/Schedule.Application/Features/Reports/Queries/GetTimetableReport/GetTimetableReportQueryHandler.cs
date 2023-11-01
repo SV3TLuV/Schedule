@@ -150,7 +150,7 @@ public sealed class GetTimetableReportQueryHandler : IRequestHandler<GetTimetabl
         {
             var startCell = belowCell;
             var rightCell = belowCell.CellRight();
-            belowCell.Value = lesson.Discipline?.Name ?? "";
+            belowCell.Value = lesson.Discipline?.Name.Name ?? "";
             worksheet.Range(belowCell, rightCell).Merge();
             belowCell.WorksheetColumn().Width = 30;
             belowCell = belowCell.CellBelow();

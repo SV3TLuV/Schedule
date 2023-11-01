@@ -24,6 +24,8 @@ public sealed class GetDisciplineListQueryHandler
         CancellationToken cancellationToken)
     {
         var query = _context.Set<Discipline>()
+            .Include(e => e.Name)
+            .Include(e => e.Code)
             .Include(e => e.DisciplineType)
             .Include(e => e.Speciality)
             .Include(e => e.Term)
@@ -42,8 +44,8 @@ public sealed class GetDisciplineListQueryHandler
 
         if (request.Search is not null)
             query = query.Where(e =>
-                e.Name.StartsWith(request.Search) ||
-                e.Code.StartsWith(request.Search) ||
+                e.Name.Name.StartsWith(request.Search) ||
+                e.Code.Code.StartsWith(request.Search) ||
                 e.Speciality.Name.StartsWith(request.Search));
 
         var disciplines = await query

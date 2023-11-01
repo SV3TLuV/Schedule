@@ -12,7 +12,7 @@ public sealed class TimeEntityTypeConfiguration : IEntityTypeConfiguration<Time>
         builder.HasOne(d => d.Type)
             .WithMany(p => p.Times)
             .HasForeignKey(d => d.TypeId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_Times_TimeTypes");
         builder.HasData(new Time[]
         {

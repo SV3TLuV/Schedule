@@ -10,16 +10,20 @@ public sealed class LessonTemplateTeacherClassroomEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<LessonTemplateTeacherClassroom> builder)
     {
         builder.HasKey(e => new { e.LessonTemplateId, e.TeacherId });
-        builder.HasOne(d => d.Classroom).WithMany(p => p.LessonTemplateTeacherClassrooms)
+        builder.HasOne(d => d.Classroom)
+            .WithMany(p => p.LessonTemplateTeacherClassrooms)
             .HasForeignKey(d => d.ClassroomId)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_LessonTemplateTeacherClassrooms_Classrooms");
-        builder.HasOne(d => d.LessonTemplate).WithMany(p => p.LessonTemplateTeacherClassrooms)
+        builder.HasOne(d => d.LessonTemplate)
+            .WithMany(p => p.LessonTemplateTeacherClassrooms)
             .HasForeignKey(d => d.LessonTemplateId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_LessonTemplateTeacherClassrooms_LessonTemplates");
-        builder.HasOne(d => d.Teacher).WithMany(p => p.LessonTemplateTeacherClassrooms)
+        builder.HasOne(d => d.Teacher)
+            .WithMany(p => p.LessonTemplateTeacherClassrooms)
             .HasForeignKey(d => d.TeacherId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .HasConstraintName("FK_LessonTemplateTeacherClassrooms_Teachers");
     }
 }

@@ -16,5 +16,22 @@ public sealed class SpecialityEntityTypeConfiguration : IEntityTypeConfiguration
             .HasForeignKey(d => d.MaxTermId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Specialities_Terms");
+        builder.HasData(new Speciality[]
+        {
+            new() { SpecialityId = 1, Code = "09.02.05", Name = "ПКС", MaxTermId = 10, IsDeleted = false, },
+            new() { SpecialityId = 2, Code = "10.02.18", Name = "Р", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 3, Code = "09.02.01", Name = "КСК", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 4, Code = " 09.02.03 ", Name = "ПКС", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 5, Code = " 09.02.06", Name = "ССА", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 6, Code = "09.02.07 ", Name = "ИСПП", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 7, Code = "09.02.07 ", Name = "ИСПВ", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 8, Code = "10.02.04", Name = "ОИБ", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 9, Code = "11.02.15", Name = "ИСС", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 10, Code = "11.02.18", Name = "СР, МС И Т", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 11, Code = "11.02.18", Name = "РМТ", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 12, Code = "11.02.10", Name = "Р", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 13, Code = "11.02.11", Name = "С", MaxTermId = 8, IsDeleted = false, },
+            new() { SpecialityId = 14, Code = "09.02.03", Name = "ПКС", MaxTermId = 8, IsDeleted = false, },
+        });
     }
 }

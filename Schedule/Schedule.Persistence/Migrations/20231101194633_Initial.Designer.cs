@@ -12,7 +12,7 @@ using Schedule.Persistence.Context;
 namespace Schedule.Persistence.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    [Migration("20231101181411_Initial")]
+    [Migration("20231101194633_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -649,6 +649,254 @@ namespace Schedule.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("DisciplineCodes");
+
+                    b.HasData(
+                        new
+                        {
+                            DisciplineCodeId = 1,
+                            Code = "ЕН.01",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 2,
+                            Code = "ЕН.02",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 3,
+                            Code = "ЕН.03",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 4,
+                            Code = "ОГСЭ.01",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 5,
+                            Code = "ОГСЭ.02",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 6,
+                            Code = "ОГСЭ.03",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 7,
+                            Code = "ОГСЭ.04",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 8,
+                            Code = "ОГСЭ.05",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 9,
+                            Code = "ОП.01",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 10,
+                            Code = "ОП.02",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 11,
+                            Code = "ОП.03",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 12,
+                            Code = "ОП.04",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 13,
+                            Code = "ОП.05",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 14,
+                            Code = "ОП.06",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 15,
+                            Code = "ОП.07",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 16,
+                            Code = "ОП.08",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 17,
+                            Code = "ОП.09",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 18,
+                            Code = "ОП.10",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 19,
+                            Code = "ОП.11",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 20,
+                            Code = "ОП.12",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 21,
+                            Code = "ОП.13",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 22,
+                            Code = "ОП.14",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 23,
+                            Code = "ОУД.01",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 24,
+                            Code = "ОУД.02",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 25,
+                            Code = "ОУД.03",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 26,
+                            Code = "ОУД.04",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 27,
+                            Code = "ОУД.05",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 28,
+                            Code = "ОУД.06",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 29,
+                            Code = "ОУД.07",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 30,
+                            Code = "ОУД.08",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 31,
+                            Code = "ОУД.09",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 32,
+                            Code = "ОУД.10",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 33,
+                            Code = "ОУД.11",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 34,
+                            Code = "ОУД.12",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 35,
+                            Code = "ОУД.13",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 36,
+                            Code = "СГ.01",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 37,
+                            Code = "СГ.02",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 38,
+                            Code = "СГ.04",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 39,
+                            Code = "СГ.05",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 40,
+                            Code = "СГ.06",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            DisciplineCodeId = 41,
+                            Code = "СГ.07",
+                            IsDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.DisciplineName", b =>
@@ -673,6 +921,692 @@ namespace Schedule.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("DisciplineNames");
+
+                    b.HasData(
+                        new
+                        {
+                            DisciplineNameId = 1,
+                            IsDeleted = false,
+                            Name = "ААС"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 2,
+                            IsDeleted = false,
+                            Name = "БЖД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 3,
+                            IsDeleted = false,
+                            Name = "БИОЛОГИЯ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 4,
+                            IsDeleted = false,
+                            Name = "ВТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 5,
+                            IsDeleted = false,
+                            Name = "ГЕОГРАФИЯ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 6,
+                            IsDeleted = false,
+                            Name = "ДМ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 7,
+                            IsDeleted = false,
+                            Name = "ДМ С ЭМЛ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 8,
+                            IsDeleted = false,
+                            Name = "И И КГ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 9,
+                            IsDeleted = false,
+                            Name = "ИБ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 11,
+                            IsDeleted = false,
+                            Name = "ИКГ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 12,
+                            IsDeleted = false,
+                            Name = "ИНДИВИДУАЛЬНЫЙ ПРОЕКТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 13,
+                            IsDeleted = false,
+                            Name = "ИНЖЕНЕРНАЯ ГРАФИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 14,
+                            IsDeleted = false,
+                            Name = "ИНОСТРАННЫЙ ЯЗЫК"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 15,
+                            IsDeleted = false,
+                            Name = "ИНОСТРАННЫЙ ЯЗЫК В ПД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 16,
+                            IsDeleted = false,
+                            Name = "ИНФОРМАТИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 17,
+                            IsDeleted = false,
+                            Name = "ИП"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 18,
+                            IsDeleted = false,
+                            Name = "ИСТОРИЯ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 19,
+                            IsDeleted = false,
+                            Name = "ИСТОРИЯ РОССИИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 20,
+                            IsDeleted = false,
+                            Name = "ИТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 21,
+                            IsDeleted = false,
+                            Name = "КМ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 22,
+                            IsDeleted = false,
+                            Name = "КС"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 23,
+                            IsDeleted = false,
+                            Name = "ЛИТЕРАТУРА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 24,
+                            IsDeleted = false,
+                            Name = "МАТЕМАТИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 25,
+                            IsDeleted = false,
+                            Name = "МДК.01.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 26,
+                            IsDeleted = false,
+                            Name = "МДК.01.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 27,
+                            IsDeleted = false,
+                            Name = "МДК.01.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 28,
+                            IsDeleted = false,
+                            Name = "МДК.01.04"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 29,
+                            IsDeleted = false,
+                            Name = "МДК.01.05"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 30,
+                            IsDeleted = false,
+                            Name = "МДК.02.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 31,
+                            IsDeleted = false,
+                            Name = "МДК.02.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 32,
+                            IsDeleted = false,
+                            Name = "МДК.02.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 33,
+                            IsDeleted = false,
+                            Name = "МДК.03.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 34,
+                            IsDeleted = false,
+                            Name = "МДК.03.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 35,
+                            IsDeleted = false,
+                            Name = "МДК.03.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 36,
+                            IsDeleted = false,
+                            Name = "МДК.03.04"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 37,
+                            IsDeleted = false,
+                            Name = "МДК.03.05"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 38,
+                            IsDeleted = false,
+                            Name = "МДК.04.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 39,
+                            IsDeleted = false,
+                            Name = "МДК.04.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 40,
+                            IsDeleted = false,
+                            Name = "МДК.05.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 41,
+                            IsDeleted = false,
+                            Name = "МДК.05.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 42,
+                            IsDeleted = false,
+                            Name = "МДК.05.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 43,
+                            IsDeleted = false,
+                            Name = "МДК.06.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 44,
+                            IsDeleted = false,
+                            Name = "МДК.08.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 45,
+                            IsDeleted = false,
+                            Name = "МДК.08.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 46,
+                            IsDeleted = false,
+                            Name = "МДК.09.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 47,
+                            IsDeleted = false,
+                            Name = "МДК.09.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 48,
+                            IsDeleted = false,
+                            Name = "МДК.09.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 49,
+                            IsDeleted = false,
+                            Name = "МДК.11.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 50,
+                            IsDeleted = false,
+                            Name = "МЕНЕДЖМЕНТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 51,
+                            IsDeleted = false,
+                            Name = "МЕНЕДЖМЕНТ В ПД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 53,
+                            IsDeleted = false,
+                            Name = "МС И С"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 54,
+                            IsDeleted = false,
+                            Name = "О И ПОИБ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 55,
+                            IsDeleted = false,
+                            Name = "ОА И П"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 56,
+                            IsDeleted = false,
+                            Name = "ОБЖ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 57,
+                            IsDeleted = false,
+                            Name = "ОБП"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 58,
+                            IsDeleted = false,
+                            Name = "ОБЩЕСТВОЗНАНИЕ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 59,
+                            IsDeleted = false,
+                            Name = "ОИБ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 60,
+                            IsDeleted = false,
+                            Name = "ОПБД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 61,
+                            IsDeleted = false,
+                            Name = "ОС И С"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 62,
+                            IsDeleted = false,
+                            Name = "ОСНОВЫ БЕРЕЖЛИВОГО ПРОИЗВОДСТВА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 63,
+                            IsDeleted = false,
+                            Name = "ОСНОВЫ ФИЛОСОФИИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 64,
+                            IsDeleted = false,
+                            Name = "ОСНОВЫ ФИНАНСОВОЙ ГРАМОТНОСТИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 65,
+                            IsDeleted = false,
+                            Name = "ОСНОВЫ ЭТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 66,
+                            IsDeleted = false,
+                            Name = "ОСНОВЫ ЭТХ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 67,
+                            IsDeleted = false,
+                            Name = "ОТИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 68,
+                            IsDeleted = false,
+                            Name = "ОТК"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 69,
+                            IsDeleted = false,
+                            Name = "ОФГ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 70,
+                            IsDeleted = false,
+                            Name = "ОЭ И ВТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 71,
+                            IsDeleted = false,
+                            Name = "ОЭТХ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 73,
+                            IsDeleted = false,
+                            Name = "ПОКС И WEB-СЕРВЕРОВ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 74,
+                            IsDeleted = false,
+                            Name = "ПОПД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 75,
+                            IsDeleted = false,
+                            Name = "ПП"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 76,
+                            IsDeleted = false,
+                            Name = "ПП.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 77,
+                            IsDeleted = false,
+                            Name = "ПП.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 78,
+                            IsDeleted = false,
+                            Name = "ПП.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 79,
+                            IsDeleted = false,
+                            Name = "ПП.04"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 80,
+                            IsDeleted = false,
+                            Name = "ПП.05"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 81,
+                            IsDeleted = false,
+                            Name = "ПП.06"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 82,
+                            IsDeleted = false,
+                            Name = "ПП.08"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 83,
+                            IsDeleted = false,
+                            Name = "ПП.09"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 84,
+                            IsDeleted = false,
+                            Name = "ПП.11"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 85,
+                            IsDeleted = false,
+                            Name = "ППОПД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 86,
+                            IsDeleted = false,
+                            Name = "ПРИКЛАДНАЯ ЭЛЕКТРОНИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 87,
+                            IsDeleted = false,
+                            Name = "ПСИХОЛОГИЯ ОБЩЕНИЯ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 88,
+                            IsDeleted = false,
+                            Name = "РУССКИЙ ЯЗЫК"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 89,
+                            IsDeleted = false,
+                            Name = "РЯ И КР"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 90,
+                            IsDeleted = false,
+                            Name = "СС И ТД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 91,
+                            IsDeleted = false,
+                            Name = "ТВИМС"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 92,
+                            IsDeleted = false,
+                            Name = "ТФУПД"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 93,
+                            IsDeleted = false,
+                            Name = "ТЭС"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 94,
+                            IsDeleted = false,
+                            Name = "ТЭЦ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 95,
+                            IsDeleted = false,
+                            Name = "УП.01"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 96,
+                            IsDeleted = false,
+                            Name = "УП.02"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 97,
+                            IsDeleted = false,
+                            Name = "УП.03"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 98,
+                            IsDeleted = false,
+                            Name = "УП.04"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 99,
+                            IsDeleted = false,
+                            Name = "УП.05"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 100,
+                            IsDeleted = false,
+                            Name = "УП.06"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 101,
+                            IsDeleted = false,
+                            Name = "УП.08"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 102,
+                            IsDeleted = false,
+                            Name = "УП.09"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 103,
+                            IsDeleted = false,
+                            Name = "УП.11"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 104,
+                            IsDeleted = false,
+                            Name = "ФИЗИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 105,
+                            IsDeleted = false,
+                            Name = "ФИЗИЧЕСКАЯ КУЛЬТУРА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 107,
+                            IsDeleted = false,
+                            Name = "ХИМИЯ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 108,
+                            IsDeleted = false,
+                            Name = "ЧИСЛЕННЫЕ МЕТОДЫ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 109,
+                            IsDeleted = false,
+                            Name = "Э И СХТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 110,
+                            IsDeleted = false,
+                            Name = "ЭВМ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 111,
+                            IsDeleted = false,
+                            Name = "ЭКОНОМИКА И УПРАВЛЕНИЕ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 112,
+                            IsDeleted = false,
+                            Name = "ЭКОНОМИКА ОТРАСЛИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 113,
+                            IsDeleted = false,
+                            Name = "ЭЛЕКТРОННАЯ ТЕХНИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 114,
+                            IsDeleted = false,
+                            Name = "ЭЛЕКТРОТЕХНИКА"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 115,
+                            IsDeleted = false,
+                            Name = "ЭРИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 116,
+                            IsDeleted = false,
+                            Name = "ЭТ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 117,
+                            IsDeleted = false,
+                            Name = "ЭТИ"
+                        },
+                        new
+                        {
+                            DisciplineNameId = 118,
+                            IsDeleted = false,
+                            Name = "ЭТС"
+                        });
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.DisciplineType", b =>
@@ -989,6 +1923,120 @@ namespace Schedule.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Specialities");
+
+                    b.HasData(
+                        new
+                        {
+                            SpecialityId = 1,
+                            Code = "09.02.05",
+                            IsDeleted = false,
+                            MaxTermId = 10,
+                            Name = "ПКС"
+                        },
+                        new
+                        {
+                            SpecialityId = 2,
+                            Code = "10.02.18",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "Р"
+                        },
+                        new
+                        {
+                            SpecialityId = 3,
+                            Code = "09.02.01",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "КСК"
+                        },
+                        new
+                        {
+                            SpecialityId = 4,
+                            Code = " 09.02.03 ",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ПКС"
+                        },
+                        new
+                        {
+                            SpecialityId = 5,
+                            Code = " 09.02.06",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ССА"
+                        },
+                        new
+                        {
+                            SpecialityId = 6,
+                            Code = "09.02.07 ",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ИСПП"
+                        },
+                        new
+                        {
+                            SpecialityId = 7,
+                            Code = "09.02.07 ",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ИСПВ"
+                        },
+                        new
+                        {
+                            SpecialityId = 8,
+                            Code = "10.02.04",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ОИБ"
+                        },
+                        new
+                        {
+                            SpecialityId = 9,
+                            Code = "11.02.15",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ИСС"
+                        },
+                        new
+                        {
+                            SpecialityId = 10,
+                            Code = "11.02.18",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "СР, МС И Т"
+                        },
+                        new
+                        {
+                            SpecialityId = 11,
+                            Code = "11.02.18",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "РМТ"
+                        },
+                        new
+                        {
+                            SpecialityId = 12,
+                            Code = "11.02.10",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "Р"
+                        },
+                        new
+                        {
+                            SpecialityId = 13,
+                            Code = "11.02.11",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "С"
+                        },
+                        new
+                        {
+                            SpecialityId = 14,
+                            Code = "09.02.03",
+                            IsDeleted = false,
+                            MaxTermId = 8,
+                            Name = "ПКС"
+                        });
                 });
 
             modelBuilder.Entity("Schedule.Core.Models.Teacher", b =>

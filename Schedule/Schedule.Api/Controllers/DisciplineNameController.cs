@@ -6,6 +6,10 @@ using Schedule.Application.Features.DisciplineCodes.Commands.Restore;
 using Schedule.Application.Features.DisciplineCodes.Commands.Update;
 using Schedule.Application.Features.DisciplineCodes.Queries.Get;
 using Schedule.Application.Features.DisciplineCodes.Queries.GetList;
+using Schedule.Application.Features.DisciplineNames.Commands.Create;
+using Schedule.Application.Features.DisciplineNames.Commands.Delete;
+using Schedule.Application.Features.DisciplineNames.Commands.Restore;
+using Schedule.Application.Features.DisciplineNames.Commands.Update;
 using Schedule.Application.Features.DisciplineNames.Queries.Get;
 using Schedule.Application.Features.DisciplineNames.Queries.GetList;
 using Schedule.Application.ViewModels;
@@ -33,7 +37,7 @@ public sealed class DisciplineNameController : BaseController
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateDisciplineCodeCommand command)
+    public async Task<IActionResult> Post([FromBody] CreateDisciplineNameCommand command)
     {
         var id = await Mediator.Send(command);
         return Created(string.Empty, id);
@@ -42,7 +46,7 @@ public sealed class DisciplineNameController : BaseController
     [Authorize]
     [HttpPost]
     [Route("Restore", Name = "RestoreDisciplineName")]
-    public async Task<IActionResult> Post([FromBody] RestoreDisciplineCodeCommand command)
+    public async Task<IActionResult> Post([FromBody] RestoreDisciplineNameCommand command)
     {
         await Mediator.Send(command);
         return NoContent();
@@ -50,7 +54,7 @@ public sealed class DisciplineNameController : BaseController
 
     [Authorize]
     [HttpPut]
-    public async Task<IActionResult> Put([FromBody] UpdateDisciplineCodeCommand command)
+    public async Task<IActionResult> Put([FromBody] UpdateDisciplineNameCommand command)
     {
         await Mediator.Send(command);
         return NoContent();
@@ -60,7 +64,7 @@ public sealed class DisciplineNameController : BaseController
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var query = new DeleteDisciplineCodeCommand(id);
+        var query = new DeleteDisciplineNameCommand(id);
         await Mediator.Send(query);
         return NoContent();
     }

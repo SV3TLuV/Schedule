@@ -18,13 +18,14 @@ public sealed class DeleteTimeTypeCommandHandler : IRequestHandler<DeleteTimeTyp
     public async Task<Unit> Handle(DeleteTimeTypeCommand request, CancellationToken cancellationToken)
     {
         var timeType = await _context.Set<TimeType>()
-            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.TimeTypeId == request.Id, cancellationToken);
 
         if (timeType is null)
             throw new NotFoundException(nameof(TimeType), request.Id);
 
-        _context.Set<TimeType>().Remove(timeType);
+        timeType.IsDeleted = true;
+        
+        _context.Set<TimeType>().Update(timeType);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }

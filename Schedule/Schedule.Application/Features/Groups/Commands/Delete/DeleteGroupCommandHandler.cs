@@ -23,7 +23,6 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
         var group = await _context.Set<Group>()
-            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 
         if (group is null)
@@ -36,7 +35,9 @@ public sealed class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupComma
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
 
-        _context.Set<Group>().Remove(group);
+        group.IsDeleted = true;
+        
+        _context.Set<Group>().Update(group);
         await _context.SaveChangesAsync(cancellationToken);
         await _mediator.Publish(new GroupDeleteTransfersNotification(group.GroupId), cancellationToken);
         return Unit.Value;

@@ -8,7 +8,6 @@ public sealed class TimeTypeEntityTypeConfiguration : IEntityTypeConfiguration<T
 {
     public void Configure(EntityTypeBuilder<TimeType> builder)
     {
-        builder.ToTable(tb => tb.HasTrigger("TimeTypes_Delete"));
         builder.HasIndex(e => e.Name, "IX_TimeTypes").IsUnique();
         builder.Property(e => e.Name).HasMaxLength(50);
         builder.HasData(new TimeType[]

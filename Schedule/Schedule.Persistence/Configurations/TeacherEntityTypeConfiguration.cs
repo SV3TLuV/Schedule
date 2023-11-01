@@ -8,7 +8,6 @@ public sealed class TeacherEntityTypeConfiguration : IEntityTypeConfiguration<Te
 {
     public void Configure(EntityTypeBuilder<Teacher> builder)
     {
-        builder.ToTable(tb => tb.HasTrigger("Teachers_Delete"));
         builder.HasIndex(e => e.Email, "IX_Teachers").IsUnique();
         builder.Property(e => e.Email).HasMaxLength(200);
         builder.Property(e => e.MiddleName).HasMaxLength(40);

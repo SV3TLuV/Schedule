@@ -18,13 +18,14 @@ public sealed class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisci
     public async Task<Unit> Handle(DeleteDisciplineCommand request, CancellationToken cancellationToken)
     {
         var discipline = await _context.Set<Discipline>()
-            .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DisciplineId == request.Id, cancellationToken);
 
         if (discipline is null)
             throw new NotFoundException(nameof(Discipline), request.Id);
 
-        _context.Set<Discipline>().Remove(discipline);
+        discipline.IsDeleted = true;
+        
+        _context.Set<Discipline>().Update(discipline);
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }

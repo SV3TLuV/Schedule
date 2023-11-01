@@ -53,6 +53,34 @@ namespace Schedule.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DisciplineCodes",
+                columns: table => new
+                {
+                    DisciplineCodeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisciplineCodes", x => x.DisciplineCodeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DisciplineNames",
+                columns: table => new
+                {
+                    DisciplineNameId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisciplineNames", x => x.DisciplineNameId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DisciplineType",
                 columns: table => new
                 {
@@ -255,8 +283,8 @@ namespace Schedule.Persistence.Migrations
                 {
                     DisciplineId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    NameId = table.Column<int>(type: "int", nullable: false),
+                    CodeId = table.Column<int>(type: "int", nullable: false),
                     TotalHours = table.Column<int>(type: "int", nullable: false),
                     TermId = table.Column<int>(type: "int", nullable: false),
                     SpecialityId = table.Column<int>(type: "int", nullable: false),
@@ -266,6 +294,16 @@ namespace Schedule.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Disciplines", x => x.DisciplineId);
+                    table.ForeignKey(
+                        name: "FK_Disciplines_DisciplineCodes",
+                        column: x => x.CodeId,
+                        principalTable: "DisciplineCodes",
+                        principalColumn: "DisciplineCodeId");
+                    table.ForeignKey(
+                        name: "FK_Disciplines_DisciplineNames",
+                        column: x => x.NameId,
+                        principalTable: "DisciplineNames",
+                        principalColumn: "DisciplineNameId");
                     table.ForeignKey(
                         name: "FK_Disciplines_DisciplineType",
                         column: x => x.DisciplineTypeId,
@@ -293,6 +331,7 @@ namespace Schedule.Persistence.Migrations
                     SpecialityId = table.Column<int>(type: "int", nullable: false),
                     TermId = table.Column<int>(type: "int", nullable: false),
                     EnrollmentYear = table.Column<int>(type: "int", nullable: false),
+                    IsAfterEleven = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -521,7 +560,7 @@ namespace Schedule.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_LessonTeachers", x => new { x.LessonId, x.TeacherId });
                     table.ForeignKey(
-                        name: "FK_LessonTeacherClassrooms_Classrooms2",
+                        name: "FK_LessonTeacherClassrooms_Classrooms",
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "ClassroomId");
@@ -531,12 +570,12 @@ namespace Schedule.Persistence.Migrations
                         principalTable: "Lessons",
                         principalColumn: "LessonId");
                     table.ForeignKey(
-                        name: "FK_LessonTeacherClassrooms_Teachers1",
+                        name: "FK_LessonTeacherClassrooms_Teachers",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "TeacherId");
                 });
-            
+
             migrationBuilder.InsertData(
                 table: "Classrooms",
                 columns: new[] { "ClassroomId", "Cabinet", "IsDeleted" },
@@ -752,15 +791,32 @@ namespace Schedule.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_DisciplineCodes",
+                table: "DisciplineCodes",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisciplineNames",
+                table: "DisciplineNames",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Disciplines",
                 table: "Disciplines",
-                columns: new[] { "Code", "Name", "SpecialityId" },
+                columns: new[] { "CodeId", "NameId", "SpecialityId", "TermId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Disciplines_DisciplineTypeId",
                 table: "Disciplines",
                 column: "DisciplineTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Disciplines_NameId",
+                table: "Disciplines",
+                column: "NameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Disciplines_SpecialityId",
@@ -1004,6 +1060,12 @@ namespace Schedule.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Dates");
+
+            migrationBuilder.DropTable(
+                name: "DisciplineCodes");
+
+            migrationBuilder.DropTable(
+                name: "DisciplineNames");
 
             migrationBuilder.DropTable(
                 name: "DisciplineType");

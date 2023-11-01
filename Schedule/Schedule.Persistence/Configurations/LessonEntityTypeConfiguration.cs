@@ -8,16 +8,21 @@ public sealed class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Les
 {
     public void Configure(EntityTypeBuilder<Lesson> builder)
     {
-        builder.HasKey(e => e.LessonId).HasName("PK_Pairs");
-        builder.HasOne(d => d.Discipline).WithMany(p => p.Lessons)
+        builder.HasKey(e => e.LessonId).HasName("PK_Lessons");
+        builder.HasOne(d => d.Discipline)
+            .WithMany(p => p.Lessons)
             .HasForeignKey(d => d.DisciplineId)
-            .HasConstraintName("FK_Pairs_Disciplines");
-        builder.HasOne(d => d.Time).WithMany(p => p.Lessons)
-            .HasForeignKey(d => d.TimeId)
-            .HasConstraintName("FK_Pairs_Times");
-        builder.HasOne(d => d.Timetable).WithMany(p => p.Lessons)
-            .HasForeignKey(d => d.TimetableId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_Pairs_Timetables");
+            .HasConstraintName("FK_Lessons_Disciplines");
+        builder.HasOne(d => d.Time)
+            .WithMany(p => p.Lessons)
+            .HasForeignKey(d => d.TimeId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Lessons_Times");
+        builder.HasOne(d => d.Timetable)
+            .WithMany(p => p.Lessons)
+            .HasForeignKey(d => d.TimetableId)
+            .OnDelete(DeleteBehavior.ClientCascade)
+            .HasConstraintName("FK_Lessons_Timetables");
     }
 }

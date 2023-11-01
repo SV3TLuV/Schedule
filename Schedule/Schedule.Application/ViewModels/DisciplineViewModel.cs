@@ -8,9 +8,9 @@ public class DisciplineViewModel : IMapWith<Discipline>
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public DisciplineNameViewModel Name { get; set; } = null!;
 
-    public string Code { get; set; } = null!;
+    public DisciplineCodeViewModel Code { get; set; } = null!;
 
     public int TotalHours { get; set; }
 

@@ -21,6 +21,10 @@ public class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Discipline> Disciplines { get; set; } = null!;
 
+    public virtual DbSet<DisciplineName> DisciplineNames { get; set; } = null!;
+
+    public virtual DbSet<DisciplineCode> DisciplineCodes { get; set; } = null!;
+    
     public virtual DbSet<DisciplineType> DisciplineTypes { get; set; } = null!;
 
     public virtual DbSet<Group> Groups { get; set; } = null!;

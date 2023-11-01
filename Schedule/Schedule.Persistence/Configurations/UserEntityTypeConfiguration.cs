@@ -11,7 +11,8 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(e => e.Login, "IX_Users").IsUnique();
         builder.Property(e => e.Login).HasMaxLength(50);
         builder.Property(e => e.PasswordHash).HasMaxLength(512);
-        builder.HasOne(d => d.Role).WithMany(p => p.Users)
+        builder.HasOne(d => d.Role)
+            .WithMany(p => p.Users)
             .HasForeignKey(d => d.RoleId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Users_Roles");

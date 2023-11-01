@@ -463,19 +463,19 @@ namespace Schedule.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pairs", x => x.LessonId);
+                    table.PrimaryKey("PK_Lessons", x => x.LessonId);
                     table.ForeignKey(
-                        name: "FK_Pairs_Disciplines",
+                        name: "FK_Lessons_Disciplines",
                         column: x => x.DisciplineId,
                         principalTable: "Disciplines",
                         principalColumn: "DisciplineId");
                     table.ForeignKey(
-                        name: "FK_Pairs_Times",
+                        name: "FK_Lessons_Times",
                         column: x => x.TimeId,
                         principalTable: "Times",
                         principalColumn: "TimeId");
                     table.ForeignKey(
-                        name: "FK_Pairs_Timetables",
+                        name: "FK_Lessons_Timetables",
                         column: x => x.TimetableId,
                         principalTable: "Timetables",
                         principalColumn: "TimetableId");
@@ -519,7 +519,7 @@ namespace Schedule.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PairTeachers", x => new { x.LessonId, x.TeacherId });
+                    table.PrimaryKey("PK_LessonTeachers", x => new { x.LessonId, x.TeacherId });
                     table.ForeignKey(
                         name: "FK_LessonTeacherClassrooms_Classrooms2",
                         column: x => x.ClassroomId,

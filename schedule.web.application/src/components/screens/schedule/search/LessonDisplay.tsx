@@ -12,7 +12,7 @@ export const LessonDisplay = ({lesson}: { lesson: ILesson }) => {
         >
             <Row>
                 <LessonFormTypography
-                    text={lesson.discipline?.name ?? ''}
+                    text={lesson.discipline?.name?.name ?? ''}
                     isChanged={lesson.isChanged}
                 />
             </Row>

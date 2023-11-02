@@ -1,4 +1,4 @@
-import {QueryFilter} from "../../common/enums/QueryFilter";
+import {QueryFilter} from "../../common/enums";
 import {IPaginationQuery} from "./IPaginationQuery.ts";
 
 export interface IPaginationQueryWithFilters extends IPaginationQuery {

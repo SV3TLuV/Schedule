@@ -32,7 +32,7 @@ export const LessonDisplay = ({lesson}: ILessonDisplay) => {
                                 color: '#dbc14d'
                             }}
                         >
-                            {lesson?.discipline?.name ?? ''}
+                            {lesson?.discipline?.name?.name ?? ''}
                             {lesson?.subgroup && (
                                 <>
                                     <br/>

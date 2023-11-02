@@ -46,6 +46,28 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
         
         var group = _mapper.Map<Group>(request);
         
+        if (group.GroupGroups.Any())
+        {
+            var specialityIsEqual = await _context.Set<Group>()
+                .Where(e => request.MergedGroupIds!.Contains(e.GroupId))
+                .AllAsync(e => e.SpecialityId == group.SpecialityId,cancellationToken);
+
+            if (!specialityIsEqual)
+            {
+                group.GroupGroups.Clear();
+            }
+            
+            var hasUnitedGroups = await _context.Set<GroupGroup>()
+                .AsNoTracking()
+                .Where(e => request.MergedGroupIds!.Contains(e.GroupId))
+                .AnyAsync(cancellationToken);
+
+            if (hasUnitedGroups)
+            {
+                throw new ScheduleException("Объединяемая группа уже объединена с другой!");
+            }
+        }
+        
         var realGroupTerm = _dateInfoService.GetGroupTerm(group.EnrollmentYear);
         
         group.TermId = group.IsAfterEleven ? realGroupTerm + 2 : realGroupTerm;

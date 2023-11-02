@@ -24,25 +24,31 @@ public sealed class UpdateTeacherCommand : IRequest<Unit>, IMapWith<Teacher>
                 expression.MapFrom(teacher => teacher.TeacherId))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Name.Capitalize()))
+                    teacher.Name.Trim().Capitalize()))
             .ForMember(command => command.Surname, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Surname.Capitalize()))
+                    teacher.Surname.Trim().Capitalize()))
             .ForMember(command => command.MiddleName, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.MiddleName.Capitalize()));
+                    teacher.MiddleName.Trim().Capitalize()))
+            .ForMember(command => command.Email, expression =>
+                expression.MapFrom(teacher => 
+                    teacher.Email.Trim().ToLower()));
 
         profile.CreateMap<UpdateTeacherCommand, Teacher>()
             .ForMember(teacher => teacher.TeacherId, expression =>
                 expression.MapFrom(command => command.Id))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Name.Capitalize()))
+                    teacher.Name.Trim().Capitalize()))
             .ForMember(command => command.Surname, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Surname.Capitalize()))
+                    teacher.Surname.Trim().Capitalize()))
             .ForMember(command => command.MiddleName, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.MiddleName.Capitalize()));
+                    teacher.MiddleName.Trim().Capitalize()))
+            .ForMember(teacher => teacher.Email, expression =>
+                expression.MapFrom(teacher => 
+                    teacher.Email.Trim().ToLower()));
     }
 }

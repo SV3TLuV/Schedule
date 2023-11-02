@@ -17,11 +17,11 @@ public sealed class CreateClassroomCommand : IRequest<int>, IMapWith<Classroom>
         profile.CreateMap<Classroom, CreateClassroomCommand>()
             .ForMember(command => command.Cabinet, expression =>
                 expression.MapFrom(classroom =>
-                    classroom.Cabinet.ToLower()));
+                    classroom.Cabinet.Trim().ToLower()));
 
         profile.CreateMap<CreateClassroomCommand, Classroom>()
             .ForMember(classroom => classroom.Cabinet, expression =>
                 expression.MapFrom(command =>
-                    command.Cabinet.ToLower()));
+                    command.Cabinet.Trim().ToLower()));
     }
 }

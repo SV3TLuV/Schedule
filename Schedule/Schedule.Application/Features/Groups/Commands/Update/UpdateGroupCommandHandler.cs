@@ -47,6 +47,29 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
                 e.GroupId2 == request.Id)
             .AsNoTrackingWithIdentityResolution()
             .ExecuteDeleteAsync(cancellationToken);
+
+        if (group.GroupGroups.Any())
+        {
+            var specialityIsEqual = await _context.Set<Group>()
+                .AsNoTracking()
+                .Where(e => request.MergedGroupIds!.Contains(e.GroupId))
+                .AllAsync(e => e.SpecialityId == group.SpecialityId,cancellationToken);
+
+            if (!specialityIsEqual)
+            {
+                group.GroupGroups.Clear();
+            }
+
+            var hasUnitedGroups = await _context.Set<GroupGroup>()
+                .AsNoTracking()
+                .Where(e => request.MergedGroupIds!.Contains(e.GroupId))
+                .AnyAsync(cancellationToken);
+
+            if (hasUnitedGroups)
+            {
+                throw new ScheduleException("Объединяемая группа уже объединена с другой!");
+            }
+        }
         
         var realGroupTerm = _dateInfoService.GetGroupTerm(group.EnrollmentYear);
         

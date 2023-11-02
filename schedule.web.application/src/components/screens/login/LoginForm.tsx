@@ -80,6 +80,7 @@ export const LoginForm = () => {
                                         <Form.Group className='mb-3'>
                                             <Form.Control
                                                 placeholder='Пароль'
+                                                type='password'
                                                 value={field.value}
                                                 onChange={field.onChange}
                                             />

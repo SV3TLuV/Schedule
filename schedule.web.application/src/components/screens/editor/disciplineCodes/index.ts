@@ -1,4 +1,4 @@
-export * from './AvailableDisciplineCodesEditor.tsx.tsx'
-export * from './DeletedDisciplineCodesEditor.tsx.tsx'
-export * from './DisciplineCodesEditorPage.tsx.tsx'
+export * from './AvailableDisciplineCodesEditor.tsx'
+export * from './DeletedDisciplineCodesEditor.tsx'
+export * from './DisciplineCodesEditorPage.tsx'
 export * from './columns.ts'

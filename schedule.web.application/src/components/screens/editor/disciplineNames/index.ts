@@ -1,4 +1,4 @@
-export * from './AvailableDisciplineNamesEditor.tsx.tsx.tsx'
-export * from './DeletedDisciplineNamesEditor.tsx.tsx.tsx'
-export * from './DisciplineNamesEditorPage.tsx.tsx.tsx'
+export * from './AvailableDisciplineNamesEditor.tsx'
+export * from './DeletedDisciplineNamesEditor.tsx'
+export * from './DisciplineNamesEditorPage.tsx'
 export * from './columns.ts'

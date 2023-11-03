@@ -17,11 +17,11 @@ public sealed class CreateDisciplineCodeCommand : IRequest<int>, IMapWith<Discip
         profile.CreateMap<DisciplineCode, CreateDisciplineCodeCommand>()
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Code.Trim().ToUpper()));
+                    discipline.Code.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<CreateDisciplineCodeCommand, DisciplineCode>()
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Code.Trim().ToUpper()));
+                    discipline.Code.Trim(' ', '.', ',').ToUpper()));
     }
 }

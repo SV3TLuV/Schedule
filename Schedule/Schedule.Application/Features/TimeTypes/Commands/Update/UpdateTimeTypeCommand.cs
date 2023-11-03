@@ -20,13 +20,13 @@ public sealed class UpdateTimeTypeCommand : IRequest<Unit>, IMapWith<TimeType>
                 expression.MapFrom(timeType => timeType.TimeTypeId))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()));
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<UpdateTimeTypeCommand, TimeType>()
             .ForMember(timeType => timeType.TimeTypeId, expression =>
                 expression.MapFrom(command => command.Id))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()));
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()));
     }
 }

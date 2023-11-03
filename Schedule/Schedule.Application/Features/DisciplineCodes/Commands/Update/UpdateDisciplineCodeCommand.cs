@@ -20,13 +20,13 @@ public sealed class UpdateDisciplineCodeCommand : IRequest<Unit>, IMapWith<Disci
                 expression.MapFrom(discipline => discipline.DisciplineCodeId))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Code.Trim().ToUpper()));
+                    discipline.Code.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<UpdateDisciplineCodeCommand, DisciplineCode>()
             .ForMember(command => command.DisciplineCodeId, expression =>
                 expression.MapFrom(discipline => discipline.Id))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Code.Trim().ToUpper()));
+                    discipline.Code.Trim(' ', '.', ',').ToUpper()));
     }
 }

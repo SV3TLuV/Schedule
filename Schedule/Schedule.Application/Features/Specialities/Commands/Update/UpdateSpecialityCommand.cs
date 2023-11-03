@@ -22,19 +22,19 @@ public sealed class UpdateSpecialityCommand : IRequest<Unit>, IMapWith<Specialit
                 expression.MapFrom(speciality => speciality.SpecialityId))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()))
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Code.Trim().ToUpper()));
+                    speciality.Code.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<UpdateSpecialityCommand, Speciality>()
             .ForMember(speciality => speciality.SpecialityId, expression =>
                 expression.MapFrom(command => command.Id))
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()))
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Code.Trim().ToUpper()));
+                    speciality.Code.Trim(' ', '.', ',').ToUpper()));
     }
 }

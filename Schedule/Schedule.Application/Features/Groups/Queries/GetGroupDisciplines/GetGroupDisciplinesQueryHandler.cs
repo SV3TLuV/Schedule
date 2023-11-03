@@ -36,6 +36,7 @@ public sealed class GetGroupDisciplinesQueryHandler : IRequestHandler<GetGroupDi
             .Include(e => e.Code)
             .Where(e => e.SpecialityId == group.SpecialityId)
             .Where(e => e.TermId == group.TermId)
+            .Where(e => !e.IsDeleted)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
         return _mapper.Map<ICollection<DisciplineViewModel>>(disciplines);

@@ -19,17 +19,17 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
         profile.CreateMap<Speciality, CreateSpecialityCommand>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()))
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Code.Trim().ToUpper()));
+                    speciality.Code.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<CreateSpecialityCommand, Speciality>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()))
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()))
             .ForMember(command => command.Code, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Code.Trim().ToUpper()));
+                    speciality.Code.Trim(' ', '.', ',').ToUpper()));
     }
 }

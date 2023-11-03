@@ -17,11 +17,11 @@ public sealed class CreateDisciplineNameCommand : IRequest<int>, IMapWith<Discip
         profile.CreateMap<DisciplineName, CreateDisciplineNameCommand>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Name.Trim().ToUpper()));
+                    discipline.Name.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<CreateDisciplineNameCommand, DisciplineName>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(discipline =>
-                    discipline.Name.Trim().ToUpper()));
+                    discipline.Name.Trim(' ', '.', ',').ToUpper()));
     }
 }

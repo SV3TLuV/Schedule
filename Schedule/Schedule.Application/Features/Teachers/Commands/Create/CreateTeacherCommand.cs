@@ -20,29 +20,29 @@ public sealed class CreateTeacherCommand : IRequest<int>, IMapWith<Teacher>
         profile.CreateMap<Teacher, CreateTeacherCommand>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Name.Trim().Capitalize()))
+                    teacher.Name.Trim(' ', '.', ',').Capitalize()))
             .ForMember(command => command.Surname, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Surname.Trim().Capitalize()))
+                    teacher.Surname.Trim(' ', '.', ',').Capitalize()))
             .ForMember(command => command.MiddleName, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.MiddleName.Trim().Capitalize()))
+                    teacher.MiddleName.Trim(' ', '.', ',').Capitalize()))
             .ForMember(command => command.Email, expression =>
                 expression.MapFrom(teacher => 
-                    teacher.Email.Trim().ToLower()));
+                    teacher.Email.Trim(' ', '.', ',').ToLower()));
 
         profile.CreateMap<CreateTeacherCommand, Teacher>()
             .ForMember(teacher => teacher.Name, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Name.Trim().Capitalize()))
+                    teacher.Name.Trim(' ', '.', ',').Capitalize()))
             .ForMember(teacher => teacher.Surname, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.Surname.Trim().Capitalize()))
+                    teacher.Surname.Trim(' ', '.', ',').Capitalize()))
             .ForMember(teacher => teacher.MiddleName, expression =>
                 expression.MapFrom(teacher =>
-                    teacher.MiddleName.Trim().Capitalize()))
+                    teacher.MiddleName.Trim(' ', '.', ',').Capitalize()))
             .ForMember(teacher => teacher.Email, expression =>
                 expression.MapFrom(teacher => 
-                    teacher.Email.Trim().ToLower()));
+                    teacher.Email.Trim(' ', '.', ',').ToLower()));
     }
 }

@@ -17,11 +17,11 @@ public sealed class CreateTimeTypeCommand : IRequest<int>, IMapWith<TimeType>
         profile.CreateMap<TimeType, CreateTimeTypeCommand>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()));
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()));
 
         profile.CreateMap<CreateTimeTypeCommand, TimeType>()
             .ForMember(command => command.Name, expression =>
                 expression.MapFrom(speciality =>
-                    speciality.Name.Trim().ToUpper()));
+                    speciality.Name.Trim(' ', '.', ',').ToUpper()));
     }
 }

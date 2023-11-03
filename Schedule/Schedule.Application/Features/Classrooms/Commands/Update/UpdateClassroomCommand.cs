@@ -20,7 +20,7 @@ public sealed class UpdateClassroomCommand : IRequest<Unit>, IMapWith<Classroom>
                 expression.MapFrom(classroom => classroom.ClassroomId))
             .ForMember(command => command.Cabinet, expression =>
                 expression.MapFrom(classroom =>
-                    classroom.Cabinet.Trim().ToLower()))
+                    classroom.Cabinet.Trim(' ', '.', ',').ToLower()))
             .ReverseMap();
 
         profile.CreateMap<UpdateClassroomCommand, Classroom>()
@@ -28,6 +28,6 @@ public sealed class UpdateClassroomCommand : IRequest<Unit>, IMapWith<Classroom>
                 expression.MapFrom(command => command.Id))
             .ForMember(classroom => classroom.Cabinet, expression =>
                 expression.MapFrom(command =>
-                    command.Cabinet.Trim().ToLower()));
+                    command.Cabinet.Trim(' ', '.', ',').ToLower()));
     }
 }

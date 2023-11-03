@@ -20,12 +20,10 @@ applicationBuilder.Host
     }))
     .ConfigureServices(services =>
     {
-        /*
-        services
-            .AddMemoryCache()
-            .AddMiniProfiler(options => options.RouteBasePath = "/profiler")
-            .AddEntityFramework();
-            */
+        // services
+        //     .AddMemoryCache()
+        //     .AddMiniProfiler(options => options.RouteBasePath = "/profiler")
+        //     .AddEntityFramework();
         services
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()

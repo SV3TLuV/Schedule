@@ -50,7 +50,7 @@ services:
     depends_on:
       - api
     ports:
-      - "3000:3000"
+      - "3000:80"
     environment:
       - VITE_API_URL=http://localhost:5000
     stdin_open: true

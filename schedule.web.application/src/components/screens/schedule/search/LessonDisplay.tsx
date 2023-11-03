@@ -5,7 +5,7 @@ import {LessonFormTypography} from "../../editor/lesson/forms";
 export const LessonDisplay = ({lesson}: { lesson: ILesson }) => {
     return (
         <Container
-            className='text-center my-3 position-relative'
+            className='text-center my-3 position-relative rounded-2'
             style={lesson.isChanged
                 ? { border: '1px solid #B05E5E'}
                 : { border: '1px solid #17a9fd'}}

@@ -1916,7 +1916,7 @@ namespace Schedule.Persistence.Migrations
 
                     b.HasIndex("MaxTermId");
 
-                    b.HasIndex(new[] { "Code", "Name" }, "IX_Specialities")
+                    b.HasIndex(new[] { "Name" }, "IX_Specialities")
                         .IsUnique();
 
                     b.ToTable("Specialities");
@@ -1925,22 +1925,6 @@ namespace Schedule.Persistence.Migrations
                         new
                         {
                             SpecialityId = 1,
-                            Code = "09.02.05",
-                            IsDeleted = false,
-                            MaxTermId = 10,
-                            Name = "ПКС"
-                        },
-                        new
-                        {
-                            SpecialityId = 2,
-                            Code = "10.02.18",
-                            IsDeleted = false,
-                            MaxTermId = 8,
-                            Name = "Р"
-                        },
-                        new
-                        {
-                            SpecialityId = 3,
                             Code = "09.02.01",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -1948,23 +1932,23 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 4,
-                            Code = " 09.02.03 ",
+                            SpecialityId = 2,
+                            Code = "09.02.03 ",
                             IsDeleted = false,
                             MaxTermId = 8,
                             Name = "ПКС"
                         },
                         new
                         {
-                            SpecialityId = 5,
-                            Code = " 09.02.06",
+                            SpecialityId = 3,
+                            Code = "09.02.06",
                             IsDeleted = false,
                             MaxTermId = 8,
                             Name = "ССА"
                         },
                         new
                         {
-                            SpecialityId = 6,
+                            SpecialityId = 4,
                             Code = "09.02.07 ",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -1972,7 +1956,7 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 7,
+                            SpecialityId = 5,
                             Code = "09.02.07 ",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -1980,7 +1964,7 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 8,
+                            SpecialityId = 6,
                             Code = "10.02.04",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -1988,7 +1972,7 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 9,
+                            SpecialityId = 7,
                             Code = "11.02.15",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -1996,15 +1980,7 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 10,
-                            Code = "11.02.18",
-                            IsDeleted = false,
-                            MaxTermId = 8,
-                            Name = "СР, МС И Т"
-                        },
-                        new
-                        {
-                            SpecialityId = 11,
+                            SpecialityId = 8,
                             Code = "11.02.18",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -2012,7 +1988,7 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 12,
+                            SpecialityId = 9,
                             Code = "11.02.10",
                             IsDeleted = false,
                             MaxTermId = 8,
@@ -2020,19 +1996,11 @@ namespace Schedule.Persistence.Migrations
                         },
                         new
                         {
-                            SpecialityId = 13,
+                            SpecialityId = 10,
                             Code = "11.02.11",
                             IsDeleted = false,
                             MaxTermId = 8,
                             Name = "С"
-                        },
-                        new
-                        {
-                            SpecialityId = 14,
-                            Code = "09.02.03",
-                            IsDeleted = false,
-                            MaxTermId = 8,
-                            Name = "ПКС"
                         });
                 });
 

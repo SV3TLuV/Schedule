@@ -14,8 +14,4 @@
         <ProjectReference Include="..\Schedule.Core\Schedule.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Migrations\" />
-    </ItemGroup>
-
 </Project>

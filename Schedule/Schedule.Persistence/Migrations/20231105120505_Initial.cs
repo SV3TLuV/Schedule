@@ -936,20 +936,16 @@ namespace Schedule.Persistence.Migrations
                 columns: new[] { "SpecialityId", "Code", "IsDeleted", "MaxTermId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "09.02.05", false, 10, "ПКС" },
-                    { 2, "10.02.18", false, 8, "Р" },
-                    { 3, "09.02.01", false, 8, "КСК" },
-                    { 4, " 09.02.03 ", false, 8, "ПКС" },
-                    { 5, " 09.02.06", false, 8, "ССА" },
-                    { 6, "09.02.07 ", false, 8, "ИСПП" },
-                    { 7, "09.02.07 ", false, 8, "ИСПВ" },
-                    { 8, "10.02.04", false, 8, "ОИБ" },
-                    { 9, "11.02.15", false, 8, "ИСС" },
-                    { 10, "11.02.18", false, 8, "СР, МС И Т" },
-                    { 11, "11.02.18", false, 8, "РМТ" },
-                    { 12, "11.02.10", false, 8, "Р" },
-                    { 13, "11.02.11", false, 8, "С" },
-                    { 14, "09.02.03", false, 8, "ПКС" }
+                    { 1, "09.02.01", false, 8, "КСК" },
+                    { 2, "09.02.03 ", false, 8, "ПКС" },
+                    { 3, "09.02.06", false, 8, "ССА" },
+                    { 4, "09.02.07 ", false, 8, "ИСПП" },
+                    { 5, "09.02.07 ", false, 8, "ИСПВ" },
+                    { 6, "10.02.04", false, 8, "ОИБ" },
+                    { 7, "11.02.15", false, 8, "ИСС" },
+                    { 8, "11.02.18", false, 8, "РМТ" },
+                    { 9, "11.02.10", false, 8, "Р" },
+                    { 10, "11.02.11", false, 8, "С" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1108,7 +1104,7 @@ namespace Schedule.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Specialities",
                 table: "Specialities",
-                columns: new[] { "Code", "Name" },
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(

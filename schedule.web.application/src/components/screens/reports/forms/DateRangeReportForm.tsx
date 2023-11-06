@@ -1,11 +1,11 @@
 import {Button, Card, Form, FormGroup, Row} from "react-bootstrap";
-import {useInfinitySelect, usePaginationQuery, useTypedSelector} from "../../../../hooks";
+import {useInfinitySelect, usePaginationQuery} from "../../../../hooks";
 import {useGetDatesQuery} from "../../../../store/apis";
 import {IDate} from "../../../../features/models";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {Select} from "../../../ui";
-import {downloadTimetableReport} from "../../../../store/apis/reportApi.ts";
 import {dateValidation} from "./validation.ts";
+import {useDownloadTimetableReportMutation} from "../../../../store/apis/reportApi.ts";
 
 interface IDateRangeReportForm {
     startDate: IDate
@@ -13,8 +13,6 @@ interface IDateRangeReportForm {
 }
 
 export const DateRangeReportForm = () => {
-    const { accessToken } = useTypedSelector(state => state.auth)
-
     const {control, handleSubmit, setError, formState: {errors}} = useForm<IDateRangeReportForm>({
         mode: 'onChange',
     })
@@ -31,6 +29,8 @@ export const DateRangeReportForm = () => {
         data: dateData
     })
 
+    const [downloadTimetableReport] = useDownloadTimetableReportMutation()
+
     const onSubmit: SubmitHandler<IDateRangeReportForm> = async data => {
         const startDateId = data.startDate.id
         const endDateId = data.endDate.id
@@ -45,9 +45,10 @@ export const DateRangeReportForm = () => {
             return;
         }
 
-        if (accessToken) {
-            await downloadTimetableReport(data.startDate.id, data.endDate.id, accessToken)
-        }
+        await downloadTimetableReport({
+            startDateId: startDateId,
+            endDateId: endDateId
+        })
     }
 
     return (

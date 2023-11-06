@@ -43,9 +43,12 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
 
     const {data: availableGroups = []} = useGetGroupsAvailableForJoinQuery({
         groupId: groupState?.id ?? null,
-        termId: groupState.term ? groupState.term.id : 0,
-        specialityId: groupState.speciality ? groupState.speciality.id : 0
-    } as IGetAvailableForJoinGroupQuery, { skip: !groupState.term || !groupState.speciality })
+        enrollmentYear: groupState.enrollmentYear,
+        specialityId: groupState.speciality ? groupState.speciality.id : 0,
+        isAfterEleven: groupState.isAfterEleven
+    } as IGetAvailableForJoinGroupQuery, {
+        skip: !groupState.enrollmentYear || !groupState.speciality
+    })
 
     const onSubmit: SubmitHandler<IGroup> = data => {
         onSave(data)

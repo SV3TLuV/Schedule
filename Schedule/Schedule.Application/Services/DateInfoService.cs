@@ -48,14 +48,20 @@ public sealed class DateInfoService : IDateInfoService
         return dateTime.Month < 9 ? 2 : 1;
     }
 
-    public int GetGroupTerm(int enrollmentYear)
+    public int GetGroupTerm(int enrollmentYear, bool isAfterEleven)
     {
+        int term;
+        
         if (CurrentTerm == 2)
         {
-            return CurrentTerm + 2 * (CurrentDateTime.Year - enrollmentYear - 1);
+            term = CurrentTerm + 2 * (CurrentDateTime.Year - enrollmentYear - 1);
         }
-        
-        return CurrentTerm + 2 * (CurrentDateTime.Year - enrollmentYear);
+        else
+        {
+            term = CurrentTerm + 2 * (CurrentDateTime.Year - enrollmentYear);
+        }
+
+        return isAfterEleven ? term + 2 : term;
     }
 
     public int GetWeekOfYear(DateTime dateTime)

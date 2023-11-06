@@ -16,5 +16,5 @@ public interface IDateInfoService : IWeekInfoService, IDayInfoService
 
     int GetTerm(DateTime dateTime);
 
-    int GetGroupTerm(int enrollmentYear);
+    int GetGroupTerm(int enrollmentYear, bool isAfterEleven);
 }

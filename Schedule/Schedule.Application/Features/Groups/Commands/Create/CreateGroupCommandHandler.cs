@@ -68,9 +68,7 @@ public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupComma
             }
         }
         
-        var realGroupTerm = _dateInfoService.GetGroupTerm(group.EnrollmentYear);
-        
-        group.TermId = group.IsAfterEleven ? realGroupTerm + 2 : realGroupTerm;
+        group.TermId = _dateInfoService.GetGroupTerm(group.EnrollmentYear, group.IsAfterEleven);
         
         await _context.Set<Group>().AddAsync(group, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);

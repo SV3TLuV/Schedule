@@ -1,4 +1,4 @@
-import {usePaginationQuery, useTypedSelector} from "../../../../hooks";
+import {usePaginationQuery} from "../../../../hooks";
 import {useGetCurrentDateQuery, useGetDatesQuery} from "../../../../store/apis";
 import {useInfinitySelect} from "../../../../hooks";
 import {IDate} from "../../../../features/models";
@@ -13,7 +13,7 @@ import {TimetableForm} from "./forms";
 import {IPagedList} from "../../../../features/models";
 import {useDialog} from "../../../../hooks";
 import {UpdateLessonTimeDialog} from "./dialogs";
-import {downloadTimetableReport} from "../../../../store/apis/reportApi.ts";
+import {useDownloadTimetableReportMutation} from "../../../../store/apis/reportApi.ts";
 
 interface ITimetableEditorState {
     group: IGroup
@@ -21,8 +21,6 @@ interface ITimetableEditorState {
 }
 
 export const TimetableEditor = () => {
-    const { accessToken } = useTypedSelector(state => state.auth)
-
     const {data: currentDate} = useGetCurrentDateQuery()
 
     const {control, formState: {errors}} = useForm<ITimetableEditorState>({
@@ -93,9 +91,14 @@ export const TimetableEditor = () => {
         }
     }
 
+    const [downloadTimetableReport] = useDownloadTimetableReportMutation()
+
     const handleSave = async () => {
-        if (selectedDate && accessToken) {
-            await downloadTimetableReport(selectedDate.id, selectedDate.id, accessToken)
+        if (selectedDate) {
+            await downloadTimetableReport({
+                startDateId: selectedDate.id,
+                endDateId: selectedDate.id
+            })
         }
     }
 

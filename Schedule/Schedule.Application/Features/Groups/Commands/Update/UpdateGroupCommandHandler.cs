@@ -71,9 +71,7 @@ public sealed class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupComma
             }
         }
         
-        var realGroupTerm = _dateInfoService.GetGroupTerm(group.EnrollmentYear);
-        
-        group.TermId = group.IsAfterEleven ? realGroupTerm + 2 : realGroupTerm;
+        group.TermId = _dateInfoService.GetGroupTerm(group.EnrollmentYear, group.IsAfterEleven);
         
         _context.Set<Group>().Update(group);
         await _context.Set<GroupGroup>().AddRangeAsync(group.GroupGroups, cancellationToken);

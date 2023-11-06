@@ -7,9 +7,10 @@ import {IGroup} from "../../../../../features/models";
 interface IUpdateLessonTemplateDialog extends IDialog {
     lessonTemplate: ILessonTemplate
     group: IGroup
+    templateTermId: number
 }
 
-export const UpdateLessonTemplateDialog = ({group, lessonTemplate, open, close}: IUpdateLessonTemplateDialog) => {
+export const UpdateLessonTemplateDialog = ({group, lessonTemplate, templateTermId, open, close}: IUpdateLessonTemplateDialog) => {
     const [update] = useUpdateLessonTemplateMutation()
 
     const handleSave = (lessonTemplate: ILessonTemplate) => update(lessonTemplate)
@@ -20,6 +21,7 @@ export const UpdateLessonTemplateDialog = ({group, lessonTemplate, open, close}:
             show={open}
             lessonTemplate={lessonTemplate}
             group={group}
+            templateTermId={templateTermId}
             onClose={close}
             onSave={handleSave}
         />

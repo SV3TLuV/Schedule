@@ -8,9 +8,10 @@ import {IGroup} from "../../../../../features/models";
 interface ILessonTemplateForm {
     lessonTemplate: ILessonTemplate
     group: IGroup
+    templateTermId: number
 }
 
-export const LessonTemplateForm = ({group, lessonTemplate}: ILessonTemplateForm) => {
+export const LessonTemplateForm = ({group, lessonTemplate, templateTermId}: ILessonTemplateForm) => {
     const [remove] = useDeleteLessonTemplateMutation()
     const updateDialog = useDialog()
 
@@ -27,6 +28,7 @@ export const LessonTemplateForm = ({group, lessonTemplate}: ILessonTemplateForm)
                 lessonTemplate={lessonTemplate}
                 {...updateDialog}
                 group={group}
+                templateTermId={templateTermId}
             />
         </>
     )

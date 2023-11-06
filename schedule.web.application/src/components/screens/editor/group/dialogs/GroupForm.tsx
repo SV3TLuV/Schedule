@@ -1,7 +1,7 @@
 import {IGroup} from "../../../../../features/models";
 import {useGetGroupsAvailableForJoinQuery} from "../../../../../store/apis";
 import {useGetSpecialitiesQuery} from "../../../../../store/apis";
-import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {Controller, SubmitHandler, useForm, useWatch} from "react-hook-form";
 import {Loading} from "../../../../ui";
 import {Button, Form, Modal} from "react-bootstrap";
 import {Select} from "../../../../ui";
@@ -34,20 +34,26 @@ export const GroupForm = ({title, show, group, onClose, onSave}: IGroupForm) => 
         data: specialityData
     })
 
-    const {control, handleSubmit, getValues, reset, formState: {errors}} = useForm<IGroup>({
+    const {control, handleSubmit, reset, formState: {errors}} = useForm<IGroup>({
         values: group,
         mode: 'onChange',
     })
 
-    const groupState = getValues()
+    const {
+        id,
+        enrollmentYear,
+        speciality,
+        isAfterEleven
+    } = useWatch({ control })
 
     const {data: availableGroups = []} = useGetGroupsAvailableForJoinQuery({
-        groupId: groupState?.id ?? null,
-        enrollmentYear: groupState.enrollmentYear,
-        specialityId: groupState.speciality ? groupState.speciality.id : 0,
-        isAfterEleven: groupState.isAfterEleven
+        groupId: id ?? null,
+        enrollmentYear: enrollmentYear,
+        specialityId: speciality ? speciality.id : 0,
+        isAfterEleven: isAfterEleven
     } as IGetAvailableForJoinGroupQuery, {
-        skip: !groupState.enrollmentYear || !groupState.speciality
+        skip: !enrollmentYear || !speciality,
+        refetchOnMountOrArgChange: true
     })
 
     const onSubmit: SubmitHandler<IGroup> = data => {

@@ -7,8 +7,6 @@ public sealed class GetAvailableForJoinGroupQueryValidator : AbstractValidator<G
 {
     public GetAvailableForJoinGroupQueryValidator()
     {
-        RuleFor(query => query.TermId)
-            .SetValidator(new IdValidator());
         RuleFor(query => query.SpecialityId)
             .SetValidator(new IdValidator());
     }

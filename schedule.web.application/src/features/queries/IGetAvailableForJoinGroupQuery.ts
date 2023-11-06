@@ -1,5 +1,6 @@
 export interface IGetAvailableForJoinGroupQuery {
     groupId: number | null
-    termId: number
+    enrollmentYear: number
     specialityId: number
+    isAfterEleven: boolean
 }

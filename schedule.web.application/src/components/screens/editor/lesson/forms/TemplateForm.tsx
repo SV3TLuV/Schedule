@@ -55,6 +55,7 @@ export const TemplateForm = ({template}: ITemplateForm) => {
                         key={lessonTemplate.id}
                         lessonTemplate={lessonTemplate}
                         group={template.groups[0]}
+                        templateTermId={template.term.id}
                     />
                 ))}
                 <Button className='mb-3' onClick={handleCreate}>

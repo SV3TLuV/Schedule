@@ -22,6 +22,7 @@ interface ILessonTemplateForm {
     show: boolean
     lessonTemplate: ILessonTemplate
     group: IGroup
+    templateTermId: number
     onClose: () => void
     onSave: (lesson: ILessonTemplate) => void
 }
@@ -36,7 +37,7 @@ interface ILessonTemplateFormState {
     classrooms: IClassroom[]
 }
 
-export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose, onSave }: ILessonTemplateForm) => {
+export const LessonTemplateForm = ({ title, show, group, templateTermId, lessonTemplate, onClose, onSave }: ILessonTemplateForm) => {
     const [timeQuery, setTimeQuery] = usePaginationQuery()
     const {data: timeData} = useGetTimesQuery(timeQuery)
     const {
@@ -60,7 +61,9 @@ export const LessonTemplateForm = ({ title, show, group, lessonTemplate, onClose
         setQuery: setDisciplineQuery,
         data: disciplineData
     })
-    const disciplineOptions = disciplines.filter(d => d.term.id === group.term.id)
+    const disciplineOptions = disciplines.filter(d =>
+        d.speciality.id === group.speciality.id &&
+        d.term.id === templateTermId)
 
     const [teacherQuery, setTeacherQuery] = usePaginationQuery()
     const {data: teacherData} = useGetTeachersQuery(teacherQuery)

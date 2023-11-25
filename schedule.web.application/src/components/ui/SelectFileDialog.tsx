@@ -13,7 +13,7 @@ export const SelectFileDialog = ({show, onClose, onSelect}: ISelectFileDialog) =
     const handleSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0]
 
-        if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+        if (file && file.type === 'application/json') {
             onSelect(file)
             onClose()
         } else {
@@ -37,7 +37,7 @@ export const SelectFileDialog = ({show, onClose, onSelect}: ISelectFileDialog) =
                     <Form.Control
                         type="file"
                         onChange={handleSelect}
-                        accept='.xlsx'
+                        accept='.json'
                     />
                     {error &&
                         <Form.Text className="text-danger">

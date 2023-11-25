@@ -75,8 +75,15 @@ public class SpecialityController : BaseController
 
     [Authorize]
     [HttpPost("import")]
-    public async Task<IActionResult> Post([FromBody] ImportSpecialityCommand command)
+    public async Task<IActionResult> Post()
     {
+        await using var ms = new MemoryStream();
+        await Request.Body.CopyToAsync(ms);
+        
+        var command = new ImportSpecialityCommand
+        {
+            Content = ms.ToArray()
+        };
         await Mediator.Send(command);
         return NoContent();
     }

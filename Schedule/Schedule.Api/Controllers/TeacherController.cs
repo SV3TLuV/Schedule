@@ -75,8 +75,15 @@ public sealed class TeacherController : BaseController
 
     [Authorize]
     [HttpPost("import")]
-    public async Task<IActionResult> Post([FromBody] ImportTeacherCommand command)
+    public async Task<IActionResult> Post()
     {
+        await using var ms = new MemoryStream();
+        await Request.Body.CopyToAsync(ms);
+        
+        var command = new ImportTeacherCommand
+        {
+            Content = ms.ToArray()
+        };
         await Mediator.Send(command);
         return NoContent();
     }

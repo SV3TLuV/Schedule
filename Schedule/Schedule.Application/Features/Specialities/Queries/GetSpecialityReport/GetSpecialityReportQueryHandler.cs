@@ -6,7 +6,7 @@ using Schedule.Core.Common.Enums;
 
 namespace Schedule.Application.Features.Specialities.Queries.GetSpecialityReport;
 
-public class GetSpecialityReportQueryHandler : IRequestHandler<GetSpecialityReportQuery, ReportViewModel>
+public sealed class GetSpecialityReportQueryHandler : IRequestHandler<GetSpecialityReportQuery, ReportViewModel>
 {
     private readonly IMediator _mediator;
     
@@ -81,7 +81,7 @@ public class GetSpecialityReportQueryHandler : IRequestHandler<GetSpecialityRepo
         worksheet.Style.Border.OutsideBorder = XLBorderStyleValues.None;
         worksheet.Style.Alignment.WrapText = true;
         worksheet.Style.Font.FontSize = 16;
-        worksheet.RowHeight = 65;
+        worksheet.ColumnWidth = 130;
         worksheet.Cell("A1").Value = "Код";
         worksheet.Cell("B1").Value = "Название";
         worksheet.Cell("C1").Value = "Кол-во семестров";

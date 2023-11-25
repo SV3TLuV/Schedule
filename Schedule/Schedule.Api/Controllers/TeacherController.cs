@@ -66,7 +66,7 @@ public sealed class TeacherController : BaseController
     }
     
     [Authorize]
-    [HttpGet("report")]
+    [HttpGet("export")]
     public async Task<IResult> Get([FromQuery] GetTeacherReportQuery query)
     {
         var report = await Mediator.Send(query);

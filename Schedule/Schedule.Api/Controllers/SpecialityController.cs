@@ -66,7 +66,7 @@ public class SpecialityController : BaseController
     }
     
     [Authorize]
-    [HttpGet("report")]
+    [HttpGet("export")]
     public async Task<IResult> Get([FromQuery] GetSpecialityReportQuery query)
     {
         var report = await Mediator.Send(query);

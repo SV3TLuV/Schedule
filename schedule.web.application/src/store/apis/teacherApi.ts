@@ -5,6 +5,9 @@ import {IPaginationQueryWithFilters} from "../../features/queries";
 import {HttpMethod} from "../../common/enums";
 import {buildUrlArguments} from "../../utils/buildUrlArguments.ts";
 import {ApiTags} from "./apiTags.ts";
+import {baseQuery} from "../fetchBaseQueryWithReauth.ts";
+import {saveFile} from "../../utils/saveFile.ts";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/dist/query/react";
 
 export const teacherApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -86,6 +89,42 @@ export const teacherApi = baseApi.injectEndpoints({
                 {type: ApiTags.Lesson},
             ]
         }),
+        exportTeacher: builder.mutation<void, void>({
+            queryFn: async (_, api, extraOptions) => {
+                const response = await baseQuery({
+                    url: `${ApiTags.Speciality}/export`,
+                    method: HttpMethod.GET,
+                    responseHandler: response => response.blob()
+                }, api, extraOptions)
+
+                const headers = response!.meta?.response?.headers
+
+                if (headers) {
+                    const header = headers.get('content-disposition') ?? ''
+                    const regex = /filename[^*]?=\s*["']?(.*?)["'];?/
+                    const matches = header.match(regex)
+
+                    if (matches && matches.length > 1) {
+                        const fileName = matches[1]
+                        const blob = response.data as Blob
+                        saveFile(fileName, blob)
+                    }
+                }
+
+                return { error: response.error as FetchBaseQueryError }
+            },
+        }),
+        importTeacher: builder.mutation<void, Blob>({
+            queryFn: async (blob, api, extraOptions) => {
+                const response = await baseQuery({
+                    url: `${ApiTags.Speciality}/import`,
+                    method: HttpMethod.POST,
+                    body: blob
+                }, api, extraOptions)
+
+                return { error: response.error as FetchBaseQueryError }
+            },
+        }),
     }),
 })
 
@@ -98,4 +137,6 @@ export const  {
     useRestoreTeacherMutation,
     useUpdateTeacherMutation,
     useDeleteTeacherMutation,
+    useExportTeacherMutation,
+    useImportTeacherMutation,
 } = teacherApi

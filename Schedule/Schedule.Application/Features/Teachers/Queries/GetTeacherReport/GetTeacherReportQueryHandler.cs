@@ -6,7 +6,7 @@ using Schedule.Core.Common.Enums;
 
 namespace Schedule.Application.Features.Teachers.Queries.GetTeacherReport;
 
-public class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherReportQuery, ReportViewModel>
+public sealed class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherReportQuery, ReportViewModel>
 {
     private readonly IMediator _mediator;
     
@@ -80,7 +80,7 @@ public class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherReportQuer
         worksheet.Style.Border.OutsideBorder = XLBorderStyleValues.None;
         worksheet.Style.Alignment.WrapText = true;
         worksheet.Style.Font.FontSize = 16;
-        worksheet.RowHeight = 65;
+        worksheet.ColumnWidth = 130;
         worksheet.Cell("A1").Value = "Имя";
         worksheet.Cell("B1").Value = "Фамилия";
         worksheet.Cell("C1").Value = "Отчество";

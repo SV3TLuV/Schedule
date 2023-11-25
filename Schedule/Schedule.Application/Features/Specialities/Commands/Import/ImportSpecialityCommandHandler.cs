@@ -5,7 +5,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Import;
 
-public class ImportSpecialityCommandHandler : IRequestHandler<ImportSpecialityCommand, Unit>
+public sealed class ImportSpecialityCommandHandler : IRequestHandler<ImportSpecialityCommand, Unit>
 {
     private readonly IScheduleDbContext _context;
 

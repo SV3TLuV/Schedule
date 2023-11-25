@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Teachers.Commands.Create;
 using Schedule.Application.Features.Teachers.Commands.Delete;
+using Schedule.Application.Features.Teachers.Commands.Import;
 using Schedule.Application.Features.Teachers.Commands.Restore;
 using Schedule.Application.Features.Teachers.Commands.Update;
 using Schedule.Application.Features.Teachers.Queries.Get;
 using Schedule.Application.Features.Teachers.Queries.GetList;
+using Schedule.Application.Features.Teachers.Queries.GetTeacherReport;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Models;
 
@@ -60,6 +62,22 @@ public sealed class TeacherController : BaseController
     {
         var query = new DeleteTeacherCommand(id);
         await Mediator.Send(query);
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpGet("report")]
+    public async Task<IResult> Get([FromQuery] GetTeacherReportQuery query)
+    {
+        var report = await Mediator.Send(query);
+        return Results.File(report.Content, report.ContentType, report.ReportName);
+    }
+
+    [Authorize]
+    [HttpPost("import")]
+    public async Task<IActionResult> Post([FromBody] ImportTeacherCommand command)
+    {
+        await Mediator.Send(command);
         return NoContent();
     }
 }

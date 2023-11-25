@@ -65,7 +65,7 @@ public class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherReportQuer
 
             foreach (var teacher in teachers)
             {
-                var range = worksheet.Range(row, 0, row, 4);
+                var range = worksheet.Range(row, 1, row, 4);
                 AddTeacher(teacher, range);
                 row++;
             }

@@ -66,7 +66,7 @@ public class GetSpecialityReportHandler : IRequestHandler<GetSpecialityReportQue
 
             foreach (var speciality in specialities)
             {
-                var range = worksheet.Range(row, 0, row, 4);
+                var range = worksheet.Range(row, 1, row, 3);
                 AddSpeciality(speciality, range);
                 row++;
             }

@@ -8,6 +8,7 @@ import {ApiTags} from "./apiTags.ts";
 import {baseQuery} from "../fetchBaseQueryWithReauth.ts";
 import {saveFile} from "../../utils/saveFile.ts";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/dist/query/react";
+import {getFileNameFromHeaders} from "../../utils/getFileNameFromHeaders.ts";
 
 export const specialityApi = baseApi.injectEndpoints({
     endpoints: builder => ({
@@ -99,12 +100,9 @@ export const specialityApi = baseApi.injectEndpoints({
                 const headers = response!.meta?.response?.headers
 
                 if (headers) {
-                    const header = headers.get('content-disposition') ?? ''
-                    const regex = /filename[^*]?=\s*["']?(.*?)["'];?/
-                    const matches = header.match(regex)
+                    const fileName = getFileNameFromHeaders(headers)
 
-                    if (matches && matches.length > 1) {
-                        const fileName = matches[1]
+                    if (fileName) {
                         const blob = response.data as Blob
                         saveFile(fileName, blob)
                     }

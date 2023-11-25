@@ -26,13 +26,11 @@ public class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherReportQuer
         await using var memory = new MemoryStream();
         book.SaveAs(memory);
         
-        var reportName = "TeacherReport.xlsx";
-        
         return new ReportViewModel
         {
             Content = memory.ToArray(),
             ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            ReportName = reportName
+            ReportName = "TeacherReport.xlsx"
         };
     }
 

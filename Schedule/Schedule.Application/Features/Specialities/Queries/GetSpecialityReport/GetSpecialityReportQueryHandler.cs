@@ -3,15 +3,14 @@ using MediatR;
 using Schedule.Application.Features.Specialities.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Enums;
-using Schedule.Core.Common.Interfaces;
 
 namespace Schedule.Application.Features.Specialities.Queries.GetSpecialityReport;
 
-public class GetSpecialityReportHandler : IRequestHandler<GetSpecialityReportQuery, ReportViewModel>
+public class GetSpecialityReportQueryHandler : IRequestHandler<GetSpecialityReportQuery, ReportViewModel>
 {
     private readonly IMediator _mediator;
     
-    public GetSpecialityReportHandler(
+    public GetSpecialityReportQueryHandler(
         IMediator mediator
             )
     {
@@ -27,13 +26,11 @@ public class GetSpecialityReportHandler : IRequestHandler<GetSpecialityReportQue
         await using var memory = new MemoryStream();
         book.SaveAs(memory);
         
-        var reportName = "SpecialityReport.xlsx";
-        
         return new ReportViewModel
         {
             Content = memory.ToArray(),
             ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            ReportName = reportName
+            ReportName = "SpecialityReport.xlsx"
         };
     }
     

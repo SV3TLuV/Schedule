@@ -17,7 +17,6 @@
         </PackageReference>
         <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
         <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.3.8" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Quartz.AspNetCore" Version="3.7.0" />
         <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.7.0" />
         <PackageReference Include="Quartz.Extensions.Hosting" Version="3.7.0" />

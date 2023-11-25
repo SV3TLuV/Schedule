@@ -1,4 +1,4 @@
-import {Button, Form, Modal} from "react-bootstrap";
+import {Form, Modal} from "react-bootstrap";
 import {useState} from "react";
 
 interface ISelectFileDialog {

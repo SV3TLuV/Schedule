@@ -9,24 +9,15 @@ interface ISelectFileDialog {
 
 export const SelectFileDialog = ({show, onClose, onSelect}: ISelectFileDialog) => {
     const [error, setError] = useState<string>('')
-    const [file, setFile] = useState<File | null>(null)
 
     const handleSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0]
 
-        if (file && file.type === '.xlsx') {
-            setFile(file)
-        } else {
-            setError('Некорректный файл')
-        }
-    }
-
-    const handleSumbit = () => {
-        if (file) {
+        if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
             onSelect(file)
             onClose()
         } else {
-            setError('Выберите файл')
+            setError('Некорректный файл')
         }
     }
 
@@ -55,11 +46,6 @@ export const SelectFileDialog = ({show, onClose, onSelect}: ISelectFileDialog) =
                     }
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={handleSumbit} className='mx-auto'>
-                    Ок
-                </Button>
-            </Modal.Footer>
         </Modal>
     )
 }

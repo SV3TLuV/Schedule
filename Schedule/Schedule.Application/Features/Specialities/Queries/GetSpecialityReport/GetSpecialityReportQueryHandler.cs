@@ -38,7 +38,7 @@ public sealed class GetSpecialityReportQueryHandler : IRequestHandler<GetSpecial
     {
         var getSpecialityListQuery = new GetSpecialityListQuery
         {
-            Filter = QueryFilter.All,
+            Filter = QueryFilter.Available,
             Page = 1,
             PageSize = 100
         };
@@ -81,7 +81,7 @@ public sealed class GetSpecialityReportQueryHandler : IRequestHandler<GetSpecial
         worksheet.Style.Border.OutsideBorder = XLBorderStyleValues.None;
         worksheet.Style.Alignment.WrapText = true;
         worksheet.Style.Font.FontSize = 16;
-        worksheet.ColumnWidth = 130;
+        worksheet.ColumnWidth = 60;
         worksheet.Cell("A1").Value = "Код";
         worksheet.Cell("B1").Value = "Название";
         worksheet.Cell("C1").Value = "Кол-во семестров";

@@ -19,6 +19,7 @@
         <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="11.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="7.0.13" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Quartz" Version="3.7.0" />
     </ItemGroup>
 

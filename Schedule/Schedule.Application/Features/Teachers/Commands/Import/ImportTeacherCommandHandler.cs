@@ -28,7 +28,8 @@ public sealed class ImportTeacherCommandHandler : IRequestHandler<ImportTeacherC
         {
             var json = await streamReader.ReadToEndAsync(cancellationToken);
             var viewModels = JsonConvert.DeserializeObject<TeacherViewModel[]>(json);
-            var commands = _mapper.Map<CreateTeacherCommand[]>(viewModels);
+            var teachers = _mapper.Map<Teacher[]>(viewModels);
+            var commands = _mapper.Map<CreateTeacherCommand[]>(teachers);
 
             foreach (var command in commands)
                 await _mediator.Send(command, cancellationToken);

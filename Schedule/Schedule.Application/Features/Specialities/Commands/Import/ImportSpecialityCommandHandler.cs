@@ -28,7 +28,8 @@ public sealed class ImportSpecialityCommandHandler : IRequestHandler<ImportSpeci
         {
             var json = await streamReader.ReadToEndAsync(cancellationToken);
             var viewModels = JsonConvert.DeserializeObject<SpecialityViewModel[]>(json);
-            var commands = _mapper.Map<CreateSpecialityCommand[]>(viewModels);
+            var specialities = _mapper.Map<Speciality[]>(viewModels);
+            var commands = _mapper.Map<CreateSpecialityCommand[]>(specialities);
 
             foreach (var command in commands)
                 await _mediator.Send(command, cancellationToken);

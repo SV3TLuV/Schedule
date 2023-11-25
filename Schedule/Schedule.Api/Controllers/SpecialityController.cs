@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Schedule.Application.Features.Specialities.Commands.Create;
 using Schedule.Application.Features.Specialities.Commands.Delete;
+using Schedule.Application.Features.Specialities.Commands.Import;
 using Schedule.Application.Features.Specialities.Commands.Restore;
 using Schedule.Application.Features.Specialities.Commands.Update;
 using Schedule.Application.Features.Specialities.Queries.Get;
 using Schedule.Application.Features.Specialities.Queries.GetList;
+using Schedule.Application.Features.Specialities.Queries.GetSpecialityReport;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Models;
 
@@ -60,6 +62,22 @@ public class SpecialityController : BaseController
     {
         var query = new DeleteSpecialityCommand(id);
         await Mediator.Send(query);
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpGet("report")]
+    public async Task<IResult> Get([FromQuery] GetSpecialityReportQuery query)
+    {
+        var report = await Mediator.Send(query);
+        return Results.File(report.Content, report.ContentType, report.ReportName);
+    }
+
+    [Authorize]
+    [HttpPost("import")]
+    public async Task<IActionResult> Post([FromBody] ImportSpecialityCommand command)
+    {
+        await Mediator.Send(command);
         return NoContent();
     }
 }

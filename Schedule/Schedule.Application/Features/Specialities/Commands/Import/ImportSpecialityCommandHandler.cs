@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Newtonsoft.Json;
+using Schedule.Application.Features.Specialities.Commands.Create;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -9,14 +10,14 @@ namespace Schedule.Application.Features.Specialities.Commands.Import;
 
 public sealed class ImportSpecialityCommandHandler : IRequestHandler<ImportSpecialityCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
+    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
     public ImportSpecialityCommandHandler(
-        IScheduleDbContext context,
+        IMediator mediator,
         IMapper mapper)
     {
-        _context = context;
+        _mediator = mediator;
         _mapper = mapper;
     }
     
@@ -27,10 +28,11 @@ public sealed class ImportSpecialityCommandHandler : IRequestHandler<ImportSpeci
         {
             var json = await streamReader.ReadToEndAsync(cancellationToken);
             var viewModels = JsonConvert.DeserializeObject<SpecialityViewModel[]>(json);
-            var specialities = _mapper.Map<Speciality[]>(viewModels);
-            await _context.Set<Speciality>().AddRangeAsync(specialities, cancellationToken);
+            var commands = _mapper.Map<CreateSpecialityCommand[]>(viewModels);
+
+            foreach (var command in commands)
+                await _mediator.Send(command, cancellationToken);
         }
-        await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

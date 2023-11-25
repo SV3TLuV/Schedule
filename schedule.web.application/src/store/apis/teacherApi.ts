@@ -115,7 +115,7 @@ export const teacherApi = baseApi.injectEndpoints({
         importTeacher: builder.mutation<void, Blob>({
             queryFn: async (blob, api, extraOptions) => {
                 const response = await baseQuery({
-                    url: `${ApiTags.Speciality}/import`,
+                    url: `${ApiTags.Teacher}/import`,
                     method: HttpMethod.POST,
                     body: blob
                 }, api, extraOptions)

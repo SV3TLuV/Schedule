@@ -38,7 +38,7 @@ public sealed class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherRep
     {
         var getTeacherListQuery = new GetTeacherListQuery
         {
-            Filter = QueryFilter.All,
+            Filter = QueryFilter.Available,
             Page = 1,
             PageSize = 100
         };
@@ -80,7 +80,7 @@ public sealed class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherRep
         worksheet.Style.Border.OutsideBorder = XLBorderStyleValues.None;
         worksheet.Style.Alignment.WrapText = true;
         worksheet.Style.Font.FontSize = 16;
-        worksheet.ColumnWidth = 130;
+        worksheet.ColumnWidth = 60;
         worksheet.Cell("A1").Value = "Имя";
         worksheet.Cell("B1").Value = "Фамилия";
         worksheet.Cell("C1").Value = "Отчество";

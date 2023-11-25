@@ -45,6 +45,7 @@ public class GetSpecialityReportHandler : IRequestHandler<GetSpecialityReportQue
             Page = 1,
             PageSize = 100
         };
+        
         var specialitiesData = await _mediator.Send(getSpecialityListQuery, cancellationToken);
 
         if (!specialitiesData.Items.Any())

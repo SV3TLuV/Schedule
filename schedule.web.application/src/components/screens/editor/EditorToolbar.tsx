@@ -5,8 +5,12 @@ import {IconButton, InputAdornment, TextField} from "@mui/material";
 import {IPaginationQueryWithFilters} from "../../../features/queries";
 import {HiOutlineSearch} from "react-icons/hi";
 import {MdOutlineClear} from "react-icons/md";
+import {PiExportBold} from "react-icons/pi";
+import {BiImport} from "react-icons/bi";
 
 interface IEditorToolbar {
+    onImport?: () => void
+    onExport?: () => void
     onCreate?: () => void
     paginationQuery: IPaginationQueryWithFilters
     setPaginationQuery: (query: IPaginationQueryWithFilters) => void;
@@ -14,6 +18,8 @@ interface IEditorToolbar {
 
 export const EditorToolbar = (
     {
+        onImport,
+        onExport,
         onCreate,
         paginationQuery,
         setPaginationQuery
@@ -44,18 +50,26 @@ export const EditorToolbar = (
                                 <IconButton onClick={handleClear}>
                                     <MdOutlineClear/>
                                 </IconButton>
-                                <IconButton
-                                    onClick={handleSearch}
-                                    style={{
-                                        marginRight: '5px'
-                                    }}
-                                >
+                                <IconButton onClick={handleSearch}>
                                     <HiOutlineSearch/>
                                 </IconButton>
+                                {onExport &&
+                                    <IconButton onClick={onExport}>
+                                        <PiExportBold />
+                                    </IconButton>
+                                }
+                                {onImport &&
+                                    <IconButton onClick={onImport}>
+                                        <BiImport />
+                                    </IconButton>
+                                }
                                 {onCreate &&
                                     <Button
                                         variant="outline-primary"
                                         onClick={onCreate}
+                                        style={{
+                                            marginLeft: '5px'
+                                        }}
                                     >
                                         Добавить
                                     </Button>

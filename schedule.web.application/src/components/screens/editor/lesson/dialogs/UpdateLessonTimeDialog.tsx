@@ -65,7 +65,7 @@ export const UpdateLessonTimeDialog = ({ open, close, dateId }: IUpdateLessonTim
             <Form
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <Modal.Header className='text-center'>
+                <Modal.Header closeButton className='text-center'>
                     <Modal.Title>
                         Изменить время пар
                     </Modal.Title>

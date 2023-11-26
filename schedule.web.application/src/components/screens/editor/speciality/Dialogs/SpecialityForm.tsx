@@ -8,7 +8,7 @@ import {useGetTermsQuery} from "../../../../../store/apis";
 import {useInfinitySelect} from "../../../../../hooks";
 import {ITerm} from "../../../../../features/models";
 import {ICourse} from "../../../../../features/models";
-import {codeValidation, nameValidation, termsValidation} from "./validation";
+import {codeValidation, nameValidation, termValidation} from "./validation";
 
 interface ISpecialityForm {
     title: string
@@ -124,7 +124,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                     <Controller
                         control={control}
                         name='term'
-                        rules={termsValidation}
+                        rules={termValidation}
                         render={({field}) => (
                             <Form.Group className='m-3' >
                                 <Select
@@ -133,7 +133,7 @@ export const SpecialityForm = ({title, show, speciality, onClose, onSave}: ISpec
                                     onSearch={searchTerms}
                                     value={field.value}
                                     options={terms}
-                                    renderValue={(item) => item.id}
+                                    renderValue={(item) => item?.id}
                                     label='Кол-во семестров'
                                     error={!!errors.term?.message}
                                     helperText={errors.term?.message}

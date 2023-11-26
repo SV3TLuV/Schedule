@@ -28,6 +28,6 @@ export const nameValidation = {
     }
 }
 
-export const termsValidation = {
-    required: ValidationMessage.REQUIRED
+export const termValidation = {
+    required: ValidationMessage.REQUIRED,
 }

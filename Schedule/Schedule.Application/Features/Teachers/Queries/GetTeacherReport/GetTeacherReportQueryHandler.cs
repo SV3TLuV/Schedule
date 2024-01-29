@@ -89,14 +89,16 @@ public sealed class GetTeacherReportQueryHandler : IRequestHandler<GetTeacherRep
 
     private static void AddTeacher(TeacherViewModel teacher, IXLRangeBase range)
     {
-        var firstCell = range.FirstCell();
-        var nextCell = firstCell.CellRight();
+        var cell = range.FirstCell();
+        cell.Value = teacher.Name;
 
-        firstCell.Value = teacher.Name;
-        nextCell.Value = teacher.Surname;
-        nextCell = nextCell.CellRight();
-        nextCell.Value = teacher.MiddleName;
-        nextCell = nextCell.CellRight();
-        nextCell.Value = teacher.Email;
+        cell = cell.CellRight();
+        cell.Value = teacher.Surname;
+
+        cell = cell.CellRight();
+        cell.Value = teacher.MiddleName;
+
+        cell = cell.CellRight();
+        cell.Value = teacher.Email;
     }
 }

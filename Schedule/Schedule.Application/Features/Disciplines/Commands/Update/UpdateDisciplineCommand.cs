@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Disciplines.Commands.Update;
 
-[SignalRNotification(typeof(Discipline), CommandTypes.Update)]
 public sealed class UpdateDisciplineCommand : IRequest<Unit>, IMapWith<Discipline>
 {
     public required int Id { get; set; }

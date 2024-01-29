@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Update;
 
-[SignalRNotification(typeof(Group), CommandTypes.Update)]
 public sealed class UpdateGroupCommand : IRequest<Unit>, IMapWith<Group>
 {
     public required int Id { get; set; }

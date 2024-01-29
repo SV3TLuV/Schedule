@@ -1,7 +1,5 @@
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Extensions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;

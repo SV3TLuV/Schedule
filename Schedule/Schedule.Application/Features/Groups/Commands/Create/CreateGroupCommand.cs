@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Commands.Create;
 
-[SignalRNotification(typeof(Group), CommandTypes.Create)]
 public sealed class CreateGroupCommand : IRequest<int>, IMapWith<Group>
 {
     public required string Number { get; set; }

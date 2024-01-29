@@ -8,6 +8,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Teachers.Commands.Create;
 
+[SignalRNotification(typeof(Teacher), CommandTypes.Create)]
 public sealed class CreateTeacherCommand : IRequest<int>, IMapWith<Teacher>
 {
     public required string Name { get; set; }

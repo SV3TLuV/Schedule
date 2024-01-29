@@ -13,8 +13,13 @@ public sealed class UserCreateCommandTests
     public async Task Test_CreateUser()
     {
         //Arrange
+        //Получение контекста базы данных из DI контейнера
         var context = TestContainer.Resolve<IScheduleDbContext>();
+
+        //Получение маппера из DI контейнера
         var mapper = TestContainer.Resolve<IMapper>();
+
+        //Создание объекта команды добавления пользователя
         var command = new CreateUserCommand
         {
             Login = "TestUser",
@@ -23,10 +28,14 @@ public sealed class UserCreateCommandTests
         };
 
         //Act
+        //Создание объекта обработчика команды добавления пользователя
         var handler = new CreateUserCommandHandler(context, mapper);
+
+        //Вызов метода Handle для обработки команды
         var id = await handler.Handle(command, default);
 
         //Assert
+        //Поиск пользователя по id, логину, и роли
         var user = await context.Set<User>()
             .AsNoTracking()
             .FirstOrDefaultAsync(e =>
@@ -34,6 +43,7 @@ public sealed class UserCreateCommandTests
                 e.Login == command.Login &&
                 e.RoleId == command.RoleId);
 
+        //Проверка существования добавленного пользователя
         Assert.NotNull(user);
     }
 }

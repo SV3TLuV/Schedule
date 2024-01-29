@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.LessonTemplates.Commands.Update;
 
-[SignalRNotification(typeof(LessonTemplate), CommandTypes.Update)]
 public sealed class UpdateLessonTemplateCommand : IRequest<Unit>, IMapWith<LessonTemplate>
 {
     public required int Id { get; set; }

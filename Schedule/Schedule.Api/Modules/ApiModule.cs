@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using Quartz;
 using Quartz.AspNetCore;
 using Schedule.Api.Common;
-using Schedule.Api.Common.Behavior;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Jobs;
@@ -77,7 +76,6 @@ public sealed class ApiModule : Module
 
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
-            .AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationBehavior<,>))
             .AddTransient<IDbInitializer, DatabaseInitializer>()
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>

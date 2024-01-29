@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.TimeTypes.Commands.Update;
 
-[SignalRNotification(typeof(TimeType), CommandTypes.Update)]
 public sealed class UpdateTimeTypeCommand : IRequest<Unit>, IMapWith<TimeType>
 {
     public required int Id { get; set; }

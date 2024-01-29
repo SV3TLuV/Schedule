@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using Schedule.Application.Common.Attributes;
-using Schedule.Application.Features.Base;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Commands.Create;
 
-[SignalRNotification(typeof(Lesson), CommandTypes.Create)]
 public sealed class CreateLessonCommand : IRequest<int>, IMapWith<Lesson>, IMapWith<LessonTemplate>
 {
     public required int Number { get; set; }

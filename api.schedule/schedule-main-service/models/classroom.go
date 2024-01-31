@@ -1,12 +1,11 @@
 package models
 
 type Classroom struct {
-	ID        uint   `gorm:"primaryKey"`
-	Cabinet   string `gorm:"required"`
-	IsDeleted bool
+	ID        uint `gorm:"primaryKey"`
+	Cabinet   string
+	IsDeleted bool `gorm:"default:false"`
 }
 
-type Lesson struct {
-	ID     uint64 `gorm:"primaryKey"`
-	Number int8   `gorm:"required"`
+type Discipline struct {
+	ID uint `gorm:"primaryKey"`
 }

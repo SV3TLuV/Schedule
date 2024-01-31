@@ -5,3 +5,8 @@ type Classroom struct {
 	Cabinet   string `gorm:"required"`
 	IsDeleted bool
 }
+
+type Lesson struct {
+	ID     uint64 `gorm:"primaryKey"`
+	Number int8   `gorm:"required"`
+}

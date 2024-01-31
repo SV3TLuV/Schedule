@@ -4,31 +4,21 @@ func main() {
 
 }
 
-func getDays() []Day {
-	return []Day{
-		{ID: 1, Name: "Понедельник"},
-		{ID: 2, Name: "Вторник"},
-		{ID: 3, Name: "Среда"},
-		{ID: 4, Name: "Четверг"},
-		{ID: 5, Name: "Пятница"},
-		{ID: 6, Name: "Суббота"},
-		{ID: 7, Name: "Воскресенье"},
-	}
-}
-
-func getWeekTypes() []WeekType {
-	return []WeekType{
-		{ID: 1, Name: "Четная"},
-		{ID: 2, Name: "Нечетная"},
-	}
-}
-
-type Day struct {
-	ID   uint
-	Name string
-}
-
-type WeekType struct {
-	ID   uint
-	Name string
-}
+//func getDays() []Day {
+//	return []Day{
+//		{ID: 1, Name: "Понедельник"},
+//		{ID: 2, Name: "Вторник"},
+//		{ID: 3, Name: "Среда"},
+//		{ID: 4, Name: "Четверг"},
+//		{ID: 5, Name: "Пятница"},
+//		{ID: 6, Name: "Суббота"},
+//		{ID: 7, Name: "Воскресенье"},
+//	}
+//}
+//
+//func getWeekTypes() []WeekType {
+//	return []WeekType{
+//		{ID: 1, Name: "Четная"},
+//		{ID: 2, Name: "Нечетная"},
+//	}
+//}

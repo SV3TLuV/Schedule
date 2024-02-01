@@ -4,7 +4,7 @@ import "time"
 
 type Lesson struct {
 	ID           uint64 `gorm:"primaryKey"`
-	Number       int8
+	Number       uint8
 	Start        time.Time
 	End          time.Time
 	Duration     time.Time

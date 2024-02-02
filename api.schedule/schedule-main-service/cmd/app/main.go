@@ -1,7 +1,12 @@
 package main
 
 func main() {
-
+	// use binary params.
+	//cfg := pgx.ConnConfig{
+	//	PreferSimpleProtocol: true,
+	//}
+	//
+	//db := stdlib.OpenDB(cfg)
 }
 
 //func getDays() []Day {

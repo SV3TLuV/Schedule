@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Lesson struct {
+type LessonTemplate struct {
 	ID           uint64
 	Number       uint8
 	Start        time.Time
@@ -10,5 +10,4 @@ type Lesson struct {
 	Duration     time.Time
 	TeacherId    uint64
 	DisciplineId uint64
-	IsChanged    bool
 }

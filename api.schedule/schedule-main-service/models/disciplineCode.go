@@ -1,6 +1,6 @@
 package models
 
 type DisciplineCode struct {
-	ID   uint64 `gorm:"primaryKey"`
+	ID   uint64
 	Code string
 }

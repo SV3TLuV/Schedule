@@ -3,12 +3,14 @@ package app
 import (
 	"Api/internal/config"
 	"Api/internal/database"
+	"Api/internal/repository/day"
 	"github.com/jackc/pgx"
 	"log"
 )
 
 type ServiceProvider struct {
-	db *pgx.Conn
+	db            *pgx.Conn
+	dayRepository *day.Repository
 }
 
 func newServiceProvider() *ServiceProvider {

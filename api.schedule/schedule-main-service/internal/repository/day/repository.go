@@ -1,4 +1,4 @@
-package repository
+package day
 
 import (
 	"Api/internal/model"

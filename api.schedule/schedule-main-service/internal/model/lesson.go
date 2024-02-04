@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Lesson struct {
-	ID           uint64 `gorm:"primaryKey"`
+	ID           uint64
 	Number       uint8
 	Start        time.Time
 	End          time.Time

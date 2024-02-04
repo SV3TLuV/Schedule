@@ -4,20 +4,20 @@ import (
 	"Api/internal/config"
 	"Api/internal/database"
 	"Api/internal/repository/day"
-	"github.com/jackc/pgx"
+	"github.com/jmoiron/sqlx"
 	"log"
 )
 
 type ServiceProvider struct {
-	db            *pgx.Conn
-	dayRepository *day.Repository
+	db            *sqlx.DB
+	dayRepository day.Repository
 }
 
 func newServiceProvider() *ServiceProvider {
 	return &ServiceProvider{}
 }
 
-func (s *ServiceProvider) Postgresql() *pgx.Conn {
+func (s *ServiceProvider) Postgresql() *sqlx.DB {
 	if s.db == nil {
 		cfg, err := config.NewPostgresqlConfig()
 
@@ -25,7 +25,7 @@ func (s *ServiceProvider) Postgresql() *pgx.Conn {
 			log.Fatalf("Failed to get postgresql config: %s", err.Error())
 		}
 
-		s.db, err = database.NewPostgresqlConnection(cfg)
+		s.db = database.NewPostgresqlConnection(cfg)
 
 		if err != nil {
 			log.Fatalf("Failed to connect to postgresql: %s", err.Error())
@@ -33,4 +33,12 @@ func (s *ServiceProvider) Postgresql() *pgx.Conn {
 	}
 
 	return s.db
+}
+
+func (s *ServiceProvider) DayRepository() *day.Repository {
+	if s.dayRepository == nil {
+		s.dayRepository = day.NewDayRepository()
+	}
+
+	return &s.dayRepository
 }

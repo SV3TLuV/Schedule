@@ -3,9 +3,11 @@ package database
 import (
 	"Api/internal/config"
 	"github.com/jackc/pgx"
+	"github.com/jackc/pgx/stdlib"
+	"github.com/jmoiron/sqlx"
 )
 
-func NewPostgresqlConnection(config *config.PostgresqlConfig) (*pgx.Conn, error) {
+func NewPostgresqlConnection(config *config.PostgresqlConfig) *sqlx.DB {
 	cfg := pgx.ConnConfig{
 		PreferSimpleProtocol: true,
 		Host:                 config.Host,
@@ -15,11 +17,6 @@ func NewPostgresqlConnection(config *config.PostgresqlConfig) (*pgx.Conn, error)
 		Database:             config.Database,
 	}
 
-	conn, err := pgx.Connect(cfg)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return conn, nil
+	db := stdlib.OpenDB(cfg)
+	return sqlx.NewDb(db, "pgx")
 }

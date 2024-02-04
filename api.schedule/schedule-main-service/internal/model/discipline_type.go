@@ -1,6 +1,6 @@
 package model
 
 type DisciplineType struct {
-	ID   uint16 `gorm:"primaryKey"`
+	ID   uint16
 	Name string
 }

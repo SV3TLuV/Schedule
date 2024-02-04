@@ -1,6 +1,8 @@
 package app
 
-func StartApp() {
+import "Api/internal/database"
 
-	//db := database.InitDatabase()
+var Db = database.InitDatabase()
+
+func StartApp() {
 }

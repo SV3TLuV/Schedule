@@ -1,8 +1,14 @@
 package app
 
-import "Api/internal/database"
-
-var Db = database.InitDatabase()
+import (
+	"Api/internal/handlers"
+	"net/http"
+)
 
 func StartApp() {
+	err := http.ListenAndServe(":8080", handlers.NewDayHandler())
+
+	if err != nil {
+		return
+	}
 }

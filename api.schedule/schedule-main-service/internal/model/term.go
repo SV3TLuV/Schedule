@@ -1,7 +1,7 @@
 package model
 
 type Term struct {
-	ID                 uint8 `gorm:"primaryKey"`
+	ID                 uint8
 	Course             uint8
 	CourseRelativeTerm uint8
 }

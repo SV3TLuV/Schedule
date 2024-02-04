@@ -3,15 +3,20 @@ package main
 import (
 	"Api/internal/app"
 	"context"
+	"log"
 )
 
 func main() {
 	ctx := context.Background()
-	app, err := app.NewApp(&ctx)
+	application, err := app.NewApp(&ctx)
 
 	if err != nil {
-		return
+		log.Fatalf("Failed on initialization app: %s", err)
 	}
 
-	app.Run()
+	err = application.Run()
+
+	if err != nil {
+		log.Fatalf("Failed on started app: %s", err)
+	}
 }

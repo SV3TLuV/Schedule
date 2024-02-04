@@ -1,4 +1,4 @@
-package models
+package model
 
 type Term struct {
 	ID                 uint8 `gorm:"primaryKey"`

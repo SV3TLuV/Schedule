@@ -1,13 +1,13 @@
-package database
+package repository
 
 import (
-	"Api/internal/models"
+	"Api/internal/model"
 	"github.com/jackc/pgx"
 )
 
 type Repository interface {
-	GetById(tr *pgx.Tx, ID uint8) *models.Day
-	Get(tr *pgx.Tx) *[]models.Day
+	GetById(tr *pgx.Tx, ID uint8) *model.Day
+	Get(tr *pgx.Tx) *[]model.Day
 }
 
 type DayRepository struct{}
@@ -16,10 +16,10 @@ func NewDayRepository() *DayRepository {
 	return &DayRepository{}
 }
 
-func (r *DayRepository) Get(tr *pgx.Tx) *[]models.Day {
+func (r *DayRepository) Get(tr *pgx.Tx) *[]model.Day {
 	rows, _ := tr.Query(`SELECT * FROM "days"`)
 
-	var days []models.Day
+	var days []model.Day
 	_ = rows.Scan(&days)
 	return &days
 }

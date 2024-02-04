@@ -1,4 +1,4 @@
-package models
+package model
 
 type Template struct {
 	ID         uint64 `gorm:"primaryKey"`

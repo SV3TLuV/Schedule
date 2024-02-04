@@ -1,10 +1,9 @@
-package models
+package model
 
 import "time"
 
-type GroupTransfer struct {
+type Timetable struct {
 	ID      uint64 `gorm:"primaryKey"`
 	GroupID uint64
-	TermID  uint8
 	Date    time.Time
 }

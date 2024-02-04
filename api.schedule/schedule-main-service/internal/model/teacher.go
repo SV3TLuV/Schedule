@@ -1,4 +1,4 @@
-package models
+package model
 
 type Teacher struct {
 	ID         uint64 `gorm:"primaryKey"`

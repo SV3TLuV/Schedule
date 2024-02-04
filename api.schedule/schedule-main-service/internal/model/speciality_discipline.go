@@ -1,4 +1,4 @@
-package models
+package model
 
 type SpecialityDiscipline struct {
 	SpecialityID     uint64 `gorm:"primaryKey"`

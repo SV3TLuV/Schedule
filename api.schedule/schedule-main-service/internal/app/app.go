@@ -1,14 +1,23 @@
 package app
 
 import (
-	"Api/internal/handlers"
-	"net/http"
+	"context"
 )
 
-func StartApp() {
-	err := http.ListenAndServe(":8080", handlers.NewDayHandler())
+type App struct {
+	provider *ServiceProvider
+}
 
-	if err != nil {
-		return
-	}
+//*(*[]byte)(unsafe.Pointer(&line))
+
+func NewApp(ctx *context.Context) (*App, error) {
+	a := &App{}
+
+	a.provider = newServiceProvider()
+
+	return a, nil
+}
+
+func (a *App) Run() error {
+
 }

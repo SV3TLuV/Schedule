@@ -3,8 +3,7 @@ package models
 import "time"
 
 type Timetable struct {
-	ID      uint64
-	GroupId uint64
+	ID      uint64 `gorm:"primaryKey"`
+	GroupID uint64
 	Date    time.Time
-	Lessons []Lesson
 }

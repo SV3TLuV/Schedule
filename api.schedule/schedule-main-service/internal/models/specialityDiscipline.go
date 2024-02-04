@@ -1,9 +1,9 @@
 package models
 
 type SpecialityDiscipline struct {
-	SpecialityID     uint64
+	SpecialityID     uint64 `gorm:"primaryKey"`
 	DisciplineID     uint64
-	DisciplineCodeId uint
+	DisciplineCodeID uint
 	TotalHours       uint
-	TermId           uint8
+	TermID           uint8
 }

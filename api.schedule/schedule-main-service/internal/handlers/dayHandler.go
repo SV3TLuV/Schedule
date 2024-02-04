@@ -1,31 +1,26 @@
 package handlers
 
 import (
-	"Api/internal/models"
+	"Api/internal/app"
+	"Api/internal/database"
+	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/jackc/pgx"
 	"net/http"
 )
 
-func newDayHandler() *mux.Router {
+func NewDayHandler() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/day", handleDay).Methods("GET")
+	return r
 }
 
 func handleDay(w http.ResponseWriter, r *http.Request) {
-}
+	tr, _ := app.DB.Begin()
+	dr := database.NewDayRepository()
+	days := dr.Get(tr)
+	err := json.NewEncoder(w).Encode(days)
 
-type Repository interface {
-	GetById(tr *pgx.Tx, ID uint8) *models.Day
-	Get(tr *pgx.Tx) *[]models.Day
-}
-
-type DayRepository struct{}
-
-func (r *DayRepository) Get(tr *pgx.Tx) *[]models.Day {
-	rows, _ := tr.Query(`SELECT * FROM "days"`)
-
-	var days []models.Day
-	_ = rows.Scan(&days)
-	return &days
+	if err != nil {
+		return
+	}
 }

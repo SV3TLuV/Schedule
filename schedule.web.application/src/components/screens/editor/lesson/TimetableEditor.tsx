@@ -162,14 +162,14 @@ export const TimetableEditor = () => {
                 <Form.Group className='text-center my-2'>
                     <Button
                         className='d-inline-block mx-2 my-2'
-                        style={{ width: '160px' }}
+                        style={{ width: '240px' }}
                         onClick={updateTimeDialog.show}
                     >
                         Изменить время
                     </Button>
                     <Button
                         className='d-inline-block mx-2 my-2'
-                        style={{ width: '160px' }}
+                        style={{ width: '240px' }}
                         onClick={handleSave}
                     >
                         Сохранить в Excel

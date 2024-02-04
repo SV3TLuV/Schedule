@@ -3,8 +3,8 @@ package models
 import "time"
 
 type GroupTransfer struct {
-	ID      uint64
-	GroupId uint64
-	TermId  uint8
+	ID      uint64 `gorm:"primaryKey"`
+	GroupID uint64
+	TermID  uint8
 	Date    time.Time
 }

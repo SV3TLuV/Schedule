@@ -9,6 +9,5 @@ type Account struct {
 	Name             string
 	Surname          string
 	MiddleName       string
-	RoleId           uint
-	Sessions         []Session
+	RoleID           uint
 }

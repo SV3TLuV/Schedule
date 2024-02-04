@@ -1,12 +1,10 @@
 package database
 
 import (
-	"database/sql"
 	"github.com/jackc/pgx"
-	"github.com/jackc/pgx/stdlib"
 )
 
-func InitDatabase() *sql.DB {
+func InitDatabase() *pgx.Conn {
 	cfg := pgx.ConnConfig{
 		PreferSimpleProtocol: true,
 		Host:                 "localhost",
@@ -16,5 +14,7 @@ func InitDatabase() *sql.DB {
 		Port:                 5432,
 	}
 
-	return stdlib.OpenDB(cfg)
+	conn, _ := pgx.Connect(cfg)
+
+	return conn
 }

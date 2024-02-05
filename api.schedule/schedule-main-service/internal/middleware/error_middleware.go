@@ -22,11 +22,12 @@ func ErrorMiddleware(h appHandler) http.HandlerFunc {
 		if err != nil {
 			if errors.As(err, &appErr) {
 				writer.WriteHeader(errorCodes[appErr.Code])
+				msg = appErr.Error()
 			} else {
 				writer.WriteHeader(http.StatusInternalServerError)
+				msg = "Unknown error"
 			}
 
-			msg = err.Error()
 			_, _ = writer.Write(*(*[]byte)(unsafe.Pointer(&msg)))
 		}
 	}

@@ -2,7 +2,7 @@ package controller
 
 import (
 	"Api/internal/middleware"
-	"Api/internal/repository/day"
+	"Api/internal/repository"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
@@ -13,14 +13,14 @@ import (
 type DayController struct {
 }
 
-func (c *DayController) Init(r *mux.Router, rep day.Repository, db *sqlx.DB) {
+func (c *DayController) Init(r *mux.Router, rep repository.Repository, db *sqlx.DB) {
 	router := r.PathPrefix("/day").Subrouter()
 
 	router.HandleFunc("", getDays(db, rep)).Methods("GET")
 	router.HandleFunc("/{id}", getDay(db, rep)).Methods("GET")
 }
 
-func getDays(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
+func getDays(db *sqlx.DB, rep repository.Repository) http.HandlerFunc {
 	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
 		tr := db.MustBegin()
 		days, err := rep.Get(tr)
@@ -37,7 +37,7 @@ func getDays(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
 	})
 }
 
-func getDay(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
+func getDay(db *sqlx.DB, rep repository.Repository) http.HandlerFunc {
 	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
 		params := mux.Vars(request)
 		id, err := strconv.ParseUint(params["id"], 0, 64)

@@ -3,18 +3,23 @@ package middleware
 import "encoding/json"
 
 const (
-	notFound     ErrorCode = "NOT_FOUND"
-	unauthorized ErrorCode = "UNAUTHORIZED"
 	badRequest   ErrorCode = "BAD_REQUEST"
+	unauthorized ErrorCode = "UNAUTHORIZED"
+	notFound     ErrorCode = "NOT_FOUND"
+)
+
+var (
+	BadRequest   = NewAppError("Bad request.", badRequest, nil)
+	Unauthorized = NewAppError("Unauthorized.", unauthorized, nil)
+	NotFound     = NewAppError("Not found.", notFound, nil)
 )
 
 type ErrorCode string
 
 type AppError struct {
-	Err        error  `json:"-"`
-	Message    string `json:"message"`
-	DevMessage string `json:"dev_message"`
-	Code       ErrorCode
+	Err     error  `json:"-"`
+	Message string `json:"message"`
+	Code    ErrorCode
 }
 
 func (e *AppError) Error() string {
@@ -37,10 +42,10 @@ func (e *AppError) Marshal() []byte {
 	return marshal
 }
 
-func NewAppError(msg, devMsg string, err error) *AppError {
+func NewAppError(msg string, code ErrorCode, err error) *AppError {
 	return &AppError{
-		Err:        err,
-		Message:    msg,
-		DevMessage: devMsg,
+		Err:     err,
+		Message: msg,
+		Code:    code,
 	}
 }

@@ -1,7 +1,10 @@
-package day
+package repository
 
 import (
+	"Api/internal/middleware"
 	"Api/internal/model"
+	"database/sql"
+	"errors"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -23,6 +26,10 @@ func NewDayRepository(db *sqlx.DB) *DayRepository {
 func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 	var days []model.Day
 	err := tx.Select(&days, `SELECT * FROM "days" ORDER BY "id"`)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, middleware.NotFound
+	}
+
 	if err != nil {
 		return nil, err
 	}
@@ -33,6 +40,10 @@ func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 func (r *DayRepository) GetById(tx *sqlx.Tx, ID uint8) (*model.Day, error) {
 	var day model.Day
 	err := tx.Get(&day, `SELECT * FROM "days" WHERE "id" = $1`, ID)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, middleware.NotFound
+	}
+
 	if err != nil {
 		return nil, err
 	}

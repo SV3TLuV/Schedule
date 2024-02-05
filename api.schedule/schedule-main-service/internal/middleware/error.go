@@ -3,15 +3,17 @@ package middleware
 import "encoding/json"
 
 const (
-	badRequest   ErrorCode = "BAD_REQUEST"
-	unauthorized ErrorCode = "UNAUTHORIZED"
-	notFound     ErrorCode = "NOT_FOUND"
+	badRequest     ErrorCode = "BAD_REQUEST"
+	unauthorized   ErrorCode = "UNAUTHORIZED"
+	notFound       ErrorCode = "NOT_FOUND"
+	internalServer ErrorCode = "INTERNAL_SERVER_ERROR"
 )
 
 var (
-	BadRequest   = NewAppError("Bad request.", badRequest, nil)
-	Unauthorized = NewAppError("Unauthorized.", unauthorized, nil)
-	NotFound     = NewAppError("Not found.", notFound, nil)
+	BadRequest     = NewAppError("Bad request.", badRequest, nil)
+	Unauthorized   = NewAppError("Unauthorized.", unauthorized, nil)
+	NotFound       = NewAppError("Not found.", notFound, nil)
+	InternalServer = NewAppError("Uknown error.", internalServer, nil)
 )
 
 type ErrorCode string

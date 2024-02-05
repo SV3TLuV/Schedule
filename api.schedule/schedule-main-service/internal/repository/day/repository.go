@@ -32,8 +32,7 @@ func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 
 func (r *DayRepository) GetById(tx *sqlx.Tx, ID uint8) (*model.Day, error) {
 	var day model.Day
-	query := r.db.Rebind(`SELECT * FROM "days" WHERE "id" = ?`)
-	err := tx.Select(&day, query, ID)
+	err := tx.Get(&day, `SELECT * FROM "days" WHERE "id" = $1`, ID)
 	if err != nil {
 		return nil, err
 	}

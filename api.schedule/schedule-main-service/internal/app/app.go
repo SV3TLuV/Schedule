@@ -27,13 +27,11 @@ func NewApp(ctx *context.Context) (*App, error) {
 
 func (a *App) Run() error {
 	router := mux.NewRouter()
-	router.Host("api.schedule")
 	router.HandleFunc("/day", func(writer http.ResponseWriter, request *http.Request) {
 		db := a.serviceProvider.Postgresql()
 		rep := a.serviceProvider.DayRepository()
-
-		tr, _ := db.Begin()
-
+		tr := db.MustBegin()
+		days, _ := rep.Get(tr)
 		_ = json.NewEncoder(writer).Encode(days)
 	}).Methods("GET")
 

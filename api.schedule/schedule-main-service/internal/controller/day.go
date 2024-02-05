@@ -3,7 +3,6 @@ package controller
 import (
 	"Api/internal/repository/day"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 	"net/http"
@@ -33,12 +32,7 @@ func getDay(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
 		params := mux.Vars(request)
 		id, _ := strconv.ParseUint(params["id"], 0, 64)
 		tr := db.MustBegin()
-		day, err := rep.GetById(tr, uint8(id))
-
-		if err != nil {
-			fmt.Printf("%s", err)
-		}
-
+		day, _ := rep.GetById(tr, uint8(id))
 		_ = json.NewEncoder(writer).Encode(day)
 	}
 }

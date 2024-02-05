@@ -12,8 +12,6 @@ type App struct {
 	serviceProvider *ServiceProvider
 }
 
-//*(*[]byte)(unsafe.Pointer(&line))
-
 func NewApp(ctx *context.Context) (*App, error) {
 	a := &App{}
 

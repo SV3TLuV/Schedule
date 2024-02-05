@@ -2,29 +2,41 @@ package day
 
 import (
 	"Api/internal/model"
-	"database/sql"
-	"github.com/jackc/pgx"
+	"github.com/jmoiron/sqlx"
 )
 
 type Repository interface {
-	GetById(tr *sql.Tx, ID uint8) *model.Day
-	Get(tr *sql.Tx) *[]model.Day
+	GetById(tx *sqlx.Tx, ID uint8) (*model.Day, error)
+	Get(tx *sqlx.Tx) (*[]model.Day, error)
 }
 
-type DayRepository struct{}
-
-func NewDayRepository() *DayRepository {
-	return &DayRepository{}
+type DayRepository struct {
+	db *sqlx.DB
 }
 
-func (r *DayRepository) Get(tr *sql.Tx) *[]model.Day {
-	rows, _ := tr.Query(`SELECT * FROM "days"`)
+func NewDayRepository(db *sqlx.DB) *DayRepository {
+	return &DayRepository{
+		db: db,
+	}
+}
 
+func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 	var days []model.Day
-	_ = rows.Scan(&days)
-	return &days
+	err := tx.Select(&days, `SELECT * FROM "days" ORDER BY "id"`)
+	if err != nil {
+		return nil, err
+	}
+
+	return &days, nil
 }
 
-func (r *DayRepository) GetById(tr *pgx.Tx, ID uint8) *model.Day {
-	return nil
+func (r *DayRepository) GetById(tx *sqlx.Tx, ID uint8) (*model.Day, error) {
+	var day model.Day
+	query := r.db.Rebind(`SELECT * FROM "days" WHERE "id" = ?`)
+	err := tx.Select(&day, query, ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &day, nil
 }

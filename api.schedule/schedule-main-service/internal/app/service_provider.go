@@ -9,7 +9,7 @@ import (
 )
 
 type ServiceProvider struct {
-	db            *sqlx.DB
+	postgres      *sqlx.DB
 	dayRepository day.Repository
 }
 
@@ -18,27 +18,27 @@ func newServiceProvider() *ServiceProvider {
 }
 
 func (s *ServiceProvider) Postgresql() *sqlx.DB {
-	if s.db == nil {
+	if s.postgres == nil {
 		cfg, err := config.NewPostgresqlConfig()
 
 		if err != nil {
 			log.Fatalf("Failed to get postgresql config: %s", err.Error())
 		}
 
-		s.db = database.NewPostgresqlConnection(cfg)
+		s.postgres, err = database.NewPostgresqlConnection(cfg)
 
 		if err != nil {
 			log.Fatalf("Failed to connect to postgresql: %s", err.Error())
 		}
 	}
 
-	return s.db
+	return s.postgres
 }
 
-func (s *ServiceProvider) DayRepository() *day.Repository {
+func (s *ServiceProvider) DayRepository() day.Repository {
 	if s.dayRepository == nil {
-		s.dayRepository = day.NewDayRepository()
+		s.dayRepository = day.NewDayRepository(s.postgres)
 	}
 
-	return &s.dayRepository
+	return s.dayRepository
 }

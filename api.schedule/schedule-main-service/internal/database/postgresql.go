@@ -7,7 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func NewPostgresqlConnection(config *config.PostgresqlConfig) *sqlx.DB {
+func NewPostgresqlConnection(config *config.PostgresqlConfig) (*sqlx.DB, error) {
 	cfg := pgx.ConnConfig{
 		PreferSimpleProtocol: true,
 		Host:                 config.Host,
@@ -18,5 +18,11 @@ func NewPostgresqlConnection(config *config.PostgresqlConfig) *sqlx.DB {
 	}
 
 	db := stdlib.OpenDB(cfg)
-	return sqlx.NewDb(db, "pgx")
+	err := db.Ping()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return sqlx.NewDb(db, "pgx"), nil
 }

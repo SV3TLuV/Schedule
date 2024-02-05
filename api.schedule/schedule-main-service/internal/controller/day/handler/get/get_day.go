@@ -10,12 +10,12 @@ import (
 	"strconv"
 )
 
-type getDayRequest struct {
+type getDayQuery struct {
 	ID uint8
 }
 
-func fromRequest(r *http.Request) (*getDayRequest, error) {
-	request := &getDayRequest{}
+func fromRequest(r *http.Request) (*getDayQuery, error) {
+	request := &getDayQuery{}
 
 	params := mux.Vars(r)
 	id, err := strconv.ParseUint(params["id"], 0, 64)
@@ -30,13 +30,13 @@ func fromRequest(r *http.Request) (*getDayRequest, error) {
 
 func GetDay(db *sqlx.DB, rep repository.Repository) http.HandlerFunc {
 	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
-		r, err := fromRequest(request)
+		query, err := fromRequest(request)
 		if err != nil {
 			return err
 		}
 
 		tr := db.MustBegin()
-		day, err := rep.GetById(tr, r.ID)
+		day, err := rep.GetById(tr, query.ID)
 		if err != nil {
 			return err
 		}

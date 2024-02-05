@@ -3,7 +3,6 @@ package app
 import (
 	"Api/internal/config"
 	"context"
-	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -26,16 +25,21 @@ func NewApp(ctx *context.Context) (*App, error) {
 }
 
 func (a *App) Run() error {
-	router := mux.NewRouter()
-	router.HandleFunc("/day", func(writer http.ResponseWriter, request *http.Request) {
-		db := a.serviceProvider.Postgresql()
-		rep := a.serviceProvider.DayRepository()
-		tr := db.MustBegin()
-		days, _ := rep.Get(tr)
-		_ = json.NewEncoder(writer).Encode(days)
-	}).Methods("GET")
+	cfg, err := config.NewApiConfiguration()
+	if err != nil {
+		return err
+	}
 
-	err := http.ListenAndServe(":8080", router)
+	router := mux.NewRouter()
+	//router.HandleFunc("/day", func(writer http.ResponseWriter, request *http.Request) {
+	//	db := a.serviceProvider.Postgresql()
+	//	rep := a.serviceProvider.DayRepository()
+	//	tr := db.MustBegin()
+	//	days, _ := rep.Get(tr)
+	//	_ = json.NewEncoder(writer).Encode(days)
+	//}).Methods("GET")
+
+	err = http.ListenAndServe(cfg.Address(), router)
 	if err != nil {
 		return err
 	}

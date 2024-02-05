@@ -2,6 +2,7 @@ package app
 
 import (
 	"Api/internal/config"
+	"Api/internal/controller"
 	"context"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -30,14 +31,10 @@ func (a *App) Run() error {
 		return err
 	}
 
-	router := mux.NewRouter()
-	//router.HandleFunc("/day", func(writer http.ResponseWriter, request *http.Request) {
-	//	db := a.serviceProvider.Postgresql()
-	//	rep := a.serviceProvider.DayRepository()
-	//	tr := db.MustBegin()
-	//	days, _ := rep.Get(tr)
-	//	_ = json.NewEncoder(writer).Encode(days)
-	//}).Methods("GET")
+	router, err := initRouter(a)
+	if err != nil {
+		return err
+	}
 
 	err = http.ListenAndServe(cfg.Address(), router)
 	if err != nil {
@@ -75,4 +72,13 @@ func (a *App) initEnvConfig(_ *context.Context) error {
 func (a *App) initServiceProvider(_ *context.Context) error {
 	a.serviceProvider = newServiceProvider()
 	return nil
+}
+
+func initRouter(a *App) (*mux.Router, error) {
+	router := mux.NewRouter()
+	postgres := a.serviceProvider.Postgresql()
+
+	(&controller.DayController{}).Init(router, a.serviceProvider.DayRepository(), postgres)
+
+	return router, nil
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"Api/internal/middleware"
 	"Api/internal/repository/day"
 	"encoding/json"
 	"github.com/gorilla/mux"
@@ -20,19 +21,41 @@ func (c *DayController) Init(r *mux.Router, rep day.Repository, db *sqlx.DB) {
 }
 
 func getDays(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
-	return func(writer http.ResponseWriter, request *http.Request) {
+	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
 		tr := db.MustBegin()
-		days, _ := rep.Get(tr)
-		_ = json.NewEncoder(writer).Encode(days)
-	}
+		days, err := rep.Get(tr)
+		if err != nil {
+			return err
+		}
+
+		err = json.NewEncoder(writer).Encode(days)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
 
 func getDay(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
-	return func(writer http.ResponseWriter, request *http.Request) {
+	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
 		params := mux.Vars(request)
-		id, _ := strconv.ParseUint(params["id"], 0, 64)
+		id, err := strconv.ParseUint(params["id"], 0, 64)
+		if err != nil {
+			return err
+		}
+
 		tr := db.MustBegin()
-		day, _ := rep.GetById(tr, uint8(id))
-		_ = json.NewEncoder(writer).Encode(day)
-	}
+		day, err := rep.GetById(tr, uint8(id))
+		if err != nil {
+			return err
+		}
+
+		err = json.NewEncoder(writer).Encode(day)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
 }

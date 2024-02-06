@@ -11,19 +11,27 @@ import (
 )
 
 type getDayQuery struct {
-	ID uint8
+	ID int64
+}
+
+func (q *getDayQuery) Validate() error {
+	if q.ID <= 0 {
+		return middleware.BadRequest
+	}
+
+	return nil
 }
 
 func fromRequest(r *http.Request) (*getDayQuery, error) {
 	request := &getDayQuery{}
 
 	params := mux.Vars(r)
-	id, err := strconv.ParseUint(params["id"], 0, 64)
-	if err != nil || id <= 0 || id > 255 {
+	id, err := strconv.ParseInt(params["id"], 10, 64)
+	if err != nil {
 		return nil, middleware.BadRequest
 	}
 
-	request.ID = uint8(id)
+	request.ID = id
 
 	return request, nil
 }
@@ -31,6 +39,11 @@ func fromRequest(r *http.Request) (*getDayQuery, error) {
 func GetDay(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
 	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
 		query, err := fromRequest(request)
+		if err != nil {
+			return err
+		}
+
+		err = query.Validate()
 		if err != nil {
 			return err
 		}

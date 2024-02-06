@@ -9,7 +9,7 @@ import (
 )
 
 type Repository interface {
-	GetById(tx *sqlx.Tx, ID uint8) (*model.Day, error)
+	GetById(tx *sqlx.Tx, ID int64) (*model.Day, error)
 	Get(tx *sqlx.Tx) (*[]model.Day, error)
 }
 
@@ -37,7 +37,7 @@ func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 	return &days, nil
 }
 
-func (r *DayRepository) GetById(tx *sqlx.Tx, ID uint8) (*model.Day, error) {
+func (r *DayRepository) GetById(tx *sqlx.Tx, ID int64) (*model.Day, error) {
 	var day model.Day
 	err := tx.Get(&day, `SELECT * FROM "days" WHERE "id" = $1`, ID)
 	if errors.Is(err, sql.ErrNoRows) {

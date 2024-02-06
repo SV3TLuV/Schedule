@@ -1,9 +1,9 @@
 package model
 
 type SpecialityDiscipline struct {
-	SpecialityID     uint64
-	DisciplineID     uint64
-	DisciplineCodeID uint
+	SpecialityID     int64
+	DisciplineID     int64
+	DisciplineCodeID int64
 	TotalHours       uint
-	TermID           uint8
+	TermID           int64
 }

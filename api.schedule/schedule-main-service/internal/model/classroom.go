@@ -1,6 +1,6 @@
 package model
 
 type Classroom struct {
-	ID      uint64
+	ID      int64
 	Cabinet string
 }

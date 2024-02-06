@@ -3,8 +3,8 @@ package model
 import "time"
 
 type GroupTransfer struct {
-	ID      uint64
-	GroupID uint64
-	TermID  uint8
+	ID      int64
+	GroupID int64
+	TermID  int64
 	Date    time.Time
 }

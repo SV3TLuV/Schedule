@@ -1,8 +1,8 @@
 package model
 
 type Speciality struct {
-	ID        uint64
+	ID        int64
 	Name      string
 	Code      string
-	TermCount uint8
+	TermCount int64
 }

@@ -1,7 +1,7 @@
 package model
 
 type Student struct {
-	ID        uint64
-	GroupID   uint64
-	AccountID uint64
+	ID        int64
+	GroupID   int64
+	AccountID int64
 }

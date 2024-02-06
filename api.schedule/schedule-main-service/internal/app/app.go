@@ -76,7 +76,7 @@ func initRouter(a *App) (*mux.Router, error) {
 	router := mux.NewRouter()
 	postgres := a.serviceProvider.Postgresql()
 
-	(&day.DayController{}).Init(router, a.serviceProvider.DayRepository(), postgres)
+	day.NewDayController().Init(router, a.serviceProvider.DayRepository(), postgres)
 
 	return router, nil
 }

@@ -2,7 +2,7 @@ package get
 
 import (
 	"Api/internal/middleware"
-	"Api/internal/repository"
+	"Api/internal/repository/day"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
@@ -28,7 +28,7 @@ func fromRequest(r *http.Request) (*getDayQuery, error) {
 	return request, nil
 }
 
-func GetDay(db *sqlx.DB, rep repository.Repository) http.HandlerFunc {
+func GetDay(db *sqlx.DB, rep day.Repository) http.HandlerFunc {
 	return middleware.ErrorMiddleware(func(writer http.ResponseWriter, request *http.Request) error {
 		query, err := fromRequest(request)
 		if err != nil {

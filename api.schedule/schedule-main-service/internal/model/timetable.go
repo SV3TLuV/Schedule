@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Timetable struct {
-	ID      uint64
-	GroupID uint64
+	ID      int64
+	GroupID int64
 	Date    time.Time
 }

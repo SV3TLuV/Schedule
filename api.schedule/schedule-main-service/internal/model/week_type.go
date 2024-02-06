@@ -1,6 +1,6 @@
 package model
 
 type WeekType struct {
-	ID   uint8
+	ID   int64
 	Name string
 }

@@ -1,6 +1,6 @@
 package model
 
 type Day struct {
-	ID   uint8
+	ID   int64
 	Name string
 }

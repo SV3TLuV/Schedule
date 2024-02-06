@@ -11,6 +11,10 @@ import (
 type DayController struct {
 }
 
+func NewDayController() *DayController {
+	return &DayController{}
+}
+
 func (c *DayController) Init(r *mux.Router, rep day.Repository, db *sqlx.DB) {
 	router := r.PathPrefix("/day").Subrouter()
 

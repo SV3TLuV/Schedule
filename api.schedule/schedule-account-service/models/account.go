@@ -1,7 +1,7 @@
 package models
 
 type Account struct {
-	ID               uint `gorm:"primaryKey"`
+	ID               int64
 	Login            string
 	PasswordHash     string
 	Email            string
@@ -9,5 +9,5 @@ type Account struct {
 	Name             string
 	Surname          string
 	MiddleName       string
-	RoleID           uint
+	RoleID           int64
 }

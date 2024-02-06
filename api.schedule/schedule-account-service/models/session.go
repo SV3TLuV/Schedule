@@ -6,8 +6,8 @@ import (
 )
 
 type Session struct {
-	ID           uuid.UUID `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
-	AccountID    uint64
+	ID           uuid.UUID
+	AccountID    int64
 	RefreshToken string
 	CreatedAt    time.Time
 	UpdatedAt    *time.Time

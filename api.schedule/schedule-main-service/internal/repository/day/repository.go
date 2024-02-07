@@ -25,7 +25,7 @@ func NewDayRepository(db *sqlx.DB) *DayRepository {
 
 func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 	var days []model.Day
-	err := tx.Select(&days, `SELECT * FROM "days" ORDER BY "id"`)
+	err := tx.Select(&days, `SELECT * FROM "days" ORDER BY "id";`)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, middleware.NotFound
 	}
@@ -39,7 +39,7 @@ func (r *DayRepository) Get(tx *sqlx.Tx) (*[]model.Day, error) {
 
 func (r *DayRepository) GetById(tx *sqlx.Tx, ID int64) (*model.Day, error) {
 	var day model.Day
-	err := tx.Get(&day, `SELECT * FROM "days" WHERE "id" = $1`, ID)
+	err := tx.Get(&day, `SELECT * FROM "days" WHERE "id" = $1;`, ID)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, middleware.NotFound
 	}

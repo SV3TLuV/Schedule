@@ -2,7 +2,7 @@ package app
 
 import (
 	"Api/internal/config"
-	"Api/internal/controller/day"
+	http2 "Api/internal/transport"
 	"context"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -30,6 +30,7 @@ func (a *App) Run() error {
 	}
 
 	router, err := initRouter(a)
+
 	if err != nil {
 		return err
 	}
@@ -76,7 +77,7 @@ func initRouter(a *App) (*mux.Router, error) {
 	router := mux.NewRouter()
 	postgres := a.serviceProvider.Postgresql()
 
-	day.NewDayController().Init(router, a.serviceProvider.DayRepository(), postgres)
+	http2.NewDayController().Init(router, a.serviceProvider.DayRepository(), postgres)
 
 	return router, nil
 }

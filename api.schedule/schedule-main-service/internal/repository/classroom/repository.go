@@ -28,7 +28,7 @@ func NewClassroomRepository(db *sqlx.DB) *ClassroomRepository {
 
 func (r *ClassroomRepository) Get(tx *sqlx.Tx) (*[]model.Classroom, error) {
 	var classrooms []model.Classroom
-	err := tx.Select(&classrooms, `SELECT * FROM "classrooms" ORDER BY "id"`)
+	err := tx.Select(&classrooms, `SELECT * FROM "classrooms" ORDER BY "id";`)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, middleware.NotFound
 	}
@@ -42,7 +42,7 @@ func (r *ClassroomRepository) Get(tx *sqlx.Tx) (*[]model.Classroom, error) {
 
 func (r *ClassroomRepository) GetById(tx *sqlx.Tx, ID int64) (*model.Classroom, error) {
 	var classroom model.Classroom
-	err := tx.Get(&classroom, `SELECT * FROM "classrooms" WHERE "id" = $1`, ID)
+	err := tx.Get(&classroom, `SELECT * FROM "classrooms" WHERE "id" = $1;`, ID)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, middleware.NotFound
 	}
@@ -55,7 +55,7 @@ func (r *ClassroomRepository) GetById(tx *sqlx.Tx, ID int64) (*model.Classroom, 
 }
 
 func (r *ClassroomRepository) Create(tx *sqlx.Tx, c *model.Classroom) (int64, error) {
-	query := `INSERT INTO "classrooms" ("cabinet") VALUES ($1)`
+	query := `INSERT INTO "classrooms" ("cabinet") VALUES ($1);`
 	res, err := tx.Exec(query, &c.Cabinet)
 	if err != nil {
 		return 0, err
@@ -65,7 +65,7 @@ func (r *ClassroomRepository) Create(tx *sqlx.Tx, c *model.Classroom) (int64, er
 }
 
 func (r *ClassroomRepository) Update(tx *sqlx.Tx, c *model.Classroom) error {
-	query := `UPDATE "classrooms" SET "cabinet" = $1 WHERE "id" = $2`
+	query := `UPDATE "classrooms" SET "cabinet" = $1 WHERE "id" = $2;`
 	res, err := tx.Exec(query, &c.Cabinet, &c.ID)
 	if err != nil {
 		return err
@@ -84,7 +84,7 @@ func (r *ClassroomRepository) Update(tx *sqlx.Tx, c *model.Classroom) error {
 }
 
 func (r *ClassroomRepository) Delete(tx *sqlx.Tx, ID int64) error {
-	query := `DELETE FROM "classrooms" WHERE "id" = $1`
+	query := `DELETE FROM "classrooms" WHERE "id" = $1;`
 	res, err := tx.Exec(query, ID)
 	if err != nil {
 		return err

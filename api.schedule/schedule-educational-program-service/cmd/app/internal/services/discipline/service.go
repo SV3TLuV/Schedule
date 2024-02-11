@@ -26,7 +26,7 @@ func (s *service) GetAll(ctx context.Context) (*[]model.Discipline, error) {
 	return &disciplines, s.getter.DefaultTrOrDB(ctx, s.db).SelectContext(ctx, &disciplines, query)
 }
 
-func (s *service) GetByID(ctx context.Context, id int) (*model.Discipline, error) {
+func (s *service) GetByID(ctx context.Context, id int64) (*model.Discipline, error) {
 	query := `SELECT * FROM disciplines WHERE id = ?;`
 	discipline := model.Discipline{}
 	return &discipline, s.getter.DefaultTrOrDB(ctx, s.db).GetContext(ctx, &discipline, s.db.Rebind(query), id)
@@ -51,7 +51,7 @@ func (s *service) Save(ctx context.Context, discipline *model.Discipline) error 
 	return err
 }
 
-func (s *service) Delete(ctx context.Context, id int) error {
+func (s *service) Delete(ctx context.Context, id int64) error {
 	query := `DELETE FROM disciplines WHERE id = ?;`
 
 	res := sqlx.MustExecContext(ctx, s.getter.DefaultTrOrDB(ctx, s.db), s.db.Rebind(query), id)
@@ -62,7 +62,7 @@ func (s *service) Delete(ctx context.Context, id int) error {
 	}
 
 	if affected == 0 {
-		return fmt.Errorf("Discipline not found.")
+		return fmt.Errorf("discipline not found")
 	}
 
 	return err

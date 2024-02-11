@@ -25,7 +25,7 @@ func (s *service) GetAll(ctx context.Context) (*[]model.Term, error) {
 	return &terms, s.getter.DefaultTrOrDB(ctx, s.db).SelectContext(ctx, &terms, query)
 }
 
-func (s *service) GetByID(ctx context.Context, id int) (*model.Term, error) {
+func (s *service) GetByID(ctx context.Context, id int64) (*model.Term, error) {
 	query := `SELECT * FROM terms WHERE id = ?;`
 	term := model.Term{}
 	return &term, s.getter.DefaultTrOrDB(ctx, s.db).GetContext(ctx, &term, s.db.Rebind(query), id)

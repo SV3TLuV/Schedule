@@ -7,7 +7,7 @@ import (
 
 type Repository interface {
 	GetAll(context.Context) (*[]model.DisciplineType, error)
-	GetById(context.Context, int) (*model.DisciplineType, error)
+	GetByID(context.Context, int64) (*model.DisciplineType, error)
 	Save(context.Context, *model.DisciplineType) error
-	Delete(context.Context, int) error
+	Delete(context.Context, int64) error
 }

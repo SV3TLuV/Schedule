@@ -1,6 +1,7 @@
 package model
 
 type Discipline struct {
-	ID   int64
-	Name string
+	ID     int
+	Name   string
+	TypeID int
 }

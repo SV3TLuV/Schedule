@@ -1,6 +1,6 @@
 package model
 
 type DisciplineCode struct {
-	ID   int64
+	ID   int
 	Code string
 }

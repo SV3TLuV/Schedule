@@ -2,7 +2,7 @@ package discipline_code
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/jmoiron/sqlx"
 	"schedule-educational-program-service/cmd/app/internal/model"
@@ -62,7 +62,7 @@ func (s *service) Delete(ctx context.Context, id int64) error {
 	}
 
 	if affected == 0 {
-		return fmt.Errorf("disciplineCode not found")
+		return errors.New("disciplineCode not found")
 	}
 
 	return err

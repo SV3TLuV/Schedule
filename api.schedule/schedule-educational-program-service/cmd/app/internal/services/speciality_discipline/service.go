@@ -1,1 +1,1 @@
-package discipline
+package speciality_discipline

@@ -3,6 +3,9 @@ module schedule-educational-program-service
 go 1.21
 
 require (
+	github.com/avito-tech/go-transaction-manager/drivers/sql/v2 v2.0.0-rc6 // indirect
+	github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2 v2.0.0-rc7 // indirect
+	github.com/avito-tech/go-transaction-manager/trm/v2 v2.0.0-rc7 // indirect
 	github.com/golang-migrate/migrate v3.5.4+incompatible // indirect
 	github.com/golang-migrate/migrate/v4 v4.17.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect

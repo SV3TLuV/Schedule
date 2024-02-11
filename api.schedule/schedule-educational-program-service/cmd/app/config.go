@@ -41,6 +41,14 @@ func newConfig() *Config {
 }
 
 func (c *PostgresqlConfig) URL() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%t",
-		c.User, c.Password, c.Host, c.Port, c.Database, c.SSLMode)
+	sslMode := func() string {
+		if c.SSLMode {
+			return "enable"
+		}
+
+		return "disable"
+	}()
+
+	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		c.User, c.Password, c.Host, c.Port, c.Database, sslMode)
 }

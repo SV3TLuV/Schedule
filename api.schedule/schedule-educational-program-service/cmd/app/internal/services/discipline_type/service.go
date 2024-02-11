@@ -1,1 +1,1 @@
-package discipline
+package discipline_type

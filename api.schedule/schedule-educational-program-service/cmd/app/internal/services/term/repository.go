@@ -7,5 +7,5 @@ import (
 
 type Repository interface {
 	GetAll(context.Context) (*[]model.Term, error)
-	GetByID(context.Context, int) (*model.Term, error)
+	GetByID(context.Context, int64) (*model.Term, error)
 }

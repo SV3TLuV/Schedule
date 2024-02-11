@@ -32,7 +32,7 @@ func (migrator *migrator) Migrate() {
 
 	if err := m.Up(); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
-			log.Fatalf("%s", err)
+			log.Printf("%s", err)
 		} else {
 			panic(err)
 		}

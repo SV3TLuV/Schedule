@@ -1,5 +1,5 @@
 CREATE TABLE discipline_types (
-    id integer NOT NULL PRIMARY KEY,
+    id serial NOT NULL PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE NULLS NOT DISTINCT
 );
 

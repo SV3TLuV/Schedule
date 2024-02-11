@@ -1,6 +1,9 @@
 package main
 
 import (
+	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
+	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
+	"schedule-educational-program-service/cmd/app/internal/services/term"
 	"schedule-educational-program-service/pkg/db/postgresql"
 	"schedule-educational-program-service/pkg/migrator"
 )
@@ -11,6 +14,8 @@ type serviceProvider struct {
 	config           *Config
 	postgresqlClient *postgresql.Client
 	migrator         migrator.Migrator
+	trManager        *manager.Manager
+	termRepository   term.Repository
 }
 
 func newServiceProvider() *serviceProvider {
@@ -28,4 +33,6 @@ func (p *serviceProvider) init() {
 		p.config.Postgres.Host,
 		p.config.Postgres.Port)
 	p.migrator = migrator.New(migrationPath, p.config.Postgres.URL())
+	p.trManager = manager.Must(trmsqlx.NewDefaultFactory(p.postgresqlClient.Connection))
+	p.termRepository = term.NewRepo(p.postgresqlClient.Connection, trmsqlx.DefaultCtxGetter)
 }

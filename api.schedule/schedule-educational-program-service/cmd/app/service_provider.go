@@ -7,23 +7,23 @@ import (
 	"schedule-educational-program-service/cmd/app/internal/services/discipline_code"
 	"schedule-educational-program-service/cmd/app/internal/services/discipline_type"
 	"schedule-educational-program-service/cmd/app/internal/services/speciality"
+	"schedule-educational-program-service/cmd/app/internal/services/speciality_discipline"
 	"schedule-educational-program-service/cmd/app/internal/services/term"
 	"schedule-educational-program-service/pkg/db/postgresql"
 	"schedule-educational-program-service/pkg/migrator"
 )
 
-const migrationPath = "file://migrations/postgresql"
-
 type serviceProvider struct {
-	config                   *Config
-	postgresqlClient         *postgresql.Client
-	migrator                 migrator.Migrator
-	trManager                *manager.Manager
-	termRepository           term.Repository
-	disciplineRepository     discipline.Repository
-	disciplineCodeRepository discipline_code.Repository
-	disciplineTypeRepository discipline_type.Repository
-	specialityRepository     speciality.Repository
+	config                         *Config
+	postgresqlClient               *postgresql.Client
+	migrator                       migrator.Migrator
+	trManager                      *manager.Manager
+	termRepository                 term.Repository
+	disciplineRepository           discipline.Repository
+	disciplineCodeRepository       discipline_code.Repository
+	disciplineTypeRepository       discipline_type.Repository
+	specialityRepository           speciality.Repository
+	specialityDisciplineRepository speciality_discipline.Repository
 }
 
 func newServiceProvider() *serviceProvider {
@@ -54,6 +54,7 @@ func (p *serviceProvider) initPostgresClient() {
 }
 
 func (p *serviceProvider) initMigrator() {
+	const migrationPath = "file://migrations/postgresql"
 	p.migrator = migrator.New(migrationPath, p.config.Postgres.URL())
 }
 
@@ -69,4 +70,5 @@ func (p *serviceProvider) initRepositories() {
 	p.disciplineCodeRepository = discipline_code.NewRepo(db, getter)
 	p.disciplineTypeRepository = discipline_type.NewRepo(db, getter)
 	p.specialityRepository = speciality.NewRepo(db, getter)
+	p.specialityDisciplineRepository = speciality_discipline.NewRepo(db, getter)
 }

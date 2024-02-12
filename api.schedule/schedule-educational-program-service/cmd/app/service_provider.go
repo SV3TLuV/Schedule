@@ -9,6 +9,7 @@ import (
 	"schedule-educational-program-service/cmd/app/internal/repository/speciality"
 	"schedule-educational-program-service/cmd/app/internal/repository/speciality_discipline"
 	"schedule-educational-program-service/cmd/app/internal/repository/term"
+	"schedule-educational-program-service/cmd/app/internal/servers/http"
 	term2 "schedule-educational-program-service/cmd/app/internal/usecases/term"
 	"schedule-educational-program-service/pkg/db/postgresql"
 	"schedule-educational-program-service/pkg/migrator"
@@ -19,6 +20,7 @@ type serviceProvider struct {
 	postgresqlClient               *postgresql.Client
 	migrator                       migrator.Migrator
 	trManager                      *manager.Manager
+	httpServer                     http.HttpServer
 	termRepository                 term.Repository
 	termUseCase                    term2.UseCase
 	disciplineRepository           discipline.Repository
@@ -41,6 +43,7 @@ func (p *serviceProvider) init() {
 	p.initTrManager()
 	p.initRepositories()
 	p.initUseCases()
+	p.initHttpServer()
 }
 
 func (p *serviceProvider) initConfig() {
@@ -78,4 +81,10 @@ func (p *serviceProvider) initRepositories() {
 
 func (p *serviceProvider) initUseCases() {
 	p.termUseCase = term2.NewTermUseCase(p.termRepository, p.trManager)
+}
+
+func (p *serviceProvider) initHttpServer() {
+	p.httpServer = http.NewHttpServer(
+		p.config.Http.Address(),
+		p.termUseCase)
 }

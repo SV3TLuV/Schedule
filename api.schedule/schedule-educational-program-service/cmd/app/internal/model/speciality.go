@@ -1,8 +1,8 @@
 package model
 
 type Speciality struct {
-	ID        int64  `db:"id"`
-	Name      string `db:"name"`
-	Code      string `db:"code"`
-	TermCount int64  `db:"term_count"`
+	ID        int64  `db:"id" json:"id"`
+	Name      string `db:"name" json:"name"`
+	Code      string `db:"code" json:"code"`
+	TermCount int64  `db:"term_count" json:"term_count"`
 }

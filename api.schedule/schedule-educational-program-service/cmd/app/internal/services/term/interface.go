@@ -7,5 +7,5 @@ import (
 
 type Service interface {
 	List(ctx context.Context) (*[]model.Term, error)
-	FindById(ctx context.Context, id int64) (*model.Term, error)
+	FindByID(ctx context.Context, id int64) (*model.Term, error)
 }

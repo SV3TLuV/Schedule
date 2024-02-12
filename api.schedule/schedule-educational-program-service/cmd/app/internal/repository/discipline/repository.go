@@ -18,6 +18,10 @@ type GetAllOptions struct {
 	offset int64
 }
 
+func NewGetAllOptions() *GetAllOptions {
+	return &GetAllOptions{}
+}
+
 type Option func(options *GetAllOptions)
 
 func (o *GetAllOptions) Search(search string) Option {

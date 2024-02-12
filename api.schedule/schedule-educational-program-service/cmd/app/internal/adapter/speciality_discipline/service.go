@@ -20,7 +20,7 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context, o *getAllOptions) (*[]model.SpecialityDiscipline, error) {
+func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]model.SpecialityDiscipline, error) {
 	query := `SELECT * FROM speciality_disciplines
 			  WHERE (:speciality_id IS NULL OR speciality_id = :speciality_id)
 			  AND (:discipline_id IS NULL OR discipline_id = :discipline_id)

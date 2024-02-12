@@ -3,8 +3,8 @@ package discipline
 import (
 	"context"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
+	"schedule-educational-program-service/cmd/app/internal/adapter/discipline"
 	"schedule-educational-program-service/cmd/app/internal/model"
-	"schedule-educational-program-service/cmd/app/internal/repository/discipline"
 )
 
 type useCase struct {
@@ -38,4 +38,16 @@ func (u *useCase) FindById(ctx context.Context, id int64) (*model.Discipline, er
 		return err
 	})
 	return d, err
+}
+
+func (u *useCase) Save(ctx context.Context, d *model.Discipline) error {
+	return u.trManager.Do(ctx, func(ctx context.Context) error {
+		return u.repo.Save(ctx, d)
+	})
+}
+
+func (u *useCase) Delete(ctx context.Context, id int64) error {
+	return u.trManager.Do(ctx, func(ctx context.Context) error {
+		return u.repo.Delete(ctx, id)
+	})
 }

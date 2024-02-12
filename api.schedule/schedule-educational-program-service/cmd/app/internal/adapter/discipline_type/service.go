@@ -20,7 +20,7 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context, o *getAllOptions) (*[]model.DisciplineType, error) {
+func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]model.DisciplineType, error) {
 	query := `SELECT * FROM discipline_types
 			  WHERE starts_with(name, :search)
 			  LIMIT :limit

@@ -29,7 +29,7 @@ func (s *service) List(ctx context.Context) (*[]model.Term, error) {
 	return terms, err
 }
 
-func (s *service) FindById(ctx context.Context, id int64) (*model.Term, error) {
+func (s *service) FindByID(ctx context.Context, id int64) (*model.Term, error) {
 	t := &model.Term{}
 	err := s.trManager.Do(ctx, func(ctx context.Context) error {
 		value, err := s.repo.GetByID(ctx, id)

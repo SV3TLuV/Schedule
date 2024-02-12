@@ -1,48 +1,48 @@
-package discipline
+package discipline_type
 
 import (
 	"context"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
-	"schedule-educational-program-service/cmd/app/internal/adapter/discipline"
+	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_type"
 	"schedule-educational-program-service/cmd/app/internal/model"
 )
 
 type service struct {
 	trManager *manager.Manager
-	repo      discipline.Repository
+	repo      discipline_type.Repository
 }
 
-func NewDisciplineService(trManager *manager.Manager, repo discipline.Repository) Service {
+func NewDisciplineTypeService(trManager *manager.Manager, repo discipline_type.Repository) Service {
 	return &service{
 		trManager: trManager,
 		repo:      repo,
 	}
 }
 
-func (s *service) List(ctx context.Context) (*[]model.Discipline, error) {
-	disciplines := &[]model.Discipline{}
+func (s *service) List(ctx context.Context) (*[]model.DisciplineType, error) {
+	types := &[]model.DisciplineType{}
 	err := s.trManager.Do(ctx, func(ctx context.Context) error {
-		options := discipline.NewGetAllOptions()
+		options := discipline_type.NewGetAllOptions()
 		values, err := s.repo.GetAll(ctx, options)
-		disciplines = values
+		types = values
 		return err
 	})
-	return disciplines, err
+	return types, err
 }
 
-func (s *service) FindByID(ctx context.Context, id int64) (*model.Discipline, error) {
-	d := &model.Discipline{}
+func (s *service) FindByID(ctx context.Context, id int64) (*model.DisciplineType, error) {
+	t := &model.DisciplineType{}
 	err := s.trManager.Do(ctx, func(ctx context.Context) error {
 		value, err := s.repo.GetByID(ctx, id)
-		d = value
+		t = value
 		return err
 	})
-	return d, err
+	return t, err
 }
 
-func (s *service) Save(ctx context.Context, d model.Discipline) error {
+func (s *service) Save(ctx context.Context, t model.DisciplineType) error {
 	return s.trManager.Do(ctx, func(ctx context.Context) error {
-		return s.repo.Save(ctx, &d)
+		return s.repo.Save(ctx, &t)
 	})
 }
 

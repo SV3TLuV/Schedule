@@ -3,6 +3,7 @@ package main
 import (
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
+
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline"
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_code"
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_type"
@@ -10,19 +11,24 @@ import (
 	"schedule-educational-program-service/cmd/app/internal/adapter/speciality_discipline"
 	"schedule-educational-program-service/cmd/app/internal/adapter/term"
 	"schedule-educational-program-service/cmd/app/internal/servers/http"
-	term2 "schedule-educational-program-service/cmd/app/internal/usecases/term"
+	term2 "schedule-educational-program-service/cmd/app/internal/services/term"
 	"schedule-educational-program-service/pkg/db/postgresql"
 	"schedule-educational-program-service/pkg/migrator"
 )
 
 type serviceProvider struct {
-	config                         *Config
-	postgresqlClient               *postgresql.Client
-	migrator                       migrator.Migrator
-	trManager                      *manager.Manager
-	httpServer                     http.HttpServer
-	termRepository                 term.Repository
-	termUseCase                    term2.UseCase
+	config *Config
+
+	migrator         migrator.Migrator
+	postgresqlClient *postgresql.Client
+
+	httpServer http.HttpServer
+
+	trManager *manager.Manager
+
+	termRepository term.Repository
+	termService    term2.Service
+
 	disciplineRepository           discipline.Repository
 	disciplineCodeRepository       discipline_code.Repository
 	disciplineTypeRepository       discipline_type.Repository
@@ -42,7 +48,7 @@ func (p *serviceProvider) init() {
 	p.initMigrator()
 	p.initTrManager()
 	p.initRepositories()
-	p.initUseCases()
+	p.initServices()
 	p.initHttpServer()
 }
 
@@ -79,12 +85,12 @@ func (p *serviceProvider) initRepositories() {
 	p.specialityDisciplineRepository = speciality_discipline.NewRepo(db, getter)
 }
 
-func (p *serviceProvider) initUseCases() {
-	p.termUseCase = term2.NewTermUseCase(p.termRepository, p.trManager)
+func (p *serviceProvider) initServices() {
+	p.termService = term2.NewTermService(p.trManager, p.termRepository)
 }
 
 func (p *serviceProvider) initHttpServer() {
 	p.httpServer = http.NewHttpServer(
 		p.config.Http.Address(),
-		p.termUseCase)
+		p.termService)
 }

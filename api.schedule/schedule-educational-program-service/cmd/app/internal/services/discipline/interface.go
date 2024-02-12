@@ -5,7 +5,7 @@ import (
 	"schedule-educational-program-service/cmd/app/internal/model"
 )
 
-type UseCase interface {
+type Service interface {
 	List(ctx context.Context) (*[]model.Discipline, error)
 	FindById(ctx context.Context, id int64) (*model.Discipline, error)
 	Save(ctx context.Context, discipline *model.Discipline) error

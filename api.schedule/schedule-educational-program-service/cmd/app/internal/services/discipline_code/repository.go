@@ -6,8 +6,14 @@ import (
 )
 
 type Repository interface {
-	GetAll(context.Context) (*[]model.DisciplineCode, error)
+	GetAll(context.Context, *getAllOptions) (*[]model.DisciplineCode, error)
 	GetByID(context.Context, int64) (*model.DisciplineCode, error)
 	Save(context.Context, *model.DisciplineCode) error
 	Delete(context.Context, int64) error
+}
+
+type getAllOptions struct {
+	search string
+	limit  int64
+	offset int64
 }

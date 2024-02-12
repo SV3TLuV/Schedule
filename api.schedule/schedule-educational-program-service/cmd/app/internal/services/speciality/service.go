@@ -20,10 +20,19 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context) (*[]model.Speciality, error) {
-	query := `SELECT * FROM specialities;`
+func (s *service) GetAll(ctx context.Context, o *getAllOptions) (*[]model.Speciality, error) {
+	query := `SELECT * FROM specialities
+			  WHERE starts_with(name, :search)
+			  LIMIT :limit
+			  OFFSET :offset;`
 	specialities := []model.Speciality{}
-	return &specialities, s.getter.DefaultTrOrDB(ctx, s.db).SelectContext(ctx, &specialities, query)
+
+	rows, err := s.getter.DefaultTrOrDB(ctx, s.db).NamedQuery(s.db.Rebind(query), o)
+	if err != nil {
+		return nil, err
+	}
+
+	return &specialities, rows.StructScan(&specialities)
 }
 
 func (s *service) GetByID(ctx context.Context, id int64) (*model.Speciality, error) {

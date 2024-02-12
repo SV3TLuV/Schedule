@@ -11,8 +11,16 @@ type PK struct {
 }
 
 type Repository interface {
-	GetAll(context.Context) (*[]model.SpecialityDiscipline, error)
+	GetAll(context.Context, *getAllOptions) (*[]model.SpecialityDiscipline, error)
 	GetByID(context.Context, PK) (*model.SpecialityDiscipline, error)
 	Save(context.Context, *model.SpecialityDiscipline) error
 	Delete(context.Context, PK) error
+}
+
+type getAllOptions struct {
+	specialityId *int64
+	disciplineId *int64
+	termID       *int64
+	limit        int64
+	offset       int64
 }

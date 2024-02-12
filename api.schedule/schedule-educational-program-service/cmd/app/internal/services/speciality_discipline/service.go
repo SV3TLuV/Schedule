@@ -20,10 +20,20 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context) (*[]model.SpecialityDiscipline, error) {
-	query := `SELECT * FROM speciality_disciplines;`
+func (s *service) GetAll(ctx context.Context, o *getAllOptions) (*[]model.SpecialityDiscipline, error) {
+	query := `SELECT * FROM speciality_disciplines
+			  WHERE (:speciality_id IS NULL OR speciality_id = :speciality_id)
+			  AND (:discipline_id IS NULL OR discipline_id = :discipline_id)
+			  LIMIT :limit
+			  OFFSET :offset;`
 	specialityDisciplines := []model.SpecialityDiscipline{}
-	return &specialityDisciplines, s.getter.DefaultTrOrDB(ctx, s.db).SelectContext(ctx, &specialityDisciplines, query)
+
+	rows, err := s.getter.DefaultTrOrDB(ctx, s.db).NamedQuery(s.db.Rebind(query), o)
+	if err != nil {
+		return nil, err
+	}
+
+	return &specialityDisciplines, rows.StructScan(&specialityDisciplines)
 }
 
 func (s *service) GetByID(ctx context.Context, key PK) (*model.SpecialityDiscipline, error) {

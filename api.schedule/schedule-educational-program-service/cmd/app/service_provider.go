@@ -3,6 +3,10 @@ package main
 import (
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
+	discipline2 "schedule-educational-program-service/cmd/app/internal/services/discipline"
+	discipline_code2 "schedule-educational-program-service/cmd/app/internal/services/discipline_code"
+	discipline_type2 "schedule-educational-program-service/cmd/app/internal/services/discipline_type"
+	speciality2 "schedule-educational-program-service/cmd/app/internal/services/speciality"
 
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline"
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_code"
@@ -29,10 +33,18 @@ type serviceProvider struct {
 	termRepository term.Repository
 	termService    term2.Service
 
-	disciplineRepository           discipline.Repository
-	disciplineCodeRepository       discipline_code.Repository
-	disciplineTypeRepository       discipline_type.Repository
-	specialityRepository           speciality.Repository
+	disciplineRepository discipline.Repository
+	disciplineService    discipline2.Service
+
+	disciplineCodeRepository discipline_code.Repository
+	disciplineCodeService    discipline_code2.Service
+
+	disciplineTypeRepository discipline_type.Repository
+	disciplineTypeService    discipline_type2.Service
+
+	specialityRepository speciality.Repository
+	specialityService    speciality2.Service
+
 	specialityDisciplineRepository speciality_discipline.Repository
 }
 
@@ -87,6 +99,11 @@ func (p *serviceProvider) initRepositories() {
 
 func (p *serviceProvider) initServices() {
 	p.termService = term2.NewTermService(p.trManager, p.termRepository)
+	p.disciplineService = discipline2.NewDisciplineService(p.trManager, p.disciplineRepository)
+	p.disciplineCodeService = discipline_code2.NewDisciplineCodeService(p.trManager, p.disciplineCodeRepository)
+	p.disciplineTypeService = discipline_type2.NewDisciplineTypeService(p.trManager, p.disciplineTypeRepository)
+	p.specialityService = speciality2.NewSpecialityService(
+		p.trManager, p.specialityRepository, p.specialityDisciplineRepository)
 }
 
 func (p *serviceProvider) initHttpServer() {

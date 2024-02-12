@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"schedule-educational-program-service/cmd/app/internal/servers/http/handler/term"
 	term2 "schedule-educational-program-service/cmd/app/internal/usecases/term"
+	"schedule-educational-program-service/pkg/middleware"
 )
 
 type HttpServer interface {
@@ -26,12 +27,13 @@ func NewHttpServer(address string, termUseCase term2.UseCase) HttpServer {
 }
 
 func (s *server) Run() error {
+	s.router.PathPrefix("/api")
+	s.router.Use(middleware.ErrorMiddleware())
 	s.initRoutes()
 	return http.ListenAndServe(s.address, s.router)
 }
 
 func (s *server) initRoutes() {
-	s.router.PathPrefix("/api")
-	s.router.HandleFunc("/term", errorMiddleware(term.GetList(s.termUseCase)))
-	s.router.HandleFunc("/term/{id}", errorMiddleware(term.GetById(s.termUseCase)))
+	s.router.HandleFunc("/term", term.GetList(s.termUseCase))
+	s.router.HandleFunc("/term/{id}", term.GetById(s.termUseCase))
 }

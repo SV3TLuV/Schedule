@@ -3,8 +3,8 @@ package term
 import (
 	"context"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
+	"schedule-educational-program-service/cmd/app/internal/adapter/term"
 	"schedule-educational-program-service/cmd/app/internal/model"
-	"schedule-educational-program-service/cmd/app/internal/repository/term"
 )
 
 type useCase struct {

@@ -2,13 +2,13 @@ package discipline_type
 
 import (
 	"context"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type Repository interface {
-	GetAll(context.Context, *GetAllOptions) (*[]model.DisciplineType, error)
-	GetByID(context.Context, int64) (*model.DisciplineType, error)
-	Save(context.Context, *model.DisciplineType) error
+	GetAll(context.Context, *GetAllOptions) (*[]entity.DisciplineType, error)
+	GetOne(context.Context, int64) (*entity.DisciplineType, error)
+	Save(context.Context, *entity.DisciplineType) error
 	Delete(context.Context, int64) error
 }
 

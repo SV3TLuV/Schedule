@@ -1,4 +1,4 @@
-package model
+package entity
 
 type DisciplineType struct {
 	ID          int64  `db:"id" json:"id"`

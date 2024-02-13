@@ -2,10 +2,10 @@ package term
 
 import (
 	"context"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type Repository interface {
-	GetAll(context.Context) (*[]model.Term, error)
-	GetByID(context.Context, int64) (*model.Term, error)
+	GetAll(context.Context) (*[]entity.Term, error)
+	GetOne(context.Context, int64) (*entity.Term, error)
 }

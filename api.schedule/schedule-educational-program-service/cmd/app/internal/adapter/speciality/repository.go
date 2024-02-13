@@ -2,13 +2,13 @@ package speciality
 
 import (
 	"context"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type Repository interface {
-	GetAll(context.Context, *GetAllOptions) (*[]model.Speciality, error)
-	GetByID(context.Context, int64) (*model.Speciality, error)
-	Save(context.Context, *model.Speciality) error
+	GetAll(context.Context, *GetAllOptions) (*[]entity.Speciality, error)
+	GetOne(context.Context, int64) (*entity.Speciality, error)
+	Save(context.Context, *entity.Speciality) error
 	Delete(context.Context, int64) error
 }
 

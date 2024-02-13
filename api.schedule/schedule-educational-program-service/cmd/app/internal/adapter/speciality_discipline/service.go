@@ -5,7 +5,7 @@ import (
 	"errors"
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/jmoiron/sqlx"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type service struct {
@@ -20,13 +20,13 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]model.SpecialityDiscipline, error) {
+func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]entity.SpecialityDiscipline, error) {
 	query := `SELECT * FROM speciality_disciplines
 			  WHERE (:speciality_id IS NULL OR speciality_id = :speciality_id)
 			  AND (:discipline_id IS NULL OR discipline_id = :discipline_id)
 			  LIMIT :limit
 			  OFFSET :offset;`
-	specialityDisciplines := []model.SpecialityDiscipline{}
+	specialityDisciplines := []entity.SpecialityDiscipline{}
 
 	rows, err := s.getter.DefaultTrOrDB(ctx, s.db).NamedQuery(s.db.Rebind(query), o)
 	if err != nil {
@@ -36,15 +36,15 @@ func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]model.Specia
 	return &specialityDisciplines, rows.StructScan(&specialityDisciplines)
 }
 
-func (s *service) GetByID(ctx context.Context, key PK) (*model.SpecialityDiscipline, error) {
+func (s *service) GetOne(ctx context.Context, key PK) (*entity.SpecialityDiscipline, error) {
 	query := `SELECT * FROM speciality_disciplines 
          	  WHERE speciality_id = ? AND discipline_id = ?;`
-	speciality := model.SpecialityDiscipline{}
+	speciality := entity.SpecialityDiscipline{}
 	return &speciality, s.getter.DefaultTrOrDB(ctx, s.db).GetContext(ctx, &speciality,
 		s.db.Rebind(query), key.specialityId, key.disciplineId)
 }
 
-func (s *service) Save(ctx context.Context, sd *model.SpecialityDiscipline) error {
+func (s *service) Save(ctx context.Context, sd *entity.SpecialityDiscipline) error {
 	query := `INSERT INTO speciality_disciplines (speciality_id, discipline_id, discipline_code_id, total_hours, term_id)
 			  VALUES (:speciality_id, :discipline_id, :discipline_code_id, :total_hours, :term_id)
 			  ON CONFLICT (speciality_id, discipline_id)

@@ -2,7 +2,7 @@ package speciality_discipline
 
 import (
 	"context"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type PK struct {
@@ -11,9 +11,9 @@ type PK struct {
 }
 
 type Repository interface {
-	GetAll(context.Context, *GetAllOptions) (*[]model.SpecialityDiscipline, error)
-	GetByID(context.Context, PK) (*model.SpecialityDiscipline, error)
-	Save(context.Context, *model.SpecialityDiscipline) error
+	GetAll(context.Context, *GetAllOptions) (*[]entity.SpecialityDiscipline, error)
+	GetOne(context.Context, PK) (*entity.SpecialityDiscipline, error)
+	Save(context.Context, *entity.SpecialityDiscipline) error
 	Delete(context.Context, PK) error
 }
 

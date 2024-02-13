@@ -1,14 +1,15 @@
 package usecases
 
-type myService interface {
-}
+import (
+	"schedule-educational-program-service/cmd/app/internal/services/term"
+)
 
 type UseCase struct {
-	myService myService
+	termService term.Service
 }
 
-func NewUseCase(service myService) *UseCase {
+func NewUseCase(termService term.Service) *UseCase {
 	return &UseCase{
-		myService: service,
+		termService: termService,
 	}
 }

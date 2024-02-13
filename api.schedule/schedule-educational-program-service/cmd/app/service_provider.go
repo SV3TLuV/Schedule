@@ -8,6 +8,7 @@ import (
 	discipline_code2 "schedule-educational-program-service/cmd/app/internal/services/discipline_code"
 	discipline_type2 "schedule-educational-program-service/cmd/app/internal/services/discipline_type"
 	speciality2 "schedule-educational-program-service/cmd/app/internal/services/speciality"
+	"schedule-educational-program-service/cmd/app/internal/usecases"
 
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline"
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_code"
@@ -30,6 +31,8 @@ type serviceProvider struct {
 	httpServer http.HttpServer
 
 	trManager *manager.Manager
+
+	useCase *usecases.UseCase
 
 	termRepository term.Repository
 	termService    term2.Service
@@ -62,6 +65,7 @@ func (p *serviceProvider) init() {
 	p.initTrManager()
 	p.initRepositories()
 	p.initServices()
+	p.initUseCase()
 	p.initHttpServer()
 }
 
@@ -107,6 +111,10 @@ func (p *serviceProvider) initServices() {
 		p.trManager, p.specialityRepository, p.specialityDisciplineRepository)
 }
 
+func (p *serviceProvider) initUseCase() {
+	p.useCase = usecases.NewUseCase(p.termService)
+}
+
 func (p *serviceProvider) initHttpServer() {
-	p.httpServer = http.NewServer(p.config.Http)
+	p.httpServer = http.NewServer(p.config.Http, p.useCase)
 }

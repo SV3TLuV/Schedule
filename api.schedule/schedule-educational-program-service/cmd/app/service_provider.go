@@ -3,6 +3,7 @@ package main
 import (
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
+	config2 "schedule-educational-program-service/cmd/app/internal/config"
 	discipline2 "schedule-educational-program-service/cmd/app/internal/services/discipline"
 	discipline_code2 "schedule-educational-program-service/cmd/app/internal/services/discipline_code"
 	discipline_type2 "schedule-educational-program-service/cmd/app/internal/services/discipline_type"
@@ -21,7 +22,7 @@ import (
 )
 
 type serviceProvider struct {
-	config *Config
+	config *config2.Config
 
 	migrator         migrator.Migrator
 	postgresqlClient *postgresql.Client
@@ -65,7 +66,7 @@ func (p *serviceProvider) init() {
 }
 
 func (p *serviceProvider) initConfig() {
-	p.config = newConfig()
+	p.config = config2.NewConfig()
 }
 
 func (p *serviceProvider) initPostgresClient() {
@@ -107,7 +108,5 @@ func (p *serviceProvider) initServices() {
 }
 
 func (p *serviceProvider) initHttpServer() {
-	p.httpServer = http.NewHttpServer(
-		p.config.Http.Address(),
-		p.termService)
+	p.httpServer = http.NewServer(p.config.Http)
 }

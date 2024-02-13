@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ type Config struct {
 	Grpc     *GrpcConfig
 }
 
-func newConfig() *Config {
+func NewConfig() *Config {
 	config := &Config{}
 	err := envconfig.Process("", config)
 	if err != nil {

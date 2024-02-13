@@ -4,7 +4,7 @@ import (
 	"context"
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/jmoiron/sqlx"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type service struct {
@@ -19,14 +19,14 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context) (*[]model.Term, error) {
+func (s *service) GetAll(ctx context.Context) (*[]entity.Term, error) {
 	query := `SELECT * FROM terms;`
-	terms := []model.Term{}
+	terms := []entity.Term{}
 	return &terms, s.getter.DefaultTrOrDB(ctx, s.db).SelectContext(ctx, &terms, query)
 }
 
-func (s *service) GetByID(ctx context.Context, id int64) (*model.Term, error) {
+func (s *service) GetOne(ctx context.Context, id int64) (*entity.Term, error) {
 	query := `SELECT * FROM terms WHERE id = ?;`
-	term := model.Term{}
+	term := entity.Term{}
 	return &term, s.getter.DefaultTrOrDB(ctx, s.db).GetContext(ctx, &term, s.db.Rebind(query), id)
 }

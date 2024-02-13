@@ -3,21 +3,19 @@ package main
 import (
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/avito-tech/go-transaction-manager/trm/v2/manager"
-	config2 "schedule-educational-program-service/cmd/app/internal/config"
-	discipline2 "schedule-educational-program-service/cmd/app/internal/services/discipline"
-	discipline_code2 "schedule-educational-program-service/cmd/app/internal/services/discipline_code"
-	discipline_type2 "schedule-educational-program-service/cmd/app/internal/services/discipline_type"
-	speciality2 "schedule-educational-program-service/cmd/app/internal/services/speciality"
-	"schedule-educational-program-service/cmd/app/internal/usecases"
-
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline"
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_code"
 	"schedule-educational-program-service/cmd/app/internal/adapter/discipline_type"
 	"schedule-educational-program-service/cmd/app/internal/adapter/speciality"
 	"schedule-educational-program-service/cmd/app/internal/adapter/speciality_discipline"
 	"schedule-educational-program-service/cmd/app/internal/adapter/term"
-	"schedule-educational-program-service/cmd/app/internal/servers/http"
-	term2 "schedule-educational-program-service/cmd/app/internal/services/term"
+	config2 "schedule-educational-program-service/cmd/app/internal/config"
+	discipline2 "schedule-educational-program-service/cmd/app/internal/interactor/discipline"
+	discipline_code2 "schedule-educational-program-service/cmd/app/internal/interactor/discipline_code"
+	discipline_type2 "schedule-educational-program-service/cmd/app/internal/interactor/discipline_type"
+	speciality2 "schedule-educational-program-service/cmd/app/internal/interactor/speciality"
+	term2 "schedule-educational-program-service/cmd/app/internal/interactor/term"
+	"schedule-educational-program-service/cmd/app/internal/server/http"
 	"schedule-educational-program-service/pkg/db/postgresql"
 	"schedule-educational-program-service/pkg/migrator"
 )
@@ -32,22 +30,20 @@ type serviceProvider struct {
 
 	trManager *manager.Manager
 
-	useCase *usecases.UseCase
-
 	termRepository term.Repository
-	termService    term2.Service
+	termInteractor term2.Interactor
 
 	disciplineRepository discipline.Repository
-	disciplineService    discipline2.Service
+	disciplineInteractor discipline2.Interactor
 
 	disciplineCodeRepository discipline_code.Repository
-	disciplineCodeService    discipline_code2.Service
+	disciplineCodeInteractor discipline_code2.Interactor
 
 	disciplineTypeRepository discipline_type.Repository
-	disciplineTypeService    discipline_type2.Service
+	disciplineTypeInteractor discipline_type2.Interactor
 
 	specialityRepository speciality.Repository
-	specialityService    speciality2.Service
+	specialityInteractor speciality2.Interactor
 
 	specialityDisciplineRepository speciality_discipline.Repository
 }
@@ -64,8 +60,7 @@ func (p *serviceProvider) init() {
 	p.initMigrator()
 	p.initTrManager()
 	p.initRepositories()
-	p.initServices()
-	p.initUseCase()
+	p.initInteractors()
 	p.initHttpServer()
 }
 
@@ -102,19 +97,15 @@ func (p *serviceProvider) initRepositories() {
 	p.specialityDisciplineRepository = speciality_discipline.NewRepo(db, getter)
 }
 
-func (p *serviceProvider) initServices() {
-	p.termService = term2.NewTermService(p.trManager, p.termRepository)
-	p.disciplineService = discipline2.NewDisciplineService(p.trManager, p.disciplineRepository)
-	p.disciplineCodeService = discipline_code2.NewDisciplineCodeService(p.trManager, p.disciplineCodeRepository)
-	p.disciplineTypeService = discipline_type2.NewDisciplineTypeService(p.trManager, p.disciplineTypeRepository)
-	p.specialityService = speciality2.NewSpecialityService(
+func (p *serviceProvider) initInteractors() {
+	p.termInteractor = term2.NewInteractor(p.trManager, p.termRepository)
+	p.disciplineInteractor = discipline2.NewInteractor(p.trManager, p.disciplineRepository)
+	p.disciplineCodeInteractor = discipline_code2.NewInteractor(p.trManager, p.disciplineCodeRepository)
+	p.disciplineTypeInteractor = discipline_type2.NewInteractor(p.trManager, p.disciplineTypeRepository)
+	p.specialityInteractor = speciality2.NewInteractor(
 		p.trManager, p.specialityRepository, p.specialityDisciplineRepository)
 }
 
-func (p *serviceProvider) initUseCase() {
-	p.useCase = usecases.NewUseCase(p.termService)
-}
-
 func (p *serviceProvider) initHttpServer() {
-	p.httpServer = http.NewServer(p.config.Http, p.useCase)
+	p.httpServer = http.NewServer(p.config.Http)
 }

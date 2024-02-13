@@ -5,7 +5,7 @@ import (
 	"errors"
 	trmsqlx "github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2"
 	"github.com/jmoiron/sqlx"
-	"schedule-educational-program-service/cmd/app/internal/model"
+	"schedule-educational-program-service/cmd/app/internal/entity"
 )
 
 type service struct {
@@ -20,12 +20,12 @@ func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]model.DisciplineType, error) {
+func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]entity.DisciplineType, error) {
 	query := `SELECT * FROM discipline_types
 			  WHERE starts_with(name, :search)
 			  LIMIT :limit
 			  OFFSET :offset;`
-	types := []model.DisciplineType{}
+	types := []entity.DisciplineType{}
 
 	rows, err := s.getter.DefaultTrOrDB(ctx, s.db).NamedQuery(s.db.Rebind(query), o)
 	if err != nil {
@@ -35,13 +35,13 @@ func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]model.Discip
 	return &types, rows.StructScan(&types)
 }
 
-func (s *service) GetByID(ctx context.Context, id int64) (*model.DisciplineType, error) {
+func (s *service) GetOne(ctx context.Context, id int64) (*entity.DisciplineType, error) {
 	query := `SELECT * FROM discipline_types WHERE id = ?;`
-	dType := model.DisciplineType{}
+	dType := entity.DisciplineType{}
 	return &dType, s.getter.DefaultTrOrDB(ctx, s.db).GetContext(ctx, &dType, s.db.Rebind(query), id)
 }
 
-func (s *service) Save(ctx context.Context, dt *model.DisciplineType) error {
+func (s *service) Save(ctx context.Context, dt *entity.DisciplineType) error {
 	query := `UPDATE discipline_types SET name = :name WHERE id = :id;`
 	if dt.ID == 0 {
 		query = `INSERT INTO discipline_types (name) VALUES (:name);`

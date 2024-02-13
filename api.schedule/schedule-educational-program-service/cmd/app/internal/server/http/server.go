@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"schedule-educational-program-service/cmd/app/internal/config"
-	v1 "schedule-educational-program-service/cmd/app/internal/servers/http/api/v1"
+	v1 "schedule-educational-program-service/cmd/app/internal/server/http/api/v1"
 )
 
 type HttpServer interface {

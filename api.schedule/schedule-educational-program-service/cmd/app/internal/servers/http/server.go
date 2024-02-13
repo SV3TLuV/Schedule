@@ -4,7 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"schedule-educational-program-service/cmd/app/internal/servers/http/handler/term"
-	term2 "schedule-educational-program-service/cmd/app/internal/usecases/term"
+	term2 "schedule-educational-program-service/cmd/app/internal/services/term"
 	"schedule-educational-program-service/pkg/middleware"
 )
 
@@ -15,14 +15,14 @@ type HttpServer interface {
 type server struct {
 	address     string
 	router      *mux.Router
-	termUseCase term2.UseCase
+	termService term2.Service
 }
 
-func NewHttpServer(address string, termUseCase term2.UseCase) HttpServer {
+func NewHttpServer(address string, termUseCase term2.Service) HttpServer {
 	return &server{
 		router:      mux.NewRouter(),
 		address:     address,
-		termUseCase: termUseCase,
+		termService: termUseCase,
 	}
 }
 
@@ -34,6 +34,6 @@ func (s *server) Run() error {
 }
 
 func (s *server) initRoutes() {
-	s.router.HandleFunc("/term", term.GetList(s.termUseCase))
-	s.router.HandleFunc("/term/{id}", term.GetById(s.termUseCase))
+	s.router.HandleFunc("/term", term.GetList(s.termService))
+	s.router.HandleFunc("/term/{id}", term.GetById(s.termService))
 }

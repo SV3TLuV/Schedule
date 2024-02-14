@@ -11,12 +11,12 @@ func main() {
 	application, err := app.NewApp(&ctx)
 
 	if err != nil {
-		log.Fatalf("Failed on initialization app: %s", err)
+		log.Fatalf("Failed on initialization main: %s", err)
 	}
 
 	err = application.Run()
 
 	if err != nil {
-		log.Fatalf("Failed on started app: %s", err)
+		log.Fatalf("Failed on started main: %s", err)
 	}
 }

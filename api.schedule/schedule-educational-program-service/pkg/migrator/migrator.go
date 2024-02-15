@@ -7,14 +7,16 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
-type Migrator interface {
-	Migrate() error
-}
+type (
+	Migrator interface {
+		Migrate() error
+	}
 
-type migrator struct {
-	path        string
-	databaseURL string
-}
+	migrator struct {
+		path        string
+		databaseURL string
+	}
+)
 
 func NewMigrator(path, databaseURL string) Migrator {
 	return &migrator{

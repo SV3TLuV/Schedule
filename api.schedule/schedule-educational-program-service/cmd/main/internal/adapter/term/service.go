@@ -12,7 +12,7 @@ type service struct {
 	getter *trmsqlx.CtxGetter
 }
 
-func NewRepo(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
+func NewRepository(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	return &service{
 		db:     db,
 		getter: getter,

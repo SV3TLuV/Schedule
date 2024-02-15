@@ -5,24 +5,26 @@ import (
 	"schedule-educational-program-service/cmd/main/internal/entity"
 )
 
-type Repository interface {
-	GetAll(context.Context, *GetAllOptions) (*[]entity.DisciplineCode, error)
-	GetOne(context.Context, int64) (*entity.DisciplineCode, error)
-	Save(context.Context, *entity.DisciplineCode) error
-	Delete(context.Context, int64) error
-}
+type (
+	Repository interface {
+		GetAll(context.Context, *GetAllOptions) (*[]entity.DisciplineCode, error)
+		GetOne(context.Context, int64) (*entity.DisciplineCode, error)
+		Save(context.Context, *entity.DisciplineCode) error
+		Delete(context.Context, int64) error
+	}
 
-type GetAllOptions struct {
-	search string
-	limit  int64
-	offset int64
-}
+	GetAllOptions struct {
+		search string
+		limit  int64
+		offset int64
+	}
+
+	Option func(options *GetAllOptions)
+)
 
 func NewGetAllOptions() *GetAllOptions {
 	return &GetAllOptions{}
 }
-
-type Option func(options *GetAllOptions)
 
 func (o *GetAllOptions) Search(search string) Option {
 	return func(options *GetAllOptions) {

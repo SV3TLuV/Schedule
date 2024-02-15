@@ -5,30 +5,32 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-type PostgresqlConfig struct {
-	Host     string `envconfig:"POSTGRESQL_HOST" required:"true"`
-	Port     uint16 `envconfig:"POSTGRESQL_PORT" required:"true"`
-	User     string `envconfig:"POSTGRESQL_USER" required:"true"`
-	Password string `envconfig:"POSTGRESQL_PASSWORD" required:"true"`
-	Database string `envconfig:"POSTGRESQL_DATABASE" required:"true"`
-	SSLMode  bool   `envconfig:"POSTGRESQL_SSL_MODE" default:"false"`
-}
+type (
+	Config struct {
+		Postgres *PostgresqlConfig
+		Http     *HttpConfig
+		Grpc     *GrpcConfig
+	}
 
-type HttpConfig struct {
-	Host string `envconfig:"HTTP_HOST" default:"localhost"`
-	Port uint16 `envconfig:"HTTP_PORT" default:"8080"`
-}
+	PostgresqlConfig struct {
+		Host     string `envconfig:"POSTGRESQL_HOST" required:"true"`
+		Port     uint16 `envconfig:"POSTGRESQL_PORT" required:"true"`
+		User     string `envconfig:"POSTGRESQL_USER" required:"true"`
+		Password string `envconfig:"POSTGRESQL_PASSWORD" required:"true"`
+		Database string `envconfig:"POSTGRESQL_DATABASE" required:"true"`
+		SSLMode  bool   `envconfig:"POSTGRESQL_SSL_MODE" default:"false"`
+	}
 
-type GrpcConfig struct {
-	Host string `envconfig:"GRPC_HOST" default:"localhost"`
-	Port uint16 `envconfig:"GRPC_PORT" default:"9090"`
-}
+	HttpConfig struct {
+		Host string `envconfig:"HTTP_HOST" default:"localhost"`
+		Port uint16 `envconfig:"HTTP_PORT" default:"8080"`
+	}
 
-type Config struct {
-	Postgres *PostgresqlConfig
-	Http     *HttpConfig
-	Grpc     *GrpcConfig
-}
+	GrpcConfig struct {
+		Host string `envconfig:"GRPC_HOST" default:"localhost"`
+		Port uint16 `envconfig:"GRPC_PORT" default:"9090"`
+	}
+)
 
 func NewConfig() (*Config, error) {
 	config := &Config{}

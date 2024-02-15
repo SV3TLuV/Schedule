@@ -8,10 +8,8 @@ func main() {
 		log.Println(err)
 	}
 
-	func() {
-		err := provider.httpServer.Run()
-		if err != nil {
-			panic(err)
-		}
-	}()
+	err := provider.httpServer.Run()
+	if err != nil {
+		panic(err)
+	}
 }

@@ -10,7 +10,7 @@ type Client struct {
 	Connection *sqlx.DB
 }
 
-func New(user, password, database, host string, port uint16) *Client {
+func New(user, password, database, host string, port uint16) (*Client, error) {
 	cfg := pgx.ConnConfig{
 		PreferSimpleProtocol: true,
 		User:                 user,
@@ -23,10 +23,10 @@ func New(user, password, database, host string, port uint16) *Client {
 	db := stdlib.OpenDB(cfg)
 	err := db.Ping()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return &Client{
 		Connection: sqlx.NewDb(db, "pgx"),
-	}
+	}, err
 }

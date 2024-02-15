@@ -1,8 +1,12 @@
 package main
 
+import "log"
+
 func main() {
 	provider := newServiceProvider()
-	provider.migrator.Migrate()
+	if err := provider.migrator.Migrate(); err != nil {
+		log.Println(err)
+	}
 
 	func() {
 		err := provider.httpServer.Run()

@@ -9,18 +9,20 @@ import (
 	v1 "schedule-educational-program-service/cmd/main/internal/server/http/api/v1"
 )
 
-type HttpServer interface {
-	Run() error
-	Stop() error
-	RegisterRoutes(r *mux.Router)
-}
+type (
+	Server interface {
+		Run() error
+		Stop() error
+		RegisterRoutes(r *mux.Router)
+	}
 
-type server struct {
-	srv *http.Server
-	u   v1.UseCase
-}
+	server struct {
+		srv *http.Server
+		u   v1.UseCase
+	}
+)
 
-func NewServer(cfg *config.HttpConfig, useCase v1.UseCase) HttpServer {
+func NewServer(cfg *config.HttpConfig, useCase v1.UseCase) Server {
 	return &server{
 		srv: &http.Server{
 			Addr: cfg.Address(),

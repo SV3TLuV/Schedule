@@ -7,15 +7,17 @@ import (
 	"schedule-educational-program-service/pkg/middleware"
 )
 
-type HandlerRouter interface {
-	AddRoutes(r *mux.Router)
-	GetVersion() string
-	GetContentType() string
-}
+type (
+	HandlerRouter interface {
+		AddRoutes(r *mux.Router)
+		GetVersion() string
+		GetContentType() string
+	}
 
-type Router struct {
-	router *mux.Router
-}
+	Router struct {
+		router *mux.Router
+	}
+)
 
 func NewRouter() *Router {
 	return &Router{router: mux.NewRouter()}

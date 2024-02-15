@@ -26,7 +26,7 @@ type serviceProvider struct {
 	migrator         migrator.Migrator
 	postgresqlClient *postgresql.Client
 
-	httpServer http.HttpServer
+	httpServer http.Server
 
 	trManager *manager.Manager
 
@@ -99,12 +99,12 @@ func (p *serviceProvider) initTrManager() {
 func (p *serviceProvider) initRepositories() {
 	db, getter := p.postgresqlClient.Connection, trmsqlx.DefaultCtxGetter
 
-	p.termRepository = term.NewRepo(db, getter)
-	p.disciplineRepository = discipline.NewRepo(db, getter)
-	p.disciplineCodeRepository = discipline_code.NewRepo(db, getter)
-	p.disciplineTypeRepository = discipline_type.NewRepo(db, getter)
-	p.specialityRepository = speciality.NewRepo(db, getter)
-	p.specialityDisciplineRepository = speciality_discipline.NewRepo(db, getter)
+	p.termRepository = term.NewRepository(db, getter)
+	p.disciplineRepository = discipline.NewRepository(db, getter)
+	p.disciplineCodeRepository = discipline_code.NewRepository(db, getter)
+	p.disciplineTypeRepository = discipline_type.NewRepository(db, getter)
+	p.specialityRepository = speciality.NewRepository(db, getter)
+	p.specialityDisciplineRepository = speciality_discipline.NewRepository(db, getter)
 }
 
 func (p *serviceProvider) initInteractors() {

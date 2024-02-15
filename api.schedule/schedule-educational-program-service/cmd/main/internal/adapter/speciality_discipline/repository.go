@@ -5,10 +5,22 @@ import (
 	"schedule-educational-program-service/cmd/main/internal/entity"
 )
 
-type PK struct {
-	specialityId int64
-	disciplineId int64
-}
+type (
+	PK struct {
+		specialityId int64
+		disciplineId int64
+	}
+
+	GetAllOptions struct {
+		specialityID *int64
+		disciplineID *int64
+		termID       *int64
+		limit        int64
+		offset       int64
+	}
+
+	Option func(options *GetAllOptions)
+)
 
 type Repository interface {
 	GetAll(context.Context, *GetAllOptions) (*[]entity.SpecialityDiscipline, error)
@@ -17,19 +29,9 @@ type Repository interface {
 	Delete(context.Context, PK) error
 }
 
-type GetAllOptions struct {
-	specialityID *int64
-	disciplineID *int64
-	termID       *int64
-	limit        int64
-	offset       int64
-}
-
 func NewGetAllOptions() *GetAllOptions {
 	return &GetAllOptions{}
 }
-
-type Option func(options *GetAllOptions)
 
 func (o *GetAllOptions) SpecialityID(specialityId *int64) Option {
 	return func(options *GetAllOptions) {

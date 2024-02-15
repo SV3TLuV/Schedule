@@ -5,11 +5,10 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"log"
 )
 
 type Migrator interface {
-	Migrate()
+	Migrate() error
 }
 
 type migrator struct {
@@ -17,24 +16,23 @@ type migrator struct {
 	databaseURL string
 }
 
-func New(path, databaseURL string) Migrator {
+func NewMigrator(path, databaseURL string) Migrator {
 	return &migrator{
 		path:        path,
 		databaseURL: databaseURL,
 	}
 }
 
-func (migrator *migrator) Migrate() {
+func (migrator *migrator) Migrate() error {
 	m, err := migrate.New(migrator.path, migrator.databaseURL)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	if err := m.Up(); err != nil {
-		if errors.Is(err, migrate.ErrNoChange) {
-			log.Printf("%s", err)
-		} else {
-			panic(err)
-		}
+	err = m.Up()
+	if errors.Is(err, migrate.ErrNoChange) {
+		return nil
 	}
+
+	return err
 }

@@ -30,24 +30,21 @@ type Config struct {
 	Grpc     *GrpcConfig
 }
 
-func NewConfig() *Config {
+func NewConfig() (*Config, error) {
 	config := &Config{}
 	err := envconfig.Process("", config)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return config
+	return config, err
 }
 
 func (c *PostgresqlConfig) URL() string {
-	sslMode := func() string {
-		if c.SSLMode {
-			return "enable"
-		}
-
-		return "disable"
-	}()
+	sslMode := "disable"
+	if c.SSLMode {
+		sslMode = "enable"
+	}
 
 	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s",
 		c.User, c.Password, c.Host, c.Port, c.Database, sslMode)

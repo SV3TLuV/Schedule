@@ -65,21 +65,31 @@ func (p *serviceProvider) init() {
 }
 
 func (p *serviceProvider) initConfig() {
-	p.config = config2.NewConfig()
+	cfg, err := config2.NewConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	p.config = cfg
 }
 
 func (p *serviceProvider) initPostgresClient() {
-	p.postgresqlClient = postgresql.New(
+	client, err := postgresql.New(
 		p.config.Postgres.User,
 		p.config.Postgres.Password,
 		p.config.Postgres.Database,
 		p.config.Postgres.Host,
 		p.config.Postgres.Port)
+	if err != nil {
+		panic(err)
+	}
+
+	p.postgresqlClient = client
 }
 
 func (p *serviceProvider) initMigrator() {
 	const migrationPath = "file://migrations/postgresql"
-	p.migrator = migrator.New(migrationPath, p.config.Postgres.URL())
+	p.migrator = migrator.NewMigrator(migrationPath, p.config.Postgres.URL())
 }
 
 func (p *serviceProvider) initTrManager() {

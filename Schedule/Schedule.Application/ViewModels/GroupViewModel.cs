@@ -15,16 +15,12 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
         : "";
 
     public int EnrollmentYear { get; set; }
-
-    public bool IsAfterEleven { get; set; }
     
     public bool IsDeleted { get; set; }
 
     public TermViewModel Term { get; set; } = null!;
 
     public SpecialityViewModel Speciality { get; set; } = null!;
-
-    public ICollection<GroupViewModel> MergedGroups { get; set; } = null!;
 
     public bool Equals(GroupViewModel? other)
     {
@@ -34,31 +30,19 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
                Number == other.Number &&
                EnrollmentYear == other.EnrollmentYear &&
                IsDeleted == other.IsDeleted &&
-               IsAfterEleven == other.IsAfterEleven &&
                Term.Equals(other.Term) &&
-               Speciality.Equals(other.Speciality) &&
-               MergedGroups.Equals(other.MergedGroups);
+               Speciality.Equals(other.Speciality);
     }
 
     public void Map(Profile profile)
     {
         profile.CreateMap<Group, GroupViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
-                expression.MapFrom(group => group.GroupId))
-            .ForMember(viewModel => viewModel.MergedGroups, expression =>
-                expression.MapFrom(group => group.GroupGroups
-                    .Select(gg => gg.Group2)));
+                expression.MapFrom(group => group.GroupId));
 
         profile.CreateMap<GroupViewModel, Group>()
             .ForMember(group => group.GroupId, expression =>
-                expression.MapFrom(viewModel => viewModel.Id))
-            .ForMember(group => group.GroupGroups, expression =>
-                expression.MapFrom(viewModel => viewModel.MergedGroups
-                    .Select(g => new GroupGroup
-                    {
-                        GroupId = viewModel.Id,
-                        GroupId2 = g.Id
-                    })));
+                expression.MapFrom(viewModel => viewModel.Id));
     }
 
     public override bool Equals(object? obj)
@@ -71,6 +55,6 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Number, EnrollmentYear, IsDeleted, IsAfterEleven, Term, Speciality, MergedGroups);
+        return HashCode.Combine(Id, Number, EnrollmentYear, IsDeleted, Term, Speciality);
     }
 }

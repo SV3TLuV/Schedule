@@ -8,16 +8,13 @@ public class TermViewModel : IMapWith<Term>, IEquatable<TermViewModel>
 {
     public int Id { get; set; }
 
-    public int CourseTerm { get; set; }
-
-    public CourseViewModel Course { get; set; } = null!;
+    public int Course { get; set; }
 
     public bool Equals(TermViewModel? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return Id == other.Id &&
-               CourseTerm == other.CourseTerm &&
                Course.Equals(other.Course);
     }
 
@@ -39,6 +36,6 @@ public class TermViewModel : IMapWith<Term>, IEquatable<TermViewModel>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, CourseTerm, Course);
+        return HashCode.Combine(Id, Course);
     }
 }

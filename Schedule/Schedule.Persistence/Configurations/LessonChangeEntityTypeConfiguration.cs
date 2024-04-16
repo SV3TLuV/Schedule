@@ -30,8 +30,10 @@ public sealed class LessonChangeEntityTypeConfiguration : IEntityTypeConfigurati
             .HasColumnName("subgroup");
         builder.Property(e => e.TeacherIds)
             .HasColumnName("teacher_ids");
-        builder.Property(e => e.TimeId)
-            .HasColumnName("time_id");
+        builder.Property(e => e.TimeStart)
+            .HasColumnName("time_start");
+        builder.Property(e => e.TimeEnd)
+            .HasColumnName("time_end");
 
         builder.HasOne(d => d.Discipline)
             .WithMany(p => p.LessonChanges)
@@ -42,11 +44,5 @@ public sealed class LessonChangeEntityTypeConfiguration : IEntityTypeConfigurati
             .WithMany(p => p.LessonChanges)
             .HasForeignKey(d => d.LessonId)
             .HasConstraintName("lesson_change_lesson_id_fk");
-
-        builder.HasOne(d => d.Time)
-            .WithMany(p => p.LessonChanges)
-            .HasForeignKey(d => d.TimeId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("lesson_change_time_id_fk");
     }
 }

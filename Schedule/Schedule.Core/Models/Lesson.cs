@@ -17,16 +17,16 @@ public class Lesson
     public List<int> ClassroomIds { get; set; } = null!;
 
     public int? LessonChangeId { get; set; }
-
-    public int? TimeId { get; set; }
+    
+    public TimeOnly? TimeStart { get; set; }
+    
+    public TimeOnly? TimeEnd { get; set; }
 
     public virtual Discipline Discipline { get; set; } = null!;
 
     public virtual LessonChange? LessonChange { get; set; }
 
     public virtual ICollection<LessonChange> LessonChanges { get; set; } = new List<LessonChange>();
-
-    public virtual Time? Time { get; set; }
 
     public virtual Timetable Timetable { get; set; } = null!;
 }

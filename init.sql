@@ -52,7 +52,7 @@ CREATE TABLE public.account (
     password_hash character varying(512) NOT NULL,
     name character varying(40) NOT NULL,
     surname character varying(40) NOT NULL,
-    middle_name character varying(40) NOT NULL,
+    middle_name character varying(40),
     email character varying(200) NOT NULL,
     role_id integer NOT NULL
 );
@@ -333,7 +333,8 @@ CREATE TABLE public.lesson (
     teacher_ids integer[] NOT NULL,
     classroom_ids integer[] NOT NULL,
     lesson_change_id integer,
-    time_id integer
+    time_start time without time zone,
+    time_end time without time zone
 );
 
 
@@ -347,12 +348,13 @@ CREATE TABLE public.lesson_change (
     lesson_change_id integer NOT NULL,
     number integer NOT NULL,
     subgroup integer,
-    time_id integer,
     lesson_id integer NOT NULL,
     discipline_id integer NOT NULL,
     teacher_ids integer[] NOT NULL,
     classroom_ids integer[] NOT NULL,
-    date date NOT NULL
+    date date NOT NULL,
+    time_start time without time zone,
+    time_end time without time zone
 );
 
 
@@ -391,7 +393,7 @@ ALTER TABLE public.lesson ALTER COLUMN lesson_id ADD GENERATED ALWAYS AS IDENTIT
 --
 
 CREATE TABLE public.middle_name (
-    middle_name character varying(40) NOT NULL
+    value character varying(40) NOT NULL
 );
 
 
@@ -402,7 +404,7 @@ ALTER TABLE public.middle_name OWNER TO postgres;
 --
 
 CREATE TABLE public.name (
-    name character varying(40) NOT NULL
+    value character varying(40) NOT NULL
 );
 
 
@@ -550,7 +552,7 @@ ALTER TABLE public.student ALTER COLUMN student_id ADD GENERATED ALWAYS AS IDENT
 --
 
 CREATE TABLE public.surname (
-    surname character varying(40) NOT NULL
+    value character varying(40) NOT NULL
 );
 
 
@@ -593,64 +595,6 @@ CREATE TABLE public.term (
 
 
 ALTER TABLE public.term OWNER TO postgres;
-
---
--- Name: time; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."time" (
-    time_id integer NOT NULL,
-    start time without time zone NOT NULL,
-    "end" time without time zone NOT NULL,
-    duration integer NOT NULL,
-    lesson_number integer NOT NULL,
-    type_id integer NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE public."time" OWNER TO postgres;
-
---
--- Name: time_time_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-ALTER TABLE public."time" ALTER COLUMN time_id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.time_time_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
-
---
--- Name: time_type; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.time_type (
-    time_type_id integer NOT NULL,
-    name character varying(50) NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE public.time_type OWNER TO postgres;
-
---
--- Name: time_type_time_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-ALTER TABLE public.time_type ALTER COLUMN time_type_id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.time_type_time_type_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
 
 --
 -- Name: timetable; Type: TABLE; Schema: public; Owner: postgres
@@ -1033,7 +977,7 @@ COPY public.group_transfer (next_term_id, group_id, is_transferred, transfer_dat
 -- Data for Name: lesson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, teacher_ids, classroom_ids, lesson_change_id, time_id) FROM stdin;
+COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, teacher_ids, classroom_ids, lesson_change_id, time_start, time_end) FROM stdin;
 \.
 
 
@@ -1041,7 +985,7 @@ COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, te
 -- Data for Name: lesson_change; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.lesson_change (lesson_change_id, number, subgroup, time_id, lesson_id, discipline_id, teacher_ids, classroom_ids, date) FROM stdin;
+COPY public.lesson_change (lesson_change_id, number, subgroup, lesson_id, discipline_id, teacher_ids, classroom_ids, date, time_start, time_end) FROM stdin;
 \.
 
 
@@ -1049,7 +993,7 @@ COPY public.lesson_change (lesson_change_id, number, subgroup, time_id, lesson_i
 -- Data for Name: middle_name; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.middle_name (middle_name) FROM stdin;
+COPY public.middle_name (value) FROM stdin;
 Admin
 Editor
 \.
@@ -1059,7 +1003,7 @@ Editor
 -- Data for Name: name; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.name (name) FROM stdin;
+COPY public.name (value) FROM stdin;
 Admin
 Editor
 \.
@@ -1121,7 +1065,7 @@ COPY public.student (student_id, group_id, account_id) FROM stdin;
 -- Data for Name: surname; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.surname (surname) FROM stdin;
+COPY public.surname (value) FROM stdin;
 Admin
 Editor
 \.
@@ -1150,41 +1094,6 @@ COPY public.term (term_id, course) FROM stdin;
 8	4
 9	5
 10	5
-\.
-
-
---
--- Data for Name: time; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."time" (time_id, start, "end", duration, lesson_number, type_id, is_deleted) FROM stdin;
-1	08:30:00	10:10:00	2	1	1	f
-2	10:20:00	12:00:00	2	2	1	f
-3	12:40:00	14:20:00	2	3	1	f
-4	14:30:00	16:10:00	2	4	1	f
-5	16:20:00	18:00:00	2	5	1	f
-6	08:30:00	09:45:00	2	1	2	f
-7	09:55:00	11:10:00	2	2	2	f
-8	11:40:00	12:55:00	2	3	2	f
-9	13:05:00	14:20:00	2	4	2	f
-10	14:30:00	15:45:00	2	5	2	f
-11	08:30:00	09:15:00	1	0	3	f
-12	09:20:00	11:00:00	2	1	3	f
-13	11:10:00	12:50:00	2	2	3	f
-14	13:30:00	15:10:00	2	3	3	f
-15	15:20:00	17:00:00	2	4	3	f
-16	17:10:00	18:50:00	2	5	3	f
-\.
-
-
---
--- Data for Name: time_type; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.time_type (time_type_id, name, is_deleted) FROM stdin;
-1	Стандартное	f
-2	Сокарщенное	f
-3	Понедельник	f
 \.
 
 
@@ -1326,20 +1235,6 @@ SELECT pg_catalog.setval('public.teacher_teacher_id_seq', 1, false);
 
 
 --
--- Name: time_time_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.time_time_id_seq', 16, true);
-
-
---
--- Name: time_type_time_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.time_type_time_type_id_seq', 3, true);
-
-
---
 -- Name: timetable_timetable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1462,15 +1357,7 @@ ALTER TABLE ONLY public.lesson
 --
 
 ALTER TABLE ONLY public.middle_name
-    ADD CONSTRAINT middle_name_pk PRIMARY KEY (middle_name);
-
-
---
--- Name: name name_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.name
-    ADD CONSTRAINT name_pk PRIMARY KEY (name);
+    ADD CONSTRAINT middle_name_pk PRIMARY KEY (value);
 
 
 --
@@ -1518,7 +1405,7 @@ ALTER TABLE ONLY public.student
 --
 
 ALTER TABLE ONLY public.surname
-    ADD CONSTRAINT surname_pk PRIMARY KEY (surname);
+    ADD CONSTRAINT surname_pk PRIMARY KEY (value);
 
 
 --
@@ -1538,27 +1425,19 @@ ALTER TABLE ONLY public.term
 
 
 --
--- Name: time time_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."time"
-    ADD CONSTRAINT time_pk PRIMARY KEY (time_id);
-
-
---
--- Name: time_type time_type_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.time_type
-    ADD CONSTRAINT time_type_pk PRIMARY KEY (time_type_id);
-
-
---
 -- Name: timetable timetable_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.timetable
     ADD CONSTRAINT timetable_pk PRIMARY KEY (timetable_id);
+
+
+--
+-- Name: name value_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.name
+    ADD CONSTRAINT value_pk PRIMARY KEY (value);
 
 
 --
@@ -1647,20 +1526,6 @@ CREATE UNIQUE INDEX speciality_name_index ON public.speciality USING btree (name
 
 
 --
--- Name: time_type_id_lesson_number_index; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX time_type_id_lesson_number_index ON public."time" USING btree (type_id, lesson_number);
-
-
---
--- Name: time_type_name_index; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX time_type_name_index ON public.time_type USING btree (name);
-
-
---
 -- Name: timetable_created_group_id_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1686,7 +1551,7 @@ CREATE UNIQUE INDEX week_type_name_index ON public.week_type USING btree (name);
 --
 
 ALTER TABLE ONLY public.account
-    ADD CONSTRAINT account_middle_name_fk FOREIGN KEY (middle_name) REFERENCES public.middle_name(middle_name) ON DELETE CASCADE;
+    ADD CONSTRAINT account_middle_name_fk FOREIGN KEY (middle_name) REFERENCES public.middle_name(value);
 
 
 --
@@ -1694,7 +1559,7 @@ ALTER TABLE ONLY public.account
 --
 
 ALTER TABLE ONLY public.account
-    ADD CONSTRAINT account_name_fk FOREIGN KEY (name) REFERENCES public.name(name) ON DELETE CASCADE;
+    ADD CONSTRAINT account_name_fk FOREIGN KEY (name) REFERENCES public.name(value);
 
 
 --
@@ -1710,7 +1575,7 @@ ALTER TABLE ONLY public.account
 --
 
 ALTER TABLE ONLY public.account
-    ADD CONSTRAINT account_surname_fk FOREIGN KEY (surname) REFERENCES public.surname(surname) ON DELETE CASCADE;
+    ADD CONSTRAINT account_surname_fk FOREIGN KEY (surname) REFERENCES public.surname(value);
 
 
 --
@@ -1826,14 +1691,6 @@ ALTER TABLE ONLY public.lesson_change
 
 
 --
--- Name: lesson_change lesson_change_time_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.lesson_change
-    ADD CONSTRAINT lesson_change_time_id_fk FOREIGN KEY (time_id) REFERENCES public."time"(time_id) ON DELETE CASCADE;
-
-
---
 -- Name: lesson lesson_discipline_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1847,14 +1704,6 @@ ALTER TABLE ONLY public.lesson
 
 ALTER TABLE ONLY public.lesson
     ADD CONSTRAINT lesson_lesson_change_id_fk FOREIGN KEY (lesson_change_id) REFERENCES public.lesson_change(lesson_change_id) ON DELETE CASCADE;
-
-
---
--- Name: lesson lesson_time_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.lesson
-    ADD CONSTRAINT lesson_time_id_fk FOREIGN KEY (time_id) REFERENCES public."time"(time_id) ON DELETE CASCADE;
 
 
 --
@@ -1903,14 +1752,6 @@ ALTER TABLE ONLY public.student
 
 ALTER TABLE ONLY public.teacher
     ADD CONSTRAINT teacher_account_id_fk FOREIGN KEY (account_id) REFERENCES public.account(account_id) ON DELETE CASCADE;
-
-
---
--- Name: time time_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."time"
-    ADD CONSTRAINT time_type_id_fk FOREIGN KEY (type_id) REFERENCES public.time_type(time_type_id) ON DELETE CASCADE;
 
 
 --

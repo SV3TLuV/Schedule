@@ -7,11 +7,11 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Accounts.Commands.ChangePassword;
 
-public sealed class ChangePasswordCommandHandler(
+public sealed class ChangeAccountPasswordCommandHandler(
     IScheduleDbContext context,
-    IPasswordHasherService passwordHasher) : IRequestHandler<ChangePasswordCommand, Unit>
+    IPasswordHasherService passwordHasher) : IRequestHandler<ChangeAccountPasswordCommand, Unit>
 {
-    public async Task<Unit> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ChangeAccountPasswordCommand request, CancellationToken cancellationToken)
     {
         var account = await context.Accounts
             .FirstOrDefaultAsync(e => e.AccountId == request.Id, cancellationToken);

@@ -20,6 +20,8 @@ public sealed class DateInfoService : IDateInfoService
 
     public int CurrentTerm => GetTerm(CurrentDateTime);
     public DateTime CurrentDateTime => DateTime.Now;
+    public DateOnly CurrentDate => DateOnly.FromDateTime(CurrentDateTime);
+    public TimeOnly CurrentTime => TimeOnly.FromDateTime(CurrentDateTime);
 
     public int CurrentWeekOfYear => GetWeekOfYear(CurrentDateTime);
     public WeekType CurrentWeekType => GetWeekType(CurrentDateTime);

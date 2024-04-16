@@ -7,20 +7,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Disciplines.Commands.Create;
 
-public sealed class CreateDisciplineCommandHandler : IRequestHandler<CreateDisciplineCommand, int>
+public sealed class CreateDisciplineCommandHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<CreateDisciplineCommand, int>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public CreateDisciplineCommandHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<int> Handle(CreateDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var searched = await _context.Set<Discipline>()
+        var searched = await context.Disciplines
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e =>
                 e.TermId == request.TermId &&
@@ -31,9 +23,9 @@ public sealed class CreateDisciplineCommandHandler : IRequestHandler<CreateDisci
         if (searched is not null)
             throw new AlreadyExistsException($"Дисциплина: {searched.Name}");
         
-        var discipline = _mapper.Map<Discipline>(request);
-        await _context.Set<Discipline>().AddAsync(discipline, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        var discipline = mapper.Map<Discipline>(request);
+        await context.Disciplines.AddAsync(discipline, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
         return discipline.DisciplineId;
     }
 }

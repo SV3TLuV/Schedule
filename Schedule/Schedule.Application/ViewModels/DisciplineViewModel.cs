@@ -28,7 +28,7 @@ public class DisciplineViewModel : IMapWith<Discipline>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(discipline => discipline.DisciplineId))
             .ForMember(viewModel => viewModel.Type, expression =>
-                expression.MapFrom(discipline => discipline.DisciplineType))
+                expression.MapFrom(discipline => discipline.Type))
             .ReverseMap();
     }
 }

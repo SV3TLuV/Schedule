@@ -15,8 +15,8 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
 
         builder.HasIndex(e => new
             {
-                e.DisciplineCodeId,
-                e.DisciplineNameId,
+                DisciplineCodeId = e.CodeId,
+                DisciplineNameId = e.NameId,
                 e.SpecialityId,
                 e.TermId
             }, "discipline_index")
@@ -25,9 +25,9 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
         builder.Property(e => e.DisciplineId)
             .UseIdentityAlwaysColumn()
             .HasColumnName("discipline_id");
-        builder.Property(e => e.DisciplineCodeId)
+        builder.Property(e => e.CodeId)
             .HasColumnName("discipline_code_id");
-        builder.Property(e => e.DisciplineNameId)
+        builder.Property(e => e.NameId)
             .HasColumnName("discipline_name_id");
         builder.Property(e => e.DisciplineTypeId)
             .HasColumnName("discipline_type_id");
@@ -41,17 +41,17 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
         builder.Property(e => e.TotalHours)
             .HasColumnName("total_hours");
 
-        builder.HasOne(d => d.DisciplineCode)
+        builder.HasOne(d => d.Code)
             .WithMany(p => p.Disciplines)
-            .HasForeignKey(d => d.DisciplineCodeId)
+            .HasForeignKey(d => d.CodeId)
             .HasConstraintName("discipline_code_id_fk");
 
-        builder.HasOne(d => d.DisciplineName)
+        builder.HasOne(d => d.Name)
             .WithMany(p => p.Disciplines)
-            .HasForeignKey(d => d.DisciplineNameId)
+            .HasForeignKey(d => d.NameId)
             .HasConstraintName("discipline_name_id_fk");
 
-        builder.HasOne(d => d.DisciplineType)
+        builder.HasOne(d => d.Type)
             .WithMany(p => p.Disciplines)
             .HasForeignKey(d => d.DisciplineTypeId)
             .HasConstraintName("discipline_type_id_fk");

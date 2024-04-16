@@ -4,9 +4,9 @@ public class Discipline
 {
     public int DisciplineId { get; set; }
 
-    public int DisciplineNameId { get; set; }
+    public int NameId { get; set; }
 
-    public int DisciplineCodeId { get; set; }
+    public int CodeId { get; set; }
 
     public int TotalHours { get; set; }
 
@@ -18,11 +18,11 @@ public class Discipline
 
     public bool IsDeleted { get; set; }
 
-    public virtual DisciplineCode DisciplineCode { get; set; } = null!;
+    public virtual DisciplineCode Code { get; set; } = null!;
 
-    public virtual DisciplineName DisciplineName { get; set; } = null!;
+    public virtual DisciplineName Name { get; set; } = null!;
 
-    public virtual DisciplineType DisciplineType { get; set; } = null!;
+    public virtual DisciplineType Type { get; set; } = null!;
 
     public virtual ICollection<LessonChange> LessonChanges { get; set; } = new List<LessonChange>();
 

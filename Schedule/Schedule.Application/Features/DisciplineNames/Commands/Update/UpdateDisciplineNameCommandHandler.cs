@@ -7,32 +7,23 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.DisciplineNames.Commands.Update;
 
-public sealed class UpdateDisciplineNameCommandHandler : IRequestHandler<UpdateDisciplineNameCommand, Unit>
+public sealed class UpdateDisciplineNameCommandHandler(
+    IScheduleDbContext context,
+    IMapper mapper) : IRequestHandler<UpdateDisciplineNameCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public UpdateDisciplineNameCommandHandler(
-        IScheduleDbContext context,
-        IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-    
     public async Task<Unit> Handle(UpdateDisciplineNameCommand request,
         CancellationToken cancellationToken)
     {
-        var disciplineNameDbo = await _context.Set<DisciplineName>()
+        var disciplineNameDbo = await context.DisciplineNames
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DisciplineNameId == request.Id, cancellationToken);
 
         if (disciplineNameDbo is null)
             throw new NotFoundException(nameof(DisciplineName), request.Id);
 
-        var disciplineName = _mapper.Map<DisciplineName>(request);
-        _context.Set<DisciplineName>().Update(disciplineName);
-        await _context.SaveChangesAsync(cancellationToken);
+        var disciplineName = mapper.Map<DisciplineName>(request);
+        context.DisciplineNames.Update(disciplineName);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

@@ -24,10 +24,6 @@
         <PackageReference Include="Quartz" Version="3.8.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Accounts\Commands\UpdatePermission\" />
-    </ItemGroup>
-
 
 
 </Project>

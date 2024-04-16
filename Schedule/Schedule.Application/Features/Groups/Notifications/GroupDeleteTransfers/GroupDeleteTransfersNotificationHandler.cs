@@ -5,23 +5,16 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Notifications.GroupDeleteTransfers;
 
-public sealed class GroupDeleteTransfersNotificationHandler : INotificationHandler<GroupDeleteTransfersNotification>
+public sealed class GroupDeleteTransfersNotificationHandler(IScheduleDbContext context)
+    : INotificationHandler<GroupDeleteTransfersNotification>
 {
-    private readonly IScheduleDbContext _context;
-
-    public GroupDeleteTransfersNotificationHandler(
-        IScheduleDbContext context)
-    {
-        _context = context;
-    }
-    
     public async Task Handle(GroupDeleteTransfersNotification notification,
         CancellationToken cancellationToken)
     {
-        await _context.Set<GroupTransfer>()
+        await context.GroupTransfers
             .AsNoTrackingWithIdentityResolution()
             .Where(e => e.GroupId == notification.Id)
             .ExecuteDeleteAsync(cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

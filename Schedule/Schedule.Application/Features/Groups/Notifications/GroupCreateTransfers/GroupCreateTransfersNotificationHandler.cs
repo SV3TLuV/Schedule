@@ -6,21 +6,13 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
 
-public sealed class GroupCreateTransfersNotificationHandler
+public sealed class GroupCreateTransfersNotificationHandler(IScheduleDbContext context)
     : INotificationHandler<GroupCreateTransfersNotification>
 {
-    private readonly IScheduleDbContext _context;
-
-    public GroupCreateTransfersNotificationHandler(
-        IScheduleDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task Handle(GroupCreateTransfersNotification notification,
         CancellationToken cancellationToken)
     {
-        var group = await _context.Set<Group>()
+        var group = await context.Groups
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Speciality)
             .FirstOrDefaultAsync(e => e.GroupId == notification.Id, cancellationToken);
@@ -32,7 +24,7 @@ public sealed class GroupCreateTransfersNotificationHandler
         {
             var nextTermId = i + 1;
 
-            await _context.Set<GroupTransfer>().AddAsync(new GroupTransfer
+            await context.GroupTransfers.AddAsync(new GroupTransfer
             {
                 GroupId = group.GroupId,
                 NextTermId = nextTermId,
@@ -41,15 +33,15 @@ public sealed class GroupCreateTransfersNotificationHandler
             }, cancellationToken);
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
-    private static DateTime GetTransferDate(int enrollmentYear, int groupTermId, int nextTermId, bool isAfterEleven)
+    private static DateOnly GetTransferDate(int enrollmentYear, int groupTermId, int nextTermId, bool isAfterEleven)
     {
         var startTermId = isAfterEleven ? 3 : 1;
         var termOffset = nextTermId - groupTermId;
         var transferYear = enrollmentYear + Convert.ToInt32(Math.Ceiling((nextTermId - startTermId) / 2.0));
         var transferMonth = termOffset % 2 == 0 ? 8 : 1;
-        return new DateTime(transferYear, transferMonth, 1);
+        return DateOnly.FromDateTime(new DateTime(transferYear, transferMonth, 1));
     }
 }

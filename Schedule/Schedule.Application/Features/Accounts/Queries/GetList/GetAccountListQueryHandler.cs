@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -15,8 +16,17 @@ public sealed class GetAccountListQueryHandler(
     public async Task<PagedList<AccountViewModel>> Handle(GetAccountListQuery request,
         CancellationToken cancellationToken)
     {
-        var accounts = await context.Accounts
-            .AsNoTracking()
+        var query = context.Accounts
+            .AsNoTracking();
+
+        query = request.Filter switch
+        {
+            QueryFilter.Available => query.Where(e => !e.IsDeleted),
+            QueryFilter.Deleted => query.Where(e => e.IsDeleted),
+            _ => query
+        };
+
+        var accounts = await query
             .Include(e => e.Role)
             .Include(e => e.Employees)
             .Include(e => e.Students)
@@ -26,7 +36,7 @@ public sealed class GetAccountListQueryHandler(
             .ProjectTo<AccountViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
-        var totalCount = await context.Accounts.CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<AccountViewModel>
         {

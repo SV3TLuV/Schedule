@@ -9,10 +9,13 @@ public sealed class UpdateGroupCommand : IRequest<Unit>, IMapWith<Group>
 {
     public required int Id { get; set; }
     public required string Number { get; set; }
+    
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
-    public ICollection<int>? MergedGroupIds { get; set; }
+    
     public bool IsAfterEleven { get; set; }
+    
+    public required int TermId { get; set; }
 
     public void Map(Profile profile)
     {

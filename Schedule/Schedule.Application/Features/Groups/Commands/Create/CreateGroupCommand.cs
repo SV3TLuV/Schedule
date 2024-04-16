@@ -9,6 +9,6 @@ public sealed class CreateGroupCommand : IRequest<int>, IMapWith<Group>
     public required string Number { get; set; }
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
-    public ICollection<int>? MergedGroupIds { get; set; }
     public bool IsAfterEleven { get; set; }
+    public required int TermId { get; set; }
 }

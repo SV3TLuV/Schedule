@@ -19,5 +19,7 @@ public class UpdateDisciplineCommandValidator : AbstractValidator<UpdateDiscipli
             .InclusiveBetween(1, 10);
         RuleFor(query => query.SpecialityId)
             .SetValidator(new IdValidator());
+        RuleFor(command => command.DisciplineTypeId)
+            .GreaterThan(0);
     }
 }

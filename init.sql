@@ -108,7 +108,8 @@ ALTER TABLE public.classroom ALTER COLUMN classroom_id ADD GENERATED ALWAYS AS I
 
 CREATE TABLE public.day (
     day_id integer NOT NULL,
-    name character varying(20) NOT NULL
+    name character varying(20) NOT NULL,
+    is_study boolean DEFAULT true NOT NULL
 );
 
 
@@ -729,14 +730,14 @@ COPY public.classroom (classroom_id, cabinet, is_deleted) FROM stdin;
 -- Data for Name: day; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.day (day_id, name) FROM stdin;
-1	Понедельник
-2	Вторник
-3	Среда
-4	Четверг
-5	Пятница
-6	Суббота
-7	Воскресенье
+COPY public.day (day_id, name, is_study) FROM stdin;
+1	Понедельник	t
+2	Вторник	t
+3	Среда	t
+4	Четверг	t
+5	Пятница	t
+6	Суббота	t
+7	Воскресенье	f
 \.
 
 

@@ -7,29 +7,21 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Days.Commands.Update;
 
-public sealed class UpdateDayCommandHandler : IRequestHandler<UpdateDayCommand, Unit>
+public sealed class UpdateDayCommandHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<UpdateDayCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public UpdateDayCommandHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<Unit> Handle(UpdateDayCommand request, CancellationToken cancellationToken)
     {
-        var dayDbo = await _context.Set<Day>()
+        var dayDbo = await context.Days
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DayId == request.Id, cancellationToken);
 
         if (dayDbo is null)
             throw new NotFoundException(nameof(Day), request.Id);
 
-        var day = _mapper.Map<Day>(request);
-        _context.Set<Day>().Update(day);
-        await _context.SaveChangesAsync(cancellationToken);
+        var day = mapper.Map<Day>(request);
+        context.Days.Update(day);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

@@ -41,15 +41,15 @@ public sealed class TokenService : ITokenService
         return principal;
     }
 
-    public string GenerateAccessToken(User user, Guid sessionId)
+    public string GenerateAccessToken(Account account, Guid sessionId)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
 
         var claims = new Claim[]
         {
-            new(ClaimTypes.Name, user.Login),
-            new(ClaimTypes.Role, user.Role.Name),
+            new(ClaimTypes.Name, account.Login),
+            new(ClaimTypes.Role, account.Role.Name),
             new(ClaimTypes.Sid, sessionId.ToString())
         };
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],

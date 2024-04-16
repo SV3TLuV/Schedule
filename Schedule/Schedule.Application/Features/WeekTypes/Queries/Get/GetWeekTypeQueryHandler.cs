@@ -8,26 +8,18 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.WeekTypes.Queries.Get;
 
-public sealed class GetWeekTypeQueryHandler : IRequestHandler<GetWeekTypeQuery, WeekTypeViewModel>
+public sealed class GetWeekTypeQueryHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<GetWeekTypeQuery, WeekTypeViewModel>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetWeekTypeQueryHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<WeekTypeViewModel> Handle(GetWeekTypeQuery request, CancellationToken cancellationToken)
     {
-        var weekType = await _context.Set<WeekType>()
-            .AsNoTrackingWithIdentityResolution()
+        var weekType = await context.WeekTypes
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.WeekTypeId == request.Id, cancellationToken);
 
         if (weekType is null)
             throw new NotFoundException(nameof(WeekType), request.Id);
 
-        return _mapper.Map<WeekTypeViewModel>(weekType);
+        return mapper.Map<WeekTypeViewModel>(weekType);
     }
 }

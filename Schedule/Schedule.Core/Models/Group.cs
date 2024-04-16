@@ -28,6 +28,8 @@ public class Group
 
     public virtual Timetable? Timetable { get; set; }
 
+    public string Name => $"{Speciality.Name}-${Number}";
+
     public int CalculateTerm(IDateInfoService dateInfoService)
     {
         int term;

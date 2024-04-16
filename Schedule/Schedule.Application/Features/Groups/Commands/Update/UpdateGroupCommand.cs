@@ -18,20 +18,10 @@ public sealed class UpdateGroupCommand : IRequest<Unit>, IMapWith<Group>
     {
         profile.CreateMap<Group, UpdateGroupCommand>()
             .ForMember(command => command.Id, expression =>
-                expression.MapFrom(group => group.GroupId))
-            .ForMember(command => command.MergedGroupIds, expression =>
-                expression.MapFrom(group => group.GroupGroups
-                    .Select(groupGroup => groupGroup.GroupId2)));
+                expression.MapFrom(group => group.GroupId));
 
         profile.CreateMap<UpdateGroupCommand, Group>()
             .ForMember(group => group.GroupId, expression =>
-                expression.MapFrom(command => command.Id))
-            .ForMember(group => group.GroupGroups, expression =>
-                expression.MapFrom(command => (command.MergedGroupIds ?? Array.Empty<int>())
-                    .Select(groupId => new GroupGroup
-                    {
-                        GroupId = command.Id,
-                        GroupId2 = groupId
-                    })));
+                expression.MapFrom(command => command.Id));
     }
 }

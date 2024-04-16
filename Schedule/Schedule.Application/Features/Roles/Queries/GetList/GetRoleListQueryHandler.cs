@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -7,38 +8,28 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Roles.Queries.GetList;
 
-public sealed class GetRoleListQueryHandler : IRequestHandler<GetRoleListQuery, PagedList<RoleViewModel>>
+public sealed class GetRoleListQueryHandler(
+    IScheduleDbContext context,
+    IMapper mapper) : IRequestHandler<GetRoleListQuery, PagedList<RoleViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetRoleListQueryHandler(
-        IScheduleDbContext context,
-        IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<PagedList<RoleViewModel>> Handle(GetRoleListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _context.Set<Role>()
-            .AsNoTrackingWithIdentityResolution();
-
-        var roles = await query
+        var roles = await context.Roles
+            .AsNoTracking()
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .ProjectTo<RoleViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-        var totalCount = await query.CountAsync(cancellationToken);
-        var viewModels = _mapper.Map<List<RoleViewModel>>(roles);
+
+        var totalCount = await context.Roles.CountAsync(cancellationToken);
 
         return new PagedList<RoleViewModel>
         {
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = roles
         };
     }
 }

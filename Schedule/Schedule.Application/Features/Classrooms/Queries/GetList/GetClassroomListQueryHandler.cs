@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -8,22 +9,13 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Classrooms.Queries.GetList;
 
-public sealed class GetClassroomListQueryHandler
+public sealed class GetClassroomListQueryHandler(IScheduleDbContext context, IMapper mapper)
     : IRequestHandler<GetClassroomListQuery, PagedList<ClassroomViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetClassroomListQueryHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<PagedList<ClassroomViewModel>> Handle(GetClassroomListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _context.Set<Classroom>()
+        var query = context.Classrooms
             .AsNoTrackingWithIdentityResolution();
 
         query = request.Filter switch
@@ -38,8 +30,9 @@ public sealed class GetClassroomListQueryHandler
         var classrooms = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .ProjectTo<ClassroomViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-        var viewModels = _mapper.Map<ClassroomViewModel[]>(classrooms);
+
         var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<ClassroomViewModel>
@@ -47,7 +40,7 @@ public sealed class GetClassroomListQueryHandler
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = classrooms
         };
     }
 }

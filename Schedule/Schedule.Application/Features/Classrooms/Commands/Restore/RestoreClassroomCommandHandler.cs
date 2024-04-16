@@ -6,28 +6,21 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Classrooms.Commands.Restore;
 
-public sealed class RestoreClassroomCommandHandler : IRequestHandler<RestoreClassroomCommand, Unit>
+public sealed class RestoreClassroomCommandHandler(IScheduleDbContext context)
+    : IRequestHandler<RestoreClassroomCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-
-    public RestoreClassroomCommandHandler(
-        IScheduleDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Unit> Handle(RestoreClassroomCommand request,
         CancellationToken cancellationToken)
     {
-        var classroom = await _context.Set<Classroom>()
+        var classroom = await context.Classrooms
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 
         if (classroom is null)
             throw new NotFoundException(nameof(Classroom), request.Id);
 
         classroom.IsDeleted = false;
-        _context.Set<Classroom>().Update(classroom);
-        await _context.SaveChangesAsync(cancellationToken);
+        context.Classrooms.Update(classroom);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

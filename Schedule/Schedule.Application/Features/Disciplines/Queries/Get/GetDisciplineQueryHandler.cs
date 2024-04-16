@@ -8,23 +8,15 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Disciplines.Queries.Get;
 
-public sealed class GetDisciplineQueryHandler : IRequestHandler<GetDisciplineQuery, DisciplineViewModel>
+public sealed class GetDisciplineQueryHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<GetDisciplineQuery, DisciplineViewModel>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetDisciplineQueryHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<DisciplineViewModel> Handle(GetDisciplineQuery request, CancellationToken cancellationToken)
     {
-        var discipline = await _context.Set<Discipline>()
+        var discipline = await context.Disciplines
             .Include(e => e.Name)
             .Include(e => e.Code)
-            .Include(e => e.DisciplineType)
+            .Include(e => e.Type)
             .Include(e => e.Term)
             .ThenInclude(e => e.Course)
             .AsNoTrackingWithIdentityResolution()
@@ -33,6 +25,6 @@ public sealed class GetDisciplineQueryHandler : IRequestHandler<GetDisciplineQue
         if (discipline is null)
             throw new NotFoundException(nameof(Discipline), request.Id);
 
-        return _mapper.Map<DisciplineViewModel>(discipline);
+        return mapper.Map<DisciplineViewModel>(discipline);
     }
 }

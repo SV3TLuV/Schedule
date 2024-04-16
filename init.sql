@@ -285,6 +285,7 @@ CREATE TABLE public."group" (
     number character varying(2) NOT NULL,
     speciality_id integer NOT NULL,
     term_id integer NOT NULL,
+    is_after_eleven boolean DEFAULT false NOT NULL,
     enrollment_year integer NOT NULL,
     is_deleted boolean DEFAULT false NOT NULL
 );

@@ -17,6 +17,8 @@ public class GroupViewModel : IMapWith<Group>, IEquatable<GroupViewModel>
     public int EnrollmentYear { get; set; }
     
     public bool IsDeleted { get; set; }
+    
+    public bool IsAfterEleven { get; set; }
 
     public TermViewModel Term { get; set; } = null!;
 

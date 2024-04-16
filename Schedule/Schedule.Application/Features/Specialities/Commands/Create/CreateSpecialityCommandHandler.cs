@@ -7,20 +7,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Create;
 
-public sealed class CreateSpecialityCommandHandler : IRequestHandler<CreateSpecialityCommand, int>
+public sealed class CreateSpecialityCommandHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<CreateSpecialityCommand, int>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public CreateSpecialityCommandHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<int> Handle(CreateSpecialityCommand request, CancellationToken cancellationToken)
     {
-        var searched = await _context.Set<Speciality>()
+        var searched = await context.Specialities
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e =>
                 e.Name == request.Name &&
@@ -29,9 +21,9 @@ public sealed class CreateSpecialityCommandHandler : IRequestHandler<CreateSpeci
         if (searched is not null)
             throw new AlreadyExistsException($"Специальность: {searched.Name}");
         
-        var speciality = _mapper.Map<Speciality>(request);
-        await _context.Set<Speciality>().AddAsync(speciality, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        var speciality = mapper.Map<Speciality>(request);
+        await context.Specialities.AddAsync(speciality, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
         return speciality.SpecialityId;
     }
 }

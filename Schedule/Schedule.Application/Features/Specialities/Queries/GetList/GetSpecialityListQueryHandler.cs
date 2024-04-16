@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -8,22 +9,13 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Queries.GetList;
 
-public sealed class GetSpecialityListQueryHandler
+public sealed class GetSpecialityListQueryHandler(IScheduleDbContext context, IMapper mapper)
     : IRequestHandler<GetSpecialityListQuery, PagedList<SpecialityViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetSpecialityListQueryHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<PagedList<SpecialityViewModel>> Handle(GetSpecialityListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _context.Set<Speciality>()
+        var query = context.Specialities
             .Include(e => e.Disciplines)
             .Include(e => e.Disciplines)
             .OrderBy(e => e.SpecialityId)
@@ -44,8 +36,9 @@ public sealed class GetSpecialityListQueryHandler
         var specialities = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .ProjectTo<SpecialityViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-        var viewModels = _mapper.Map<SpecialityViewModel[]>(specialities);
+
         var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<SpecialityViewModel>
@@ -53,7 +46,7 @@ public sealed class GetSpecialityListQueryHandler
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = specialities
         };
     }
 }

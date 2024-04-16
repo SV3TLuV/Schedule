@@ -7,10 +7,4 @@ public class Classroom
     public string Cabinet { get; set; } = null!;
 
     public bool IsDeleted { get; set; }
-
-    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } =
-        new List<LessonTeacherClassroom>();
-
-    public virtual ICollection<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } =
-        new List<LessonTemplateTeacherClassroom>();
 }

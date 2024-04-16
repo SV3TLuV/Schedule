@@ -6,9 +6,5 @@ public class Day
 
     public string Name { get; set; } = null!;
 
-    public bool IsStudy { get; set; }
-
-    public virtual ICollection<Date> Dates { get; set; } = new List<Date>();
-
-    public virtual ICollection<Template> Templates { get; set; } = new List<Template>();
+    public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 }

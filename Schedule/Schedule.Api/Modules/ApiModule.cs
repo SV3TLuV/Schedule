@@ -70,38 +70,39 @@ public sealed class ApiModule(IConfiguration configuration) : Module
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
             .AddTransient<IDbInitializer, DatabaseInitializer>()
-            .AddFluentValidationAutoValidation()
+            .AddFluentValidationAutoValidation();
             // .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
             //     options.UseSqlServer($"Name={Constants.ConnectionStringName}"))
-            .AddQuartzServer(options => { options.WaitForJobsToComplete = true; })
-            .AddQuartz(configuration =>
-            {
-                configuration.SchedulerId = "Schedule-Scheduler-Id";
-                configuration.SchedulerName = "Schedule-Scheduler-Name";
-                configuration.UseMicrosoftDependencyInjectionJobFactory();
-                configuration.UseInMemoryStore();
-                configuration.UseDefaultThreadPool(pool => { pool.MaxConcurrency = 10; });
+            // .AddQuartzServer(options => { options.WaitForJobsToComplete = true; })
+            // .AddQuartz(configuration =>
+            // {
+            //     configuration.SchedulerId = "Schedule-Scheduler-Id";
+            //     configuration.SchedulerName = "Schedule-Scheduler-Name";
+            //     configuration.UseMicrosoftDependencyInjectionJobFactory();
+            //     configuration.UseInMemoryStore();
+            //     configuration.UseDefaultThreadPool(pool => { pool.MaxConcurrency = 10; });
+            //
+            //     configuration.AddJob<GenerateDatesJob>(options =>
+            //         options.WithIdentity("GenerateDatesJob"));
+            //
+            //     configuration.AddTrigger(configure =>
+            //         configure.ForJob("GenerateDatesJob")
+            //             .WithIdentity("GenerateDatesJobTrigger")
+            //             .WithSimpleSchedule(x => x
+            //                 .WithIntervalInHours(6)
+            //                 .RepeatForever()));
+            //
+            //     configuration.AddJob<TransferGroupsJob>(options =>
+            //         options.WithIdentity("TransferGroupsJob"));
+            //
+            //     configuration.AddTrigger(configure =>
+            //         configure.ForJob("TransferGroupsJob")
+            //             .WithIdentity("TransferGroupsJobTrigger")
+            //             .WithSimpleSchedule(x => x
+            //                 .WithIntervalInHours(6)
+            //                 .RepeatForever()));
+            // })
 
-                configuration.AddJob<GenerateDatesJob>(options =>
-                    options.WithIdentity("GenerateDatesJob"));
-
-                configuration.AddTrigger(configure =>
-                    configure.ForJob("GenerateDatesJob")
-                        .WithIdentity("GenerateDatesJobTrigger")
-                        .WithSimpleSchedule(x => x
-                            .WithIntervalInHours(6)
-                            .RepeatForever()));
-
-                configuration.AddJob<TransferGroupsJob>(options =>
-                    options.WithIdentity("TransferGroupsJob"));
-
-                configuration.AddTrigger(configure =>
-                    configure.ForJob("TransferGroupsJob")
-                        .WithIdentity("TransferGroupsJobTrigger")
-                        .WithSimpleSchedule(x => x
-                            .WithIntervalInHours(6)
-                            .RepeatForever()));
-            });
 
         builder.Populate(services);
     }

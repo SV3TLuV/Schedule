@@ -2,13 +2,13 @@
 
 public class GroupTransfer
 {
-    public int GroupId { get; set; }
-
     public int NextTermId { get; set; }
+
+    public int GroupId { get; set; }
 
     public bool IsTransferred { get; set; }
 
-    public DateTime TransferDate { get; set; }
+    public DateOnly TransferDate { get; set; }
 
     public virtual Group Group { get; set; } = null!;
 

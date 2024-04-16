@@ -6,7 +6,5 @@ public class WeekType
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Date> Dates { get; set; } = new List<Date>();
-
-    public virtual ICollection<Template> Templates { get; set; } = new List<Template>();
+    public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 }

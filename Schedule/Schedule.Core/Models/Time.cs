@@ -4,9 +4,9 @@ public class Time
 {
     public int TimeId { get; set; }
 
-    public TimeSpan Start { get; set; }
+    public TimeOnly Start { get; set; }
 
-    public TimeSpan End { get; set; }
+    public TimeOnly End { get; set; }
 
     public int Duration { get; set; }
 
@@ -16,7 +16,7 @@ public class Time
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<LessonTemplate> LessonTemplates { get; set; } = new List<LessonTemplate>();
+    public virtual ICollection<LessonChange> LessonChanges { get; set; } = new List<LessonChange>();
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 

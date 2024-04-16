@@ -1,0 +1,30 @@
+﻿namespace Schedule.Core.Models;
+
+public class LessonChange
+{
+    public int LessonChangeId { get; set; }
+
+    public int Number { get; set; }
+
+    public int? Subgroup { get; set; }
+
+    public int? TimeId { get; set; }
+
+    public int LessonId { get; set; }
+
+    public int DisciplineId { get; set; }
+
+    public List<int> TeacherIds { get; set; } = null!;
+
+    public List<int> ClassroomIds { get; set; } = null!;
+
+    public DateOnly Date { get; set; }
+
+    public virtual Discipline Discipline { get; set; } = null!;
+
+    public virtual Lesson Lesson { get; set; } = null!;
+
+    public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
+
+    public virtual Time? Time { get; set; }
+}

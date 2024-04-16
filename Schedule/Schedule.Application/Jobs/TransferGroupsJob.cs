@@ -1,61 +1,51 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Schedule.Application.Common.Interfaces;
-using Schedule.Application.Features.Groups.Commands.Update;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
 
 namespace Schedule.Application.Jobs;
 
-public sealed class TransferGroupsJob : IJob
+public sealed class TransferGroupsJob(
+    IScheduleDbContext context,
+    IDateInfoService dateInfoService) : IJob
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IDateInfoService _dateInfoService;
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public TransferGroupsJob(IScheduleDbContext context,
-        IDateInfoService dateInfoService,
-        IMediator mediator,
-        IMapper mapper)
+    public async Task Execute(IJobExecutionContext jobContext)
     {
-        _context = context;
-        _dateInfoService = dateInfoService;
-        _mediator = mediator;
-        _mapper = mapper;
-    }
+        await using var transaction = await context.Database.BeginTransactionAsync();
 
-    public async Task Execute(IJobExecutionContext context)
-    {
-        var groups = await _context.Set<Group>()
-            .AsNoTrackingWithIdentityResolution()
-            .Include(e => e.GroupGroups)
-            .Include(e => e.Speciality)
-            .Where(e => !e.IsDeleted && e.TermId < e.Speciality.MaxTermId)
-            .ToListAsync();
-
-        foreach (var group in groups)
+        try
         {
-            var transfer = await _context.Set<GroupTransfer>()
-                .AsNoTrackingWithIdentityResolution()
-                .OrderBy(e => e.NextTermId)
-                .FirstOrDefaultAsync(e => e.GroupId == group.GroupId && !e.IsTransferred);
+            var groups = await context.Groups
+                .AsNoTracking()
+                .Include(e => e.Speciality)
+                .Where(e => !e.IsDeleted && e.TermId < e.Speciality.MaxTermId)
+                .ToListAsync();
 
-            if (transfer is null)
-                continue;
+            foreach (var group in groups)
+            {
+                var transfer = await context.GroupTransfers
+                    .AsNoTrackingWithIdentityResolution()
+                    .OrderBy(e => e.NextTermId)
+                    .FirstOrDefaultAsync(e => e.GroupId == group.GroupId && !e.IsTransferred);
 
-            if (_dateInfoService.CurrentDateTime.Date < transfer.TransferDate.Date)
-                continue;
+                if (transfer is null)
+                    continue;
 
-            group.TermId = transfer.NextTermId;
-            var command = _mapper.Map<UpdateGroupCommand>(group);
-            await _mediator.Send(command);
+                if (dateInfoService.CurrentDate < transfer.TransferDate)
+                    continue;
 
-            transfer.IsTransferred = true;
-            _context.Set<GroupTransfer>().Update(transfer);
-            await _context.SaveChangesAsync();
+                group.TermId = transfer.NextTermId;
+                context.Groups.Update(group);
+
+                transfer.IsTransferred = true;
+                context.GroupTransfers.Update(transfer);
+
+                await context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
         }
     }
 }

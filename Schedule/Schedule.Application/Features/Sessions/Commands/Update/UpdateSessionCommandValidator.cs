@@ -11,7 +11,7 @@ public sealed class UpdateSessionCommandValidator : AbstractValidator<UpdateSess
             .NotEqual(Guid.Empty);
         RuleFor(query => query.RefreshToken)
             .MaximumLength(512);
-        RuleFor(query => query.UserId)
+        RuleFor(query => query.AccountId)
             .SetValidator(new IdValidator());
     }
 }

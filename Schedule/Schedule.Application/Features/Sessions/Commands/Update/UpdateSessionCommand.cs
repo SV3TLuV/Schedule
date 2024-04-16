@@ -11,7 +11,7 @@ public sealed class UpdateSessionCommand : IRequest<Unit>, IMapWith<Session>
 
     public string RefreshToken { get; set; } = null!;
 
-    public int UserId { get; set; }
+    public int AccountId { get; set; }
 
     public void Map(Profile profile)
     {

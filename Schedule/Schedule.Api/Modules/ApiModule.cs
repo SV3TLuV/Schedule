@@ -19,14 +19,6 @@ public sealed class ApiModule(IConfiguration configuration) : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<DateInfoService>()
-            .As<IDateInfoService>()
-            .InstancePerDependency();
-
-        builder.RegisterType<TokenService>()
-            .As<ITokenService>()
-            .SingleInstance();
-
         var services = new ServiceCollection();
 
         services.AddSignalR();

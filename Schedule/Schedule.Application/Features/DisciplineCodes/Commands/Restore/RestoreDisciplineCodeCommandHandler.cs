@@ -6,19 +6,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.DisciplineCodes.Commands.Restore;
 
-public sealed class RestoreDisciplineCodeCommandHandler : IRequestHandler<RestoreDisciplineCodeCommand, Unit>
+public sealed class RestoreDisciplineCodeCommandHandler(IScheduleDbContext context)
+    : IRequestHandler<RestoreDisciplineCodeCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-
-    public RestoreDisciplineCodeCommandHandler(
-        IScheduleDbContext context)
-    {
-        _context = context;
-    }
-    
     public async Task<Unit> Handle(RestoreDisciplineCodeCommand request, CancellationToken cancellationToken)
     {
-        var disciplineCode = await _context.Set<DisciplineCode>()
+        var disciplineCode = await context.DisciplineCodes
             .FirstOrDefaultAsync(e => e.DisciplineCodeId == request.Id, cancellationToken);
 
         if (disciplineCode is null)
@@ -26,8 +19,8 @@ public sealed class RestoreDisciplineCodeCommandHandler : IRequestHandler<Restor
 
         disciplineCode.IsDeleted = false;
         
-        _context.Set<DisciplineCode>().Update(disciplineCode);
-        await _context.SaveChangesAsync(cancellationToken);
+        context.DisciplineCodes.Update(disciplineCode);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

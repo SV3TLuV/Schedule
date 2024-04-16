@@ -7,29 +7,21 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Classrooms.Commands.Update;
 
-public sealed class UpdateClassroomCommandHandler : IRequestHandler<UpdateClassroomCommand, Unit>
+public sealed class UpdateClassroomCommandHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<UpdateClassroomCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public UpdateClassroomCommandHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<Unit> Handle(UpdateClassroomCommand request, CancellationToken cancellationToken)
     {
-        var classroomDbo = await _context.Set<Classroom>()
+        var classroomDbo = await context.Classrooms
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 
         if (classroomDbo is null)
             throw new NotFoundException(nameof(Classroom), request.Id);
 
-        var classroom = _mapper.Map<Classroom>(request);
-        _context.Set<Classroom>().Update(classroom);
-        await _context.SaveChangesAsync(cancellationToken);
+        var classroom = mapper.Map<Classroom>(request);
+        context.Classrooms.Update(classroom);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

@@ -7,20 +7,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Classrooms.Commands.Create;
 
-public sealed class CreateClassroomCommandHandler : IRequestHandler<CreateClassroomCommand, int>
+public sealed class CreateClassroomCommandHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<CreateClassroomCommand, int>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public CreateClassroomCommandHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<int> Handle(CreateClassroomCommand request, CancellationToken cancellationToken)
     {
-        var searched = await _context.Set<Classroom>()
+        var searched = await context.Classrooms
             .AsNoTracking()
             .FirstOrDefaultAsync(e =>
                 e.Cabinet == request.Cabinet, cancellationToken);
@@ -28,9 +20,9 @@ public sealed class CreateClassroomCommandHandler : IRequestHandler<CreateClassr
         if (searched is not null)
             throw new AlreadyExistsException($"Кабинет: {searched.Cabinet}");
         
-        var classroom = _mapper.Map<Classroom>(request);
-        await _context.Set<Classroom>().AddAsync(classroom, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        var classroom = mapper.Map<Classroom>(request);
+        await context.Classrooms.AddAsync(classroom, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
         return classroom.ClassroomId;
     }
 }

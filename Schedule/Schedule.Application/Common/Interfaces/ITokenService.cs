@@ -6,6 +6,6 @@ namespace Schedule.Application.Common.Interfaces;
 public interface ITokenService
 {
     ClaimsPrincipal GetPrincipalFromExpiredToken(string accessToken);
-    string GenerateAccessToken(User user, Guid sessionId);
+    string GenerateAccessToken(Account account, Guid sessionId);
     string GenerateRefreshToken();
 }

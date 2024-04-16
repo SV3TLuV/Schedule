@@ -4,7 +4,7 @@ services:
 
   postgresql:
     container_name: Postgresql
-    image: postgresql
+    image: postgres
     ports:
       - "5432:5432"
     build:

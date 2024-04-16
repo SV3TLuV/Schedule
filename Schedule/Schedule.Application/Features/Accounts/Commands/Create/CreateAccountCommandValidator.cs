@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Schedule.Application.Features.Base.Validators;
 
-namespace Schedule.Application.Features.Users.Commands.Create;
+namespace Schedule.Application.Features.Accounts.Commands.Create;
 
-public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+public sealed class CreateAccountCommandValidator : AbstractValidator<CreateAccountCommand>
 {
-    public CreateUserCommandValidator()
+    public CreateAccountCommandValidator()
     {
         RuleFor(command => command.Login)
             .MaximumLength(50);

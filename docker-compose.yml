@@ -2,6 +2,22 @@ version: '3.9'
 
 services:
 
+  postgres:
+    container_name: PostgreSQL
+    image: postgres:15.4
+    ports:
+      - "5432:5432"
+    build:
+      network: host
+    environment:
+      - POSTGRES_PASSWORD=P@ssw0rd
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db:/var/lib/postgresql/data
+#    logging:
+#      driver: none
+#    restart: always
+
   database:
     container_name: SqlServer
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -57,6 +73,7 @@ services:
     #restart: always
 
 volumes:
+  db:
   sqlsystem:
   sqldata:
   sqllog:

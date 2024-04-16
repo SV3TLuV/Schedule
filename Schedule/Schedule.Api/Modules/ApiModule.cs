@@ -6,17 +6,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Quartz;
-using Quartz.AspNetCore;
 using Schedule.Api.Common;
 using Schedule.Application.Common.Behaviors;
 using Schedule.Application.Common.Interfaces;
-using Schedule.Application.Jobs;
 using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Persistence.Common.Interfaces;
 using Schedule.Persistence.Context;
-using Schedule.Persistence.Initializers;
 
 namespace Schedule.Api.Modules;
 
@@ -69,7 +64,6 @@ public sealed class ApiModule(IConfiguration configuration) : Module
 
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
-            .AddTransient<IDbInitializer, DatabaseInitializer>()
             .AddFluentValidationAutoValidation()
             .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
                 options.UseNpgsql($"Name={Constants.PostgresqlConnectionString}"));

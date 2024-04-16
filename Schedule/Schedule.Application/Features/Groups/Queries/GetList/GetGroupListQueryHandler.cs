@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -8,35 +9,20 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Groups.Queries.GetList;
 
-public sealed class GetGroupListQueryHandler
+public sealed class GetGroupListQueryHandler(IScheduleDbContext context, IMapper mapper)
     : IRequestHandler<GetGroupListQuery, PagedList<GroupViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetGroupListQueryHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<PagedList<GroupViewModel>> Handle(GetGroupListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _context.Set<Group>()
+        var query = context.Groups
             .Include(e => e.Term)
             .ThenInclude(e => e.Course)
             .Include(e => e.Speciality)
             .ThenInclude(e => e.Disciplines)
-            .Include(e => e.GroupGroups)
-            .ThenInclude(e => e.Group2)
             .ThenInclude(e => e.Term)
             .ThenInclude(e => e.Course)
-            .Include(e => e.GroupGroups1)
-            .ThenInclude(e => e.Group)
-            .ThenInclude(e => e.Term)
-            .ThenInclude(e => e.Course)
-            .OrderBy(e => e.Term.CourseId)
+            .OrderBy(e => e.Term.Course)
             .ThenBy(e => e.Speciality.Code)
             .AsSplitQuery()
             .AsNoTrackingWithIdentityResolution();
@@ -57,8 +43,9 @@ public sealed class GetGroupListQueryHandler
         var groups = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .ProjectTo<GroupViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-        var viewModels = _mapper.Map<GroupViewModel[]>(groups);
+
         var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<GroupViewModel>
@@ -66,7 +53,7 @@ public sealed class GetGroupListQueryHandler
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = groups
         };
     }
 }

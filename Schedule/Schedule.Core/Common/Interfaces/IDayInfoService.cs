@@ -1,4 +1,4 @@
-﻿namespace Schedule.Application.Common.Interfaces;
+﻿namespace Schedule.Core.Common.Interfaces;
 
 public interface IDayInfoService
 {

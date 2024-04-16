@@ -1,4 +1,6 @@
-﻿namespace Schedule.Core.Models;
+﻿using Schedule.Core.Common.Interfaces;
+
+namespace Schedule.Core.Models;
 
 public class Group
 {
@@ -25,4 +27,20 @@ public class Group
     public virtual Term Term { get; set; } = null!;
 
     public virtual Timetable? Timetable { get; set; }
+
+    public int CalculateTerm(IDateInfoService dateInfoService)
+    {
+        int term;
+
+        if (dateInfoService.CurrentTerm == 2)
+        {
+            term = dateInfoService.CurrentTerm + 2 * (dateInfoService.CurrentDateTime.Year - EnrollmentYear - 1);
+        }
+        else
+        {
+            term = dateInfoService.CurrentTerm + 2 * (dateInfoService.CurrentDateTime.Year - EnrollmentYear);
+        }
+
+        return IsAfterEleven ? term + 2 : term;
+    }
 }

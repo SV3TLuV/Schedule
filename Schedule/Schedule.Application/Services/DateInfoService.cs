@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Schedule.Application.Common.Interfaces;
+using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 using WeekType = Schedule.Core.Common.Enums.WeekType;
 
@@ -17,20 +18,8 @@ public sealed class DateInfoService : IDateInfoService
         _firstDayOfWeek = DayOfWeek.Monday;
     }
 
-    public Date GetDate(DateTime dateTime)
-    {
-        return new Date
-        {
-            Value = dateTime.Date,
-            Term = GetTerm(dateTime),
-            DayId = GetDayId(dateTime),
-            WeekTypeId = (int)GetWeekType(dateTime)
-        };
-    }
-
     public int CurrentTerm => GetTerm(CurrentDateTime);
     public DateTime CurrentDateTime => DateTime.Now;
-    public Date CurrentDate => GetDate(CurrentDateTime);
 
     public int CurrentWeekOfYear => GetWeekOfYear(CurrentDateTime);
     public WeekType CurrentWeekType => GetWeekType(CurrentDateTime);
@@ -38,30 +27,10 @@ public sealed class DateInfoService : IDateInfoService
 
     public int CurrentDayId => GetDayId(CurrentDateTime);
 
-    public Date GetNextDate(DateTime dateTime)
-    {
-        return GetDate(dateTime.Date.AddDays(1));
-    }
 
     public int GetTerm(DateTime dateTime)
     {
         return dateTime.Month < 9 ? 2 : 1;
-    }
-
-    public int GetGroupTerm(int enrollmentYear, bool isAfterEleven)
-    {
-        int term;
-        
-        if (CurrentTerm == 2)
-        {
-            term = CurrentTerm + 2 * (CurrentDateTime.Year - enrollmentYear - 1);
-        }
-        else
-        {
-            term = CurrentTerm + 2 * (CurrentDateTime.Year - enrollmentYear);
-        }
-
-        return isAfterEleven ? term + 2 : term;
     }
 
     public int GetWeekOfYear(DateTime dateTime)

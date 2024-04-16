@@ -1,6 +1,6 @@
 ﻿using Schedule.Core.Common.Enums;
 
-namespace Schedule.Application.Common.Interfaces;
+namespace Schedule.Core.Common.Interfaces;
 
 public interface IWeekInfoService
 {

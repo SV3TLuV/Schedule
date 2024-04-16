@@ -1,5 +1,6 @@
 ﻿using Schedule.Application.Common.Interfaces;
 using Schedule.Core.Common.Enums;
+using Schedule.Core.Common.Interfaces;
 using Schedule.Tests.Common;
 
 namespace Schedule.Tests.Tests;

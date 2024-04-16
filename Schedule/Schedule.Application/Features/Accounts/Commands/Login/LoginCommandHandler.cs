@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BCrypt.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.Common.Interfaces;
@@ -10,51 +9,40 @@ using Schedule.Core.Common.Interfaces;
 
 namespace Schedule.Application.Features.Accounts.Commands.Login;
 
-public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AuthorizationResultViewModel>
+public sealed class LoginCommandHandler(
+    IScheduleDbContext context,
+    ITokenService tokenService,
+    IMediator mediator,
+    IMapper mapper,
+    IPasswordHasherService passwordHasher)
+    : IRequestHandler<LoginCommand, AuthorizationResultViewModel>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-    private readonly ITokenService _tokenService;
-
-    public LoginCommandHandler(
-        IScheduleDbContext context,
-        ITokenService tokenService,
-        IMediator mediator,
-        IMapper mapper)
-    {
-        _context = context;
-        _tokenService = tokenService;
-        _mediator = mediator;
-        _mapper = mapper;
-    }
-
     public async Task<AuthorizationResultViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Accounts
+        var account = await context.Accounts
             .AsNoTracking()
             .Include(e => e.Role)
             .FirstOrDefaultAsync(e => e.Login == request.Login, cancellationToken);
 
-        if (user is null || !BCrypt.Net.BCrypt.EnhancedVerify(request.Password, user.PasswordHash, HashType.SHA512))
+        if (account is null || !passwordHasher.EnhancedHash(request.Password, account.PasswordHash))
             throw new IncorrectAuthorizationDataException();
 
         var command = new CreateSessionCommand
         {
             Id = Guid.NewGuid(),
-            RefreshToken = _tokenService.GenerateRefreshToken(),
-            UserId = user.AccountId
+            RefreshToken = tokenService.GenerateRefreshToken(),
+            AccountId = account.AccountId
         };
-        
-        await _mediator.Send(command, cancellationToken);
-        var userViewModel = _mapper.Map<AccountViewModel>(user);
-        var accessToken = _tokenService.GenerateAccessToken(user, command.Id);
+
+        await mediator.Send(command, cancellationToken);
+        var accountViewModel = mapper.Map<AccountViewModel>(account);
+        var accessToken = tokenService.GenerateAccessToken(account, command.Id);
 
         return new AuthorizationResultViewModel
         {
             AccessToken = accessToken,
             RefreshToken = command.RefreshToken,
-            Account = userViewModel
+            Account = accountViewModel
         };
     }
 }

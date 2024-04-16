@@ -43,7 +43,7 @@ public sealed class RefreshCommandHandler(
         {
             Id = session.SessionId,
             RefreshToken = tokenService.GenerateRefreshToken(),
-            UserId = session.AccountId
+            AccountId = session.AccountId
         };
 
         await mediator.Send(command, cancellationToken);

@@ -2,7 +2,7 @@
 
 public class Session
 {
-    public int SessionId { get; set; }
+    public Guid SessionId { get; set; }
 
     public string RefreshToken { get; set; } = null!;
 

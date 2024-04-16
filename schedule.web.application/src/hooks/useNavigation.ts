@@ -1,5 +1,5 @@
 import {useAppDispatch, useTypedSelector} from "./redux.ts";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {setCurrentPage} from "../store/slices";
 import {useCallback} from "react";
 

@@ -2,9 +2,9 @@ version: '3.9'
 
 services:
 
-  postgres:
-    container_name: PostgreSQL
-    image: postgres:15.4
+  postgresql:
+    container_name: Postgresql
+    image: postgresql
     ports:
       - "5432:5432"
     build:
@@ -13,28 +13,10 @@ services:
       - POSTGRES_PASSWORD=P@ssw0rd
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - db:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
 #    logging:
 #      driver: none
 #    restart: always
-
-  database:
-    container_name: SqlServer
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    ports:
-      - "1433:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=P@ssw0rd
-      - MSSQL_PID=Express
-    volumes:
-      - sqlsystem:/var/opt/mssql/
-      - sqldata:/var/opt/sqlserver/sqldata
-      - sqllog:/var/opt/sqlserver/sqllog
-      - sqlbackup:/var/opt/sqlserver/sqlbackups
-    #logging:
-    #  driver: none
-    #restart: always
 
   api:
     container_name: Api
@@ -49,7 +31,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
     depends_on:
-      - database
+      - postgresql
     volumes:
       - ~/.aspnet/https:/https:ro
     #logging:
@@ -73,8 +55,4 @@ services:
     #restart: always
 
 volumes:
-  db:
-  sqlsystem:
-  sqldata:
-  sqllog:
-  sqlbackup:
+  postgresql:

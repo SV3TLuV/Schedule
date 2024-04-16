@@ -20,14 +20,20 @@ func NewRepository(db *sqlx.DB, getter *trmsqlx.CtxGetter) Repository {
 	}
 }
 
-func (s *service) GetAll(ctx context.Context, o *GetAllOptions) (*[]entity.DisciplineType, error) {
+func (s *service) GetAll(ctx context.Context, search string, limit, offset int64) (*[]entity.DisciplineType, error) {
+	params := struct {
+		search string
+		limit  int64
+		offset int64
+	}{search: search, limit: limit, offset: offset}
+
 	query := `SELECT * FROM discipline_types
 			  WHERE starts_with(name, :search)
 			  LIMIT :limit
 			  OFFSET :offset;`
 	types := []entity.DisciplineType{}
 
-	rows, err := s.getter.DefaultTrOrDB(ctx, s.db).NamedQuery(s.db.Rebind(query), o)
+	rows, err := s.getter.DefaultTrOrDB(ctx, s.db).NamedQuery(s.db.Rebind(query), params)
 	if err != nil {
 		return nil, err
 	}

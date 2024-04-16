@@ -17,9 +17,6 @@ internal class TestModule : Module
         builder.RegisterType<DateInfoService>()
             .As<IDateInfoService>();
 
-        builder.RegisterType<GenerateDatesJob>()
-            .AsSelf();
-
         /*builder.RegisterAssemblyTypes()
             .Where(t => t.Name.EndsWith("Faker"))
             .AsSelf()

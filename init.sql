@@ -285,9 +285,9 @@ CREATE TABLE public."group" (
     number character varying(2) NOT NULL,
     speciality_id integer NOT NULL,
     term_id integer NOT NULL,
-    is_after_eleven boolean DEFAULT false NOT NULL,
     enrollment_year integer NOT NULL,
-    is_deleted boolean DEFAULT false NOT NULL
+    is_deleted boolean DEFAULT false NOT NULL,
+    is_after_eleven boolean DEFAULT false NOT NULL
 );
 
 
@@ -468,7 +468,7 @@ ALTER TABLE public.role ALTER COLUMN role_id ADD GENERATED ALWAYS AS IDENTITY (
 --
 
 CREATE TABLE public.session (
-    session_id integer NOT NULL,
+    session_id uuid DEFAULT gen_random_uuid() NOT NULL,
     refresh_token character varying(512) NOT NULL,
     created date NOT NULL,
     updated date,
@@ -477,20 +477,6 @@ CREATE TABLE public.session (
 
 
 ALTER TABLE public.session OWNER TO postgres;
-
---
--- Name: session_session_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-ALTER TABLE public.session ALTER COLUMN session_id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.session_session_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
 
 --
 -- Name: speciality; Type: TABLE; Schema: public; Owner: postgres
@@ -962,7 +948,7 @@ COPY public.employee_permission (employee_id, permission_id, has_access) FROM st
 -- Data for Name: group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."group" (group_id, number, speciality_id, term_id, enrollment_year, is_deleted) FROM stdin;
+COPY public."group" (group_id, number, speciality_id, term_id, enrollment_year, is_deleted, is_after_eleven) FROM stdin;
 \.
 
 
@@ -1025,6 +1011,8 @@ COPY public.permission (permission_id, name) FROM stdin;
 COPY public.role (role_id, name) FROM stdin;
 1	Admin
 2	Editor
+3	Teacher
+4	Student
 \.
 
 
@@ -1032,7 +1020,7 @@ COPY public.role (role_id, name) FROM stdin;
 -- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.session (session_id, refresh_token, created, updated, account_id) FROM stdin;
+COPY public.session (refresh_token, created, updated, account_id, session_id) FROM stdin;
 \.
 
 
@@ -1204,14 +1192,7 @@ SELECT pg_catalog.setval('public.permission_permission_id_seq', 1, false);
 -- Name: role_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.role_role_id_seq', 2, true);
-
-
---
--- Name: session_session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.session_session_id_seq', 1, false);
+SELECT pg_catalog.setval('public.role_role_id_seq', 5, true);
 
 
 --

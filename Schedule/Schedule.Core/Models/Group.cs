@@ -9,6 +9,8 @@ public class Group
     public int SpecialityId { get; set; }
 
     public int TermId { get; set; }
+    
+    public bool IsAfterEleven { get; set; }
 
     public int EnrollmentYear { get; set; }
 

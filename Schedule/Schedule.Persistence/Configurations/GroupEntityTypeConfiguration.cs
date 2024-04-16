@@ -36,6 +36,8 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
             .HasColumnName("speciality_id");
         builder.Property(e => e.TermId)
             .HasColumnName("term_id");
+        builder.Property(e => e.IsAfterEleven)
+            .HasColumnName("is_after_eleven");
 
         builder.HasOne(d => d.Speciality)
             .WithMany(p => p.Groups)

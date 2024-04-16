@@ -7,31 +7,26 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Sessions.Commands.Update;
 
-public sealed class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand, Unit>
+public sealed class UpdateSessionCommandHandler(
+    IScheduleDbContext context,
+    IMapper mapper,
+    IDateInfoService dateInfoService) : IRequestHandler<UpdateSessionCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public UpdateSessionCommandHandler(
-        IScheduleDbContext context,
-        IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<Unit> Handle(UpdateSessionCommand request, CancellationToken cancellationToken)
     {
-        var sessionDbo = await _context.Set<Session>()
+        var sessionDbo = await context.Sessions
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.SessionId == request.Id, cancellationToken);
 
         if (sessionDbo is null)
             throw new NotFoundException(nameof(Session), request.Id);
 
-        var session = _mapper.Map<Session>(request);
-        _context.Set<Session>().Update(session);
-        await _context.SaveChangesAsync(cancellationToken);
+        var session = mapper.Map<Session>(request);
+        session.Updated = dateInfoService.CurrentDate;
+
+        context.Sessions.Update(session);
+        await context.SaveChangesAsync(cancellationToken);
+
         return Unit.Value;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Schedule.Application.ViewModels;
 
-namespace Schedule.Application.Features.Users.Commands.Login;
+namespace Schedule.Application.Features.Accounts.Commands.Login;
 
 public sealed class LoginCommand : IRequest<AuthorizationResultViewModel>
 {

@@ -6,18 +6,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Specialities.Commands.Delete;
 
-public sealed class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpecialityCommand, Unit>
+public sealed class DeleteSpecialityCommandHandler(IScheduleDbContext context)
+    : IRequestHandler<DeleteSpecialityCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-
-    public DeleteSpecialityCommandHandler(IScheduleDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Unit> Handle(DeleteSpecialityCommand request, CancellationToken cancellationToken)
     {
-        var speciality = await _context.Set<Speciality>()
+        var speciality = await context.Specialities
             .FirstOrDefaultAsync(e => e.SpecialityId == request.Id, cancellationToken);
 
         if (speciality is null)
@@ -25,8 +19,8 @@ public sealed class DeleteSpecialityCommandHandler : IRequestHandler<DeleteSpeci
 
         speciality.IsDeleted = true;
         
-        _context.Set<Speciality>().Update(speciality);
-        await _context.SaveChangesAsync(cancellationToken);
+        context.Specialities.Update(speciality);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

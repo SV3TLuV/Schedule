@@ -54,6 +54,10 @@ public sealed class CustomExceptionHandlerMiddleware
                 result = $"{alreadyExistsException.Value} уже существует, или ранее был удален.\n" +
                          $"Вы можете восстановить его на вкладке 'Удаленные'";
                 break;
+            case DeletedException:
+                code = HttpStatusCode.NotFound;
+                result = "Это содержимое больше не доступно";
+                break;
             case ScheduleException scheduleException:
                 code = HttpStatusCode.Conflict;
                 result = scheduleException.Message;

@@ -10,14 +10,15 @@ public sealed class DeleteAccountCommandHandler(IScheduleDbContext context) : IR
 {
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
-        var user = await context.Accounts
-            .AsNoTracking()
+        var account = await context.Accounts
             .FirstOrDefaultAsync(e => e.AccountId == request.Id, cancellationToken);
 
-        if (user is null)
+        if (account is null)
             throw new NotFoundException(nameof(Account), request.Id);
 
-        context.Accounts.Remove(user);
+        account.IsDeleted = true;
+
+        context.Accounts.Update(account);
         await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }

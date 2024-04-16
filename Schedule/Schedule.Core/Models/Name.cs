@@ -1,10 +1,8 @@
 ﻿namespace Schedule.Core.Models;
 
-public class Role
+public class Name
 {
-    public int RoleId { get; set; }
-
-    public string Name { get; set; } = null!;
+    public string Name1 { get; set; } = null!;
 
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 }

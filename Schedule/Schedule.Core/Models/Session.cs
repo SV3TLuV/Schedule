@@ -2,11 +2,15 @@
 
 public class Session
 {
-    public Guid SessionId { get; set; }
+    public int SessionId { get; set; }
 
     public string RefreshToken { get; set; } = null!;
 
-    public int UserId { get; set; }
+    public DateOnly Created { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public DateOnly? Updated { get; set; }
+
+    public int AccountId { get; set; }
+
+    public virtual Account Account { get; set; } = null!;
 }

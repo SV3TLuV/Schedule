@@ -9,5 +9,12 @@
       <jdbc-url>Server=localhost;Database=Schedule;User Id=sa;Password=P@ssw0rd;TrustServerCertificate=True;</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="schedule@host.docker.internal" uuid="57ede4d1-e31b-4530-9fd4-a062c86e1606">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://host.docker.internal:5432/schedule</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

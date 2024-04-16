@@ -4,19 +4,7 @@ public class Teacher
 {
     public int TeacherId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public int AccountId { get; set; }
 
-    public string Surname { get; set; } = null!;
-
-    public string MiddleName { get; set; } = null!;
-
-    public string Email { get; set; } = null!;
-
-    public bool IsDeleted { get; set; }
-
-    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } =
-        new List<LessonTeacherClassroom>();
-
-    public virtual ICollection<LessonTemplateTeacherClassroom> LessonTemplateTeacherClassrooms { get; set; } =
-        new List<LessonTemplateTeacherClassroom>();
+    public virtual Account Account { get; set; } = null!;
 }

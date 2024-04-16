@@ -6,9 +6,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Accounts.Commands.Delete;
 
-public sealed class DeleteAccountCommandHandler(
-    IScheduleDbContext context,
-    IMediator mediator) : IRequestHandler<DeleteAccountCommand, Unit>
+public sealed class DeleteAccountCommandHandler(IScheduleDbContext context) : IRequestHandler<DeleteAccountCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {

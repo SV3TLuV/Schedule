@@ -19,6 +19,9 @@ public sealed class UpdateAccountCommandHandler(IScheduleDbContext context)
         if (account is null)
             throw new NotFoundException(nameof(Account), request.Id);
 
+        if (account.IsDeleted)
+            throw new DeletedException(nameof(Account));
+
         if (request.Name is not null)
         {
             var nameIsExists = await context.Names

@@ -54,7 +54,8 @@ CREATE TABLE public.account (
     surname character varying(40) NOT NULL,
     middle_name character varying(40),
     email character varying(200) NOT NULL,
-    role_id integer NOT NULL
+    role_id integer NOT NULL,
+    is_deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -151,7 +152,8 @@ ALTER TABLE public.discipline OWNER TO postgres;
 
 CREATE TABLE public.discipline_code (
     discipline_code_id integer NOT NULL,
-    code character varying(20) NOT NULL
+    code character varying(20) NOT NULL,
+    is_deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -191,7 +193,8 @@ ALTER TABLE public.discipline ALTER COLUMN discipline_id ADD GENERATED ALWAYS AS
 
 CREATE TABLE public.discipline_name (
     discipline_name_id integer NOT NULL,
-    name character varying(50) NOT NULL
+    name character varying(50) NOT NULL,
+    is_deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -269,8 +272,7 @@ ALTER TABLE public.employee ALTER COLUMN employee_id ADD GENERATED ALWAYS AS IDE
 
 CREATE TABLE public.employee_permission (
     employee_id integer NOT NULL,
-    permission_id integer NOT NULL,
-    has_access boolean DEFAULT false NOT NULL
+    permission_id integer NOT NULL
 );
 
 
@@ -468,11 +470,11 @@ ALTER TABLE public.role ALTER COLUMN role_id ADD GENERATED ALWAYS AS IDENTITY (
 --
 
 CREATE TABLE public.session (
-    session_id uuid DEFAULT gen_random_uuid() NOT NULL,
     refresh_token character varying(512) NOT NULL,
     created date NOT NULL,
     updated date,
-    account_id integer NOT NULL
+    account_id integer NOT NULL,
+    session_id uuid DEFAULT gen_random_uuid() NOT NULL
 );
 
 
@@ -643,9 +645,9 @@ ALTER TABLE public.week_type ALTER COLUMN week_type_id ADD GENERATED ALWAYS AS I
 -- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.account (account_id, login, password_hash, name, surname, middle_name, email, role_id) FROM stdin;
-1	Admin	$2a$11$/AKGJmbjT9.J/pdMmIk7S.VItgYYrknXhoPAUsTRIUqzIUXVw25zq	Admin	Admin	Admin	admin	1
-2	Editor	$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i	Editor	Editor	Editor	editor	2
+COPY public.account (account_id, login, password_hash, name, surname, middle_name, email, role_id, is_deleted) FROM stdin;
+1	Admin	$2a$11$/AKGJmbjT9.J/pdMmIk7S.VItgYYrknXhoPAUsTRIUqzIUXVw25zq	Admin	Admin	Admin	admin	1	f
+2	Editor	$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i	Editor	Editor	Editor	editor	2	f
 \.
 
 
@@ -750,48 +752,48 @@ COPY public.discipline (discipline_id, discipline_name_id, discipline_code_id, t
 -- Data for Name: discipline_code; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.discipline_code (discipline_code_id, code) FROM stdin;
-1	ЕН.01
-2	ЕН.02
-3	ЕН.03
-4	ОГСЭ.01
-5	ОГСЭ.02
-6	ОГСЭ.03
-7	ОГСЭ.04
-8	ОГСЭ.05
-9	ОП.01
-10	ОП.02
-11	ОП.03
-12	ОП.04
-13	ОП.05
-14	ОП.06
-15	ОП.07
-16	ОП.08
-17	ОП.09
-18	ОП.10
-19	ОП.11
-20	ОП.12
-21	ОП.13
-22	ОП.14
-23	ОУД.01
-24	ОУД.02
-25	ОУД.03
-26	ОУД.04
-27	ОУД.05
-28	ОУД.06
-29	ОУД.07
-30	ОУД.08
-31	ОУД.09
-32	ОУД.10
-33	ОУД.11
-34	ОУД.12
-35	ОУД.13
-36	СГ.01
-37	СГ.02
-38	СГ.04
-39	СГ.05
-40	СГ.06
-41	СГ.07
+COPY public.discipline_code (discipline_code_id, code, is_deleted) FROM stdin;
+1	ЕН.01	f
+2	ЕН.02	f
+3	ЕН.03	f
+4	ОГСЭ.01	f
+5	ОГСЭ.02	f
+6	ОГСЭ.03	f
+7	ОГСЭ.04	f
+8	ОГСЭ.05	f
+9	ОП.01	f
+10	ОП.02	f
+11	ОП.03	f
+12	ОП.04	f
+13	ОП.05	f
+14	ОП.06	f
+15	ОП.07	f
+16	ОП.08	f
+17	ОП.09	f
+18	ОП.10	f
+19	ОП.11	f
+20	ОП.12	f
+21	ОП.13	f
+22	ОП.14	f
+23	ОУД.01	f
+24	ОУД.02	f
+25	ОУД.03	f
+26	ОУД.04	f
+27	ОУД.05	f
+28	ОУД.06	f
+29	ОУД.07	f
+30	ОУД.08	f
+31	ОУД.09	f
+32	ОУД.10	f
+33	ОУД.11	f
+34	ОУД.12	f
+35	ОУД.13	f
+36	СГ.01	f
+37	СГ.02	f
+38	СГ.04	f
+39	СГ.05	f
+40	СГ.06	f
+41	СГ.07	f
 \.
 
 
@@ -799,121 +801,121 @@ COPY public.discipline_code (discipline_code_id, code) FROM stdin;
 -- Data for Name: discipline_name; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.discipline_name (discipline_name_id, name) FROM stdin;
-1	ААС
-2	БЖД
-3	БИОЛОГИЯ
-4	ВТ
-5	ГЕОГРАФИЯ
-6	ДМ
-7	ДМ С ЭМЛ
-8	И И КГ
-9	ИБ
-10	ИКГ
-11	ИНДИВИДУАЛЬНЫЙ ПРОЕКТ
-12	ИНЖЕНЕРНАЯ ГРАФИКА
-13	ИНОСТРАННЫЙ ЯЗЫК
-14	ИНОСТРАННЫЙ ЯЗЫК В ПД
-15	ИНФОРМАТИКА
-16	ИП
-17	ИСТОРИЯ
-18	ИСТОРИЯ РОССИИ
-19	ИТ
-20	КМ
-21	КС
-22	ЛИТЕРАТУРА
-23	МАТЕМАТИКА
-24	МДК.01.01
-25	МДК.01.02
-26	МДК.01.03
-27	МДК.01.04
-28	МДК.01.05
-29	МДК.02.01
-30	МДК.02.02
-31	МДК.02.03
-32	МДК.03.01
-33	МДК.03.02
-34	МДК.03.03
-35	МДК.03.04
-36	МДК.03.05
-37	МДК.04.01
-38	МДК.04.02
-39	МДК.05.01
-40	МДК.05.02
-41	МДК.05.03
-42	МДК.06.01
-43	МДК.08.01
-44	МДК.08.02
-45	МДК.09.01
-46	МДК.09.02
-47	МДК.09.03
-48	МДК.11.01
-49	МЕНЕДЖМЕНТ
-50	МЕНЕДЖМЕНТ В ПД
-51	МС И С
-52	О И ПОИБ
-53	ОА И П
-54	ОБЖ
-55	ОБП
-56	ОБЩЕСТВОЗНАНИЕ
-57	ОИБ
-58	ОПБД
-59	ОС И С
-60	ОСНОВЫ БЕРЕЖЛИВОГО ПРОИЗВОДСТВА
-61	ОСНОВЫ ФИЛОСОФИИ
-62	ОСНОВЫ ФИНАНСОВОЙ ГРАМОТНОСТИ
-63	ОСНОВЫ ЭТ
-64	ОСНОВЫ ЭТХ
-65	ОТИ
-66	ОТК
-67	ОФГ
-68	ОЭ И ВТ
-69	ОЭТХ
-70	ПОКС И WEB-СЕРВЕРОВ
-71	ПОПД
-72	ПП
-73	ПП.01
-74	ПП.02
-75	ПП.03
-76	ПП.04
-77	ПП.05
-78	ПП.06
-79	ПП.08
-80	ПП.09
-81	ПП.11
-82	ППОПД
-83	ПРИКЛАДНАЯ ЭЛЕКТРОНИКА
-84	ПСИХОЛОГИЯ ОБЩЕНИЯ
-85	РУССКИЙ ЯЗЫК
-86	РЯ И КР
-87	СС И ТД
-88	ТВИМС
-89	ТФУПД
-90	ТЭС
-91	ТЭЦ
-92	УП.01
-93	УП.02
-94	УП.03
-95	УП.04
-96	УП.05
-97	УП.06
-98	УП.08
-99	УП.09
-100	УП.11
-101	ФИЗИКА
-102	ФИЗИЧЕСКАЯ КУЛЬТУРА
-103	ХИМИЯ
-104	ЧИСЛЕННЫЕ МЕТОДЫ
-105	Э И СХТ
-106	ЭВМ
-107	ЭКОНОМИКА И УПРАВЛЕНИЕ
-108	ЭКОНОМИКА ОТРАСЛИ
-109	ЭЛЕКТРОННАЯ ТЕХНИКА
-110	ЭЛЕКТРОТЕХНИКА
-111	ЭРИ
-112	ЭТ
-113	ЭТИ
-114	ЭТС
+COPY public.discipline_name (discipline_name_id, name, is_deleted) FROM stdin;
+1	ААС	f
+2	БЖД	f
+3	БИОЛОГИЯ	f
+4	ВТ	f
+5	ГЕОГРАФИЯ	f
+6	ДМ	f
+7	ДМ С ЭМЛ	f
+8	И И КГ	f
+9	ИБ	f
+10	ИКГ	f
+11	ИНДИВИДУАЛЬНЫЙ ПРОЕКТ	f
+12	ИНЖЕНЕРНАЯ ГРАФИКА	f
+13	ИНОСТРАННЫЙ ЯЗЫК	f
+14	ИНОСТРАННЫЙ ЯЗЫК В ПД	f
+15	ИНФОРМАТИКА	f
+16	ИП	f
+17	ИСТОРИЯ	f
+18	ИСТОРИЯ РОССИИ	f
+19	ИТ	f
+20	КМ	f
+21	КС	f
+22	ЛИТЕРАТУРА	f
+23	МАТЕМАТИКА	f
+24	МДК.01.01	f
+25	МДК.01.02	f
+26	МДК.01.03	f
+27	МДК.01.04	f
+28	МДК.01.05	f
+29	МДК.02.01	f
+30	МДК.02.02	f
+31	МДК.02.03	f
+32	МДК.03.01	f
+33	МДК.03.02	f
+34	МДК.03.03	f
+35	МДК.03.04	f
+36	МДК.03.05	f
+37	МДК.04.01	f
+38	МДК.04.02	f
+39	МДК.05.01	f
+40	МДК.05.02	f
+41	МДК.05.03	f
+42	МДК.06.01	f
+43	МДК.08.01	f
+44	МДК.08.02	f
+45	МДК.09.01	f
+46	МДК.09.02	f
+47	МДК.09.03	f
+48	МДК.11.01	f
+49	МЕНЕДЖМЕНТ	f
+50	МЕНЕДЖМЕНТ В ПД	f
+51	МС И С	f
+52	О И ПОИБ	f
+53	ОА И П	f
+54	ОБЖ	f
+55	ОБП	f
+56	ОБЩЕСТВОЗНАНИЕ	f
+57	ОИБ	f
+58	ОПБД	f
+59	ОС И С	f
+60	ОСНОВЫ БЕРЕЖЛИВОГО ПРОИЗВОДСТВА	f
+61	ОСНОВЫ ФИЛОСОФИИ	f
+62	ОСНОВЫ ФИНАНСОВОЙ ГРАМОТНОСТИ	f
+63	ОСНОВЫ ЭТ	f
+64	ОСНОВЫ ЭТХ	f
+65	ОТИ	f
+66	ОТК	f
+67	ОФГ	f
+68	ОЭ И ВТ	f
+69	ОЭТХ	f
+70	ПОКС И WEB-СЕРВЕРОВ	f
+71	ПОПД	f
+72	ПП	f
+73	ПП.01	f
+74	ПП.02	f
+75	ПП.03	f
+76	ПП.04	f
+77	ПП.05	f
+78	ПП.06	f
+79	ПП.08	f
+80	ПП.09	f
+81	ПП.11	f
+82	ППОПД	f
+83	ПРИКЛАДНАЯ ЭЛЕКТРОНИКА	f
+84	ПСИХОЛОГИЯ ОБЩЕНИЯ	f
+85	РУССКИЙ ЯЗЫК	f
+86	РЯ И КР	f
+87	СС И ТД	f
+88	ТВИМС	f
+89	ТФУПД	f
+90	ТЭС	f
+91	ТЭЦ	f
+92	УП.01	f
+93	УП.02	f
+94	УП.03	f
+95	УП.04	f
+96	УП.05	f
+97	УП.06	f
+98	УП.08	f
+99	УП.09	f
+100	УП.11	f
+101	ФИЗИКА	f
+102	ФИЗИЧЕСКАЯ КУЛЬТУРА	f
+103	ХИМИЯ	f
+104	ЧИСЛЕННЫЕ МЕТОДЫ	f
+105	Э И СХТ	f
+106	ЭВМ	f
+107	ЭКОНОМИКА И УПРАВЛЕНИЕ	f
+108	ЭКОНОМИКА ОТРАСЛИ	f
+109	ЭЛЕКТРОННАЯ ТЕХНИКА	f
+110	ЭЛЕКТРОТЕХНИКА	f
+111	ЭРИ	f
+112	ЭТ	f
+113	ЭТИ	f
+114	ЭТС	f
 \.
 
 
@@ -940,7 +942,7 @@ COPY public.employee (employee_id, account_id) FROM stdin;
 -- Data for Name: employee_permission; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.employee_permission (employee_id, permission_id, has_access) FROM stdin;
+COPY public.employee_permission (employee_id, permission_id) FROM stdin;
 \.
 
 

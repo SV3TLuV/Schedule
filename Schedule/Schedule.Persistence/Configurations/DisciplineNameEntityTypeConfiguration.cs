@@ -22,5 +22,7 @@ public sealed class DisciplineNameEntityTypeConfiguration : IEntityTypeConfigura
         builder.Property(e => e.Name)
             .HasMaxLength(50)
             .HasColumnName("name");
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("is_deleted");
     }
 }

@@ -17,9 +17,6 @@ public sealed class EmployeePermissionEntityTypeConfiguration : IEntityTypeConfi
             .HasColumnName("employee_id");
         builder.Property(e => e.PermissionId)
             .HasColumnName("permission_id");
-        builder.Property(e => e.HasAccess)
-            .HasDefaultValue(false)
-            .HasColumnName("has_access");
 
         builder.HasOne(d => d.Employee)
             .WithMany(p => p.EmployeePermissions)

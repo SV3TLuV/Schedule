@@ -42,6 +42,8 @@ public sealed class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Ac
         builder.Property(e => e.Surname)
             .HasMaxLength(40)
             .HasColumnName("surname");
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("is_deleted");
 
         builder.HasOne(d => d.MiddleNameNavigation)
             .WithMany(p => p.Accounts)

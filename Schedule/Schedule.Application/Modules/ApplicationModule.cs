@@ -32,8 +32,8 @@ public sealed class ApplicationModule : Module
             .As<ITokenService>()
             .SingleInstance();
 
-        builder.RegisterType<HashPasswordService>()
-            .As<IHashPasswordService>()
+        builder.RegisterType<PasswordHasherService>()
+            .As<IPasswordHasherService>()
             .SingleInstance();
 
         var services = new ServiceCollection();

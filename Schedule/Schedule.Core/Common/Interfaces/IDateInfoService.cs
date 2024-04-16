@@ -5,6 +5,8 @@ public interface IDateInfoService : IWeekInfoService, IDayInfoService
     int CurrentTerm { get; }
 
     DateTime CurrentDateTime { get; }
+    DateOnly CurrentDate { get; }
+    TimeOnly CurrentTime { get; }
 
     int GetTerm(DateTime dateTime);
 }

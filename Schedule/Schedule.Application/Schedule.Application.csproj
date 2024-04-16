@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Features\Dates\Queries\" />
       <Folder Include="Features\Times\Queries\" />
     </ItemGroup>
 

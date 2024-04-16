@@ -39,4 +39,8 @@
         <ProjectReference Include="..\Schedule.Application\Schedule.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Tests\Features\Users\Commands\" />
+    </ItemGroup>
+
 </Project>

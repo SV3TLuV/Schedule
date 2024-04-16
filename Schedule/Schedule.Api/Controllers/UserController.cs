@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Schedule.Application.Features.Users.Commands.Create;
-using Schedule.Application.Features.Users.Commands.Delete;
-using Schedule.Application.Features.Users.Commands.Login;
-using Schedule.Application.Features.Users.Commands.Logout;
-using Schedule.Application.Features.Users.Commands.Refresh;
-using Schedule.Application.Features.Users.Commands.Update;
-using Schedule.Application.Features.Users.Queries.Get;
-using Schedule.Application.Features.Users.Queries.GetList;
+using Schedule.Application.Features.Accounts.Commands.Create;
+using Schedule.Application.Features.Accounts.Commands.Delete;
+using Schedule.Application.Features.Accounts.Commands.Login;
+using Schedule.Application.Features.Accounts.Commands.Logout;
+using Schedule.Application.Features.Accounts.Commands.Refresh;
+using Schedule.Application.Features.Accounts.Commands.Update;
+using Schedule.Application.Features.Accounts.Queries.Get;
+using Schedule.Application.Features.Accounts.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Models;
 
@@ -19,14 +19,14 @@ public sealed class UserController : BaseController
     [HttpGet("{id:int}")]
     public async Task<ActionResult<UserViewModel>> Get(int id)
     {
-        var query = new GetUserQuery(id);
+        var query = new GetAccountQuery(id);
         return Ok(await Mediator.Send(query));
     }
 
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<PagedList<UserViewModel>>> GetAll(
-        [FromQuery] GetUserListQuery query)
+        [FromQuery] GetAccountListQuery query)
     {
         return Ok(await Mediator.Send(query));
     }
@@ -52,7 +52,7 @@ public sealed class UserController : BaseController
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateAccountCommand command)
     {
         var id = await Mediator.Send(command);
         return Created(string.Empty, id);
@@ -60,7 +60,7 @@ public sealed class UserController : BaseController
 
     [Authorize(Roles = "Admin")]
     [HttpPut]
-    public async Task<IActionResult> Update([FromBody] UpdateUserCommand command)
+    public async Task<IActionResult> Update([FromBody] UpdateAccountCommand command)
     {
         await Mediator.Send(command);
         return NoContent();
@@ -70,7 +70,7 @@ public sealed class UserController : BaseController
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var command = new DeleteUserCommand(id);
+        var command = new DeleteAccountCommand(id);
         await Mediator.Send(command);
         return NoContent();
     }

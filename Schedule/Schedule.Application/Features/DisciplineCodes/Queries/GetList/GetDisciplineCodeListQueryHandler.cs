@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -8,24 +9,14 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.DisciplineCodes.Queries.GetList;
 
-public sealed class GetDisciplineCodeListQueryHandler 
-    : IRequestHandler<GetDisciplineCodeListQuery, PagedList<DisciplineCodeViewModel>>
+public sealed class GetDisciplineCodeListQueryHandler(
+    IScheduleDbContext context,
+    IMapper mapper) : IRequestHandler<GetDisciplineCodeListQuery, PagedList<DisciplineCodeViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetDisciplineCodeListQueryHandler(
-        IScheduleDbContext context,
-        IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-    
-    public async Task<PagedList<DisciplineCodeViewModel>> Handle(GetDisciplineCodeListQuery request, 
+    public async Task<PagedList<DisciplineCodeViewModel>> Handle(GetDisciplineCodeListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _context.Set<DisciplineCode>()
+        var query = context.DisciplineCodes
             .OrderBy(e => e.Code)
             .AsNoTrackingWithIdentityResolution();
 
@@ -42,8 +33,9 @@ public sealed class GetDisciplineCodeListQueryHandler
         var disciplineCodes = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .ProjectTo<DisciplineCodeViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-        var viewModels = _mapper.Map<DisciplineCodeViewModel[]>(disciplineCodes);
+
         var totalCount = await query.CountAsync(cancellationToken);
 
         return new PagedList<DisciplineCodeViewModel>
@@ -51,7 +43,7 @@ public sealed class GetDisciplineCodeListQueryHandler
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = disciplineCodes
         };
     }
 }

@@ -6,5 +6,7 @@ public class DisciplineCode
 
     public string Code { get; set; } = null!;
 
+    public bool IsDeleted { get; set; }
+
     public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();
 }

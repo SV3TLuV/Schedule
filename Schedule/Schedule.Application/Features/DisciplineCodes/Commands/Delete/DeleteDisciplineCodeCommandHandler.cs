@@ -6,18 +6,12 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.DisciplineCodes.Commands.Delete;
 
-public sealed class DeleteDisciplineCodeCommandHandler : IRequestHandler<DeleteDisciplineCodeCommand, Unit>
+public sealed class DeleteDisciplineCodeCommandHandler(IScheduleDbContext context)
+    : IRequestHandler<DeleteDisciplineCodeCommand, Unit>
 {
-    private readonly IScheduleDbContext _context;
-
-    public DeleteDisciplineCodeCommandHandler(IScheduleDbContext context)
-    {
-        _context = context;
-    }
-    
     public async Task<Unit> Handle(DeleteDisciplineCodeCommand request, CancellationToken cancellationToken)
     {
-        var disciplineCode = await _context.Set<DisciplineCode>()
+        var disciplineCode = await context.DisciplineCodes
             .FirstOrDefaultAsync(e => e.DisciplineCodeId == request.Id, cancellationToken);
 
         if (disciplineCode is null)
@@ -25,8 +19,8 @@ public sealed class DeleteDisciplineCodeCommandHandler : IRequestHandler<DeleteD
 
         disciplineCode.IsDeleted = true;
         
-        _context.Set<DisciplineCode>().Update(disciplineCode);
-        await _context.SaveChangesAsync(cancellationToken);
+        context.DisciplineCodes.Update(disciplineCode);
+        await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

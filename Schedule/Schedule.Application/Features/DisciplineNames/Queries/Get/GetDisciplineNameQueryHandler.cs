@@ -8,29 +8,20 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.DisciplineNames.Queries.Get;
 
-public sealed class GetDisciplineNameQueryHandler : IRequestHandler<GetDisciplineNameQuery, DisciplineNameViewModel>
+public sealed class GetDisciplineNameQueryHandler(
+    IScheduleDbContext context,
+    IMapper mapper) : IRequestHandler<GetDisciplineNameQuery, DisciplineNameViewModel>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetDisciplineNameQueryHandler(
-        IScheduleDbContext context,
-        IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-    
     public async Task<DisciplineNameViewModel> Handle(GetDisciplineNameQuery request,
         CancellationToken cancellationToken)
     {
-        var discipline = await _context.Set<DisciplineName>()
+        var discipline = await context.DisciplineNames
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.DisciplineNameId == request.Id, cancellationToken);
 
         if (discipline is null)
             throw new NotFoundException(nameof(DisciplineName), request.Id);
 
-        return _mapper.Map<DisciplineNameViewModel>(discipline);
+        return mapper.Map<DisciplineNameViewModel>(discipline);
     }
 }

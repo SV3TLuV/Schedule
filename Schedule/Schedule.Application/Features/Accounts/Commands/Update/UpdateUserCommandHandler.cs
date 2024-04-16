@@ -2,8 +2,8 @@
 using BCrypt.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schedule.Application.Features.Accounts.Notifications.UserSessionRevocation;
 using Schedule.Application.Features.Users.Notifications;
-using Schedule.Application.Features.Users.Notifications.UserSessionRevocation;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;

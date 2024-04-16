@@ -12,5 +12,7 @@ public class CreateSpecialityCommandValidator : AbstractValidator<CreateSpeciali
         RuleFor(query => query.Name)
             .MaximumLength(20)
             .NotEmpty();
+        RuleFor(query => query.MaxTermId)
+            .InclusiveBetween(1, 10);
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Schedule.Application.Common.Interfaces;
+using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.Services;

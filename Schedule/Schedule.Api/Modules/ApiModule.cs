@@ -20,15 +20,8 @@ using Schedule.Persistence.Initializers;
 
 namespace Schedule.Api.Modules;
 
-public sealed class ApiModule : Module
+public sealed class ApiModule(IConfiguration configuration) : Module
 {
-    private readonly IConfiguration _configuration;
-
-    public ApiModule(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<DateInfoService>()
@@ -68,9 +61,9 @@ public sealed class ApiModule : Module
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = _configuration["Jwt:Issuer"],
-                    ValidAudience = _configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]))
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
 
@@ -78,8 +71,8 @@ public sealed class ApiModule : Module
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
             .AddTransient<IDbInitializer, DatabaseInitializer>()
             .AddFluentValidationAutoValidation()
-            .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-                options.UseSqlServer($"Name={Constants.ConnectionStringName}"))
+            // .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
+            //     options.UseSqlServer($"Name={Constants.ConnectionStringName}"))
             .AddQuartzServer(options => { options.WaitForJobsToComplete = true; })
             .AddQuartz(configuration =>
             {

@@ -2,7 +2,7 @@
 
 public enum AccountRole
 {
-    Account = 1,
+    Admin = 1,
     Editor = 2,
     Teacher = 3,
     Student = 4

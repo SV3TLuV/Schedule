@@ -61,10 +61,6 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Term> Terms { get; set; }
 
-    public virtual DbSet<Time> Times { get; set; }
-
-    public virtual DbSet<TimeType> TimeTypes { get; set; }
-
     public virtual DbSet<Timetable> Timetables { get; set; }
 
     public virtual DbSet<WeekType> WeekTypes { get; set; }

@@ -10,8 +10,6 @@ public sealed class DisciplineNameViewModel : IMapWith<DisciplineName>
     
     public string Name { get; set; } = null!;
     
-    public bool IsDeleted { get; set; }
-    
     public void Map(Profile profile)
     {
         profile.CreateMap<DisciplineName, DisciplineNameViewModel>()

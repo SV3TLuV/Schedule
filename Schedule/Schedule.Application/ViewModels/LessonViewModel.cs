@@ -7,28 +7,30 @@ namespace Schedule.Application.ViewModels;
 public class LessonViewModel : IMapWith<Lesson>
 {
     public int Id { get; set; }
+    
+    public DisciplineViewModel Discipline { get; set; } = null!;
 
     public int Number { get; set; }
 
     public int? Subgroup { get; set; }
 
     public int TimetableId { get; set; }
+    
+    public List<int> TeacherIds { get; set; } = null!;
+    
+    public List<int> ClassroomIds { get; set; } = null!;
+    
+    public LessonChangeViewModel? LessonChange { get; set; }
 
-    public bool IsChanged { get; set; }
-
-    public TimeViewModel? Time { get; set; }
-
-    public DisciplineViewModel? Discipline { get; set; }
-
-    public ICollection<TeacherClassroomViewModel> TeacherClassrooms { get; set; } = null!;
+    public TimeOnly? TimeStart { get; set; }
+    
+    public TimeOnly? TimeEnd { get; set; }
 
     public void Map(Profile profile)
     {
         profile.CreateMap<Lesson, LessonViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(lesson => lesson.LessonId))
-            .ForMember(viewModel => viewModel.TeacherClassrooms, expression =>
-                expression.MapFrom(lesson => lesson.LessonTeacherClassrooms))
             .ReverseMap();
     }
 }

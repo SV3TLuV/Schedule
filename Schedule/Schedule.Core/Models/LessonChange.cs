@@ -8,7 +8,9 @@ public class LessonChange
 
     public int? Subgroup { get; set; }
 
-    public int? TimeId { get; set; }
+    public TimeOnly? TimeStart { get; set; }
+    
+    public TimeOnly? TimeEnd { get; set; }
 
     public int LessonId { get; set; }
 
@@ -25,6 +27,4 @@ public class LessonChange
     public virtual Lesson Lesson { get; set; } = null!;
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
-
-    public virtual Time? Time { get; set; }
 }

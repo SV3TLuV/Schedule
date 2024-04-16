@@ -28,8 +28,10 @@ public sealed class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Les
             .HasColumnName("subgroup");
         builder.Property(e => e.TeacherIds)
             .HasColumnName("teacher_ids");
-        builder.Property(e => e.TimeId)
-            .HasColumnName("time_id");
+        builder.Property(e => e.TimeStart)
+            .HasColumnName("time_start");
+        builder.Property(e => e.TimeEnd)
+            .HasColumnName("time_end");
         builder.Property(e => e.TimetableId)
             .HasColumnName("timetable_id");
 
@@ -43,12 +45,6 @@ public sealed class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Les
             .HasForeignKey(d => d.LessonChangeId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("lesson_lesson_change_id_fk");
-
-        builder.HasOne(d => d.Time)
-            .WithMany(p => p.Lessons)
-            .HasForeignKey(d => d.TimeId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("lesson_time_id_fk");
 
         builder.HasOne(d => d.Timetable)
             .WithMany(p => p.Lessons)

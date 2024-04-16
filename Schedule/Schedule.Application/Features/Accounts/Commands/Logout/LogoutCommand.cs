@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Schedule.Application.Features.Users.Commands.Logout;
+namespace Schedule.Application.Features.Accounts.Commands.Logout;
 
 public sealed class LogoutCommand : IRequest<Unit>
 {

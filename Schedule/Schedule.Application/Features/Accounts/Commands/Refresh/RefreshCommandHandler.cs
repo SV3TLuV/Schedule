@@ -9,39 +9,27 @@ using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Users.Commands.Refresh;
+namespace Schedule.Application.Features.Accounts.Commands.Refresh;
 
-public sealed class RefreshCommandHandler : IRequestHandler<RefreshCommand, AuthorizationResultViewModel>
+public sealed class RefreshCommandHandler(
+    IScheduleDbContext context,
+    ITokenService tokenService,
+    IMediator mediator,
+    IMapper mapper)
+    : IRequestHandler<RefreshCommand, AuthorizationResultViewModel>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-    private readonly ITokenService _tokenService;
-
-    public RefreshCommandHandler(
-        IScheduleDbContext context,
-        ITokenService tokenService,
-        IMediator mediator,
-        IMapper mapper)
-    {
-        _context = context;
-        _tokenService = tokenService;
-        _mediator = mediator;
-        _mapper = mapper;
-    }
-
     public async Task<AuthorizationResultViewModel> Handle(RefreshCommand request,
         CancellationToken cancellationToken)
     {
-        var principal = _tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
+        var principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
         var sidClaim = principal.FindFirst(ClaimTypes.Sid);
 
         if (sidClaim is null || !Guid.TryParse(sidClaim.Value, out var sessionId))
             throw new NotFoundException("Invalid AccessToken");
 
-        var session = await _context.Set<Session>()
-            .AsNoTrackingWithIdentityResolution()
-            .Include(e => e.User)
+        var session = await context.Sessions
+            .AsNoTracking()
+            .Include(e => e.Account)
             .ThenInclude(e => e.Role)
             .FirstOrDefaultAsync(e => e.SessionId == sessionId, cancellationToken);
 
@@ -54,19 +42,19 @@ public sealed class RefreshCommandHandler : IRequestHandler<RefreshCommand, Auth
         var command = new UpdateSessionCommand
         {
             Id = session.SessionId,
-            RefreshToken = _tokenService.GenerateRefreshToken(),
-            UserId = session.UserId
+            RefreshToken = tokenService.GenerateRefreshToken(),
+            UserId = session.AccountId
         };
 
-        await _mediator.Send(command, cancellationToken);
-        var userViewModel = _mapper.Map<UserViewModel>(session.User);
-        var accessToken = _tokenService.GenerateAccessToken(session.User, session.SessionId);
+        await mediator.Send(command, cancellationToken);
+        var accountViewModel = mapper.Map<AccountViewModel>(session.Account);
+        var accessToken = tokenService.GenerateAccessToken(session.Account, session.SessionId);
 
         return new AuthorizationResultViewModel
         {
             AccessToken = accessToken,
             RefreshToken = command.RefreshToken,
-            User = userViewModel
+            Account = accountViewModel
         };
     }
 }

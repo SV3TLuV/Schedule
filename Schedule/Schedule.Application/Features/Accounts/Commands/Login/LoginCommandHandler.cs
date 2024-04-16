@@ -7,9 +7,8 @@ using Schedule.Application.Features.Sessions.Commands.Create;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.Users.Commands.Login;
+namespace Schedule.Application.Features.Accounts.Commands.Login;
 
 public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AuthorizationResultViewModel>
 {
@@ -32,8 +31,8 @@ public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authoriz
 
     public async Task<AuthorizationResultViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Set<User>()
-            .AsNoTrackingWithIdentityResolution()
+        var user = await _context.Accounts
+            .AsNoTracking()
             .Include(e => e.Role)
             .FirstOrDefaultAsync(e => e.Login == request.Login, cancellationToken);
 
@@ -44,18 +43,18 @@ public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authoriz
         {
             Id = Guid.NewGuid(),
             RefreshToken = _tokenService.GenerateRefreshToken(),
-            UserId = user.UserId
+            UserId = user.AccountId
         };
         
         await _mediator.Send(command, cancellationToken);
-        var userViewModel = _mapper.Map<UserViewModel>(user);
+        var userViewModel = _mapper.Map<AccountViewModel>(user);
         var accessToken = _tokenService.GenerateAccessToken(user, command.Id);
 
         return new AuthorizationResultViewModel
         {
             AccessToken = accessToken,
             RefreshToken = command.RefreshToken,
-            User = userViewModel
+            Account = userViewModel
         };
     }
 }

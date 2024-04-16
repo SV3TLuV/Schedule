@@ -70,9 +70,9 @@ public sealed class ApiModule(IConfiguration configuration) : Module
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
             .AddTransient<IDbInitializer, DatabaseInitializer>()
-            .AddFluentValidationAutoValidation();
-            // .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
-            //     options.UseSqlServer($"Name={Constants.ConnectionStringName}"))
+            .AddFluentValidationAutoValidation()
+            .AddDbContext<IScheduleDbContext, ScheduleDbContext>(options =>
+                options.UseNpgsql($"Name={Constants.PostgresqlConnectionString}"));
             // .AddQuartzServer(options => { options.WaitForJobsToComplete = true; })
             // .AddQuartz(configuration =>
             // {

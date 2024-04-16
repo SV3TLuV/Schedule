@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -7,36 +8,28 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Days.Queries.GetList;
 
-public sealed class GetDayListQueryHandler : IRequestHandler<GetDayListQuery, PagedList<DayViewModel>>
+public sealed class GetDayListQueryHandler(IScheduleDbContext context, IMapper mapper)
+    : IRequestHandler<GetDayListQuery, PagedList<DayViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetDayListQueryHandler(IScheduleDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<PagedList<DayViewModel>> Handle(GetDayListQuery request,
         CancellationToken cancellationToken)
     {
-        var days = await _context.Set<Day>()
+        var days = await context.Days
             .OrderBy(e => e.DayId)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
+            .ProjectTo<DayViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
-        var viewModels = _mapper.Map<List<DayViewModel>>(days);
-        var totalCount = await _context.Set<Day>().CountAsync(cancellationToken);
+        var totalCount = await context.Days.CountAsync(cancellationToken);
 
         return new PagedList<DayViewModel>
         {
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = days
         };
     }
 }

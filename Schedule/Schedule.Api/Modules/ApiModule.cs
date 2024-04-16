@@ -82,16 +82,6 @@ public sealed class ApiModule(IConfiguration configuration) : Module
             //     configuration.UseInMemoryStore();
             //     configuration.UseDefaultThreadPool(pool => { pool.MaxConcurrency = 10; });
             //
-            //     configuration.AddJob<GenerateDatesJob>(options =>
-            //         options.WithIdentity("GenerateDatesJob"));
-            //
-            //     configuration.AddTrigger(configure =>
-            //         configure.ForJob("GenerateDatesJob")
-            //             .WithIdentity("GenerateDatesJobTrigger")
-            //             .WithSimpleSchedule(x => x
-            //                 .WithIntervalInHours(6)
-            //                 .RepeatForever()));
-            //
             //     configuration.AddJob<TransferGroupsJob>(options =>
             //         options.WithIdentity("TransferGroupsJob"));
             //

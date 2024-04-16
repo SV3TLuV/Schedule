@@ -9,7 +9,7 @@ public sealed class CreateSessionCommandValidator : AbstractValidator<CreateSess
     {
         RuleFor(query => query.RefreshToken)
             .MaximumLength(512);
-        RuleFor(query => query.UserId)
+        RuleFor(query => query.AccountId)
             .SetValidator(new IdValidator());
     }
 }

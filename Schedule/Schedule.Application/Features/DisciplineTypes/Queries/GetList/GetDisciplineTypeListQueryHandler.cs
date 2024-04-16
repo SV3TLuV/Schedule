@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Application.ViewModels;
@@ -7,38 +8,28 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.DisciplineTypes.Queries.GetList;
 
-public sealed class GetDisciplineTypeListQueryHandler
-    : IRequestHandler<GetDisciplineTypeListQuery, PagedList<DisciplineTypeViewModel>>
+public sealed class GetDisciplineTypeListQueryHandler(
+    IScheduleDbContext context,
+    IMapper mapper) : IRequestHandler<GetDisciplineTypeListQuery, PagedList<DisciplineTypeViewModel>>
 {
-    private readonly IScheduleDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetDisciplineTypeListQueryHandler(
-        IScheduleDbContext context,
-        IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<PagedList<DisciplineTypeViewModel>> Handle(GetDisciplineTypeListQuery request,
         CancellationToken cancellationToken)
     {
-        var disciplines = await _context.Set<DisciplineType>()
+        var disciplines = await context.DisciplineTypes
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTrackingWithIdentityResolution()
+            .ProjectTo<DisciplineTypeViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
-        var viewModels = _mapper.Map<DisciplineTypeViewModel[]>(disciplines);
-        var totalCount = await _context.Set<DisciplineType>().CountAsync(cancellationToken);
+        var totalCount = await context.DisciplineTypes.CountAsync(cancellationToken);
 
         return new PagedList<DisciplineTypeViewModel>
         {
             PageSize = request.PageSize,
             PageNumber = request.Page,
             TotalCount = totalCount,
-            Items = viewModels
+            Items = disciplines
         };
     }
 }

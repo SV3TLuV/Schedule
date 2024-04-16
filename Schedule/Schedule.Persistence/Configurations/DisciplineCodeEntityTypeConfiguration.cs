@@ -22,5 +22,7 @@ public sealed class DisciplineCodeEntityTypeConfiguration : IEntityTypeConfigura
         builder.Property(e => e.Code)
             .HasMaxLength(20)
             .HasColumnName("code");
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("is_deleted");
     }
 }

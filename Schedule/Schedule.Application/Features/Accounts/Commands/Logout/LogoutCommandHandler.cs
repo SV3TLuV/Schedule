@@ -34,7 +34,18 @@ public sealed class LogoutCommandHandler(
         if (session.RefreshToken != request.RefreshToken)
             throw new NotFoundException("Invalid RefreshToken");
 
-        await mediator.Send(new DeleteSessionCommand(sessionId), cancellationToken);
+        if (request.IsAllDevices)
+        {
+            await context.Sessions
+                .AsNoTracking()
+                .Where(e => e.AccountId == session.AccountId)
+                .ExecuteDeleteAsync(cancellationToken);
+        }
+        else
+        {
+            await mediator.Send(new DeleteSessionCommand(sessionId), cancellationToken);
+        }
+
         return Unit.Value;
     }
 }

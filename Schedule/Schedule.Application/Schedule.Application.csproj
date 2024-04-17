@@ -26,6 +26,11 @@
 
     <ItemGroup>
       <Folder Include="Features\Dates\Queries\" />
+      <Folder Include="Features\MiddleNames\Commands\" />
+      <Folder Include="Features\Names\Commands\" />
+      <Folder Include="Features\Names\Queries\" />
+      <Folder Include="Features\Surnames\Commands\" />
+      <Folder Include="Features\Surnames\Queries\" />
       <Folder Include="Features\Times\Queries\" />
     </ItemGroup>
 

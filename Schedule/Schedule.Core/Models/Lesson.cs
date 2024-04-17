@@ -15,8 +15,6 @@ public class Lesson
     public List<int> TeacherIds { get; set; } = null!;
 
     public List<int> ClassroomIds { get; set; } = null!;
-
-    public int? LessonChangeId { get; set; }
     
     public TimeOnly? TimeStart { get; set; }
     
@@ -24,9 +22,7 @@ public class Lesson
 
     public virtual Discipline Discipline { get; set; } = null!;
 
-    public virtual LessonChange? LessonChange { get; set; }
-
-    public virtual ICollection<LessonChange> LessonChanges { get; set; } = new List<LessonChange>();
+    public virtual ICollection<LessonChange>? LessonChanges { get; set; }
 
     public virtual Timetable Timetable { get; set; } = null!;
 }

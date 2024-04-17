@@ -10,6 +10,8 @@ public class DayViewModel : IMapWith<Day>
 
     public string Name { get; set; } = null!;
 
+    public bool IsStudy { get; set; }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<Day, DayViewModel>()

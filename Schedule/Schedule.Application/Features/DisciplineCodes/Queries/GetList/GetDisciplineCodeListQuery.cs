@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Schedule.Application.Common.Enums;
 using Schedule.Application.Features.Base.Queries.Paginated;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Enums;

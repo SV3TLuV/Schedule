@@ -1,5 +1,6 @@
 using ClosedXML.Excel;
 using MediatR;
+using Schedule.Application.Common.Enums;
 using Schedule.Application.Features.Specialities.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Enums;

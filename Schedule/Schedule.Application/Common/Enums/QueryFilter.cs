@@ -1,4 +1,4 @@
-﻿namespace Schedule.Core.Common.Enums;
+﻿namespace Schedule.Application.Common.Enums;
 
 public enum QueryFilter
 {

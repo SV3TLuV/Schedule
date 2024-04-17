@@ -13,11 +13,11 @@ using Schedule.Core.Models;
 
 namespace Schedule.Api.Controllers;
 
-public sealed class UserController : BaseController
+public sealed class AccountController : BaseController
 {
     [Authorize(Roles = "Admin")]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserViewModel>> Get(int id)
+    public async Task<ActionResult<AccountViewModel>> Get(int id)
     {
         var query = new GetAccountQuery(id);
         return Ok(await Mediator.Send(query));
@@ -25,7 +25,7 @@ public sealed class UserController : BaseController
 
     [Authorize(Roles = "Admin")]
     [HttpGet]
-    public async Task<ActionResult<PagedList<UserViewModel>>> GetAll(
+    public async Task<ActionResult<PagedList<AccountViewModel>>> GetAll(
         [FromQuery] GetAccountListQuery query)
     {
         return Ok(await Mediator.Send(query));

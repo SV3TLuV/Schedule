@@ -13,7 +13,7 @@ public sealed class CreateDisciplineCommandHandler(IScheduleDbContext context, I
     public async Task<int> Handle(CreateDisciplineCommand request, CancellationToken cancellationToken)
     {
         var searched = await context.Disciplines
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e =>
                 e.TermId == request.TermId &&
                 e.NameId == request.NameId &&

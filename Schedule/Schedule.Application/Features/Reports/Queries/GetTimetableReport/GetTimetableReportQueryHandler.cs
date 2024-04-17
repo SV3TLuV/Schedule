@@ -27,7 +27,7 @@ public sealed class GetTimetableReportQueryHandler : IRequestHandler<GetTimetabl
         CancellationToken cancellationToken)
     {
         var dates = await _context.Set<Date>()
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Where(e => e.DateId >= request.StartDateId && e.DateId <= request.EndDateId)
             .OrderBy(e => e.DateId)
             .ToListAsync(cancellationToken);

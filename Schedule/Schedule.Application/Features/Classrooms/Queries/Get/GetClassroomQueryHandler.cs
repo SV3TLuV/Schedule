@@ -15,7 +15,7 @@ public sealed class GetClassroomQueryHandler(IScheduleDbContext context, IMapper
         CancellationToken cancellationToken)
     {
         var classroom = await context.Classrooms
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 
         if (classroom is null)

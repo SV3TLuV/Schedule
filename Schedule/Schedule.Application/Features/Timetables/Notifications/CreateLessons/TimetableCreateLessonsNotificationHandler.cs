@@ -24,7 +24,7 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
     public async Task Handle(TimetableCreateLessonsNotification notification, CancellationToken cancellationToken)
     {
         var timetable = await _context.Set<Timetable>()
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Include(e => e.Date)
             .Include(e => e.Group)
             .FirstOrDefaultAsync(e => e.TimetableId == notification.TimetableId, cancellationToken);
@@ -32,7 +32,7 @@ public sealed class TimetableCreateLessonsNotificationHandler : INotificationHan
         if (timetable is null) throw new NotFoundException(nameof(Timetable), notification.TimetableId);
 
         var template = await _context.Set<Template>()
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Include(e => e.LessonTemplates)
             .ThenInclude(e => e.LessonTemplateTeacherClassrooms)
             .FirstOrDefaultAsync(e =>

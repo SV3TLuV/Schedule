@@ -16,7 +16,7 @@ public sealed class GetTermListQueryHandler(
         CancellationToken cancellationToken)
     {
         var terms = await context.Terms
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .ProjectTo<TermViewModel>(mapper.ConfigurationProvider)

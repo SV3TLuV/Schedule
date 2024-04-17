@@ -19,7 +19,7 @@ public sealed class GetDisciplineNameQueryListHandler(
     {
         var query = context.DisciplineNames
             .OrderBy(e => e.Name)
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         query = request.Filter switch
         {

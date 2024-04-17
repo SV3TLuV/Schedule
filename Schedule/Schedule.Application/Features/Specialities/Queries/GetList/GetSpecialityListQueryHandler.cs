@@ -20,7 +20,7 @@ public sealed class GetSpecialityListQueryHandler(IScheduleDbContext context, IM
             .Include(e => e.Disciplines)
             .Include(e => e.Disciplines)
             .OrderBy(e => e.SpecialityId)
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         query = request.Filter switch
         {

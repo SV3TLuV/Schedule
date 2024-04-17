@@ -15,7 +15,7 @@ public sealed class UpdateSessionCommandHandler(
     public async Task<Unit> Handle(UpdateSessionCommand request, CancellationToken cancellationToken)
     {
         var sessionDbo = await context.Sessions
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.SessionId == request.Id, cancellationToken);
 
         if (sessionDbo is null)

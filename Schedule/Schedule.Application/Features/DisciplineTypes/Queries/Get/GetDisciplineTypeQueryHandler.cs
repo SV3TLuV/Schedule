@@ -16,7 +16,7 @@ public sealed class GetDisciplineTypeQueryHandler(
         CancellationToken cancellationToken)
     {
         var discipline = await context.DisciplineTypes
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineTypeId == request.Id, cancellationToken);
 
         if (discipline is null)

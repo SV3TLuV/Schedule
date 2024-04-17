@@ -13,7 +13,7 @@ public sealed class UpdateSpecialityCommandHandler(IScheduleDbContext context, I
     public async Task<Unit> Handle(UpdateSpecialityCommand request, CancellationToken cancellationToken)
     {
         var specialityDbo = await context.Specialities
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.SpecialityId == request.Id, cancellationToken);
 
         if (specialityDbo is null)

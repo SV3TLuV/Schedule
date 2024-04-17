@@ -14,7 +14,7 @@ public sealed class UpdateDisciplineCodeCommandHandler(
     public async Task<Unit> Handle(UpdateDisciplineCodeCommand request, CancellationToken cancellationToken)
     {
         var disciplineCodeDbo = await context.DisciplineCodes
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineCodeId == request.Id, cancellationToken);
 
         if (disciplineCodeDbo is null)

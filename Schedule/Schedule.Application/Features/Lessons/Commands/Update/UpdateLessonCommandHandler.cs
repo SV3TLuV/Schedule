@@ -28,7 +28,7 @@ public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCom
         CancellationToken cancellationToken)
     {
         var lessonDbo = await _context.Set<Lesson>()
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.LessonId == request.Id, cancellationToken);
 
         if (lessonDbo is null)
@@ -36,7 +36,7 @@ public sealed class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCom
 
         await _context.Set<LessonTeacherClassroom>()
             .Where(entity => entity.LessonId == lessonDbo.LessonId)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .ExecuteDeleteAsync(cancellationToken);
 
         var lesson = _mapper.Map<Lesson>(request);

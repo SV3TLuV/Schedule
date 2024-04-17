@@ -13,7 +13,7 @@ public sealed class CreateSpecialityCommandHandler(IScheduleDbContext context, I
     public async Task<int> Handle(CreateSpecialityCommand request, CancellationToken cancellationToken)
     {
         var searched = await context.Specialities
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e =>
                 e.Name == request.Name &&
                 e.Code == request.Code, cancellationToken);

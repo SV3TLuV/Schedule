@@ -69,7 +69,7 @@ public sealed class GetTimetableQueryHandler : IRequestHandler<GetTimetableQuery
             .Include(e => e.Lessons)
             .ThenInclude(e => e.LessonTeacherClassrooms)
             .ThenInclude(e => e.Classroom)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .AsSplitQuery()
             .FirstOrDefaultAsync(e => e.TimetableId == request.Id, cancellationToken);
 

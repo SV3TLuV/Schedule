@@ -16,7 +16,7 @@ public sealed class GetSpecialityQueryHandler(IScheduleDbContext context, IMappe
     {
         var speciality = await context.Specialities
             .Include(e => e.Disciplines)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.SpecialityId == request.Id, cancellationToken);
 
         if (speciality is null)

@@ -26,7 +26,7 @@ public sealed class GetGroupListQueryHandler(IScheduleDbContext context, IMapper
             .OrderBy(e => e.Term.Course)
             .ThenBy(e => e.Speciality.Code)
             .AsSplitQuery()
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         query = request.Filter switch
         {

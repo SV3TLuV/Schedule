@@ -72,7 +72,7 @@ public sealed class GetTimetableListQueryHandler
             .OrderBy(e => e.TimetableId)
             .Where(e => !e.Group.IsDeleted)
             .AsSplitQuery()
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         if (request.DateId is not null) query = query.Where(e => e.DateId == request.DateId);
 

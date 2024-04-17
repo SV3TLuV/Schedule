@@ -12,7 +12,7 @@ public sealed class UpdateDayCommandHandler(IScheduleDbContext context)
     public async Task<Unit> Handle(UpdateDayCommand request, CancellationToken cancellationToken)
     {
         var day = await context.Days
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DayId == request.Id, cancellationToken);
 
         if (day is null)

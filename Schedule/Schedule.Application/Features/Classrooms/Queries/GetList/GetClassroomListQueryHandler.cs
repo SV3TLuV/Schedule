@@ -17,7 +17,7 @@ public sealed class GetClassroomListQueryHandler(IScheduleDbContext context, IMa
         CancellationToken cancellationToken)
     {
         var query = context.Classrooms
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         query = request.Filter switch
         {

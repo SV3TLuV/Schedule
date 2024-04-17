@@ -23,7 +23,7 @@ public sealed class TransferGroupsJob(
             foreach (var group in groups)
             {
                 var transfer = await context.GroupTransfers
-                    .AsNoTrackingWithIdentityResolution()
+                    .AsNoTracking()
                     .OrderBy(e => e.NextTermId)
                     .FirstOrDefaultAsync(e => e.GroupId == group.GroupId && !e.IsTransferred);
 

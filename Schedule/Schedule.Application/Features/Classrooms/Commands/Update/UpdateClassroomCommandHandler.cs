@@ -13,7 +13,7 @@ public sealed class UpdateClassroomCommandHandler(IScheduleDbContext context, IM
     public async Task<Unit> Handle(UpdateClassroomCommand request, CancellationToken cancellationToken)
     {
         var classroom = await context.Classrooms
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 
         if (classroom is null)

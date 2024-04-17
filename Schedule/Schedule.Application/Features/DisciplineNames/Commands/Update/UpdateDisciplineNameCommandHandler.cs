@@ -15,7 +15,7 @@ public sealed class UpdateDisciplineNameCommandHandler(
         CancellationToken cancellationToken)
     {
         var disciplineNameDbo = await context.DisciplineNames
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineNameId == request.Id, cancellationToken);
 
         if (disciplineNameDbo is null)

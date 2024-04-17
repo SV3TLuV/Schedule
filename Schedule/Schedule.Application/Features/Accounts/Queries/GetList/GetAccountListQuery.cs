@@ -9,5 +9,6 @@ namespace Schedule.Application.Features.Accounts.Queries.GetList;
 public sealed record GetAccountListQuery : PaginatedQuery, IRequest<PagedList<AccountViewModel>>
 {
     public required QueryFilter Filter { get; init; } = QueryFilter.Available;
+    public AccountRole? Role { get; init; }
     public string? Search { get; set; }
 }

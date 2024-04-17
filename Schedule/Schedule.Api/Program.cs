@@ -6,7 +6,6 @@ using Schedule.Api.Hubs;
 using Schedule.Api.Middleware.CustomException;
 using Schedule.Api.Modules;
 using Schedule.Application.Modules;
-using Schedule.Persistence.Common.Interfaces;
 
 var applicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -36,9 +35,6 @@ applicationBuilder.Host
 
 var app = applicationBuilder.Build();
 
-var initializer = app.Services.GetRequiredService<IDbInitializer>();
-await initializer.InitializeAsync();
-    
 ConfigureApp(app);
 
 app.Run();

@@ -6,11 +6,13 @@ using Schedule.Application.Features.Sessions.Commands.Create;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Accounts.Commands.Login;
 
 public sealed class LoginCommandHandler(
     IScheduleDbContext context,
+    IAccountRepository accountRepository,
     ITokenService tokenService,
     IMediator mediator,
     IMapper mapper,
@@ -19,10 +21,7 @@ public sealed class LoginCommandHandler(
 {
     public async Task<AuthorizationResultViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var account = await context.Accounts
-            .AsNoTracking()
-            .Include(e => e.Role)
-            .FirstOrDefaultAsync(e => e.Login == request.Login, cancellationToken);
+        var account = await accountRepository.FindByLogin(request.Login, cancellationToken);
 
         if (account is null || !passwordHasher.EnhancedHash(request.Password, account.PasswordHash))
             throw new IncorrectAuthorizationDataException();

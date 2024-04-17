@@ -12,14 +12,15 @@ public sealed class UpdateClassroomCommandHandler(IScheduleDbContext context, IM
 {
     public async Task<Unit> Handle(UpdateClassroomCommand request, CancellationToken cancellationToken)
     {
-        var classroomDbo = await context.Classrooms
+        var classroom = await context.Classrooms
             .AsNoTrackingWithIdentityResolution()
             .FirstOrDefaultAsync(e => e.ClassroomId == request.Id, cancellationToken);
 
-        if (classroomDbo is null)
+        if (classroom is null)
             throw new NotFoundException(nameof(Classroom), request.Id);
 
-        var classroom = mapper.Map<Classroom>(request);
+        classroom.Cabinet = request.Cabinet;
+
         context.Classrooms.Update(classroom);
         await context.SaveChangesAsync(cancellationToken);
         return Unit.Value;

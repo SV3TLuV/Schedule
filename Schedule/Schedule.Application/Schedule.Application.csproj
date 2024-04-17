@@ -29,7 +29,7 @@
       <Folder Include="Features\MiddleNames\Commands\" />
       <Folder Include="Features\Names\Commands\" />
       <Folder Include="Features\Surnames\Commands\" />
-      <Folder Include="Features\Surnames\Queries\" />
+      <Folder Include="Features\Surnames\Queries\GetList\" />
       <Folder Include="Features\Times\Queries\" />
     </ItemGroup>
 

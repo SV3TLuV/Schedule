@@ -336,7 +336,6 @@ CREATE TABLE public.lesson (
     timetable_id integer NOT NULL,
     teacher_ids integer[] NOT NULL,
     classroom_ids integer[] NOT NULL,
-    lesson_change_id integer,
     time_start time without time zone,
     time_end time without time zone
 );
@@ -967,7 +966,7 @@ COPY public.group_transfer (next_term_id, group_id, is_transferred, transfer_dat
 -- Data for Name: lesson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, teacher_ids, classroom_ids, lesson_change_id, time_start, time_end) FROM stdin;
+COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, teacher_ids, classroom_ids, time_start, time_end) FROM stdin;
 \.
 
 
@@ -1681,14 +1680,6 @@ ALTER TABLE ONLY public.lesson_change
 
 ALTER TABLE ONLY public.lesson
     ADD CONSTRAINT lesson_discipline_id_fk FOREIGN KEY (discipline_id) REFERENCES public.discipline(discipline_id) ON DELETE CASCADE;
-
-
---
--- Name: lesson lesson_lesson_change_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.lesson
-    ADD CONSTRAINT lesson_lesson_change_id_fk FOREIGN KEY (lesson_change_id) REFERENCES public.lesson_change(lesson_change_id) ON DELETE CASCADE;
 
 
 --

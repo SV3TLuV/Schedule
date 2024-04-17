@@ -25,6 +25,4 @@ public class LessonChange
     public virtual Discipline Discipline { get; set; } = null!;
 
     public virtual Lesson Lesson { get; set; } = null!;
-
-    public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 }

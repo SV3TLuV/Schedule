@@ -5,11 +5,16 @@ using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Accounts.Commands.Update;
 
-public sealed class UpdateAccountCommandHandler(IScheduleDbContext context)
-    : IRequestHandler<UpdateAccountCommand, Unit>
+public sealed class UpdateAccountCommandHandler(
+    IScheduleDbContext context,
+    IAccountRepository accountRepository,
+    INameRepository nameRepository,
+    ISurnameRepository surnameRepository,
+    IMiddleNameRepository middleNameRepository) : IRequestHandler<UpdateAccountCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
     {
@@ -24,60 +29,25 @@ public sealed class UpdateAccountCommandHandler(IScheduleDbContext context)
 
         if (request.Name is not null)
         {
-            var nameIsExists = await context.Names
-                .AsNoTracking()
-                .AnyAsync(e => e.Value == request.Name, cancellationToken);
-
-            if (!nameIsExists)
-            {
-                await context.Names.AddAsync(new Name
-                {
-                    Value = request.Name
-                }, cancellationToken);
-            }
-
+            await nameRepository.AddIfNotExist(request.Name, cancellationToken);
             account.Name = request.Name;
         }
 
         if (request.Surname is not null)
         {
-            var surnameIsExists = await context.Surnames
-                .AsNoTracking()
-                .AnyAsync(e => e.Value == request.Surname, cancellationToken);
-
-            if (!surnameIsExists)
-            {
-                await context.Surnames.AddAsync(new Surname
-                {
-                    Value = request.Surname
-                }, cancellationToken);
-            }
-
+            await surnameRepository.AddIfNotExist(request.Surname, cancellationToken);
             account.Surname = request.Surname;
         }
 
         if (request.MiddleName is not null)
         {
-            var middleNameIsExists = await context.MiddleNames
-                .AsNoTracking()
-                .AnyAsync(e => e.Value == request.MiddleName, cancellationToken);
-
-            if (!middleNameIsExists)
-            {
-                await context.MiddleNames.AddAsync(new MiddleName
-                {
-                    Value = request.MiddleName
-                }, cancellationToken);
-            }
-
+            await middleNameRepository.AddIfNotExist(request.MiddleName, cancellationToken);
             account.MiddleName = request.MiddleName;
         }
 
         if (request.Email is not null)
         {
-            var searchByEmail = await context.Accounts
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Email == request.Email, cancellationToken);
+            var searchByEmail = await accountRepository.FindByEmail(request.Email, cancellationToken);
 
             if (searchByEmail is not null)
                 throw new AlreadyExistsException($"Выбранный email: '{request.Email}' уже занят.");

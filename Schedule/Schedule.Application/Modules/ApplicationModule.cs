@@ -5,10 +5,13 @@ using FluentValidation;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
 using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Common.Mappings;
 using Schedule.Application.Services;
 using Schedule.Core.Common.Interfaces;
+using Schedule.Persistence.Common.Interfaces;
+using Schedule.Persistence.Repositories;
 
 namespace Schedule.Application.Modules;
 
@@ -35,6 +38,18 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<PasswordHasherService>()
             .As<IPasswordHasherService>()
             .SingleInstance();
+
+        builder.RegisterType<AccountRepository>()
+            .As<IAccountRepository>();
+
+        builder.RegisterType<NameRepository>()
+            .As<INameRepository>();
+
+        builder.RegisterType<SurnameRepository>()
+            .As<ISurnameRepository>();
+
+        builder.RegisterType<MiddleNameRepository>()
+            .As<IMiddleNameRepository>();
 
         var services = new ServiceCollection();
 

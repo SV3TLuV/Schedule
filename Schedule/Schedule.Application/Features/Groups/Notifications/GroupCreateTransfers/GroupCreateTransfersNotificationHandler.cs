@@ -13,7 +13,7 @@ public sealed class GroupCreateTransfersNotificationHandler(IScheduleDbContext c
         CancellationToken cancellationToken)
     {
         var group = await context.Groups
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Include(e => e.Speciality)
             .FirstOrDefaultAsync(e => e.GroupId == notification.Id, cancellationToken);
 

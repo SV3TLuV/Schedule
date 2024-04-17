@@ -79,7 +79,7 @@ public sealed class GetCurrentTimetableListQueryHandler
             .Where(e => dateIds.Contains(e.DateId))
             .Where(e => !e.Group.IsDeleted)
             .AsSplitQuery()
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         if (request.GroupId is not null)
         {
@@ -174,7 +174,7 @@ public sealed class GetCurrentTimetableListQueryHandler
         var currentDate = _dateInfoService.CurrentDate;
         return await _context.Set<Date>()
             .Include(e => e.Day)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Where(e =>
                 e.Value.Date >= currentDate.Value.Date &&
                 e.Day.IsStudy)

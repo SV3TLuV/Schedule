@@ -15,7 +15,7 @@ public sealed class CreateDisciplineNameCommandHandler(
         CancellationToken cancellationToken)
     {
         var searched = await context.DisciplineNames
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Name == request.Name, cancellationToken);
 
         if (searched is not null)

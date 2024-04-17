@@ -13,7 +13,7 @@ public sealed class UpdateDisciplineCommandHandler(IScheduleDbContext context, I
     public async Task<Unit> Handle(UpdateDisciplineCommand request, CancellationToken cancellationToken)
     {
         var disciplineDbo = await context.Disciplines
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineId == request.Id, cancellationToken);
 
         if (disciplineDbo is null)

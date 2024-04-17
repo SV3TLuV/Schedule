@@ -12,7 +12,7 @@ public sealed class GroupDeleteTransfersNotificationHandler(IScheduleDbContext c
         CancellationToken cancellationToken)
     {
         await context.GroupTransfers
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Where(e => e.GroupId == notification.Id)
             .ExecuteDeleteAsync(cancellationToken);
         await context.SaveChangesAsync(cancellationToken);

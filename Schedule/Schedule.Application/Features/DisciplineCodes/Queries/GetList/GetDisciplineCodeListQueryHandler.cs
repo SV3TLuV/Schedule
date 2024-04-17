@@ -19,7 +19,7 @@ public sealed class GetDisciplineCodeListQueryHandler(
     {
         var query = context.DisciplineCodes
             .OrderBy(e => e.Code)
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         query = request.Filter switch
         {

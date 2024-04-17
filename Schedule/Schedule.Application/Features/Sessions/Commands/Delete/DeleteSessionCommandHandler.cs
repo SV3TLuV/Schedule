@@ -12,7 +12,7 @@ public sealed class DeleteSessionCommandHandler(IScheduleDbContext context)
     public async Task<Unit> Handle(DeleteSessionCommand request, CancellationToken cancellationToken)
     {
         var session = await context.Sessions
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.SessionId == request.Id, cancellationToken);
 
         if (session is null)

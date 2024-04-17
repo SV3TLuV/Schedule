@@ -19,7 +19,7 @@ public sealed class GetDisciplineQueryHandler(IScheduleDbContext context, IMappe
             .Include(e => e.Type)
             .Include(e => e.Term)
             .ThenInclude(e => e.Course)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineId == request.Id, cancellationToken);
 
         if (discipline is null)

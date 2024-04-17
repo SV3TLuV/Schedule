@@ -18,7 +18,7 @@ public sealed class GetDisciplineTypeListQueryHandler(
         var disciplines = await context.DisciplineTypes
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .ProjectTo<DisciplineTypeViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

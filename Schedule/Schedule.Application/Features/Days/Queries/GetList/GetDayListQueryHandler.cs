@@ -18,7 +18,7 @@ public sealed class GetDayListQueryHandler(IScheduleDbContext context, IMapper m
             .OrderBy(e => e.DayId)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .ProjectTo<DayViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

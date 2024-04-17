@@ -19,7 +19,7 @@ public sealed class GetGroupQueryHandler(IScheduleDbContext context, IMapper map
             .Include(e => e.Speciality)
             .ThenInclude(e => e.Disciplines)
             .ThenInclude(e => e.Term)
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 
         if (group is null)

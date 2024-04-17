@@ -25,7 +25,7 @@ public sealed class GetDisciplineListQueryHandler(IScheduleDbContext context, IM
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)
             .AsSplitQuery()
-            .AsNoTrackingWithIdentityResolution();
+            .AsNoTracking();
 
         query = request.Filter switch
         {

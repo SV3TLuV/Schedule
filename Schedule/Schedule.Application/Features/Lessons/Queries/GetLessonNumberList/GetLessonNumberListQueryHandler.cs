@@ -5,22 +5,14 @@ using Schedule.Core.Models;
 
 namespace Schedule.Application.Features.Lessons.Queries.GetLessonNumberList;
 
-public sealed class GetLessonNumberListQueryHandler
+public sealed class GetLessonNumberListQueryHandler(IScheduleDbContext context)
     : IRequestHandler<GetLessonNumberListQuery, ICollection<int>>
 {
-    private readonly IScheduleDbContext _context;
-
-    public GetLessonNumberListQueryHandler(
-        IScheduleDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<ICollection<int>> Handle(GetLessonNumberListQuery request,
         CancellationToken cancellationToken)
     {
-        return await _context.Set<Lesson>()
-            .AsNoTrackingWithIdentityResolution()
+        return await context.Lessons
+            .AsNoTracking()
             .Include(e => e.Timetable)
             .Where(e => e.Timetable.DateId == request.DateId)
             .Select(e => e.Number)

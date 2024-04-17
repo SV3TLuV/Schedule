@@ -32,7 +32,7 @@ public sealed class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCom
             throw new NotFoundException(nameof(Lesson), request.Id);
 
         await _context.Set<LessonTeacherClassroom>()
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Where(e => e.LessonId == lesson.LessonId)
             .ExecuteDeleteAsync(cancellationToken);
         

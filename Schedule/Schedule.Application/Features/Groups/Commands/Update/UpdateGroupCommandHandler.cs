@@ -19,7 +19,7 @@ public sealed class UpdateGroupCommandHandler(
     public async Task<Unit> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
     {
         var groupDbo = await context.Groups
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
 
         if (groupDbo is null)

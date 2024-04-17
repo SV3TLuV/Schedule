@@ -14,7 +14,7 @@ public sealed class CreateDisciplineCodeCommandHandler(
     public async Task<int> Handle(CreateDisciplineCodeCommand request, CancellationToken cancellationToken)
     {
         var searched = await context.DisciplineCodes
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Code == request.Code, cancellationToken);
 
         if (searched is not null)

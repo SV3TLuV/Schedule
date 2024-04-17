@@ -18,7 +18,7 @@ public sealed class CreateGroupCommandHandler(
     public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
         var searched = await context.Groups
-            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking()
             .Include(e => e.Speciality)
             .FirstOrDefaultAsync(e =>
                 e.Number == request.Number &&

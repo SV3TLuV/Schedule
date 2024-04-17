@@ -26,6 +26,11 @@ public sealed class GetAccountListQueryHandler(
             _ => query
         };
 
+        if (request.Role is not null)
+        {
+            query = query.Where(e => e.RoleId == (int)request.Role);
+        }
+
         var accounts = await query
             .Include(e => e.Role)
             .Include(e => e.Employees)

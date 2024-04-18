@@ -1,7 +1,8 @@
-﻿namespace Schedule.Application.Common.Interfaces;
+﻿using Schedule.Core.Models;
+
+namespace Schedule.Application.Common.Interfaces;
 
 public interface IMailSenderService
 {
-    public Task SendAsync(string email, string message);
-    public Task SendHtmlAsync(string email, string html);
+    public Task SendAsync(Letter letter);
 }

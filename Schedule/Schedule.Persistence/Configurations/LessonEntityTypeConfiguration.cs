@@ -16,16 +16,12 @@ public sealed class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Les
         builder.Property(e => e.LessonId)
             .UseIdentityAlwaysColumn()
             .HasColumnName("lesson_id");
-        builder.Property(e => e.ClassroomIds)
-            .HasColumnName("classroom_ids");
         builder.Property(e => e.DisciplineId)
             .HasColumnName("discipline_id");
         builder.Property(e => e.Number)
             .HasColumnName("number");
         builder.Property(e => e.Subgroup)
             .HasColumnName("subgroup");
-        builder.Property(e => e.TeacherIds)
-            .HasColumnName("teacher_ids");
         builder.Property(e => e.TimeStart)
             .HasColumnName("time_start");
         builder.Property(e => e.TimeEnd)

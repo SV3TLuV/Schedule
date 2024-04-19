@@ -51,6 +51,9 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<MiddleNameRepository>()
             .As<IMiddleNameRepository>();
 
+        builder.RegisterType<MailSenderService>()
+            .As<IMailSenderService>();
+
         var services = new ServiceCollection();
 
         services.AddValidatorsFromAssembly(ThisAssembly);

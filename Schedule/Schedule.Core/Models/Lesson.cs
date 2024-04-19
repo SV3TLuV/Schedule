@@ -11,10 +11,6 @@ public class Lesson
     public int? Subgroup { get; set; }
 
     public int TimetableId { get; set; }
-
-    public List<int> TeacherIds { get; set; } = null!;
-
-    public List<int> ClassroomIds { get; set; } = null!;
     
     public TimeOnly? TimeStart { get; set; }
     
@@ -25,4 +21,7 @@ public class Lesson
     public virtual ICollection<LessonChange>? LessonChanges { get; set; }
 
     public virtual Timetable Timetable { get; set; } = null!;
+
+    public virtual ICollection<LessonTeacherClassroom> LessonTeacherClassrooms { get; set; } =
+        new List<LessonTeacherClassroom>();
 }

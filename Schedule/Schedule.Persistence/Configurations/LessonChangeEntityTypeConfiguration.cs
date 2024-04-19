@@ -16,8 +16,6 @@ public sealed class LessonChangeEntityTypeConfiguration : IEntityTypeConfigurati
         builder.Property(e => e.LessonChangeId)
             .UseIdentityAlwaysColumn()
             .HasColumnName("lesson_change_id");
-        builder.Property(e => e.ClassroomIds)
-            .HasColumnName("classroom_ids");
         builder.Property(e => e.Date)
             .HasColumnName("date");
         builder.Property(e => e.DisciplineId)
@@ -28,8 +26,6 @@ public sealed class LessonChangeEntityTypeConfiguration : IEntityTypeConfigurati
             .HasColumnName("number");
         builder.Property(e => e.Subgroup)
             .HasColumnName("subgroup");
-        builder.Property(e => e.TeacherIds)
-            .HasColumnName("teacher_ids");
         builder.Property(e => e.TimeStart)
             .HasColumnName("time_start");
         builder.Property(e => e.TimeEnd)

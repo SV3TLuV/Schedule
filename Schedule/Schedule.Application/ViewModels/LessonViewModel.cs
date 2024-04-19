@@ -8,7 +8,7 @@ public class LessonViewModel : IMapWith<Lesson>
 {
     public int Id { get; set; }
     
-    public DisciplineViewModel Discipline { get; set; } = null!;
+    public DisciplineViewModel? Discipline { get; set; }
 
     public int Number { get; set; }
 

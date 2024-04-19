@@ -12,9 +12,9 @@ public class LessonChangeViewModel : IMapWith<LessonChange>, IMapWith<Lesson>, I
 
     public int? Subgroup { get; set; }
     
-    public TimeOnly? TimeStart { get; set; }
+    public TimeOnly TimeStart { get; set; }
     
-    public TimeOnly? TimeEnd { get; set; }
+    public TimeOnly TimeEnd { get; set; }
     
     public LessonViewModel Lesson { get; set; } = null!;
 

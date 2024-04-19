@@ -8,9 +8,9 @@ public class LessonChange
 
     public int? Subgroup { get; set; }
 
-    public TimeOnly? TimeStart { get; set; }
+    public TimeOnly TimeStart { get; set; }
     
-    public TimeOnly? TimeEnd { get; set; }
+    public TimeOnly TimeEnd { get; set; }
 
     public int LessonId { get; set; }
 

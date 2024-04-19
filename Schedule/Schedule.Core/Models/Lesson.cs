@@ -16,7 +16,7 @@ public class Lesson
     
     public TimeOnly? TimeEnd { get; set; }
 
-    public virtual Discipline Discipline { get; set; } = null!;
+    public virtual Discipline? Discipline { get; set; }
 
     public virtual ICollection<LessonChange>? LessonChanges { get; set; }
 

@@ -3,10 +3,11 @@ using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
-namespace Schedule.Application.Features.LessonChanges.Commands.Create;
+namespace Schedule.Application.Features.LessonChanges.Commands.Update;
 
-public sealed class CreateLessonChangeCommand : IRequest<int>, IMapWith<LessonChange>
+public sealed class UpdateLessonChangeCommand : IRequest<Unit>, IMapWith<LessonChange>
 {
+    public int LessonChangeId { get; set; }
     public int Number { get; set; }
     public int LessonId { get; set; }
     public DateOnly Date { get; set; }

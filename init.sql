@@ -17,13 +17,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: schedule; Type: DATABASE; Schema: -; Owner: noh4uk
+-- Name: schedule; Type: DATABASE; Schema: -; Owner: postgres
 --
 
 CREATE DATABASE schedule WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = icu LOCALE = 'en_US.UTF-8' ICU_LOCALE = 'en-US';
 
 
-ALTER DATABASE schedule OWNER TO noh4uk;
+ALTER DATABASE schedule OWNER TO postgres;
 
 \connect schedule
 
@@ -43,7 +43,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: account; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: account; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.account (
@@ -59,10 +59,10 @@ CREATE TABLE public.account (
 );
 
 
-ALTER TABLE public.account OWNER TO noh4uk;
+ALTER TABLE public.account OWNER TO postgres;
 
 --
--- Name: account_account_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: account_account_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.account ALTER COLUMN account_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -76,7 +76,7 @@ ALTER TABLE public.account ALTER COLUMN account_id ADD GENERATED ALWAYS AS IDENT
 
 
 --
--- Name: classroom; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: classroom; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.classroom (
@@ -86,10 +86,10 @@ CREATE TABLE public.classroom (
 );
 
 
-ALTER TABLE public.classroom OWNER TO noh4uk;
+ALTER TABLE public.classroom OWNER TO postgres;
 
 --
--- Name: classroom_classroom_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: classroom_classroom_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.classroom ALTER COLUMN classroom_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -103,7 +103,7 @@ ALTER TABLE public.classroom ALTER COLUMN classroom_id ADD GENERATED ALWAYS AS I
 
 
 --
--- Name: day; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: day; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.day (
@@ -113,10 +113,10 @@ CREATE TABLE public.day (
 );
 
 
-ALTER TABLE public.day OWNER TO noh4uk;
+ALTER TABLE public.day OWNER TO postgres;
 
 --
--- Name: day_day_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: day_day_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.day ALTER COLUMN day_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -130,7 +130,7 @@ ALTER TABLE public.day ALTER COLUMN day_id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- Name: discipline; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: discipline; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.discipline (
@@ -145,10 +145,10 @@ CREATE TABLE public.discipline (
 );
 
 
-ALTER TABLE public.discipline OWNER TO noh4uk;
+ALTER TABLE public.discipline OWNER TO postgres;
 
 --
--- Name: discipline_code; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: discipline_code; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.discipline_code (
@@ -158,10 +158,10 @@ CREATE TABLE public.discipline_code (
 );
 
 
-ALTER TABLE public.discipline_code OWNER TO noh4uk;
+ALTER TABLE public.discipline_code OWNER TO postgres;
 
 --
--- Name: discipline_code_discipline_code_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: discipline_code_discipline_code_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.discipline_code ALTER COLUMN discipline_code_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -175,7 +175,7 @@ ALTER TABLE public.discipline_code ALTER COLUMN discipline_code_id ADD GENERATED
 
 
 --
--- Name: discipline_discipline_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: discipline_discipline_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.discipline ALTER COLUMN discipline_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -189,7 +189,7 @@ ALTER TABLE public.discipline ALTER COLUMN discipline_id ADD GENERATED ALWAYS AS
 
 
 --
--- Name: discipline_name; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: discipline_name; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.discipline_name (
@@ -199,10 +199,10 @@ CREATE TABLE public.discipline_name (
 );
 
 
-ALTER TABLE public.discipline_name OWNER TO noh4uk;
+ALTER TABLE public.discipline_name OWNER TO postgres;
 
 --
--- Name: discipline_name_discipline_name_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: discipline_name_discipline_name_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.discipline_name ALTER COLUMN discipline_name_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -216,7 +216,7 @@ ALTER TABLE public.discipline_name ALTER COLUMN discipline_name_id ADD GENERATED
 
 
 --
--- Name: discipline_type; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: discipline_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.discipline_type (
@@ -225,10 +225,10 @@ CREATE TABLE public.discipline_type (
 );
 
 
-ALTER TABLE public.discipline_type OWNER TO noh4uk;
+ALTER TABLE public.discipline_type OWNER TO postgres;
 
 --
--- Name: discipline_type_discipline_type_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: discipline_type_discipline_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.discipline_type ALTER COLUMN discipline_type_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -242,7 +242,7 @@ ALTER TABLE public.discipline_type ALTER COLUMN discipline_type_id ADD GENERATED
 
 
 --
--- Name: employee; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: employee; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.employee (
@@ -251,10 +251,10 @@ CREATE TABLE public.employee (
 );
 
 
-ALTER TABLE public.employee OWNER TO noh4uk;
+ALTER TABLE public.employee OWNER TO postgres;
 
 --
--- Name: employee_employee_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: employee_employee_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.employee ALTER COLUMN employee_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -268,7 +268,7 @@ ALTER TABLE public.employee ALTER COLUMN employee_id ADD GENERATED ALWAYS AS IDE
 
 
 --
--- Name: employee_permission; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: employee_permission; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.employee_permission (
@@ -277,10 +277,10 @@ CREATE TABLE public.employee_permission (
 );
 
 
-ALTER TABLE public.employee_permission OWNER TO noh4uk;
+ALTER TABLE public.employee_permission OWNER TO postgres;
 
 --
--- Name: group; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: group; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."group" (
@@ -294,10 +294,10 @@ CREATE TABLE public."group" (
 );
 
 
-ALTER TABLE public."group" OWNER TO noh4uk;
+ALTER TABLE public."group" OWNER TO postgres;
 
 --
--- Name: group_group_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: group_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public."group" ALTER COLUMN group_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -311,7 +311,7 @@ ALTER TABLE public."group" ALTER COLUMN group_id ADD GENERATED ALWAYS AS IDENTIT
 
 
 --
--- Name: group_transfer; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: group_transfer; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.group_transfer (
@@ -322,15 +322,15 @@ CREATE TABLE public.group_transfer (
 );
 
 
-ALTER TABLE public.group_transfer OWNER TO noh4uk;
+ALTER TABLE public.group_transfer OWNER TO postgres;
 
 --
--- Name: lesson; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: lesson; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.lesson (
     lesson_id integer NOT NULL,
-    discipline_id integer NOT NULL,
+    discipline_id integer,
     number integer NOT NULL,
     subgroup integer,
     timetable_id integer NOT NULL,
@@ -339,10 +339,10 @@ CREATE TABLE public.lesson (
 );
 
 
-ALTER TABLE public.lesson OWNER TO noh4uk;
+ALTER TABLE public.lesson OWNER TO postgres;
 
 --
--- Name: lesson_change; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: lesson_change; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.lesson_change (
@@ -352,15 +352,15 @@ CREATE TABLE public.lesson_change (
     lesson_id integer NOT NULL,
     discipline_id integer NOT NULL,
     date date NOT NULL,
-    time_start time without time zone,
-    time_end time without time zone
+    time_start time without time zone NOT NULL,
+    time_end time without time zone NOT NULL
 );
 
 
-ALTER TABLE public.lesson_change OWNER TO noh4uk;
+ALTER TABLE public.lesson_change OWNER TO postgres;
 
 --
--- Name: lesson_change_lesson_change_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: lesson_change_lesson_change_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.lesson_change ALTER COLUMN lesson_change_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -374,7 +374,7 @@ ALTER TABLE public.lesson_change ALTER COLUMN lesson_change_id ADD GENERATED ALW
 
 
 --
--- Name: lesson_change_teacher_classroom; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: lesson_change_teacher_classroom; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.lesson_change_teacher_classroom (
@@ -384,10 +384,10 @@ CREATE TABLE public.lesson_change_teacher_classroom (
 );
 
 
-ALTER TABLE public.lesson_change_teacher_classroom OWNER TO noh4uk;
+ALTER TABLE public.lesson_change_teacher_classroom OWNER TO postgres;
 
 --
--- Name: lesson_lesson_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: lesson_lesson_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.lesson ALTER COLUMN lesson_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -401,7 +401,7 @@ ALTER TABLE public.lesson ALTER COLUMN lesson_id ADD GENERATED ALWAYS AS IDENTIT
 
 
 --
--- Name: lesson_teacher_classroom; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: lesson_teacher_classroom; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.lesson_teacher_classroom (
@@ -411,10 +411,10 @@ CREATE TABLE public.lesson_teacher_classroom (
 );
 
 
-ALTER TABLE public.lesson_teacher_classroom OWNER TO noh4uk;
+ALTER TABLE public.lesson_teacher_classroom OWNER TO postgres;
 
 --
--- Name: middle_name; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: middle_name; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.middle_name (
@@ -422,10 +422,10 @@ CREATE TABLE public.middle_name (
 );
 
 
-ALTER TABLE public.middle_name OWNER TO noh4uk;
+ALTER TABLE public.middle_name OWNER TO postgres;
 
 --
--- Name: name; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: name; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.name (
@@ -433,10 +433,10 @@ CREATE TABLE public.name (
 );
 
 
-ALTER TABLE public.name OWNER TO noh4uk;
+ALTER TABLE public.name OWNER TO postgres;
 
 --
--- Name: permission; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: permission; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.permission (
@@ -445,10 +445,10 @@ CREATE TABLE public.permission (
 );
 
 
-ALTER TABLE public.permission OWNER TO noh4uk;
+ALTER TABLE public.permission OWNER TO postgres;
 
 --
--- Name: permission_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: permission_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.permission ALTER COLUMN permission_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -462,7 +462,7 @@ ALTER TABLE public.permission ALTER COLUMN permission_id ADD GENERATED ALWAYS AS
 
 
 --
--- Name: role; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: role; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.role (
@@ -471,10 +471,10 @@ CREATE TABLE public.role (
 );
 
 
-ALTER TABLE public.role OWNER TO noh4uk;
+ALTER TABLE public.role OWNER TO postgres;
 
 --
--- Name: role_role_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: role_role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.role ALTER COLUMN role_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -488,7 +488,7 @@ ALTER TABLE public.role ALTER COLUMN role_id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- Name: session; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: session; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.session (
@@ -500,10 +500,10 @@ CREATE TABLE public.session (
 );
 
 
-ALTER TABLE public.session OWNER TO noh4uk;
+ALTER TABLE public.session OWNER TO postgres;
 
 --
--- Name: speciality; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: speciality; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.speciality (
@@ -515,10 +515,10 @@ CREATE TABLE public.speciality (
 );
 
 
-ALTER TABLE public.speciality OWNER TO noh4uk;
+ALTER TABLE public.speciality OWNER TO postgres;
 
 --
--- Name: speciality_speciality_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: speciality_speciality_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.speciality ALTER COLUMN speciality_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -532,7 +532,7 @@ ALTER TABLE public.speciality ALTER COLUMN speciality_id ADD GENERATED ALWAYS AS
 
 
 --
--- Name: student; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: student; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.student (
@@ -542,10 +542,10 @@ CREATE TABLE public.student (
 );
 
 
-ALTER TABLE public.student OWNER TO noh4uk;
+ALTER TABLE public.student OWNER TO postgres;
 
 --
--- Name: student_student_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: student_student_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.student ALTER COLUMN student_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -559,7 +559,7 @@ ALTER TABLE public.student ALTER COLUMN student_id ADD GENERATED ALWAYS AS IDENT
 
 
 --
--- Name: surname; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: surname; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.surname (
@@ -567,10 +567,10 @@ CREATE TABLE public.surname (
 );
 
 
-ALTER TABLE public.surname OWNER TO noh4uk;
+ALTER TABLE public.surname OWNER TO postgres;
 
 --
--- Name: teacher; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: teacher; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.teacher (
@@ -579,10 +579,10 @@ CREATE TABLE public.teacher (
 );
 
 
-ALTER TABLE public.teacher OWNER TO noh4uk;
+ALTER TABLE public.teacher OWNER TO postgres;
 
 --
--- Name: teacher_teacher_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: teacher_teacher_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.teacher ALTER COLUMN teacher_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -596,7 +596,7 @@ ALTER TABLE public.teacher ALTER COLUMN teacher_id ADD GENERATED ALWAYS AS IDENT
 
 
 --
--- Name: term; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: term; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.term (
@@ -605,10 +605,10 @@ CREATE TABLE public.term (
 );
 
 
-ALTER TABLE public.term OWNER TO noh4uk;
+ALTER TABLE public.term OWNER TO postgres;
 
 --
--- Name: timetable; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: timetable; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.timetable (
@@ -621,10 +621,10 @@ CREATE TABLE public.timetable (
 );
 
 
-ALTER TABLE public.timetable OWNER TO noh4uk;
+ALTER TABLE public.timetable OWNER TO postgres;
 
 --
--- Name: timetable_timetable_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: timetable_timetable_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.timetable ALTER COLUMN timetable_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -638,7 +638,7 @@ ALTER TABLE public.timetable ALTER COLUMN timetable_id ADD GENERATED ALWAYS AS I
 
 
 --
--- Name: week_type; Type: TABLE; Schema: public; Owner: noh4uk
+-- Name: week_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.week_type (
@@ -647,10 +647,10 @@ CREATE TABLE public.week_type (
 );
 
 
-ALTER TABLE public.week_type OWNER TO noh4uk;
+ALTER TABLE public.week_type OWNER TO postgres;
 
 --
--- Name: week_type_week_type_id_seq; Type: SEQUENCE; Schema: public; Owner: noh4uk
+-- Name: week_type_week_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 ALTER TABLE public.week_type ALTER COLUMN week_type_id ADD GENERATED ALWAYS AS IDENTITY (
@@ -664,7 +664,7 @@ ALTER TABLE public.week_type ALTER COLUMN week_type_id ADD GENERATED ALWAYS AS I
 
 
 --
--- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.account (account_id, login, password_hash, name, surname, middle_name, email, role_id, is_deleted) FROM stdin;
@@ -674,7 +674,7 @@ COPY public.account (account_id, login, password_hash, name, surname, middle_nam
 
 
 --
--- Data for Name: classroom; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: classroom; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.classroom (classroom_id, cabinet, is_deleted) FROM stdin;
@@ -748,7 +748,7 @@ COPY public.classroom (classroom_id, cabinet, is_deleted) FROM stdin;
 
 
 --
--- Data for Name: day; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: day; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.day (day_id, name, is_study) FROM stdin;
@@ -763,7 +763,7 @@ COPY public.day (day_id, name, is_study) FROM stdin;
 
 
 --
--- Data for Name: discipline; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: discipline; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.discipline (discipline_id, discipline_name_id, discipline_code_id, total_hours, term_id, speciality_id, discipline_type_id, is_deleted) FROM stdin;
@@ -771,7 +771,7 @@ COPY public.discipline (discipline_id, discipline_name_id, discipline_code_id, t
 
 
 --
--- Data for Name: discipline_code; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: discipline_code; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.discipline_code (discipline_code_id, code, is_deleted) FROM stdin;
@@ -820,7 +820,7 @@ COPY public.discipline_code (discipline_code_id, code, is_deleted) FROM stdin;
 
 
 --
--- Data for Name: discipline_name; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: discipline_name; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.discipline_name (discipline_name_id, name, is_deleted) FROM stdin;
@@ -942,7 +942,7 @@ COPY public.discipline_name (discipline_name_id, name, is_deleted) FROM stdin;
 
 
 --
--- Data for Name: discipline_type; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: discipline_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.discipline_type (discipline_type_id, name) FROM stdin;
@@ -953,7 +953,7 @@ COPY public.discipline_type (discipline_type_id, name) FROM stdin;
 
 
 --
--- Data for Name: employee; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: employee; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.employee (employee_id, account_id) FROM stdin;
@@ -961,7 +961,7 @@ COPY public.employee (employee_id, account_id) FROM stdin;
 
 
 --
--- Data for Name: employee_permission; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: employee_permission; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.employee_permission (employee_id, permission_id) FROM stdin;
@@ -969,7 +969,7 @@ COPY public.employee_permission (employee_id, permission_id) FROM stdin;
 
 
 --
--- Data for Name: group; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public."group" (group_id, number, speciality_id, term_id, enrollment_year, is_deleted, is_after_eleven) FROM stdin;
@@ -977,7 +977,7 @@ COPY public."group" (group_id, number, speciality_id, term_id, enrollment_year, 
 
 
 --
--- Data for Name: group_transfer; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: group_transfer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.group_transfer (next_term_id, group_id, is_transferred, transfer_date) FROM stdin;
@@ -985,7 +985,7 @@ COPY public.group_transfer (next_term_id, group_id, is_transferred, transfer_dat
 
 
 --
--- Data for Name: lesson; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: lesson; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, time_start, time_end) FROM stdin;
@@ -993,7 +993,7 @@ COPY public.lesson (lesson_id, discipline_id, number, subgroup, timetable_id, ti
 
 
 --
--- Data for Name: lesson_change; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: lesson_change; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.lesson_change (lesson_change_id, number, subgroup, lesson_id, discipline_id, date, time_start, time_end) FROM stdin;
@@ -1001,7 +1001,7 @@ COPY public.lesson_change (lesson_change_id, number, subgroup, lesson_id, discip
 
 
 --
--- Data for Name: lesson_change_teacher_classroom; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: lesson_change_teacher_classroom; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.lesson_change_teacher_classroom (lesson_change_id, teacher_id, classroom_id) FROM stdin;
@@ -1009,7 +1009,7 @@ COPY public.lesson_change_teacher_classroom (lesson_change_id, teacher_id, class
 
 
 --
--- Data for Name: lesson_teacher_classroom; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: lesson_teacher_classroom; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.lesson_teacher_classroom (lesson_id, teacher_id, classroom_id) FROM stdin;
@@ -1017,7 +1017,7 @@ COPY public.lesson_teacher_classroom (lesson_id, teacher_id, classroom_id) FROM 
 
 
 --
--- Data for Name: middle_name; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: middle_name; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.middle_name (value) FROM stdin;
@@ -1027,7 +1027,7 @@ Editor
 
 
 --
--- Data for Name: name; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: name; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.name (value) FROM stdin;
@@ -1037,7 +1037,7 @@ Editor
 
 
 --
--- Data for Name: permission; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: permission; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.permission (permission_id, name) FROM stdin;
@@ -1045,7 +1045,7 @@ COPY public.permission (permission_id, name) FROM stdin;
 
 
 --
--- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.role (role_id, name) FROM stdin;
@@ -1057,7 +1057,7 @@ COPY public.role (role_id, name) FROM stdin;
 
 
 --
--- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.session (refresh_token, created, updated, account_id, session_id) FROM stdin;
@@ -1065,7 +1065,7 @@ COPY public.session (refresh_token, created, updated, account_id, session_id) FR
 
 
 --
--- Data for Name: speciality; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: speciality; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.speciality (speciality_id, code, name, max_term_id, is_deleted) FROM stdin;
@@ -1083,7 +1083,7 @@ COPY public.speciality (speciality_id, code, name, max_term_id, is_deleted) FROM
 
 
 --
--- Data for Name: student; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: student; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.student (student_id, group_id, account_id) FROM stdin;
@@ -1091,7 +1091,7 @@ COPY public.student (student_id, group_id, account_id) FROM stdin;
 
 
 --
--- Data for Name: surname; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: surname; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.surname (value) FROM stdin;
@@ -1101,7 +1101,7 @@ Editor
 
 
 --
--- Data for Name: teacher; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: teacher; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.teacher (teacher_id, account_id) FROM stdin;
@@ -1109,7 +1109,7 @@ COPY public.teacher (teacher_id, account_id) FROM stdin;
 
 
 --
--- Data for Name: term; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: term; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.term (term_id, course) FROM stdin;
@@ -1127,7 +1127,7 @@ COPY public.term (term_id, course) FROM stdin;
 
 
 --
--- Data for Name: timetable; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: timetable; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.timetable (timetable_id, group_id, created, ended, day_id, week_type_id) FROM stdin;
@@ -1135,7 +1135,7 @@ COPY public.timetable (timetable_id, group_id, created, ended, day_id, week_type
 
 
 --
--- Data for Name: week_type; Type: TABLE DATA; Schema: public; Owner: noh4uk
+-- Data for Name: week_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.week_type (week_type_id, name) FROM stdin;
@@ -1145,133 +1145,133 @@ COPY public.week_type (week_type_id, name) FROM stdin;
 
 
 --
--- Name: account_account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: account_account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.account_account_id_seq', 2, true);
 
 
 --
--- Name: classroom_classroom_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: classroom_classroom_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.classroom_classroom_id_seq', 66, true);
 
 
 --
--- Name: day_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: day_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.day_day_id_seq', 7, true);
 
 
 --
--- Name: discipline_code_discipline_code_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: discipline_code_discipline_code_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.discipline_code_discipline_code_id_seq', 41, true);
 
 
 --
--- Name: discipline_discipline_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: discipline_discipline_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.discipline_discipline_id_seq', 1, false);
 
 
 --
--- Name: discipline_name_discipline_name_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: discipline_name_discipline_name_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.discipline_name_discipline_name_id_seq', 114, true);
 
 
 --
--- Name: discipline_type_discipline_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: discipline_type_discipline_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.discipline_type_discipline_type_id_seq', 3, true);
 
 
 --
--- Name: employee_employee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: employee_employee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.employee_employee_id_seq', 1, false);
 
 
 --
--- Name: group_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: group_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.group_group_id_seq', 1, false);
 
 
 --
--- Name: lesson_change_lesson_change_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: lesson_change_lesson_change_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.lesson_change_lesson_change_id_seq', 1, false);
 
 
 --
--- Name: lesson_lesson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: lesson_lesson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.lesson_lesson_id_seq', 1, false);
 
 
 --
--- Name: permission_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: permission_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.permission_permission_id_seq', 1, false);
 
 
 --
--- Name: role_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: role_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.role_role_id_seq', 5, true);
 
 
 --
--- Name: speciality_speciality_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: speciality_speciality_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.speciality_speciality_id_seq', 20, true);
 
 
 --
--- Name: student_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: student_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.student_student_id_seq', 1, false);
 
 
 --
--- Name: teacher_teacher_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: teacher_teacher_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.teacher_teacher_id_seq', 1, false);
 
 
 --
--- Name: timetable_timetable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: timetable_timetable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.timetable_timetable_id_seq', 1, false);
 
 
 --
--- Name: week_type_week_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: noh4uk
+-- Name: week_type_week_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.week_type_week_type_id_seq', 2, true);
 
 
 --
--- Name: account account_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: account account_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.account
@@ -1279,7 +1279,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- Name: classroom classroom_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: classroom classroom_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.classroom
@@ -1287,7 +1287,7 @@ ALTER TABLE ONLY public.classroom
 
 
 --
--- Name: day day_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: day day_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.day
@@ -1295,7 +1295,7 @@ ALTER TABLE ONLY public.day
 
 
 --
--- Name: discipline_code discipline_code_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline_code discipline_code_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline_code
@@ -1303,7 +1303,7 @@ ALTER TABLE ONLY public.discipline_code
 
 
 --
--- Name: discipline_name discipline_name_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline_name discipline_name_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline_name
@@ -1311,7 +1311,7 @@ ALTER TABLE ONLY public.discipline_name
 
 
 --
--- Name: discipline discipline_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline discipline_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline
@@ -1319,7 +1319,7 @@ ALTER TABLE ONLY public.discipline
 
 
 --
--- Name: discipline_type discipline_type_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline_type discipline_type_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline_type
@@ -1327,7 +1327,7 @@ ALTER TABLE ONLY public.discipline_type
 
 
 --
--- Name: employee_permission employee_permission_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: employee_permission employee_permission_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.employee_permission
@@ -1335,7 +1335,7 @@ ALTER TABLE ONLY public.employee_permission
 
 
 --
--- Name: employee employee_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: employee employee_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.employee
@@ -1343,7 +1343,7 @@ ALTER TABLE ONLY public.employee
 
 
 --
--- Name: group group_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: group group_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."group"
@@ -1351,7 +1351,7 @@ ALTER TABLE ONLY public."group"
 
 
 --
--- Name: group_transfer group_transfer_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: group_transfer group_transfer_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.group_transfer
@@ -1359,7 +1359,7 @@ ALTER TABLE ONLY public.group_transfer
 
 
 --
--- Name: lesson_change lesson_change_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change lesson_change_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change
@@ -1367,7 +1367,7 @@ ALTER TABLE ONLY public.lesson_change
 
 
 --
--- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change_teacher_classroom
@@ -1375,7 +1375,7 @@ ALTER TABLE ONLY public.lesson_change_teacher_classroom
 
 
 --
--- Name: lesson lesson_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson lesson_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson
@@ -1383,7 +1383,7 @@ ALTER TABLE ONLY public.lesson
 
 
 --
--- Name: lesson_teacher_classroom lesson_teacher_classroom_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_teacher_classroom lesson_teacher_classroom_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_teacher_classroom
@@ -1391,7 +1391,7 @@ ALTER TABLE ONLY public.lesson_teacher_classroom
 
 
 --
--- Name: middle_name middle_name_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: middle_name middle_name_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.middle_name
@@ -1399,7 +1399,7 @@ ALTER TABLE ONLY public.middle_name
 
 
 --
--- Name: permission permission_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: permission permission_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.permission
@@ -1407,7 +1407,7 @@ ALTER TABLE ONLY public.permission
 
 
 --
--- Name: role role_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: role role_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.role
@@ -1415,7 +1415,7 @@ ALTER TABLE ONLY public.role
 
 
 --
--- Name: session session_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: session session_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.session
@@ -1423,7 +1423,7 @@ ALTER TABLE ONLY public.session
 
 
 --
--- Name: speciality speciality_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: speciality speciality_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.speciality
@@ -1431,7 +1431,7 @@ ALTER TABLE ONLY public.speciality
 
 
 --
--- Name: student student_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: student student_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.student
@@ -1439,7 +1439,7 @@ ALTER TABLE ONLY public.student
 
 
 --
--- Name: surname surname_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: surname surname_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.surname
@@ -1447,7 +1447,7 @@ ALTER TABLE ONLY public.surname
 
 
 --
--- Name: teacher teacher_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: teacher teacher_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.teacher
@@ -1455,7 +1455,7 @@ ALTER TABLE ONLY public.teacher
 
 
 --
--- Name: term term_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: term term_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.term
@@ -1463,7 +1463,7 @@ ALTER TABLE ONLY public.term
 
 
 --
--- Name: timetable timetable_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: timetable timetable_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.timetable
@@ -1471,7 +1471,7 @@ ALTER TABLE ONLY public.timetable
 
 
 --
--- Name: name value_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: name value_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.name
@@ -1479,7 +1479,7 @@ ALTER TABLE ONLY public.name
 
 
 --
--- Name: week_type week_type_pk; Type: CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: week_type week_type_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.week_type
@@ -1487,105 +1487,105 @@ ALTER TABLE ONLY public.week_type
 
 
 --
--- Name: account_email_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: account_email_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX account_email_index ON public.account USING btree (email);
 
 
 --
--- Name: account_login_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: account_login_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX account_login_index ON public.account USING btree (login);
 
 
 --
--- Name: classroom_cabinet_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: classroom_cabinet_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX classroom_cabinet_index ON public.classroom USING btree (cabinet);
 
 
 --
--- Name: day_name_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: day_name_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX day_name_index ON public.day USING btree (name);
 
 
 --
--- Name: discipline_code_code_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: discipline_code_code_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX discipline_code_code_index ON public.discipline_code USING btree (code);
 
 
 --
--- Name: discipline_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: discipline_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX discipline_index ON public.discipline USING btree (discipline_code_id, discipline_name_id, speciality_id, term_id);
 
 
 --
--- Name: discipline_name_name_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: discipline_name_name_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX discipline_name_name_index ON public.discipline_name USING btree (name);
 
 
 --
--- Name: group_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: group_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX group_index ON public."group" USING btree (number, enrollment_year, speciality_id);
 
 
 --
--- Name: permission_name_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: permission_name_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX permission_name_index ON public.permission USING btree (name);
 
 
 --
--- Name: role_name_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: role_name_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX role_name_index ON public.role USING btree (name);
 
 
 --
--- Name: speciality_name_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: speciality_name_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX speciality_name_index ON public.speciality USING btree (name);
 
 
 --
--- Name: timetable_created_group_id_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: timetable_created_group_id_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX timetable_created_group_id_index ON public.timetable USING btree (created, group_id);
 
 
 --
--- Name: timetable_group_id_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: timetable_group_id_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX timetable_group_id_index ON public.timetable USING btree (group_id);
 
 
 --
--- Name: week_type_name_index; Type: INDEX; Schema: public; Owner: noh4uk
+-- Name: week_type_name_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX week_type_name_index ON public.week_type USING btree (name);
 
 
 --
--- Name: account account_middle_name_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: account account_middle_name_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.account
@@ -1593,7 +1593,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- Name: account account_name_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: account account_name_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.account
@@ -1601,7 +1601,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- Name: account account_role_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: account account_role_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.account
@@ -1609,7 +1609,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- Name: account account_surname_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: account account_surname_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.account
@@ -1617,7 +1617,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- Name: discipline discipline_code_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline discipline_code_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline
@@ -1625,7 +1625,7 @@ ALTER TABLE ONLY public.discipline
 
 
 --
--- Name: discipline discipline_name_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline discipline_name_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline
@@ -1633,7 +1633,7 @@ ALTER TABLE ONLY public.discipline
 
 
 --
--- Name: discipline discipline_speciality_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline discipline_speciality_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline
@@ -1641,7 +1641,7 @@ ALTER TABLE ONLY public.discipline
 
 
 --
--- Name: discipline discipline_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline discipline_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline
@@ -1649,7 +1649,7 @@ ALTER TABLE ONLY public.discipline
 
 
 --
--- Name: discipline discipline_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: discipline discipline_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.discipline
@@ -1657,7 +1657,7 @@ ALTER TABLE ONLY public.discipline
 
 
 --
--- Name: employee employee_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: employee employee_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.employee
@@ -1665,7 +1665,7 @@ ALTER TABLE ONLY public.employee
 
 
 --
--- Name: employee_permission employee_permission_employee_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: employee_permission employee_permission_employee_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.employee_permission
@@ -1673,7 +1673,7 @@ ALTER TABLE ONLY public.employee_permission
 
 
 --
--- Name: employee_permission employee_permission_permission_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: employee_permission employee_permission_permission_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.employee_permission
@@ -1681,7 +1681,7 @@ ALTER TABLE ONLY public.employee_permission
 
 
 --
--- Name: group group_speciality_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: group group_speciality_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."group"
@@ -1689,7 +1689,7 @@ ALTER TABLE ONLY public."group"
 
 
 --
--- Name: group group_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: group group_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."group"
@@ -1697,7 +1697,7 @@ ALTER TABLE ONLY public."group"
 
 
 --
--- Name: group_transfer group_transfer_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: group_transfer group_transfer_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.group_transfer
@@ -1705,7 +1705,7 @@ ALTER TABLE ONLY public.group_transfer
 
 
 --
--- Name: group_transfer group_transfer_next_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: group_transfer group_transfer_next_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.group_transfer
@@ -1713,7 +1713,7 @@ ALTER TABLE ONLY public.group_transfer
 
 
 --
--- Name: lesson_change lesson_change_discipline_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change lesson_change_discipline_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change
@@ -1721,7 +1721,7 @@ ALTER TABLE ONLY public.lesson_change
 
 
 --
--- Name: lesson_change lesson_change_lesson_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change lesson_change_lesson_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change
@@ -1729,7 +1729,7 @@ ALTER TABLE ONLY public.lesson_change
 
 
 --
--- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_classroom_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_classroom_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change_teacher_classroom
@@ -1737,7 +1737,7 @@ ALTER TABLE ONLY public.lesson_change_teacher_classroom
 
 
 --
--- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_lesson_change_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_lesson_change_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change_teacher_classroom
@@ -1745,7 +1745,7 @@ ALTER TABLE ONLY public.lesson_change_teacher_classroom
 
 
 --
--- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_teacher_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_change_teacher_classroom lesson_change_teacher_classroom_teacher_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_change_teacher_classroom
@@ -1753,7 +1753,7 @@ ALTER TABLE ONLY public.lesson_change_teacher_classroom
 
 
 --
--- Name: lesson lesson_discipline_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson lesson_discipline_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson
@@ -1761,7 +1761,7 @@ ALTER TABLE ONLY public.lesson
 
 
 --
--- Name: lesson_teacher_classroom lesson_teacher_classroom_classroom_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_teacher_classroom lesson_teacher_classroom_classroom_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_teacher_classroom
@@ -1769,7 +1769,7 @@ ALTER TABLE ONLY public.lesson_teacher_classroom
 
 
 --
--- Name: lesson_teacher_classroom lesson_teacher_classroom_lesson_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_teacher_classroom lesson_teacher_classroom_lesson_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_teacher_classroom
@@ -1777,7 +1777,7 @@ ALTER TABLE ONLY public.lesson_teacher_classroom
 
 
 --
--- Name: lesson_teacher_classroom lesson_teacher_classroom_teacher_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson_teacher_classroom lesson_teacher_classroom_teacher_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson_teacher_classroom
@@ -1785,7 +1785,7 @@ ALTER TABLE ONLY public.lesson_teacher_classroom
 
 
 --
--- Name: lesson lesson_timetable_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: lesson lesson_timetable_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.lesson
@@ -1793,7 +1793,7 @@ ALTER TABLE ONLY public.lesson
 
 
 --
--- Name: session session_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: session session_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.session
@@ -1801,7 +1801,7 @@ ALTER TABLE ONLY public.session
 
 
 --
--- Name: speciality speciality_max_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: speciality speciality_max_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.speciality
@@ -1809,7 +1809,7 @@ ALTER TABLE ONLY public.speciality
 
 
 --
--- Name: student student_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: student student_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.student
@@ -1817,7 +1817,7 @@ ALTER TABLE ONLY public.student
 
 
 --
--- Name: student student_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: student student_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.student
@@ -1825,7 +1825,7 @@ ALTER TABLE ONLY public.student
 
 
 --
--- Name: teacher teacher_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: teacher teacher_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.teacher
@@ -1833,7 +1833,7 @@ ALTER TABLE ONLY public.teacher
 
 
 --
--- Name: timetable timetable_day_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: timetable timetable_day_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.timetable
@@ -1841,7 +1841,7 @@ ALTER TABLE ONLY public.timetable
 
 
 --
--- Name: timetable timetable_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: timetable timetable_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.timetable
@@ -1849,7 +1849,7 @@ ALTER TABLE ONLY public.timetable
 
 
 --
--- Name: timetable timetable_week_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: noh4uk
+-- Name: timetable timetable_week_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.timetable

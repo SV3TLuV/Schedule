@@ -16,13 +16,12 @@ public class LessonChange
 
     public int DisciplineId { get; set; }
 
-    public List<int> TeacherIds { get; set; } = null!;
-
-    public List<int> ClassroomIds { get; set; } = null!;
-
     public DateOnly Date { get; set; }
 
     public virtual Discipline Discipline { get; set; } = null!;
 
     public virtual Lesson Lesson { get; set; } = null!;
+
+    public virtual ICollection<LessonChangeTeacherClassroom> LessonChangeTeacherClassrooms { get; set; } =
+        new List<LessonChangeTeacherClassroom>();
 }

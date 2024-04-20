@@ -10,41 +10,32 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
 {
     public async Task<int> CreateAsync(Speciality speciality, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
+        var created = await Context.Specialities.AddAsync(speciality, cancellationToken);
 
-        await Context.WithTransactionAsync(async () =>
-        {
-            var created = await Context.Specialities.AddAsync(speciality, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
 
-            id = created.Entity.SpecialityId;
-
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
-
-        return id;
+        return created.Entity.SpecialityId;
     }
 
     public async Task UpdateAsync(Speciality speciality, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        var specialityDb = await Context.Specialities
+            .FirstOrDefaultAsync(e => e.SpecialityId == speciality.SpecialityId, cancellationToken);
+
+        if (specialityDb is null)
         {
-            var specialityDb = await Context.Specialities
-                .FirstOrDefaultAsync(e => e.SpecialityId == speciality.SpecialityId, cancellationToken);
+            throw new NotFoundException(nameof(Speciality), speciality.SpecialityId);
+        }
 
-            if (specialityDb is null)
-            {
-                throw new NotFoundException(nameof(Speciality), speciality.SpecialityId);
-            }
+        specialityDb.SpecialityId = speciality.SpecialityId;
+        specialityDb.Code = speciality.Code;
+        specialityDb.Name = speciality.Name;
+        specialityDb.MaxTermId = speciality.MaxTermId;
+        specialityDb.IsDeleted = speciality.IsDeleted;
 
-            specialityDb.SpecialityId = speciality.SpecialityId;
-            specialityDb.Code = speciality.Code;
-            specialityDb.Name = speciality.Name;
-            specialityDb.MaxTermId = speciality.MaxTermId;
-            specialityDb.IsDeleted = speciality.IsDeleted;
+        Context.Specialities.Update(specialityDb);
 
-            Context.Specialities.Update(specialityDb);
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -61,6 +52,7 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
         specialityDb.IsDeleted = true;
 
         Context.Specialities.Update(specialityDb);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 
@@ -78,6 +70,7 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
         specialityDb.IsDeleted = false;
 
         Context.Specialities.Update(specialityDb);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 }

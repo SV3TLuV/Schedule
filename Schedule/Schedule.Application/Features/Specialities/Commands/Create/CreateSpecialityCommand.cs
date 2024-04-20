@@ -9,7 +9,6 @@ public sealed class CreateSpecialityCommand : IRequest<int>, IMapWith<Speciality
 {
     public required string Code { get; set; }
     public required string Name { get; set; }
-    
     public required int MaxTermId { get; set; }
 
     public void Map(Profile profile)

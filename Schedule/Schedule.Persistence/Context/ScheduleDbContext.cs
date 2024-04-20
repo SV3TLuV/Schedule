@@ -4,7 +4,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Persistence.Context;
 
-public partial class ScheduleDbContext : DbContext, IScheduleDbContext
+public class ScheduleDbContext : DbContext, IScheduleDbContext
 {
     public ScheduleDbContext()
     {
@@ -65,12 +65,31 @@ public partial class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<WeekType> WeekTypes { get; init; }
 
+    public async Task WithTransactionAsync(Func<Task> action, CancellationToken cancellationToken = default)
+    {
+        if (Database.CurrentTransaction != null)
+        {
+            await action();
+        }
+        else
+        {
+            await using var transaction = await Database.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                await action();
+                await transaction.CommitAsync(cancellationToken);
+            }
+            catch
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                throw;
+            }
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("en_US.UTF-8");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ScheduleDbContext).Assembly);
-        OnModelCreatingPartial(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

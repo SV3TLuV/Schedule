@@ -2,5 +2,5 @@
 
 public interface IMiddleNameRepository
 {
-    public Task AddIfNotExist(string middleName, CancellationToken cancellationToken = default);
+    public Task AddIfNotExistAsync(string middleName, CancellationToken cancellationToken = default);
 }

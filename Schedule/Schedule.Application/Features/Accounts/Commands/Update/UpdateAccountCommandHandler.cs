@@ -29,25 +29,25 @@ public sealed class UpdateAccountCommandHandler(
 
         if (request.Name is not null)
         {
-            await nameRepository.AddIfNotExist(request.Name, cancellationToken);
+            await nameRepository.AddIfNotExistAsync(request.Name, cancellationToken);
             account.Name = request.Name;
         }
 
         if (request.Surname is not null)
         {
-            await surnameRepository.AddIfNotExist(request.Surname, cancellationToken);
+            await surnameRepository.AddIfNotExistAsync(request.Surname, cancellationToken);
             account.Surname = request.Surname;
         }
 
         if (request.MiddleName is not null)
         {
-            await middleNameRepository.AddIfNotExist(request.MiddleName, cancellationToken);
+            await middleNameRepository.AddIfNotExistAsync(request.MiddleName, cancellationToken);
             account.MiddleName = request.MiddleName;
         }
 
         if (request.Email is not null)
         {
-            var searchByEmail = await accountRepository.FindByEmail(request.Email, cancellationToken);
+            var searchByEmail = await accountRepository.FindByEmailAsync(request.Email, cancellationToken);
 
             if (searchByEmail is not null)
                 throw new AlreadyExistsException($"Выбранный email: '{request.Email}' уже занят.");

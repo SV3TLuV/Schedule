@@ -7,7 +7,7 @@ namespace Schedule.Persistence.Repositories;
 
 public class MiddleNameRepository(IScheduleDbContext context) : IMiddleNameRepository
 {
-    public async Task AddIfNotExist(string middleName, CancellationToken cancellationToken = default)
+    public async Task AddIfNotExistAsync(string middleName, CancellationToken cancellationToken = default)
     {
         var nameDb = await context.MiddleNames
             .AsNoTracking()

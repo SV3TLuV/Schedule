@@ -21,12 +21,12 @@ public sealed class CreateAccountCommandHandler(
 {
     public async Task<int> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
-        var searchByLogin = await accountRepository.FindByLogin(request.Login, cancellationToken);
+        var searchByLogin = await accountRepository.FindByLoginAsync(request.Login, cancellationToken);
 
         if (searchByLogin is not null)
             throw new AlreadyExistsException($"Выбранный логин: '{request.Login}: уже занят.");
 
-        var searchByEmail = await accountRepository.FindByEmail(request.Email, cancellationToken);
+        var searchByEmail = await accountRepository.FindByEmailAsync(request.Email, cancellationToken);
 
         if (searchByEmail is not null)
             throw new AlreadyExistsException($"Выбранный email: '{request.Email}' уже занят.");
@@ -38,12 +38,12 @@ public sealed class CreateAccountCommandHandler(
 
         try
         {
-            await nameRepository.AddIfNotExist(request.Name, cancellationToken);
-            await surnameRepository.AddIfNotExist(request.Surname, cancellationToken);
+            await nameRepository.AddIfNotExistAsync(request.Name, cancellationToken);
+            await surnameRepository.AddIfNotExistAsync(request.Surname, cancellationToken);
 
             if (request.MiddleName is not null)
             {
-                await middleNameRepository.AddIfNotExist(request.MiddleName, cancellationToken);
+                await middleNameRepository.AddIfNotExistAsync(request.MiddleName, cancellationToken);
             }
 
             var created = await context.Accounts.AddAsync(account, cancellationToken);

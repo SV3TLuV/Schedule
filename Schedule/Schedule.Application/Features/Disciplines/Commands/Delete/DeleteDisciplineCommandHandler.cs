@@ -3,24 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Disciplines.Commands.Delete;
 
-public sealed class DeleteDisciplineCommandHandler(IScheduleDbContext context)
+public sealed class DeleteDisciplineCommandHandler(IDisciplineRepository disciplineRepository)
     : IRequestHandler<DeleteDisciplineCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var discipline = await context.Disciplines
-            .FirstOrDefaultAsync(e => e.DisciplineId == request.Id, cancellationToken);
-
-        if (discipline is null)
-            throw new NotFoundException(nameof(Discipline), request.Id);
-
-        discipline.IsDeleted = true;
-        
-        context.Disciplines.Update(discipline);
-        await context.SaveChangesAsync(cancellationToken);
+        await disciplineRepository.DeleteAsync(request.Id, cancellationToken);
         return Unit.Value;
     }
 }

@@ -12,7 +12,6 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
     {
         int id;
         var disciplineCodeDb = await Context.DisciplineCodes
-            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Code == code, cancellationToken);
 
         if (disciplineCodeDb is null)
@@ -50,7 +49,6 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
             }
 
             var searchByCode = await Context.DisciplineCodes
-                .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Code == disciplineCode.Code, cancellationToken);
 
             if (searchByCode is not null)
@@ -70,7 +68,6 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var disciplineCodeDb = await Context.DisciplineCodes
-            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineCodeId == id, cancellationToken);
 
         if (disciplineCodeDb is null)
@@ -87,7 +84,6 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
         var disciplineCodeDb = await Context.DisciplineCodes
-            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineCodeId == id, cancellationToken);
 
         if (disciplineCodeDb is null)

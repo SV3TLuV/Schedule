@@ -4,9 +4,9 @@ namespace Schedule.Persistence.Common.Interfaces;
 
 public interface IDisciplineRepository : IRepository
 {
-    public Task<int> CreateDiscipline(Discipline discipline, CancellationToken cancellationToken = default);
+    public Task<int> CreateAsync(Discipline discipline, CancellationToken cancellationToken = default);
     
-    public Task UpdateDiscipline(Discipline discipline, CancellationToken cancellationToken = default);
+    public Task UpdateAsync(Discipline discipline, CancellationToken cancellationToken = default);
     
     public Task DeleteAsync(int id, CancellationToken cancellationToken = default);
     

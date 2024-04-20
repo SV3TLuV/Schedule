@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Schedule.Core.Models;
 
 namespace Schedule.Core.Common.Interfaces;
@@ -59,4 +60,6 @@ public interface IScheduleDbContext
     DbSet<WeekType> WeekTypes { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+    Task WithTransactionAsync(Func<Task> action, CancellationToken cancellationToken = default);
 }

@@ -2,5 +2,5 @@
 
 public interface ISurnameRepository
 {
-    public Task AddIfNotExist(string surname, CancellationToken cancellationToken = default);
+    public Task AddIfNotExistAsync(string surname, CancellationToken cancellationToken = default);
 }

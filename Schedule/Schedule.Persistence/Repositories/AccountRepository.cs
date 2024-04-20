@@ -7,7 +7,7 @@ namespace Schedule.Persistence.Repositories;
 
 public class AccountRepository(IScheduleDbContext context) : IAccountRepository
 {
-    public async Task<Account?> FindByEmail(string email, CancellationToken cancellationToken = default)
+    public async Task<Account?> FindByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await context.Accounts
             .Include(e => e.Role)
@@ -18,7 +18,7 @@ public class AccountRepository(IScheduleDbContext context) : IAccountRepository
             .FirstOrDefaultAsync(e => e.Email == email, cancellationToken);
     }
 
-    public async Task<Account?> FindByLogin(string login, CancellationToken cancellationToken = default)
+    public async Task<Account?> FindByLoginAsync(string login, CancellationToken cancellationToken = default)
     {
         return await context.Accounts
             .Include(e => e.Role)

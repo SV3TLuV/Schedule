@@ -2,5 +2,5 @@
 
 public interface INameRepository
 {
-    public Task AddIfNotExist(string name, CancellationToken cancellationToken = default);
+    public Task AddIfNotExistAsync(string name, CancellationToken cancellationToken = default);
 }

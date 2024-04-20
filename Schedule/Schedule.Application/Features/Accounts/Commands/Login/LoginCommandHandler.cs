@@ -21,7 +21,7 @@ public sealed class LoginCommandHandler(
 {
     public async Task<AuthorizationResultViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var account = await accountRepository.FindByLogin(request.Login, cancellationToken);
+        var account = await accountRepository.FindByLoginAsync(request.Login, cancellationToken);
 
         if (account is null || !passwordHasher.EnhancedHash(request.Password, account.PasswordHash))
             throw new IncorrectAuthorizationDataException();

@@ -7,7 +7,7 @@ namespace Schedule.Persistence.Repositories;
 
 public class SurnameRepository(IScheduleDbContext context) : ISurnameRepository
 {
-    public async Task AddIfNotExist(string surname, CancellationToken cancellationToken = default)
+    public async Task AddIfNotExistAsync(string surname, CancellationToken cancellationToken = default)
     {
         var nameDb = await context.Surnames
             .AsNoTracking()

@@ -7,8 +7,9 @@ namespace Schedule.Application.Features.Days.Commands.Update;
 
 public sealed class UpdateDayCommand : IRequest<Unit>, IMapWith<Day>
 {
-    public required int Id { get; set; }
-    public required bool IsStudy { get; set; }
+    public required int Id { get; init; }
+
+    public required bool IsStudy { get; init; }
 
     public void Map(Profile profile)
     {

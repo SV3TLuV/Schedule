@@ -68,9 +68,6 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<DisciplineRepository>()
             .As<IDisciplineRepository>();
 
-        builder.RegisterType<DisciplineTypeRepository>()
-            .As<IDisciplineTypeRepository>();
-
         builder.RegisterType<GroupRepository>()
             .As<IGroupRepository>();
 

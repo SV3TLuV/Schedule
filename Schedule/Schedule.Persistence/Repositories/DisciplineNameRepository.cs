@@ -11,9 +11,8 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
     public async Task<int> AddIfNotExistAsync(string name, CancellationToken cancellationToken = default)
     {
         int id;
-        var disciplineNameDb = await Context.DisciplineNames
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Name == name, cancellationToken);
+        var disciplineNameDb = await Context.DisciplineNames.FirstOrDefaultAsync(e =>
+            e.Name == name, cancellationToken);
 
         if (disciplineNameDb is null)
         {
@@ -39,17 +38,16 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
 
     public async Task UpdateAsync(DisciplineName disciplineName, CancellationToken cancellationToken = default)
     {
-        var disciplineNameDb = await Context.DisciplineNames
-            .FirstOrDefaultAsync(e => e.DisciplineNameId == disciplineName.DisciplineNameId, cancellationToken);
+        var disciplineNameDb = await Context.DisciplineNames.FirstOrDefaultAsync(e =>
+            e.DisciplineNameId == disciplineName.DisciplineNameId, cancellationToken);
 
         if (disciplineNameDb is null)
         {
             throw new NotFoundException(nameof(DisciplineName), disciplineName.DisciplineNameId);
         }
 
-        var searchByName = await Context.DisciplineNames
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Name == disciplineName.Name, cancellationToken);
+        var searchByName = await Context.DisciplineNames.FirstOrDefaultAsync(e =>
+            e.Name == disciplineName.Name, cancellationToken);
 
         if (searchByName is not null)
         {
@@ -67,9 +65,8 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var disciplineNameDb = await Context.DisciplineNames
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.DisciplineNameId == id, cancellationToken);
+        var disciplineNameDb = await Context.DisciplineNames.FirstOrDefaultAsync(e =>
+            e.DisciplineNameId == id, cancellationToken);
 
         if (disciplineNameDb is null)
         {
@@ -84,9 +81,8 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
-        var disciplineNameDb = await Context.DisciplineNames
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.DisciplineNameId == id, cancellationToken);
+        var disciplineNameDb = await Context.DisciplineNames.FirstOrDefaultAsync(e =>
+            e.DisciplineNameId == id, cancellationToken);
 
         if (disciplineNameDb is null)
         {

@@ -11,8 +11,8 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
     public async Task<int> CreateAsync(Speciality speciality, CancellationToken cancellationToken = default)
     {
         int id;
-        var specialityDb = await Context.Specialities
-            .FirstOrDefaultAsync(e => e.SpecialityId == speciality.SpecialityId, cancellationToken);
+        var specialityDb = await Context.Specialities.FirstOrDefaultAsync(e =>
+            e.SpecialityId == speciality.SpecialityId, cancellationToken);
 
         if (specialityDb is null)
         {
@@ -35,17 +35,16 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
 
     public async Task UpdateAsync(Speciality speciality, CancellationToken cancellationToken = default)
     {
-        var specialityDb = await Context.Specialities
-            .FirstOrDefaultAsync(e => e.SpecialityId == speciality.SpecialityId, cancellationToken);
+        var specialityDb = await Context.Specialities.FirstOrDefaultAsync(e =>
+            e.SpecialityId == speciality.SpecialityId, cancellationToken);
 
         if (specialityDb is null)
         {
             throw new NotFoundException(nameof(Speciality), speciality.SpecialityId);
         }
 
-        var searchByName = await Context.Specialities
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Name == speciality.Name, cancellationToken);
+        var searchByName = await Context.Specialities.FirstOrDefaultAsync(e =>
+            e.Name == speciality.Name, cancellationToken);
 
         if (searchByName is not null)
         {
@@ -65,9 +64,8 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        var specialityDb = await Context.Specialities
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.SpecialityId == id, cancellationToken);
+        var specialityDb = await Context.Specialities.FirstOrDefaultAsync(e =>
+            e.SpecialityId == id, cancellationToken);
 
         if (specialityDb is null)
         {
@@ -83,9 +81,8 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken)
     {
-        var specialityDb = await Context.Specialities
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.SpecialityId == id, cancellationToken);
+        var specialityDb = await Context.Specialities.FirstOrDefaultAsync(e =>
+            e.SpecialityId == id, cancellationToken);
 
         if (specialityDb is null)
         {

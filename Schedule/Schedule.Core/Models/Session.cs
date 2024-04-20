@@ -6,9 +6,9 @@ public class Session
 
     public string RefreshToken { get; set; } = null!;
 
-    public DateOnly Created { get; set; }
+    public DateTime Created { get; set; }
 
-    public DateOnly? Updated { get; set; }
+    public DateTime? Updated { get; set; }
 
     public int AccountId { get; set; }
 

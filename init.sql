@@ -493,8 +493,8 @@ ALTER TABLE public.role ALTER COLUMN role_id ADD GENERATED ALWAYS AS IDENTITY (
 
 CREATE TABLE public.session (
     refresh_token character varying(512) NOT NULL,
-    created date NOT NULL,
-    updated date,
+    created timestamp NOT NULL,
+    updated timestamp,
     account_id integer NOT NULL,
     session_id uuid DEFAULT gen_random_uuid() NOT NULL
 );

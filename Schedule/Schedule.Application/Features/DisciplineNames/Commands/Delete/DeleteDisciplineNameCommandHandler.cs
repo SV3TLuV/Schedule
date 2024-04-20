@@ -1,26 +1,14 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Schedule.Core.Common.Exceptions;
-using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.DisciplineNames.Commands.Delete;
 
-public sealed class DeleteDisciplineNameCommandHandler(IScheduleDbContext context)
+public sealed class DeleteDisciplineNameCommandHandler(IDisciplineNameRepository disciplineNameRepository)
     : IRequestHandler<DeleteDisciplineNameCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteDisciplineNameCommand request, CancellationToken cancellationToken)
     {
-        var disciplineName = await context.DisciplineNames
-            .FirstOrDefaultAsync(e => e.DisciplineNameId == request.Id, cancellationToken);
-
-        if (disciplineName is null)
-            throw new NotFoundException(nameof(DisciplineName), request.Id);
-
-        disciplineName.IsDeleted = true;
-        
-        context.DisciplineNames.Update(disciplineName);
-        await context.SaveChangesAsync(cancellationToken);
+        await disciplineNameRepository.DeleteAsync(request.Id, cancellationToken);
         return Unit.Value;
     }
 }

@@ -1,27 +1,24 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Schedule.Core.Common.Exceptions;
+﻿using AutoMapper;
+using MediatR;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Days.Commands.Update;
 
-public sealed class UpdateDayCommandHandler(IScheduleDbContext context)
-    : IRequestHandler<UpdateDayCommand, Unit>
+public sealed class UpdateDayCommandHandler(
+    IScheduleDbContext context,
+    IMapper mapper,
+    IDayRepository dayRepository) : IRequestHandler<UpdateDayCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateDayCommand request, CancellationToken cancellationToken)
     {
-        var day = await context.Days
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.DayId == request.Id, cancellationToken);
-
-        if (day is null)
-            throw new NotFoundException(nameof(Day), request.Id);
-
-        day.IsStudy = request.IsStudy;
-
-        context.Days.Update(day);
-        await context.SaveChangesAsync(cancellationToken);
+        await context.WithTransactionAsync(async () =>
+        {
+            dayRepository.UseContext(context);
+            var day = mapper.Map<Day>(request);
+            await dayRepository.UpdateAsync(day, cancellationToken);
+        }, cancellationToken);
 
         return Unit.Value;
     }

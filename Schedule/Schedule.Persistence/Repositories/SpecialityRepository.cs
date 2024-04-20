@@ -10,11 +10,27 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
 {
     public async Task<int> CreateAsync(Speciality speciality, CancellationToken cancellationToken = default)
     {
-        var created = await Context.Specialities.AddAsync(speciality, cancellationToken);
+        int id;
+        var specialityDb = await Context.Specialities
+            .FirstOrDefaultAsync(e => e.SpecialityId == speciality.SpecialityId, cancellationToken);
+
+        if (specialityDb is null)
+        {
+            var created = await Context.Specialities.AddAsync(speciality, cancellationToken);
+            id = created.Entity.SpecialityId;
+        } else if (specialityDb.IsDeleted)
+        {
+            specialityDb.IsDeleted = false;
+            Context.Specialities.Update(specialityDb);
+            id = specialityDb.SpecialityId;
+        }
+        else
+        {
+            throw new AlreadyExistsException(speciality.Name);
+        }
 
         await Context.SaveChangesAsync(cancellationToken);
-
-        return created.Entity.SpecialityId;
+        return id;
     }
 
     public async Task UpdateAsync(Speciality speciality, CancellationToken cancellationToken = default)
@@ -25,6 +41,15 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
         if (specialityDb is null)
         {
             throw new NotFoundException(nameof(Speciality), speciality.SpecialityId);
+        }
+
+        var searchByName = await Context.Specialities
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Name == speciality.Name, cancellationToken);
+
+        if (searchByName is not null)
+        {
+            throw new AlreadyExistsException(speciality.Name);
         }
 
         specialityDb.SpecialityId = speciality.SpecialityId;

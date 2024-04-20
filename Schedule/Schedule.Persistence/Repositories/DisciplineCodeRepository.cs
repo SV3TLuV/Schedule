@@ -10,36 +10,48 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
 {
     public async Task AddIfNotExistAsync(string code, CancellationToken cancellationToken = default)
     {
-        var disciplineCodeDb = await Context.DisciplineCodes
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Code == code, cancellationToken);
+        var disciplineCodeDb = await Context.DisciplineCodes.FirstOrDefaultAsync(e =>
+            e.Code == code, cancellationToken);
 
-        if (disciplineCodeDb is not null)
+        if (disciplineCodeDb is null)
         {
-            return;
+            await Context.DisciplineCodes.AddAsync(new DisciplineCode
+            {
+                Code = code
+            }, cancellationToken);
         }
-
-        await Context.DisciplineCodes.AddAsync(new DisciplineCode
+        else if (disciplineCodeDb.IsDeleted)
         {
-            Code = code
-        }, cancellationToken);
+            disciplineCodeDb.IsDeleted = false;
+            Context.DisciplineCodes.Update(disciplineCodeDb);
+        }
+        else
+        {
+            throw new AlreadyExistsException(code);
+        }
 
         await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(DisciplineCode disciplineCode, CancellationToken cancellationToken = default)
     {
-        var disciplineCodeDb = await Context.DisciplineCodes
-            .FirstOrDefaultAsync(e => e.DisciplineCodeId == disciplineCode.DisciplineCodeId, cancellationToken);
+        var disciplineCodeDb = await Context.DisciplineCodes.FirstOrDefaultAsync(e =>
+            e.DisciplineCodeId == disciplineCode.DisciplineCodeId, cancellationToken);
 
         if (disciplineCodeDb is null)
         {
             throw new NotFoundException(nameof(DisciplineCode), disciplineCode.DisciplineCodeId);
         }
 
-        disciplineCodeDb.DisciplineCodeId = disciplineCode.DisciplineCodeId;
+        var searchByCode = await Context.DisciplineCodes.FirstOrDefaultAsync(e =>
+            e.Code == disciplineCode.Code, cancellationToken);
+
+        if (searchByCode is not null)
+        {
+            throw new AlreadyExistsException(disciplineCode.Code);
+        }
+
         disciplineCodeDb.Code = disciplineCode.Code;
-        disciplineCodeDb.IsDeleted = disciplineCode.IsDeleted;
 
         Context.DisciplineCodes.Update(disciplineCodeDb);
 

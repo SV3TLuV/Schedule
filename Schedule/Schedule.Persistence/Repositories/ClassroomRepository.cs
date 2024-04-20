@@ -8,14 +8,17 @@ namespace Schedule.Persistence.Repositories;
 
 public class ClassroomRepository(IScheduleDbContext context) : Repository(context), IClassroomRepository
 {
-    public async Task AddIfNotExists(Classroom classroom, CancellationToken cancellationToken = default)
+    public async Task AddIfNotExists(string cabinet, CancellationToken cancellationToken = default)
     {
         var classroomDb = await Context.Classrooms.FirstOrDefaultAsync(e =>
-            e.Cabinet == classroom.Cabinet, cancellationToken);
+            e.Cabinet == cabinet, cancellationToken);
 
         if (classroomDb is null)
         {
-            await Context.Classrooms.AddAsync(classroom, cancellationToken);
+            await Context.Classrooms.AddAsync(new Classroom
+            {
+                Cabinet = cabinet
+            }, cancellationToken);
         }
         else if (classroomDb.IsDeleted)
         {
@@ -24,7 +27,7 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
         }
         else
         {
-            throw new AlreadyExistsException(classroom.Cabinet);
+            throw new AlreadyExistsException(cabinet);
         }
 
         await Context.SaveChangesAsync(cancellationToken);

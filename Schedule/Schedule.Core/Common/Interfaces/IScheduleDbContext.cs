@@ -33,7 +33,11 @@ public interface IScheduleDbContext
 
     DbSet<Lesson> Lessons { get; }
 
+    DbSet<LessonTeacherClassroom> LessonTeacherClassrooms { get; }
+
     DbSet<LessonChange> LessonChanges { get; }
+
+    DbSet<LessonChangeTeacherClassroom> LessonChangeTeacherClassrooms { get; }
 
     DbSet<MiddleName> MiddleNames { get; }
 

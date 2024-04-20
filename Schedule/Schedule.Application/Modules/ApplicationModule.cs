@@ -39,6 +39,20 @@ public sealed class ApplicationModule : Module
             .As<IPasswordHasherService>()
             .SingleInstance();
 
+        builder.RegisterType<MailSenderService>()
+            .As<IMailSenderService>();
+
+        RegisterRepositories(builder);
+
+        var services = new ServiceCollection();
+
+        services.AddValidatorsFromAssembly(ThisAssembly);
+
+        builder.Populate(services);
+    }
+
+    private void RegisterRepositories(ContainerBuilder builder)
+    {
         builder.RegisterType<AccountRepository>()
             .As<IAccountRepository>();
 
@@ -50,14 +64,5 @@ public sealed class ApplicationModule : Module
 
         builder.RegisterType<MiddleNameRepository>()
             .As<IMiddleNameRepository>();
-
-        builder.RegisterType<MailSenderService>()
-            .As<IMailSenderService>();
-
-        var services = new ServiceCollection();
-
-        services.AddValidatorsFromAssembly(ThisAssembly);
-
-        builder.Populate(services);
     }
 }

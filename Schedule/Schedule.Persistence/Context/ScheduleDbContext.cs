@@ -39,7 +39,11 @@ public class ScheduleDbContext : DbContext, IScheduleDbContext
 
     public virtual DbSet<Lesson> Lessons { get; init; }
 
+    public virtual DbSet<LessonTeacherClassroom> LessonTeacherClassrooms { get; init; }
+
     public virtual DbSet<LessonChange> LessonChanges { get; init; }
+
+    public virtual DbSet<LessonChangeTeacherClassroom> LessonChangeTeacherClassrooms { get; init;  }
 
     public virtual DbSet<MiddleName> MiddleNames { get; init; }
 

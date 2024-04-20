@@ -4,26 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Specialities.Commands.Create;
 
-public sealed class CreateSpecialityCommandHandler(IScheduleDbContext context, IMapper mapper)
+public sealed class CreateSpecialityCommandHandler(
+    IMapper mapper,
+    ISpecialityRepository specialityRepository)
     : IRequestHandler<CreateSpecialityCommand, int>
 {
     public async Task<int> Handle(CreateSpecialityCommand request, CancellationToken cancellationToken)
     {
-        var searched = await context.Specialities
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e =>
-                e.Name == request.Name &&
-                e.Code == request.Code, cancellationToken);
-
-        if (searched is not null)
-            throw new AlreadyExistsException($"Специальность: {searched.Name}");
-        
         var speciality = mapper.Map<Speciality>(request);
-        await context.Specialities.AddAsync(speciality, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
-        return speciality.SpecialityId;
+        return await specialityRepository.CreateAsync(speciality, cancellationToken);
     }
 }

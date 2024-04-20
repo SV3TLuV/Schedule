@@ -2,7 +2,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface IDisciplineNameRepository
+public interface IDisciplineNameRepository : IRepository
 {
     public Task AddIfNotExistAsync(string name, CancellationToken cancellationToken = default);
 

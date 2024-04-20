@@ -9,8 +9,16 @@ public class StudentViewModel : IMapWith<Student>
     public int Id { get; set; }
     
     public GroupViewModel Group { get; set; } = null!;
-    
-    public AccountViewModel Account { get; set; } = null!;
+
+    public string Login { get; set; } = null!;
+
+    public string Email { get; set; } = null!;
+
+    public string Name { get; set; } = null!;
+
+    public string Surname { get; set; } = null!;
+
+    public string? MiddleName { get; set; }
 
     public void Map(Profile profile)
     {

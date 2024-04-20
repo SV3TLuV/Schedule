@@ -8,54 +8,63 @@ namespace Schedule.Persistence.Repositories;
 
 public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(context), IDisciplineCodeRepository
 {
-    public async Task AddIfNotExistAsync(string code, CancellationToken cancellationToken = default)
+    public async Task<int> AddIfNotExistAsync(string code, CancellationToken cancellationToken = default)
     {
-        var disciplineCodeDb = await Context.DisciplineCodes.FirstOrDefaultAsync(e =>
-            e.Code == code, cancellationToken);
+        int id;
+        var disciplineCodeDb = await Context.DisciplineCodes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Code == code, cancellationToken);
 
         if (disciplineCodeDb is null)
         {
-            await Context.DisciplineCodes.AddAsync(new DisciplineCode
+            var created = await Context.DisciplineCodes.AddAsync(new DisciplineCode
             {
                 Code = code
             }, cancellationToken);
-        }
-        else if (disciplineCodeDb.IsDeleted)
+            id = created.Entity.DisciplineCodeId;
+        } else if (disciplineCodeDb.IsDeleted)
         {
             disciplineCodeDb.IsDeleted = false;
             Context.DisciplineCodes.Update(disciplineCodeDb);
+            id = disciplineCodeDb.DisciplineCodeId;
         }
         else
         {
             throw new AlreadyExistsException(code);
         }
-
+        
         await Context.SaveChangesAsync(cancellationToken);
+        return id;
     }
 
     public async Task UpdateAsync(DisciplineCode disciplineCode, CancellationToken cancellationToken = default)
     {
-        var disciplineCodeDb = await Context.DisciplineCodes.FirstOrDefaultAsync(e =>
-            e.DisciplineCodeId == disciplineCode.DisciplineCodeId, cancellationToken);
-
-        if (disciplineCodeDb is null)
+        await Context.WithTransactionAsync(async () =>
         {
-            throw new NotFoundException(nameof(DisciplineCode), disciplineCode.DisciplineCodeId);
-        }
+            var disciplineCodeDb = await Context.DisciplineCodes
+                .FirstOrDefaultAsync(e => e.DisciplineCodeId == disciplineCode.DisciplineCodeId, cancellationToken);
 
-        var searchByCode = await Context.DisciplineCodes.FirstOrDefaultAsync(e =>
-            e.Code == disciplineCode.Code, cancellationToken);
+            if (disciplineCodeDb is null)
+            {
+                throw new NotFoundException(nameof(DisciplineCode), disciplineCode.DisciplineCodeId);
+            }
 
-        if (searchByCode is not null)
-        {
-            throw new AlreadyExistsException(disciplineCode.Code);
-        }
+            var searchByCode = await Context.DisciplineCodes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Code == disciplineCode.Code, cancellationToken);
 
-        disciplineCodeDb.Code = disciplineCode.Code;
+            if (searchByCode is not null)
+            {
+                throw new AlreadyExistsException(disciplineCode.Code);
+            }
 
-        Context.DisciplineCodes.Update(disciplineCodeDb);
+            disciplineCodeDb.DisciplineCodeId = disciplineCode.DisciplineCodeId;
+            disciplineCodeDb.Code = disciplineCode.Code;
+            disciplineCodeDb.IsDeleted = disciplineCode.IsDeleted;
 
-        await Context.SaveChangesAsync(cancellationToken);
+            Context.DisciplineCodes.Update(disciplineCodeDb);
+            await Context.SaveChangesAsync(cancellationToken);
+        }, cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
@@ -72,7 +81,6 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
         disciplineCodeDb.IsDeleted = true;
 
         Context.DisciplineCodes.Update(disciplineCodeDb);
-
         await Context.SaveChangesAsync(cancellationToken);
     }
 
@@ -90,7 +98,6 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
         disciplineCodeDb.IsDeleted = false;
 
         Context.DisciplineCodes.Update(disciplineCodeDb);
-
         await Context.SaveChangesAsync(cancellationToken);
     }
 }

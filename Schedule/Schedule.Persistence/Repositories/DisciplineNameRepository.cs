@@ -8,23 +8,33 @@ namespace Schedule.Persistence.Repositories;
 
 public class DisciplineNameRepository(IScheduleDbContext context) : Repository(context), IDisciplineNameRepository
 {
-    public async Task AddIfNotExistAsync(string name, CancellationToken cancellationToken = default)
+    public async Task<int> AddIfNotExistAsync(string name, CancellationToken cancellationToken = default)
     {
+        int id;
         var disciplineNameDb = await Context.DisciplineNames
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Name == name, cancellationToken);
 
-        if (disciplineNameDb is not null)
+        if (disciplineNameDb is null)
         {
-            return;
+            var created = await Context.DisciplineNames.AddAsync(new DisciplineName
+            {
+                Name = name
+            }, cancellationToken);
+            id = created.Entity.DisciplineNameId;
+        } else if (disciplineNameDb.IsDeleted)
+        {
+            disciplineNameDb.IsDeleted = false;
+            Context.DisciplineNames.Update(disciplineNameDb);
+            id = disciplineNameDb.DisciplineNameId;
+        }
+        else
+        {
+            throw new AlreadyExistsException(name);
         }
 
-        await Context.DisciplineNames.AddAsync(new DisciplineName
-        {
-            Name = name
-        }, cancellationToken);
-
         await Context.SaveChangesAsync(cancellationToken);
+        return id;
     }
 
     public async Task UpdateAsync(DisciplineName disciplineName, CancellationToken cancellationToken = default)
@@ -35,6 +45,15 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
         if (disciplineNameDb is null)
         {
             throw new NotFoundException(nameof(DisciplineName), disciplineName.DisciplineNameId);
+        }
+
+        var searchByName = await Context.DisciplineNames
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Name == disciplineName.Name, cancellationToken);
+
+        if (searchByName is not null)
+        {
+            throw new AlreadyExistsException(disciplineName.Name);
         }
 
         disciplineNameDb.DisciplineNameId = disciplineName.DisciplineNameId;

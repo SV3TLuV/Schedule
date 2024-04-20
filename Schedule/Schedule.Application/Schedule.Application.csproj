@@ -29,7 +29,6 @@
       <Folder Include="Features\LessonChanges\Queries\" />
       <Folder Include="Features\Lessons\Commands\" />
       <Folder Include="Features\Lessons\Queries\" />
-      <Folder Include="Features\MiddleNames\Commands\" />
       <Folder Include="Features\Permissions\" />
       <Folder Include="Features\Times\Queries\" />
       <Folder Include="Features\Timetables\Commands\" />

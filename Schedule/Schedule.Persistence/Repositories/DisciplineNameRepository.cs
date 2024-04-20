@@ -23,28 +23,27 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
         {
             Name = name
         }, cancellationToken);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(DisciplineName disciplineName, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        var disciplineNameDb = await Context.DisciplineNames
+            .FirstOrDefaultAsync(e => e.DisciplineNameId == disciplineName.DisciplineNameId, cancellationToken);
+
+        if (disciplineNameDb is null)
         {
-            var disciplineNameDb = await Context.DisciplineNames
-                .FirstOrDefaultAsync(e => e.DisciplineNameId == disciplineName.DisciplineNameId, cancellationToken);
+            throw new NotFoundException(nameof(DisciplineName), disciplineName.DisciplineNameId);
+        }
 
-            if (disciplineNameDb is null)
-            {
-                throw new NotFoundException(nameof(DisciplineName), disciplineName.DisciplineNameId);
-            }
+        disciplineNameDb.DisciplineNameId = disciplineName.DisciplineNameId;
+        disciplineNameDb.Name = disciplineName.Name;
+        disciplineNameDb.IsDeleted = disciplineName.IsDeleted;
 
-            disciplineNameDb.DisciplineNameId = disciplineName.DisciplineNameId;
-            disciplineNameDb.Name = disciplineName.Name;
-            disciplineNameDb.IsDeleted = disciplineName.IsDeleted;
+        Context.DisciplineNames.Update(disciplineNameDb);
 
-            Context.DisciplineNames.Update(disciplineNameDb);
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)

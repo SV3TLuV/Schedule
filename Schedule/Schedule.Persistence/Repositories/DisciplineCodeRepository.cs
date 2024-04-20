@@ -23,28 +23,27 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
         {
             Code = code
         }, cancellationToken);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(DisciplineCode disciplineCode, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        var disciplineCodeDb = await Context.DisciplineCodes
+            .FirstOrDefaultAsync(e => e.DisciplineCodeId == disciplineCode.DisciplineCodeId, cancellationToken);
+
+        if (disciplineCodeDb is null)
         {
-            var disciplineCodeDb = await Context.DisciplineCodes
-                .FirstOrDefaultAsync(e => e.DisciplineCodeId == disciplineCode.DisciplineCodeId, cancellationToken);
+            throw new NotFoundException(nameof(DisciplineCode), disciplineCode.DisciplineCodeId);
+        }
 
-            if (disciplineCodeDb is null)
-            {
-                throw new NotFoundException(nameof(DisciplineCode), disciplineCode.DisciplineCodeId);
-            }
+        disciplineCodeDb.DisciplineCodeId = disciplineCode.DisciplineCodeId;
+        disciplineCodeDb.Code = disciplineCode.Code;
+        disciplineCodeDb.IsDeleted = disciplineCode.IsDeleted;
 
-            disciplineCodeDb.DisciplineCodeId = disciplineCode.DisciplineCodeId;
-            disciplineCodeDb.Code = disciplineCode.Code;
-            disciplineCodeDb.IsDeleted = disciplineCode.IsDeleted;
+        Context.DisciplineCodes.Update(disciplineCodeDb);
 
-            Context.DisciplineCodes.Update(disciplineCodeDb);
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
@@ -61,6 +60,7 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
         disciplineCodeDb.IsDeleted = true;
 
         Context.DisciplineCodes.Update(disciplineCodeDb);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 
@@ -78,6 +78,7 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
         disciplineCodeDb.IsDeleted = false;
 
         Context.DisciplineCodes.Update(disciplineCodeDb);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 }

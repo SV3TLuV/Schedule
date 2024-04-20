@@ -56,6 +56,9 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<AccountRepository>()
             .As<IAccountRepository>();
 
+        builder.RegisterType<ClassroomRepository>()
+            .As<IClassroomRepository>();
+
         builder.RegisterType<DayRepository>()
             .As<IDayRepository>();
 

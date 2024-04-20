@@ -10,45 +10,35 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 {
     public async Task<int> CreateDiscipline(Discipline discipline, CancellationToken cancellationToken)
     {
-        var id = default(int);
+        var created = await Context.Disciplines.AddAsync(discipline, cancellationToken);
 
-        await Context.WithTransactionAsync(async () =>
-        {
-            var created = await Context.Disciplines.AddAsync(discipline, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
 
-            id = created.Entity.DisciplineId;
-
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
-
-        return id;
+        return created.Entity.DisciplineId;
     }
 
     public async Task UpdateDiscipline(Discipline discipline, CancellationToken cancellationToken)
     {
-        await Context.WithTransactionAsync(async () =>
+        var disciplineDb = await Context.Disciplines
+            .FirstOrDefaultAsync(e => e.DisciplineId == discipline.DisciplineId, cancellationToken);
+
+        if (disciplineDb is null)
         {
-            var disciplineDb = await Context.Disciplines
-                    .FirstOrDefaultAsync(e => e.DisciplineId == discipline.DisciplineId, cancellationToken);
+            throw new NotFoundException(nameof(Discipline), discipline.DisciplineId);
+        }
 
-            if (disciplineDb is null)
-            {
-                throw new NotFoundException(nameof(discipline), discipline.DisciplineId);
-            }
+        disciplineDb.DisciplineId = discipline.DisciplineId;
+        disciplineDb.NameId = discipline.NameId;
+        disciplineDb.CodeId = discipline.CodeId;
+        disciplineDb.TotalHours = discipline.TotalHours;
+        disciplineDb.TermId = discipline.TermId;
+        disciplineDb.SpecialityId = discipline.SpecialityId;
+        disciplineDb.DisciplineTypeId = discipline.DisciplineTypeId;
+        discipline.IsDeleted = discipline.IsDeleted;
 
-            disciplineDb.DisciplineId = discipline.DisciplineId;
-            disciplineDb.NameId = discipline.NameId;
-            disciplineDb.CodeId = discipline.CodeId;
-            disciplineDb.TotalHours = discipline.TotalHours;
-            disciplineDb.TermId = discipline.TermId;
-            disciplineDb.SpecialityId = discipline.SpecialityId;
-            disciplineDb.DisciplineTypeId = discipline.DisciplineTypeId;
-            discipline.IsDeleted = discipline.IsDeleted;
+        Context.Disciplines.Update(disciplineDb);
 
-            Context.Disciplines.Update(disciplineDb);
-
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -65,6 +55,7 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
         disciplineDb.IsDeleted = true;
 
         Context.Disciplines.Update(disciplineDb);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 
@@ -82,6 +73,7 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
         disciplineDb.IsDeleted = false;
 
         Context.Disciplines.Update(disciplineDb);
+
         await Context.SaveChangesAsync(cancellationToken);
     }
 }

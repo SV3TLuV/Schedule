@@ -1,24 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
+﻿using MediatR;
 
 namespace Schedule.Application.Features.DisciplineCodes.Commands.Create;
 
-public sealed class CreateDisciplineCodeCommand : IRequest<int>, IMapWith<DisciplineCode>
+public sealed class CreateDisciplineCodeCommand : IRequest<int>
 {
     public required string Code { get; set; } 
-    
-    public void Map(Profile profile)
-    {
-        profile.CreateMap<DisciplineCode, CreateDisciplineCodeCommand>()
-            .ForMember(command => command.Code, expression =>
-                expression.MapFrom(discipline =>
-                    discipline.Code.Trim(' ', '.', ',').ToUpper()));
-
-        profile.CreateMap<CreateDisciplineCodeCommand, DisciplineCode>()
-            .ForMember(command => command.Code, expression =>
-                expression.MapFrom(discipline =>
-                    discipline.Code.Trim(' ', '.', ',').ToUpper()));
-    }
 }

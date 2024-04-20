@@ -1,16 +1,15 @@
-﻿using AutoMapper;
-using Schedule.Core.Common.Extensions;
+using AutoMapper;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
 namespace Schedule.Application.ViewModels;
 
-public class TeacherViewModel : IMapWith<Teacher>
+public class EmployeeViewModel : IMapWith<Employee>
 {
     public int Id { get; set; }
 
     public string Login { get; set; } = null!;
-
+    
     public string Email { get; set; } = null!;
 
     public string Name { get; set; } = null!;
@@ -21,32 +20,32 @@ public class TeacherViewModel : IMapWith<Teacher>
 
     public void Map(Profile profile)
     {
-        profile.CreateMap<Teacher, TeacherViewModel>()
+        profile.CreateMap<Employee, EmployeeViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
-                expression.MapFrom(teacher => teacher.TeacherId))
+                expression.MapFrom(employee => employee.EmployeeId))
             .ForMember(viewModel => viewModel.Login, expression =>
-                expression.MapFrom(teacher => teacher.Account.Login))
+                expression.MapFrom(employee => employee.Account.Login))
             .ForMember(viewModel => viewModel.Email, expression =>
-                expression.MapFrom(teacher => teacher.Account.Email))
+                expression.MapFrom(employee => employee.Account.Email))
             .ForMember(viewModel => viewModel.Name, expression =>
-                expression.MapFrom(teacher => teacher.Account.Name))
+                expression.MapFrom(employee => employee.Account.Name))
             .ForMember(viewModel => viewModel.Surname, expression =>
-                expression.MapFrom(teacher => teacher.Account.Surname))
+                expression.MapFrom(employee => employee.Account.Surname))
             .ForMember(viewModel => viewModel.MiddleName, expression =>
-                expression.MapFrom(teacher => teacher.Account.MiddleName));
+                expression.MapFrom(employee => employee.Account.MiddleName));
 
-        profile.CreateMap<TeacherViewModel, Teacher>()
-            .ForMember(teacher => teacher.TeacherId, expression =>
+        profile.CreateMap<EmployeeViewModel, Employee>()
+            .ForMember(employee => employee.EmployeeId, expression =>
                 expression.MapFrom(viewModel => viewModel.Id))
-            .ForMember(teacher => teacher.Account.Login, expression =>
+            .ForMember(employee => employee.Account.Login, expression =>
                 expression.MapFrom(viewModel => viewModel.Login))
-            .ForMember(teacher => teacher.Account.Email, expression =>
+            .ForMember(employee => employee.Account.Email, expression =>
                 expression.MapFrom(viewModel => viewModel.Email))
-            .ForMember(teacher => teacher.Account.Name, expression =>
+            .ForMember(employee => employee.Account.Name, expression =>
                 expression.MapFrom(viewModel => viewModel.Name))
-            .ForMember(teacher => teacher.Account.Surname, expression =>
+            .ForMember(employee => employee.Account.Surname, expression =>
                 expression.MapFrom(viewModel => viewModel.Surname))
-            .ForMember(teacher => teacher.Account.MiddleName, expression =>
+            .ForMember(employee => employee.Account.MiddleName, expression =>
                 expression.MapFrom(viewModel => viewModel.MiddleName));
     }
 }

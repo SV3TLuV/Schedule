@@ -10,34 +10,62 @@ public class LessonChangeRepository(IScheduleDbContext context) : Repository(con
 {
     public async Task<int> CreateAsync(LessonChange lessonChange, CancellationToken cancellationToken = default)
     {
-        var created = await Context.LessonChanges.AddAsync(lessonChange, cancellationToken);
+        var id = default(int);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await Context.WithTransactionAsync(async () =>
+        {
+            var created = await Context.LessonChanges.AddAsync(lessonChange, cancellationToken);
 
-        return created.Entity.LessonChangeId;
+            id = created.Entity.LessonChangeId;
+
+            foreach (var teacherClassroom in lessonChange.LessonChangeTeacherClassrooms)
+            {
+                teacherClassroom.LessonChangeId = created.Entity.LessonChangeId;
+
+                await Context.LessonChangeTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
+            }
+
+            await Context.SaveChangesAsync(cancellationToken);
+        }, cancellationToken);
+
+        return id;
     }
 
     public async Task UpdateAsync(LessonChange lessonChange, CancellationToken cancellationToken = default)
     {
-        var lessonChangeDb = await Context.LessonChanges.FirstOrDefaultAsync(e =>
-            e.LessonChangeId == lessonChange.LessonChangeId, cancellationToken);
-
-        if (lessonChangeDb is null)
+        await Context.WithTransactionAsync(async () =>
         {
-            throw new NotFoundException(nameof(LessonChange), lessonChange.LessonChangeId);
-        }
+            var lessonChangeDb = await Context.LessonChanges.FirstOrDefaultAsync(e =>
+                e.LessonChangeId == lessonChange.LessonChangeId, cancellationToken);
 
-        lessonChangeDb.LessonId = lessonChange.LessonId;
-        lessonChangeDb.DisciplineId = lessonChange.DisciplineId;
-        lessonChangeDb.Subgroup = lessonChange.Subgroup;
-        lessonChangeDb.Date = lessonChange.Date;
-        lessonChangeDb.TimeStart = lessonChange.TimeStart;
-        lessonChangeDb.TimeEnd = lessonChange.TimeEnd;
-        lessonChangeDb.Number = lessonChange.Number;
+            if (lessonChangeDb is null)
+            {
+                throw new NotFoundException(nameof(LessonChange), lessonChange.LessonChangeId);
+            }
 
-        Context.LessonChanges.Update(lessonChangeDb);
+            lessonChangeDb.LessonId = lessonChange.LessonId;
+            lessonChangeDb.DisciplineId = lessonChange.DisciplineId;
+            lessonChangeDb.Subgroup = lessonChange.Subgroup;
+            lessonChangeDb.Date = lessonChange.Date;
+            lessonChangeDb.TimeStart = lessonChange.TimeStart;
+            lessonChangeDb.TimeEnd = lessonChange.TimeEnd;
+            lessonChangeDb.Number = lessonChange.Number;
 
-        await Context.SaveChangesAsync(cancellationToken);
+            Context.LessonChanges.Update(lessonChangeDb);
+
+            await Context.LessonChangeTeacherClassrooms
+                .Where(e => e.LessonChangeId == lessonChangeDb.LessonChangeId)
+                .ExecuteDeleteAsync(cancellationToken);
+
+            foreach (var teacherClassroom in lessonChange.LessonChangeTeacherClassrooms)
+            {
+                teacherClassroom.LessonChangeId = lessonChangeDb.LessonChangeId;
+
+                await Context.LessonChangeTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
+            }
+
+            await Context.SaveChangesAsync(cancellationToken);
+        }, cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)

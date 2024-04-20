@@ -30,9 +30,7 @@
       <Folder Include="Features\Lessons\Commands\" />
       <Folder Include="Features\Lessons\Queries\" />
       <Folder Include="Features\MiddleNames\Commands\" />
-      <Folder Include="Features\Names\Commands\" />
       <Folder Include="Features\Permissions\" />
-      <Folder Include="Features\Surnames\Commands\" />
       <Folder Include="Features\Times\Queries\" />
       <Folder Include="Features\Timetables\Commands\" />
       <Folder Include="Features\Timetables\Queries\" />

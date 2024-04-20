@@ -56,13 +56,43 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<AccountRepository>()
             .As<IAccountRepository>();
 
+        builder.RegisterType<DayRepository>()
+            .As<IDayRepository>();
+
+        builder.RegisterType<DisciplineCodeRepository>()
+            .As<IDisciplineCodeRepository>();
+
+        builder.RegisterType<DisciplineNameRepository>()
+            .As<IDisciplineNameRepository>();
+
+        builder.RegisterType<DisciplineRepository>()
+            .As<IDisciplineRepository>();
+
+        builder.RegisterType<DisciplineTypeRepository>()
+            .As<IDisciplineTypeRepository>();
+
+        builder.RegisterType<GroupRepository>()
+            .As<IGroupRepository>();
+
+        builder.RegisterType<LessonChangeRepository>()
+            .As<ILessonChangeRepository>();
+
+        builder.RegisterType<LessonRepository>()
+            .As<ILessonRepository>();
+
+        builder.RegisterType<MiddleNameRepository>()
+            .As<IMiddleNameRepository>();
+
         builder.RegisterType<NameRepository>()
             .As<INameRepository>();
+
+        builder.RegisterType<SpecialityRepository>()
+            .As<ISpecialityRepository>();
 
         builder.RegisterType<SurnameRepository>()
             .As<ISurnameRepository>();
 
-        builder.RegisterType<MiddleNameRepository>()
-            .As<IMiddleNameRepository>();
+        builder.RegisterType<TimetableRepository>()
+            .As<ITimetableRepository>();
     }
 }

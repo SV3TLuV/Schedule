@@ -40,7 +40,7 @@ public class LessonRepository(IScheduleDbContext context) : Repository(context),
 
             if (lessonDb is null)
             {
-                throw new NotFoundException(nameof(LessonChange), lesson.LessonId);
+                throw new NotFoundException(nameof(Lesson), lesson.LessonId);
             }
 
             lessonDb.DisciplineId = lesson.DisciplineId;

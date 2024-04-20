@@ -9,7 +9,7 @@ public class EmployeeViewModel : IMapWith<Employee>
     public int Id { get; set; }
 
     public string Login { get; set; } = null!;
-    
+
     public string Email { get; set; } = null!;
 
     public string Name { get; set; } = null!;
@@ -17,6 +17,8 @@ public class EmployeeViewModel : IMapWith<Employee>
     public string Surname { get; set; } = null!;
 
     public string? MiddleName { get; set; }
+
+    public ICollection<PermissionViewModel> Permissions { get; set; } = new List<PermissionViewModel>();
 
     public void Map(Profile profile)
     {
@@ -32,7 +34,11 @@ public class EmployeeViewModel : IMapWith<Employee>
             .ForMember(viewModel => viewModel.Surname, expression =>
                 expression.MapFrom(employee => employee.Account.Surname))
             .ForMember(viewModel => viewModel.MiddleName, expression =>
-                expression.MapFrom(employee => employee.Account.MiddleName));
+                expression.MapFrom(employee => employee.Account.MiddleName))
+            .ForMember(viewModel => viewModel.Permissions, expression => expression
+                .MapFrom(employee => employee.EmployeePermissions
+                    .Where(e => e.EmployeeId == employee.EmployeeId)
+                    .Select(e => e.PermissionId).ToList()));
 
         profile.CreateMap<EmployeeViewModel, Employee>()
             .ForMember(employee => employee.EmployeeId, expression =>
@@ -46,6 +52,11 @@ public class EmployeeViewModel : IMapWith<Employee>
             .ForMember(employee => employee.Account.Surname, expression =>
                 expression.MapFrom(viewModel => viewModel.Surname))
             .ForMember(employee => employee.Account.MiddleName, expression =>
-                expression.MapFrom(viewModel => viewModel.MiddleName));
+                expression.MapFrom(viewModel => viewModel.MiddleName))
+            .ForMember(
+                employee => employee.EmployeePermissions
+                    .Where(e => e.EmployeeId == employee.EmployeeId)
+                    .Select(e => e.Permission).ToList(),
+                expression => expression.MapFrom(viewModel => viewModel.Permissions));
     }
 }

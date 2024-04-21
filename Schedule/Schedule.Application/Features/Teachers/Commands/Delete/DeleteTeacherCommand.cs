@@ -2,7 +2,4 @@
 
 namespace Schedule.Application.Features.Teachers.Commands.Delete;
 
-public sealed class DeleteTeacherCommand : IRequest<Unit>
-{
-    public int Id { get; set; }
-}
+public sealed record DeleteTeacherCommand(int Id) : IRequest<Unit>;

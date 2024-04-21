@@ -2,7 +2,4 @@
 
 namespace Schedule.Application.Features.Employees.Commands.Restore;
 
-public sealed class RestoreEmployeeCommand : IRequest<Unit>
-{
-    public int Id { get; set; }
-}
+public sealed record RestoreEmployeeCommand(int Id) : IRequest<Unit>;

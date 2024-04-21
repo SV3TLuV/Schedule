@@ -26,7 +26,7 @@ public class Group
 
     public virtual Term Term { get; set; } = null!;
 
-    public virtual Timetable? Timetable { get; set; }
+    public virtual ICollection<Timetable> Timetable { get; set; } = new List<Timetable>();
 
     public string Name => $"{Speciality.Name}-${Number}";
 

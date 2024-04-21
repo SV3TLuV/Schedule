@@ -49,11 +49,11 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
         }
 
         var searchDiscipline = await Context.Disciplines
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => 
-                e.CodeId == discipline.CodeId && 
+            .Include(e => e.Name)
+            .FirstOrDefaultAsync(e =>
+                e.CodeId == discipline.CodeId &&
                 e.NameId == discipline.NameId &&
-                e.SpecialityId == discipline.SpecialityId && 
+                e.SpecialityId == discipline.SpecialityId &&
                 e.TermId == discipline.TermId, cancellationToken);
 
         if (searchDiscipline is not null)

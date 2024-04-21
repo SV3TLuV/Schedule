@@ -8,7 +8,7 @@ namespace Schedule.Persistence.Repositories;
 
 public class ClassroomRepository(IScheduleDbContext context) : Repository(context), IClassroomRepository
 {
-    public async Task<int> AddIfNotExists(string cabinet, CancellationToken cancellationToken = default)
+    public async Task<int> AddIfNotExistAsync(string cabinet, CancellationToken cancellationToken = default)
     {
         int id;
 

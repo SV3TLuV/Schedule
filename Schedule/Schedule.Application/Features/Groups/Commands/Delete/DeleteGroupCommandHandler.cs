@@ -1,29 +1,25 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Schedule.Application.Features.Groups.Notifications.GroupDeleteTransfers;
-using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Groups.Commands.Delete;
 
 public sealed class DeleteGroupCommandHandler(
     IScheduleDbContext context,
-    IMediator mediator) : IRequestHandler<DeleteGroupCommand, Unit>
+    IGroupRepository groupRepository,
+    IGroupTransferRepository groupTransferRepository) : IRequestHandler<DeleteGroupCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        var group = await context.Groups
-            .FirstOrDefaultAsync(e => e.GroupId == request.Id, cancellationToken);
+        await context.WithTransactionAsync(async () =>
+        {
+            groupRepository.UseContext(context);
+            groupTransferRepository.UseContext(context);
 
-        if (group is null)
-            throw new NotFoundException(nameof(Group), request.Id);
+            await groupRepository.DeleteAsync(request.Id, cancellationToken);
+            await groupTransferRepository.DeleteByGroupId(request.Id, cancellationToken);
+        }, cancellationToken);
 
-        group.IsDeleted = true;
-        
-        context.Groups.Update(group);
-        await context.SaveChangesAsync(cancellationToken);
-        await mediator.Publish(new GroupDeleteTransfersNotification(group.GroupId), cancellationToken);
         return Unit.Value;
     }
 }

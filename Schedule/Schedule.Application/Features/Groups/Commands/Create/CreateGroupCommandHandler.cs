@@ -1,39 +1,33 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Schedule.Application.Features.Groups.Notifications.GroupCreateTransfers;
-using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Groups.Commands.Create;
 
 public sealed class CreateGroupCommandHandler(
     IScheduleDbContext context,
-    IMediator mediator,
-    IMapper mapper,
-    IDateInfoService dateInfoService)
+    IGroupRepository groupRepository,
+    IGroupTransferRepository groupTransferRepository,
+    IMapper mapper)
     : IRequestHandler<CreateGroupCommand, int>
 {
     public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
-        var searched = await context.Groups
-            .AsNoTracking()
-            .Include(e => e.Speciality)
-            .FirstOrDefaultAsync(e =>
-                e.Number == request.Number &&
-                e.SpecialityId == request.SpecialityId &&
-                e.EnrollmentYear == request.EnrollmentYear, cancellationToken);
+        var id = default(int);
 
-        if (searched is not null)
-            throw new AlreadyExistsException($"Группа: {searched.Name}");
-        
-        var group = mapper.Map<Group>(request);
-        group.TermId = group.CalculateTerm(dateInfoService);
-        
-        await context.Groups.AddAsync(group, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
-        await mediator.Publish(new GroupCreateTransfersNotification(group.GroupId), cancellationToken);
-        return group.GroupId;
+        await context.WithTransactionAsync(async () =>
+        {
+            groupRepository.UseContext(context);
+            groupTransferRepository.UseContext(context);
+
+            var group = mapper.Map<Group>(request);
+            id = await groupRepository.CreateAsync(group, cancellationToken);
+
+            await groupTransferRepository.CreateForGroup(id, cancellationToken);
+        }, cancellationToken);
+
+        return id;
     }
 }

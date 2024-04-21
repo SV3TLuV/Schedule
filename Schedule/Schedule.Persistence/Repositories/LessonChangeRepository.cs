@@ -14,7 +14,7 @@ public class LessonChangeRepository(IScheduleDbContext context) : Repository(con
 
         await Context.WithTransactionAsync(async () =>
         {
-            var lessonChangeDb = await context.LessonChanges.FirstOrDefaultAsync(e =>
+            var lessonChangeDb = await Context.LessonChanges.FirstOrDefaultAsync(e =>
                 e.LessonId == lessonChange.LessonId &&
                 e.Date == lessonChange.Date, cancellationToken);
 

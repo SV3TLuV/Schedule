@@ -69,7 +69,7 @@ public class AccountRepository(
 
     public async Task DeleteAsync(int accountId, CancellationToken cancellationToken = default)
     {
-        await context.WithTransactionAsync(async () =>
+        await Context.WithTransactionAsync(async () =>
         {
             var account = await Context.Accounts.FirstOrDefaultAsync(e =>
                 e.AccountId == accountId, cancellationToken);

@@ -48,7 +48,7 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
 
         if (searchByName is not null)
         {
-            throw new AlreadyExistsException(speciality.Name);
+            throw new AlreadyExistsException(searchByName.Name);
         }
 
         specialityDb.SpecialityId = speciality.SpecialityId;

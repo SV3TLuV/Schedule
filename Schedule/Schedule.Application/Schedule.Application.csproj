@@ -28,7 +28,6 @@
     <ItemGroup>
       <Folder Include="Features\Permissions\" />
       <Folder Include="Features\Times\Queries\" />
-      <Folder Include="Features\Timetables\Queries\" />
     </ItemGroup>
 
 

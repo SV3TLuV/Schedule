@@ -20,8 +20,7 @@ public sealed class TimetableEntityTypeConfiguration : IEntityTypeConfiguration<
             }, "timetable_created_group_id_index")
             .IsUnique();
 
-        builder.HasIndex(e => e.GroupId, "timetable_group_id_index")
-            .IsUnique();
+        builder.HasIndex(e => e.GroupId, "timetable_group_id_index");
 
         builder.Property(e => e.TimetableId)
             .UseIdentityAlwaysColumn()
@@ -44,8 +43,8 @@ public sealed class TimetableEntityTypeConfiguration : IEntityTypeConfiguration<
             .HasConstraintName("timetable_day_id_fk");
 
         builder.HasOne(d => d.Group)
-            .WithOne(p => p.Timetable)
-            .HasForeignKey<Timetable>(d => d.GroupId)
+            .WithMany(p => p.Timetable)
+            .HasForeignKey(d => d.GroupId)
             .HasConstraintName("timetable_group_id_fk");
 
         builder.HasOne(d => d.WeekType)

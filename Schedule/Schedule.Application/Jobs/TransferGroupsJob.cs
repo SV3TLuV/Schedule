@@ -1,19 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Schedule.Core.Common.Interfaces;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Jobs;
 
 public sealed class TransferGroupsJob(
     IScheduleDbContext context,
+    IGroupRepository groupRepository,
+    IGroupTransferRepository groupTransferRepository,
     IDateInfoService dateInfoService) : IJob
 {
     public async Task Execute(IJobExecutionContext jobContext)
     {
-        await using var transaction = await context.Database.BeginTransactionAsync();
-
-        try
+        await context.WithTransactionAsync(async () =>
         {
+            groupRepository.UseContext(context);
+            groupTransferRepository.UseContext(context);
+
             var groups = await context.Groups
                 .AsNoTracking()
                 .Include(e => e.Speciality)
@@ -23,7 +27,6 @@ public sealed class TransferGroupsJob(
             foreach (var group in groups)
             {
                 var transfer = await context.GroupTransfers
-                    .AsNoTracking()
                     .OrderBy(e => e.NextTermId)
                     .FirstOrDefaultAsync(e => e.GroupId == group.GroupId && !e.IsTransferred);
 
@@ -34,18 +37,12 @@ public sealed class TransferGroupsJob(
                     continue;
 
                 group.TermId = transfer.NextTermId;
-                context.Groups.Update(group);
+                await groupRepository.UpdateAsync(group);
 
-                transfer.IsTransferred = true;
-                context.GroupTransfers.Update(transfer);
+                await groupTransferRepository.MarkAsTransferedAsync(transfer);
 
                 await context.SaveChangesAsync();
-                await transaction.CommitAsync();
             }
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-        }
+        });
     }
 }

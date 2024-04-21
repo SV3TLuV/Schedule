@@ -8,4 +8,6 @@ public interface IEmployeeRepository : IRepository
     public Task UpdateAsync(Employee employee, CancellationToken cancellationToken = default);
     public Task DeleteAsync(int id, CancellationToken cancellationToken = default);
     public Task RestoreAsync(int id, CancellationToken cancellationToken = default);
+
+    public Task UpdatePermissions(int id, int[] permissionIds, CancellationToken cancellationToken = default);
 }

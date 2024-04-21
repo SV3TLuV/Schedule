@@ -10,6 +10,7 @@ public sealed class CreateGroupCommandHandler(
     IScheduleDbContext context,
     IGroupRepository groupRepository,
     IGroupTransferRepository groupTransferRepository,
+    ITimetableRepository timetableRepository,
     IMapper mapper)
     : IRequestHandler<CreateGroupCommand, int>
 {
@@ -21,11 +22,13 @@ public sealed class CreateGroupCommandHandler(
         {
             groupRepository.UseContext(context);
             groupTransferRepository.UseContext(context);
+            timetableRepository.UseContext(context);
 
             var group = mapper.Map<Group>(request);
             id = await groupRepository.CreateAsync(group, cancellationToken);
 
             await groupTransferRepository.CreateForGroup(id, cancellationToken);
+            await timetableRepository.CreateForGroupAsync(id, cancellationToken);
         }, cancellationToken);
 
         return id;

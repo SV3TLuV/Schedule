@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Schedule.Application.Features.Accounts.Commands.ChangePassword;
 using Schedule.Application.Features.Accounts.Commands.Delete;
 using Schedule.Application.Features.Accounts.Commands.Login;
 using Schedule.Application.Features.Accounts.Commands.Logout;
@@ -43,9 +44,16 @@ public sealed class AccountController : BaseController
     }
 
     [HttpPost("refresh")]
-    public async Task<ActionResult<AuthorizationResultViewModel>> Logout([FromBody] RefreshCommand command)
+    public async Task<ActionResult<AuthorizationResultViewModel>> Refresh([FromBody] RefreshCommand command)
     {
         return await Mediator.Send(command);
+    }
+
+    [HttpPost("change_password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangeAccountPasswordCommand command)
+    {
+        await Mediator.Send(command);
+        return Ok();
     }
 
     [Authorize(Roles = "Admin")]

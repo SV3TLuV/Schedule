@@ -74,6 +74,9 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<GroupRepository>()
             .As<IGroupRepository>();
 
+        builder.RegisterType<GroupTransferRepository>()
+            .As<IGroupTransferRepository>();
+
         builder.RegisterType<LessonChangeRepository>()
             .As<ILessonChangeRepository>();
 

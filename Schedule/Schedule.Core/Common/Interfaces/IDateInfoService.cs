@@ -9,4 +9,5 @@ public interface IDateInfoService : IWeekInfoService, IDayInfoService
     TimeOnly CurrentTime { get; }
 
     int GetTerm(DateTime dateTime);
+    int GetTerm(DateOnly dateOnly);
 }

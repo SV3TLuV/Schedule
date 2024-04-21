@@ -11,6 +11,8 @@ public interface IWeekInfoService
     WeekType CurrentWeekType { get; }
 
     int GetWeekOfYear(DateTime dateTime);
+    int GetWeekOfYear(DateOnly dateOnly);
 
     WeekType GetWeekType(DateTime dateTime);
+    WeekType GetWeekType(DateOnly dateOnly);
 }

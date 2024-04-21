@@ -1,4 +1,6 @@
-﻿using Schedule.Core.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Schedule.Core.Common.Exceptions;
+using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 using Schedule.Persistence.Common.Interfaces;
 
@@ -19,12 +21,19 @@ public class TimetableRepository(
         return created.Entity.TimetableId;
     }
 
-    public async Task UpdateEndedAsync(Timetable timetable, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Timetable timetable, CancellationToken cancellationToken = default)
     {
-        timetable.Ended = dateInfoService.CurrentDate;
+        var timetableDb = await Context.Timetables.FirstOrDefaultAsync(e =>
+            e.TimetableId == timetable.TimetableId, cancellationToken);
 
-        Context.Timetables.Update(timetable);
+        if (timetableDb is null)
+        {
+            throw new NotFoundException(nameof(Timetable), timetable.TimetableId);
+        }
 
+        timetableDb.Ended = timetable.Ended;
+
+        Context.Timetables.Update(timetableDb);
         await Context.SaveChangesAsync(cancellationToken);
     }
 }

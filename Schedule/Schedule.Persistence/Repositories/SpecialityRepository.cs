@@ -12,7 +12,7 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
     {
         int id;
         var specialityDb = await Context.Specialities.FirstOrDefaultAsync(e =>
-            e.SpecialityId == speciality.SpecialityId, cancellationToken);
+            e.Name == speciality.Name, cancellationToken);
 
         if (specialityDb is null)
         {

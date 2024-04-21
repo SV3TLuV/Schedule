@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
-using Schedule.Application.Common.Interfaces;
 using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
 using WeekType = Schedule.Core.Common.Enums.WeekType;
 
 namespace Schedule.Application.Services;
@@ -35,11 +33,21 @@ public sealed class DateInfoService : IDateInfoService
         return dateTime.Month < 9 ? 2 : 1;
     }
 
+    public int GetTerm(DateOnly dateOnly)
+    {
+        return GetTerm(dateOnly.ToDateTime(TimeOnly.MinValue));
+    }
+
     public int GetWeekOfYear(DateTime dateTime)
     {
         return _calendar.GetWeekOfYear(dateTime,
             CalendarWeekRule.FirstFourDayWeek,
             _firstDayOfWeek);
+    }
+
+    public int GetWeekOfYear(DateOnly dateOnly)
+    {
+        return GetWeekOfYear(dateOnly.ToDateTime(TimeOnly.MinValue));
     }
 
     public WeekType GetWeekType(DateTime dateTime)
@@ -52,10 +60,20 @@ public sealed class DateInfoService : IDateInfoService
         return yellowWeekIsOdd == isOdWeek ? WeekType.Yellow : WeekType.Green;
     }
 
+    public WeekType GetWeekType(DateOnly dateOnly)
+    {
+        return GetWeekType(dateOnly.ToDateTime(TimeOnly.MinValue));
+    }
+
     public int GetDayId(DateTime dateTime)
     {
         var day = (int)dateTime.DayOfWeek;
         return day == 0 ? 7 : day;
+    }
+
+    public int GetDayId(DateOnly dateOnly)
+    {
+        return GetDayId(dateOnly.ToDateTime(TimeOnly.MinValue));
     }
 
     private bool IsOddWeek(DateTime dateTime)

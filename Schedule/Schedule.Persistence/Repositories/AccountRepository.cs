@@ -30,78 +30,87 @@ public class AccountRepository : Repository, IAccountRepository
         _passwordHasherService = passwordHasherService;
     }
 
-
     public async Task<int> CreateAsync(Account account, CancellationToken cancellationToken = default)
     {
-        var searchByLogin = await FindByLoginAsync(account.Login, cancellationToken);
+        var id = default(int);
 
-        if (searchByLogin is not null)
+        await Context.WithTransactionAsync(async () =>
         {
-            throw new AlreadyExistsException(account.Login);
-        }
+            var searchByLogin = await FindByLoginAsync(account.Login, cancellationToken);
 
-        var searchByEmail = await FindByEmailAsync(account.Email, cancellationToken);
+            if (searchByLogin is not null)
+            {
+                throw new AlreadyExistsException(account.Login);
+            }
 
-        if (searchByEmail is not null)
-        {
-            throw new AlreadyExistsException(account.Email);
-        }
+            var searchByEmail = await FindByEmailAsync(account.Email, cancellationToken);
 
-        await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
-        await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
+            if (searchByEmail is not null)
+            {
+                throw new AlreadyExistsException(account.Email);
+            }
 
-        if (account.MiddleName is not null)
-        {
-            await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
-        }
+            await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
+            await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
 
-        account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
+            if (account.MiddleName is not null)
+            {
+                await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
+            }
 
-        var created = await Context.Accounts.AddAsync(account, cancellationToken);
-        await Context.SaveChangesAsync(cancellationToken);
-        return created.Entity.AccountId;
+            account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
+
+            var created = await Context.Accounts.AddAsync(account, cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
+            id = created.Entity.AccountId;
+        }, cancellationToken);
+
+        return id;
     }
 
     public async Task UpdateAsync(Account account, CancellationToken cancellationToken = default)
     {
-        var accountDb = await Context.Accounts.FirstOrDefaultAsync(e =>
-            e.AccountId == account.AccountId, cancellationToken);
-
-        if (accountDb is null)
+        await Context.WithTransactionAsync(async () =>
         {
-            throw new NotFoundException(nameof(Account), account.AccountId);
-        }
+            var accountDb = await Context.Accounts.FirstOrDefaultAsync(e =>
+                e.AccountId == account.AccountId, cancellationToken);
 
-        var searchByLogin = await FindByLoginAsync(account.Login, cancellationToken);
+            if (accountDb is null)
+            {
+                throw new NotFoundException(nameof(Account), account.AccountId);
+            }
 
-        if (searchByLogin is not null)
-        {
-            throw new AlreadyExistsException(account.Login);
-        }
+            var searchByLogin = await FindByLoginAsync(account.Login, cancellationToken);
 
-        var searchByEmail = await FindByEmailAsync(account.Email, cancellationToken);
+            if (searchByLogin is not null)
+            {
+                throw new AlreadyExistsException(account.Login);
+            }
 
-        if (searchByEmail is not null)
-        {
-            throw new AlreadyExistsException(account.Email);
-        }
+            var searchByEmail = await FindByEmailAsync(account.Email, cancellationToken);
 
-        await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
-        await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
+            if (searchByEmail is not null)
+            {
+                throw new AlreadyExistsException(account.Email);
+            }
 
-        if (account.MiddleName is not null)
-        {
-            await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
-        }
+            await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
+            await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
 
-        accountDb.Name = account.Name;
-        accountDb.Surname = account.Surname;
-        accountDb.MiddleName = account.MiddleName;
-        accountDb.Email = account.Email;
-        accountDb.RoleId = account.RoleId;
+            if (account.MiddleName is not null)
+            {
+                await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
+            }
 
-        Context.Accounts.Update(accountDb);
-        await Context.SaveChangesAsync(cancellationToken);
+            accountDb.Name = account.Name;
+            accountDb.Surname = account.Surname;
+            accountDb.MiddleName = account.MiddleName;
+            accountDb.Email = account.Email;
+            accountDb.RoleId = account.RoleId;
+
+            Context.Accounts.Update(accountDb);
+            await Context.SaveChangesAsync(cancellationToken);
+        }, cancellationToken);
     }
 
     public async Task DeleteAsync(int accountId, CancellationToken cancellationToken = default)

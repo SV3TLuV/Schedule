@@ -26,7 +26,18 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Features\Employees\Commands\Create\" />
+      <Folder Include="Features\Employees\Commands\Delete\" />
+      <Folder Include="Features\Employees\Commands\Restore\" />
+      <Folder Include="Features\Employees\Commands\Update\" />
+      <Folder Include="Features\Employees\Queries\GetList\" />
       <Folder Include="Features\Permissions\" />
+      <Folder Include="Features\Students\Commands\Create\" />
+      <Folder Include="Features\Students\Commands\Delete\" />
+      <Folder Include="Features\Students\Commands\Restore\" />
+      <Folder Include="Features\Students\Commands\Update\" />
+      <Folder Include="Features\Students\Queries\GetList\" />
+      <Folder Include="Features\Teachers\Queries\GetList\" />
       <Folder Include="Features\Times\Queries\" />
     </ItemGroup>
 

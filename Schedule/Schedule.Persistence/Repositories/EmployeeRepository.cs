@@ -107,4 +107,29 @@ public class EmployeeRepository : Repository, IEmployeeRepository
 
         await _accountRepository.RestoreAsync(employee.AccountId, cancellationToken);
     }
+
+    public async Task UpdatePermissions(int id, int[] permissionIds, CancellationToken cancellationToken = default)
+    {
+        await Context.WithTransactionAsync(async () =>
+        {
+            var employee = await Context.Employees.FirstOrDefaultAsync(e =>
+                e.EmployeeId == id, cancellationToken);
+
+            if (employee is null)
+            {
+                throw new NotFoundException(nameof(Employee), id);
+            }
+
+            foreach (var permissionId in permissionIds)
+            {
+                await Context.EmployeePermissions.AddAsync(new EmployeePermission
+                {
+                    EmployeeId = id,
+                    PermissionId = permissionId,
+                }, cancellationToken);
+            }
+
+            await Context.SaveChangesAsync(cancellationToken);
+        }, cancellationToken);
+    }
 }

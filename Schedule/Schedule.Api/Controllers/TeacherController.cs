@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Schedule.Application.Features.Lessons.Queries.GetTeacherLessonList;
 using Schedule.Application.Features.Teachers.Commands.Create;
 using Schedule.Application.Features.Teachers.Commands.Delete;
 using Schedule.Application.Features.Teachers.Commands.Restore;
@@ -16,6 +17,14 @@ public class TeacherController : BaseController
     [HttpGet]
     public async Task<ActionResult<PagedList<TeacherViewModel>>> GetAll(
         [FromQuery] GetTeacherListQuery query)
+    {
+        return Ok(await Mediator.Send(query));
+    }
+
+    [Authorize]
+    [HttpGet("{id:int}/Lessons")]
+    public async Task<ActionResult<LessonViewModel[]>> GetAll(
+        [FromQuery] GetTeacherLessonListQuery query)
     {
         return Ok(await Mediator.Send(query));
     }

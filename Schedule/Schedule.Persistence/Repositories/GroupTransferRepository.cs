@@ -8,6 +8,14 @@ namespace Schedule.Persistence.Repositories;
 
 public class GroupTransferRepository(IScheduleDbContext context) : Repository(context), IGroupTransferRepository
 {
+    public async Task MarkAsTransferedAsync(GroupTransfer groupTransfer, CancellationToken cancellationToken = default)
+    {
+        groupTransfer.IsTransferred = true;
+
+        Context.GroupTransfers.Update(groupTransfer);
+        await Context.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task CreateForGroup(int groupId, CancellationToken cancellationToken = default)
     {
         var group = await Context.Groups
@@ -23,7 +31,7 @@ public class GroupTransferRepository(IScheduleDbContext context) : Repository(co
         {
             var nextTermId = i + 1;
 
-            await context.GroupTransfers.AddAsync(new GroupTransfer
+            await Context.GroupTransfers.AddAsync(new GroupTransfer
             {
                 GroupId = group.GroupId,
                 NextTermId = nextTermId,
@@ -32,7 +40,7 @@ public class GroupTransferRepository(IScheduleDbContext context) : Repository(co
             }, cancellationToken);
         }
 
-        await context.SaveChangesAsync(cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteByGroupId(int groupId, CancellationToken cancellationToken = default)

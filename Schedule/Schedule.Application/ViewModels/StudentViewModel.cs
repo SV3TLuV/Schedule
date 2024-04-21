@@ -26,28 +26,48 @@ public class StudentViewModel : IMapWith<Student>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(student => student.StudentId))
             .ForMember(viewModel => viewModel.Login, expression =>
-                expression.MapFrom(student => student.Account.Login))
+                expression.MapFrom(student => student.Account))
+                .ForPath(viewModel => viewModel.Login, expression =>
+                    expression.MapFrom(student => student.Account.Login))
             .ForMember(viewModel => viewModel.Email, expression =>
-                expression.MapFrom(student => student.Account.Email))
+                expression.MapFrom(student => student.Account))
+                .ForPath(viewModel => viewModel.Email, expression =>
+                    expression.MapFrom(student => student.Account.Email))
             .ForMember(viewModel => viewModel.Name, expression =>
-                expression.MapFrom(student => student.Account.Name))
+                expression.MapFrom(student => student.Account))
+                .ForPath(viewModel => viewModel.Name, expression =>
+                    expression.MapFrom(student => student.Account.Name))
             .ForMember(viewModel => viewModel.Surname, expression =>
                 expression.MapFrom(student => student.Account.Surname))
+                .ForPath(viewModel => viewModel.Surname, expression =>
+                    expression.MapFrom(student => student.Account))
             .ForMember(viewModel => viewModel.MiddleName, expression =>
-                expression.MapFrom(student => student.Account.MiddleName));
+                expression.MapFrom(student => student.Account))
+                .ForPath(viewModel => viewModel.MiddleName, expression =>
+                    expression.MapFrom(student => student.Account.MiddleName));
 
         profile.CreateMap<StudentViewModel, Student>()
             .ForMember(student => student.StudentId, expression =>
                 expression.MapFrom(viewModel => viewModel.Id))
-            .ForMember(student => student.Account.Login, expression =>
+            .ForMember(student => student.Account, expression =>
                 expression.MapFrom(viewModel => viewModel.Login))
-            .ForMember(student => student.Account.Email, expression =>
+                .ForPath(student => student.Account.Login, expression =>
+                    expression.MapFrom(viewModel => viewModel.Login))
+            .ForMember(student => student.Account, expression =>
                 expression.MapFrom(viewModel => viewModel.Email))
-            .ForMember(student => student.Account.Name, expression =>
+                .ForPath(student => student.Account.Email, expression =>
+                    expression.MapFrom(viewModel => viewModel.Email))
+            .ForMember(student => student.Account, expression =>
                 expression.MapFrom(viewModel => viewModel.Name))
-            .ForMember(student => student.Account.Surname, expression =>
+                .ForPath(student => student.Account.Name, expression =>
+                    expression.MapFrom(viewModel => viewModel.Name))
+            .ForMember(student => student.Account, expression =>
                 expression.MapFrom(viewModel => viewModel.Surname))
-            .ForMember(student => student.Account.MiddleName, expression =>
-                expression.MapFrom(viewModel => viewModel.MiddleName));
+                .ForPath(student => student.Account.Surname, expression =>
+                    expression.MapFrom(viewModel => viewModel.Surname))
+            .ForMember(student => student.Account, expression =>
+                expression.MapFrom(viewModel => viewModel.MiddleName))
+                .ForPath(student => student.Account.MiddleName, expression =>
+                    expression.MapFrom(viewModel => viewModel.MiddleName));
     }
 }

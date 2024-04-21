@@ -14,8 +14,8 @@ public sealed class SessionEntityTypeConfiguration : IEntityTypeConfiguration<Se
         builder.ToTable("session");
 
         builder.Property(e => e.SessionId)
-            .UseIdentityAlwaysColumn()
-            .HasColumnName("session_id");
+            .HasColumnName("session_id")
+            .ValueGeneratedOnAdd();
         builder.Property(e => e.AccountId)
             .HasColumnName("account_id");
         builder.Property(e => e.Created)

@@ -58,7 +58,7 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
         if (searchDiscipline is not null)
         {
-            throw new AlreadyExistsException(discipline.Name.Name);
+            throw new AlreadyExistsException(searchDiscipline.Name.Name);
         }
 
         disciplineDb.DisciplineId = discipline.DisciplineId;

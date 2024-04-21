@@ -37,7 +37,6 @@
       <Folder Include="Features\Students\Commands\Restore\" />
       <Folder Include="Features\Students\Commands\Update\" />
       <Folder Include="Features\Students\Queries\GetList\" />
-      <Folder Include="Features\Teachers\Queries\GetList\" />
       <Folder Include="Features\Times\Queries\" />
     </ItemGroup>
 

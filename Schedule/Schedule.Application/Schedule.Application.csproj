@@ -27,7 +27,7 @@
 
     <ItemGroup>
       <Folder Include="Features\LessonChanges\Queries\" />
-      <Folder Include="Features\Lessons\Commands\" />
+      <Folder Include="Features\Lessons\Commands\Update\" />
       <Folder Include="Features\Lessons\Queries\" />
       <Folder Include="Features\Permissions\" />
       <Folder Include="Features\Times\Queries\" />

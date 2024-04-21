@@ -8,6 +8,6 @@ public sealed class CreateClassroomCommandHandler(IClassroomRepository classroom
 {
     public async Task<int> Handle(CreateClassroomCommand request, CancellationToken cancellationToken)
     {
-        return await classroomRepository.AddIfNotExists(request.Cabinet, cancellationToken);
+        return await classroomRepository.AddIfNotExistAsync(request.Cabinet, cancellationToken);
     }
 }

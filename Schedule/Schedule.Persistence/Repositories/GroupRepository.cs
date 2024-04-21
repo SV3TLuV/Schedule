@@ -12,22 +12,55 @@ public class GroupRepository(
 {
     public async Task<int> CreateAsync(Group group, CancellationToken cancellationToken = default)
     {
-        group.TermId = group.CalculateTerm(dateInfoService);
+        int id;
 
-        var created = await Context.Groups.AddAsync(group, cancellationToken);
+        var groupDb = await Context.Groups.FirstOrDefaultAsync(e =>
+            e.SpecialityId == group.SpecialityId &&
+            e.EnrollmentYear == group.EnrollmentYear &&
+            e.Number == group.Number, cancellationToken);
+
+        if (groupDb is null)
+        {
+            group.TermId = group.CalculateTerm(dateInfoService);
+            var created = await Context.Groups.AddAsync(group, cancellationToken);
+            id = created.Entity.GroupId;
+        }
+        else if (groupDb.IsDeleted)
+        {
+            groupDb.IsDeleted = false;
+            Context.Groups.Update(groupDb);
+            id = groupDb.GroupId;
+        }
+        else
+        {
+            throw new AlreadyExistsException(groupDb.Name);
+        }
 
         await Context.SaveChangesAsync(cancellationToken);
 
-        return created.Entity.GroupId;
+        return id;
     }
 
     public async Task UpdateAsync(Group group, CancellationToken cancellationToken = default)
     {
-        var groupDb = await Context.Groups.FirstOrDefaultAsync(e => e.GroupId == group.GroupId, cancellationToken);
+        var groupDb = await Context.Groups.FirstOrDefaultAsync(e =>
+            e.GroupId == group.GroupId, cancellationToken);
 
         if (groupDb is null)
         {
             throw new NotFoundException(nameof(Group), group.GroupId);
+        }
+
+        var search = await Context.Groups
+            .Include(e => e.Speciality)
+            .FirstOrDefaultAsync(e =>
+                e.SpecialityId == group.SpecialityId &&
+                e.EnrollmentYear == group.EnrollmentYear &&
+                e.Number == group.Number, cancellationToken);
+
+        if (search is not null)
+        {
+            throw new AlreadyExistsException(group.Name);
         }
 
         groupDb.EnrollmentYear = group.EnrollmentYear;

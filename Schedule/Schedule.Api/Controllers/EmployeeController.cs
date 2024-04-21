@@ -4,6 +4,7 @@ using Schedule.Application.Features.Employees.Commands.Create;
 using Schedule.Application.Features.Employees.Commands.Delete;
 using Schedule.Application.Features.Employees.Commands.Restore;
 using Schedule.Application.Features.Employees.Commands.Update;
+using Schedule.Application.Features.Employees.Commands.UpdatePermissions;
 using Schedule.Application.Features.Employees.Queries.GetList;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Models;
@@ -32,6 +33,15 @@ public class EmployeeController : BaseController
     [HttpPost]
     [Route("Restore", Name = "RestoreEmployee")]
     public async Task<IActionResult> Post([FromBody] RestoreEmployeeCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPost]
+    [Route("Permission", Name = "Permission")]
+    public async Task<IActionResult> Post([FromBody] EmployeeUpdatePermissionsCommand command)
     {
         await Mediator.Send(command);
         return NoContent();

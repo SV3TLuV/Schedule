@@ -17,8 +17,6 @@ public sealed class UpdateEmployeeCommand : IRequest<Unit>, IMapWith<Employee>
     
     public required string Email { get; set; }
     
-    public ICollection<int> PermissionIds { get; set; }
-
     public void Map(Profile profile)
     {
         profile.CreateMap<UpdateEmployeeCommand, Employee>()
@@ -39,14 +37,7 @@ public sealed class UpdateEmployeeCommand : IRequest<Unit>, IMapWith<Employee>
             .ForMember(employee => employee.Account, expression =>
                 expression.MapFrom(command => command.Email))
                 .ForPath(employee => employee.Account.Email, expression =>
-                    expression.MapFrom(command => command.Email))
-            .ForMember(employee => employee.EmployeePermissions, expression =>
-                expression.MapFrom(command => command.PermissionIds.Select(p =>
-                    new EmployeePermission
-                    {
-                        EmployeeId = command.Id,
-                        PermissionId = p
-                    })));
+                    expression.MapFrom(command => command.Email));
 
         profile.CreateMap<Employee, UpdateEmployeeCommand>()
             .ForMember(command => command.Id, expression =>
@@ -66,9 +57,6 @@ public sealed class UpdateEmployeeCommand : IRequest<Unit>, IMapWith<Employee>
             .ForMember(command => command.Email, expression =>
                 expression.MapFrom(employee => employee.Account))
                 .ForPath(command => command.Email, expression =>
-                    expression.MapFrom(employee => employee.Account.Email))
-            .ForMember(command => command.PermissionIds, expression =>
-                expression.MapFrom(employee => employee.EmployeePermissions
-                    .Select(e => e.PermissionId).ToList()));
+                    expression.MapFrom(employee => employee.Account.Email));
     }
 }

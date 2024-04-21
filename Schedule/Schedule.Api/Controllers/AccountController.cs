@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Schedule.Application.Features.Accounts.Commands.Create;
 using Schedule.Application.Features.Accounts.Commands.Delete;
 using Schedule.Application.Features.Accounts.Commands.Login;
 using Schedule.Application.Features.Accounts.Commands.Logout;
 using Schedule.Application.Features.Accounts.Commands.Refresh;
-using Schedule.Application.Features.Accounts.Commands.Update;
 using Schedule.Application.Features.Accounts.Queries.Get;
 using Schedule.Application.Features.Accounts.Queries.GetList;
 using Schedule.Application.ViewModels;
@@ -48,22 +46,6 @@ public sealed class AccountController : BaseController
     public async Task<ActionResult<AuthorizationResultViewModel>> Logout([FromBody] RefreshCommand command)
     {
         return await Mediator.Send(command);
-    }
-
-    [Authorize(Roles = "Admin")]
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateAccountCommand command)
-    {
-        var id = await Mediator.Send(command);
-        return Created(string.Empty, id);
-    }
-
-    [Authorize(Roles = "Admin")]
-    [HttpPut]
-    public async Task<IActionResult> Update([FromBody] UpdateAccountCommand command)
-    {
-        await Mediator.Send(command);
-        return NoContent();
     }
 
     [Authorize(Roles = "Admin")]

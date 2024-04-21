@@ -12,7 +12,7 @@ public class Account
 
     public string Surname { get; set; } = null!;
 
-    public string MiddleName { get; set; } = null!;
+    public string? MiddleName { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 

@@ -6,10 +6,31 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class AccountRepository(
-    IScheduleDbContext context,
-    IPasswordHasherService passwordHasherService) : Repository(context), IAccountRepository
+public class AccountRepository : Repository, IAccountRepository
 {
+    private readonly INameRepository _nameRepository;
+    private readonly ISurnameRepository _surnameRepository;
+    private readonly IMiddleNameRepository _middleNameRepository;
+    private readonly IPasswordHasherService _passwordHasherService;
+
+    public AccountRepository(
+        IScheduleDbContext context,
+        INameRepository nameRepository,
+        ISurnameRepository surnameRepository,
+        IMiddleNameRepository middleNameRepository,
+        IPasswordHasherService passwordHasherService) : base(context)
+    {
+        nameRepository.UseContext(context);
+        surnameRepository.UseContext(context);
+        middleNameRepository.UseContext(context);
+
+        _nameRepository = nameRepository;
+        _surnameRepository = surnameRepository;
+        _middleNameRepository = middleNameRepository;
+        _passwordHasherService = passwordHasherService;
+    }
+
+
     public async Task<int> CreateAsync(Account account, CancellationToken cancellationToken = default)
     {
         var searchByLogin = await FindByLoginAsync(account.Login, cancellationToken);
@@ -26,7 +47,15 @@ public class AccountRepository(
             throw new AlreadyExistsException(account.Email);
         }
 
-        account.PasswordHash = passwordHasherService.Hash(account.PasswordHash);
+        await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
+        await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
+
+        if (account.MiddleName is not null)
+        {
+            await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
+        }
+
+        account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
 
         var created = await Context.Accounts.AddAsync(account, cancellationToken);
         await Context.SaveChangesAsync(cancellationToken);
@@ -55,6 +84,14 @@ public class AccountRepository(
         if (searchByEmail is not null)
         {
             throw new AlreadyExistsException(account.Email);
+        }
+
+        await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
+        await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
+
+        if (account.MiddleName is not null)
+        {
+            await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
         }
 
         accountDb.Name = account.Name;
@@ -139,7 +176,7 @@ public class AccountRepository(
             throw new NotFoundException(nameof(Account), accountId);
         }
 
-        account.PasswordHash = passwordHasherService.Hash(account.PasswordHash);
+        account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
 
         Context.Accounts.Update(account);
         await Context.SaveChangesAsync(cancellationToken);

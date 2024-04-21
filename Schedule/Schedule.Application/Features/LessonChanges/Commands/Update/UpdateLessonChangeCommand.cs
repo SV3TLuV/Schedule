@@ -15,5 +15,6 @@ public sealed class UpdateLessonChangeCommand : IRequest<Unit>, IMapWith<LessonC
     public TimeOnly TimeStart { get; set; }
     public TimeOnly TimeEnd { get; set; }
     public int DisciplineId { get; set; }
-    public TeacherClassroomIdPairViewModel? TeacherClassroomIdPair { get; set; }
+    public ICollection<TeacherClassroomIdPairViewModel> TeacherClassroomIdPair { get; set; }
+        = Array.Empty<TeacherClassroomIdPairViewModel>();
 }

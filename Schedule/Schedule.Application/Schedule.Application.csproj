@@ -26,10 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Employees\Commands\Create\" />
-      <Folder Include="Features\Employees\Commands\Delete\" />
-      <Folder Include="Features\Employees\Commands\Restore\" />
-      <Folder Include="Features\Employees\Commands\Update\" />
       <Folder Include="Features\Permissions\" />
       <Folder Include="Features\Times\Queries\" />
     </ItemGroup>

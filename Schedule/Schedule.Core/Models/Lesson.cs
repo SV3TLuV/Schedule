@@ -4,7 +4,7 @@ public class Lesson
 {
     public int LessonId { get; set; }
 
-    public int DisciplineId { get; set; }
+    public int? DisciplineId { get; set; }
 
     public int Number { get; set; }
 
@@ -12,9 +12,9 @@ public class Lesson
 
     public int TimetableId { get; set; }
     
-    public TimeOnly? TimeStart { get; set; }
+    public TimeOnly TimeStart { get; set; }
     
-    public TimeOnly? TimeEnd { get; set; }
+    public TimeOnly TimeEnd { get; set; }
 
     public virtual Discipline? Discipline { get; set; }
 

@@ -1574,7 +1574,7 @@ CREATE UNIQUE INDEX timetable_created_group_id_index ON public.timetable USING b
 -- Name: timetable_group_id_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX timetable_group_id_index ON public.timetable USING btree (group_id);
+CREATE INDEX timetable_group_id_index ON public.timetable USING btree (group_id);
 
 
 --

@@ -9,7 +9,7 @@ public sealed class DeleteLessonChangeCommandHandler(ILessonChangeRepository les
 {
     public async Task<Unit> Handle(DeleteLessonChangeCommand request, CancellationToken cancellationToken)
     {
-        await lessonChangeRepository.DeleteAsync(request.LessonChangeId, cancellationToken);
+        await lessonChangeRepository.DeleteAsync(request.Id, cancellationToken);
         return Unit.Value;
     }
 }

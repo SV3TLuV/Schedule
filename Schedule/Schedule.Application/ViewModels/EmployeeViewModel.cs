@@ -72,10 +72,13 @@ public class EmployeeViewModel : IMapWith<Employee>
             .ForMember(employee => employee.Account, expression =>
                 expression.MapFrom(viewModel => viewModel.MiddleName))
             .ForPath(employee => employee.Account.MiddleName, expression =>
-                expression.MapFrom(viewModel => viewModel.MiddleName));
-        // .ForMember(employee => employee.EmployeePermissions,
-        //     expression => expression.MapFrom(viewModel => viewModel.Permissions))
-        // .ForPath(employee => employee.EmployeePermissions.Select(permission => permission.Permission).ToList(),
-        //     expression => expression.MapFrom(viewModel => viewModel.Permissions));
+                expression.MapFrom(viewModel => viewModel.MiddleName))
+            .ForMember(employee => employee.EmployeePermissions, expression =>
+                expression.MapFrom(viewModel => viewModel.Permissions.Select(p =>
+                    new EmployeePermission
+                    {
+                        EmployeeId = viewModel.Id,
+                        PermissionId = p.Id,
+                    })));
     }
 }

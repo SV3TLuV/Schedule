@@ -1,5 +1,6 @@
 ﻿using BCrypt.Net;
 using Schedule.Application.Common.Interfaces;
+using Schedule.Core.Common.Interfaces;
 
 namespace Schedule.Application.Services;
 

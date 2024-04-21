@@ -1,25 +1,14 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Schedule.Core.Common.Exceptions;
-using Schedule.Core.Common.Interfaces;
-using Schedule.Core.Models;
+using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Application.Features.Accounts.Commands.Delete;
 
-public sealed class DeleteAccountCommandHandler(IScheduleDbContext context) : IRequestHandler<DeleteAccountCommand, Unit>
+public sealed class DeleteAccountCommandHandler(IAccountRepository accountRepository)
+    : IRequestHandler<DeleteAccountCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
-        var account = await context.Accounts
-            .FirstOrDefaultAsync(e => e.AccountId == request.Id, cancellationToken);
-
-        if (account is null)
-            throw new NotFoundException(nameof(Account), request.Id);
-
-        account.IsDeleted = true;
-
-        context.Accounts.Update(account);
-        await context.SaveChangesAsync(cancellationToken);
+        await accountRepository.DeleteAsync(request.Id, cancellationToken);
         return Unit.Value;
     }
 }

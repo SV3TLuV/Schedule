@@ -19,10 +19,6 @@ public class LessonChangeViewModel : IMapWith<LessonChange>, IMapWith<Lesson>, I
     public LessonViewModel Lesson { get; set; } = null!;
 
     public DisciplineViewModel Discipline { get; set; } = null!;
-    
-    public List<int> TeacherIds { get; set; } = null!;
-    
-    public List<int> ClassroomIds { get; set; } = null!;
 
     public DateOnly Date { get; set; }
 

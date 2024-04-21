@@ -2,30 +2,19 @@
 
 namespace Schedule.Application.Common.EqualityComparers;
 
-public sealed class GroupViewModelsEqualityComparer : IEqualityComparer<ICollection<GroupViewModel>>
+public sealed class GroupViewModelByIdEqualityComparer : IEqualityComparer<GroupViewModel>
 {
-    public bool Equals(ICollection<GroupViewModel> x, ICollection<GroupViewModel> y)
+    public bool Equals(GroupViewModel x, GroupViewModel y)
     {
         if (ReferenceEquals(x, y)) return true;
         if (ReferenceEquals(x, null)) return false;
         if (ReferenceEquals(y, null)) return false;
         if (x.GetType() != y.GetType()) return false;
-        return CollectionsEquals(x, y);
+        return x.Id == y.Id;
     }
 
-    public int GetHashCode(ICollection<GroupViewModel> obj)
+    public int GetHashCode(GroupViewModel obj)
     {
-        return HashCode.Combine(obj.Count, obj.IsReadOnly);
-    }
-
-    private bool CollectionsEquals(ICollection<GroupViewModel> x, ICollection<GroupViewModel> y)
-    {
-        var xIds = x.Select(e => e.Id)
-            .Order()
-            .ToArray();
-        var yIds = y.Select(e => e.Id)
-            .Order()
-            .ToArray();
-        return xIds.SequenceEqual(yIds);
+        return HashCode.Combine(obj.Id, obj.Number, obj.EnrollmentYear, obj.IsDeleted, obj.IsAfterEleven, obj.Term, obj.Speciality);
     }
 }

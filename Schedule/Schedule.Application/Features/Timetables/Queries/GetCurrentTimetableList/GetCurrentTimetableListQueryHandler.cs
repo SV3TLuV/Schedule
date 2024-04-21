@@ -94,6 +94,7 @@ public sealed class GetCurrentTimetableListQueryHandler(
                     Key = grouping.Key,
                     Items = grouping.ToArray()
                 })
+                .OrderBy(e => Array.IndexOf(dayIds, e.Key.Id))
                 .ToArray();
 
             currentTimetables.Add(new CurrentTimetableViewModel

@@ -12,7 +12,7 @@ public sealed class RestoreSpecialityCommandHandler(ISpecialityRepository specia
 {
     public async Task<Unit> Handle(RestoreSpecialityCommand request, CancellationToken cancellationToken)
     {
-        await specialityRepository.DeleteAsync(request.Id, cancellationToken);
+        await specialityRepository.RestoreAsync(request.Id, cancellationToken);
         return Unit.Value;
     }
 }

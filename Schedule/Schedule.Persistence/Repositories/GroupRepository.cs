@@ -23,20 +23,24 @@ public class GroupRepository(
         {
             group.TermId = group.CalculateTerm(dateInfoService);
             var created = await Context.Groups.AddAsync(group, cancellationToken);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = created.Entity.GroupId;
         }
         else if (groupDb.IsDeleted)
         {
             groupDb.IsDeleted = false;
             Context.Groups.Update(groupDb);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = groupDb.GroupId;
         }
         else
         {
             throw new AlreadyExistsException(groupDb.Name);
         }
-
-        await Context.SaveChangesAsync(cancellationToken);
 
         return id;
     }

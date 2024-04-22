@@ -17,11 +17,17 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
         if (specialityDb is null)
         {
             var created = await Context.Specialities.AddAsync(speciality, cancellationToken);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = created.Entity.SpecialityId;
         } else if (specialityDb.IsDeleted)
         {
             specialityDb.IsDeleted = false;
             Context.Specialities.Update(specialityDb);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = specialityDb.SpecialityId;
         }
         else
@@ -29,7 +35,6 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
             throw new AlreadyExistsException(speciality.Name);
         }
 
-        await Context.SaveChangesAsync(cancellationToken);
         return id;
     }
 

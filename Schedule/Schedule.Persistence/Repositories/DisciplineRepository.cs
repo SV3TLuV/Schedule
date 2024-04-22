@@ -20,20 +20,24 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
         if (disciplineDb is null)
         {
             var created = await Context.Disciplines.AddAsync(discipline, cancellationToken);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = created.Entity.DisciplineId;
         }
         else if (disciplineDb.IsDeleted)
         {
             disciplineDb.IsDeleted = false;
             Context.Disciplines.Update(disciplineDb);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = disciplineDb.DisciplineId;
         }
         else
         {
             throw new AlreadyExistsException(discipline.Name.Name);
         }
-
-        await Context.SaveChangesAsync(cancellationToken);
 
         return id;
     }

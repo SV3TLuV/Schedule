@@ -10,9 +10,9 @@ public class TimetableViewModel : IMapWith<Timetable>
     
     public GroupViewModel Group { get; set; } = null!;
     
-    public DateTime Created { get; set; }
+    public DateOnly Created { get; set; }
     
-    public DateTime? Ended { get; set; }
+    public DateOnly? Ended { get; set; }
 
     public DayViewModel Day { get; set; } = null!;
 

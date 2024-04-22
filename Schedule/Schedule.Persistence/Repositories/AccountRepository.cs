@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -58,6 +59,7 @@ public class AccountRepository : Repository, IAccountRepository
                 await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
             }
 
+            // TODO: Generate login, password
             account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
 
             var created = await Context.Accounts.AddAsync(account, cancellationToken);
@@ -89,7 +91,8 @@ public class AccountRepository : Repository, IAccountRepository
 
             var searchByEmail = await FindByEmailAsync(account.Email, cancellationToken);
 
-            if (searchByEmail is not null)
+            if (searchByEmail is not null &&
+                accountDb.Email != account.Email)
             {
                 throw new AlreadyExistsException(account.Email);
             }

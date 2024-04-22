@@ -21,7 +21,6 @@ public sealed class GetDisciplineListQueryHandler(IScheduleDbContext context, IM
             .Include(e => e.Type)
             .Include(e => e.Speciality)
             .Include(e => e.Term)
-            .ThenInclude(e => e.Course)
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)
             .AsSplitQuery()

@@ -22,5 +22,7 @@ public sealed class DayEntityTypeConfiguration : IEntityTypeConfiguration<Day>
         builder.Property(e => e.Name)
             .HasMaxLength(20)
             .HasColumnName("name");
+        builder.Property(e => e.IsStudy)
+            .HasColumnName("is_study");
     }
 }

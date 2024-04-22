@@ -13,15 +13,6 @@ public sealed class TimetableEntityTypeConfiguration : IEntityTypeConfiguration<
 
         builder.ToTable("timetable");
 
-        builder.HasIndex(e => new
-            {
-                e.Created,
-                e.GroupId
-            }, "timetable_created_group_id_index")
-            .IsUnique();
-
-        builder.HasIndex(e => e.GroupId, "timetable_group_id_index");
-
         builder.Property(e => e.TimetableId)
             .UseIdentityAlwaysColumn()
             .HasColumnName("timetable_id");

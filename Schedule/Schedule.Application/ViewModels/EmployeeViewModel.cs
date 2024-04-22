@@ -26,28 +26,16 @@ public class EmployeeViewModel : IMapWith<Employee>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(employee => employee.EmployeeId))
             .ForMember(viewModel => viewModel.Login, expression =>
-                expression.MapFrom(employee => employee.Account))
-                .ForPath(viewModel => viewModel.Login, expression =>
-                    expression.MapFrom(employee => employee.Account.Login))
+                expression.MapFrom(employee => employee.Account.Login))
             .ForMember(viewModel => viewModel.Email, expression =>
-                expression.MapFrom(employee => employee.Account))
-                .ForPath(viewModel => viewModel.Email, expression =>
-                    expression.MapFrom(employee => employee.Account.Email))
+                expression.MapFrom(employee => employee.Account.Email))
             .ForMember(viewModel => viewModel.Name, expression =>
-                expression.MapFrom(employee => employee.Account))
-                .ForPath(viewModel => viewModel.Name, expression =>
-                    expression.MapFrom(employee => employee.Account.Name))
+                expression.MapFrom(employee => employee.Account.Name))
             .ForMember(viewModel => viewModel.Surname, expression =>
-                expression.MapFrom(employee => employee.Account))
-                .ForPath(viewModel => viewModel.Surname, expression =>
-                    expression.MapFrom(employee => employee.Account.Surname))
+                expression.MapFrom(employee => employee.Account.Surname))
             .ForMember(viewModel => viewModel.MiddleName, expression =>
-                expression.MapFrom(employee => employee.Account))
-                .ForPath(viewModel => viewModel.MiddleName, expression =>
-                    expression.MapFrom(employee => employee.Account.MiddleName))
+                expression.MapFrom(employee => employee.Account.MiddleName))
             .ForMember(viewModel => viewModel.Permissions, expression => expression
-                .MapFrom(employee => employee.EmployeePermissions))
-            .ForPath(viewModel => viewModel.Permissions, expression => expression
                 .MapFrom(employee => employee.EmployeePermissions.Select(permission => permission.Permission).ToList()));
 
         profile.CreateMap<EmployeeViewModel, Employee>()

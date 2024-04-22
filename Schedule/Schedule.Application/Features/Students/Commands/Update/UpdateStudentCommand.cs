@@ -24,44 +24,29 @@ public sealed class UpdateStudentCommand : IRequest<Unit>, IMapWith<Student>
         profile.CreateMap<UpdateStudentCommand, Student>()
             .ForMember(student => student.StudentId, expression =>
                 expression.MapFrom(command => command.Id))
-            .ForMember(student => student.Account, expression =>
-                expression.MapFrom(command => command.Name))
-                .ForPath(student => student.Account.Name, expression =>
-                    expression.MapFrom(command => command.Name))
-            .ForMember(student => student.Account, expression =>
-                expression.MapFrom(command => command.Surname))
-                .ForPath(student => student.Account.Surname, expression =>
-                    expression.MapFrom(command => command.Surname))
-            .ForMember(student => student.Account, expression =>
-                expression.MapFrom(command => command.MiddleName))
-                .ForPath(student => student.Account.MiddleName, expression =>
-                    expression.MapFrom(command => command.MiddleName))
-            .ForMember(student => student.Account, expression =>
-                expression.MapFrom(command => command.Email))
-                .ForPath(student => student.Account.Email, expression =>
-                    expression.MapFrom(command => command.Email))
             .ForMember(student => student.GroupId, expression =>
-                expression.MapFrom(command => command.GroupId));
+                expression.MapFrom(command => command.GroupId))
+            .ForMember(student => student.Account, expression =>
+                expression.MapFrom(command => new Account
+                {
+                    Name = command.Name,
+                    Surname = command.Surname,
+                    MiddleName = command.MiddleName,
+                    Email = command.Email,
+                    RoleId = 4
+                }));
 
         profile.CreateMap<Student, UpdateStudentCommand>()
             .ForMember(command => command.Id, expression =>
                 expression.MapFrom(student => student.GroupId))
             .ForMember(command => command.Name, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(command => command.Name, expression =>
-                    expression.MapFrom(student => student.Account.Name))
+                expression.MapFrom(student => student.Account.Name))
             .ForMember(command => command.Surname, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(command => command.Surname, expression =>
-                    expression.MapFrom(student => student.Account.Surname))
+                expression.MapFrom(student => student.Account.Surname))
             .ForMember(command => command.MiddleName, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(command => command.MiddleName, expression =>
-                    expression.MapFrom(student => student.Account.MiddleName))
+                expression.MapFrom(student => student.Account.MiddleName))
             .ForMember(command => command.Email, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(command => command.Email, expression =>
-                    expression.MapFrom(student => student.Account.Email))
+                expression.MapFrom(student => student.Account.Email))
             .ForMember(command => command.GroupId, expression =>
                 expression.MapFrom(student => student.GroupId));
     }

@@ -26,25 +26,15 @@ public class StudentViewModel : IMapWith<Student>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(student => student.StudentId))
             .ForMember(viewModel => viewModel.Login, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(viewModel => viewModel.Login, expression =>
-                    expression.MapFrom(student => student.Account.Login))
+                expression.MapFrom(student => student.Account.Login))
             .ForMember(viewModel => viewModel.Email, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(viewModel => viewModel.Email, expression =>
-                    expression.MapFrom(student => student.Account.Email))
+                expression.MapFrom(student => student.Account.Email))
             .ForMember(viewModel => viewModel.Name, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(viewModel => viewModel.Name, expression =>
-                    expression.MapFrom(student => student.Account.Name))
+                expression.MapFrom(student => student.Account.Name))
             .ForMember(viewModel => viewModel.Surname, expression =>
                 expression.MapFrom(student => student.Account.Surname))
-                .ForPath(viewModel => viewModel.Surname, expression =>
-                    expression.MapFrom(student => student.Account))
             .ForMember(viewModel => viewModel.MiddleName, expression =>
-                expression.MapFrom(student => student.Account))
-                .ForPath(viewModel => viewModel.MiddleName, expression =>
-                    expression.MapFrom(student => student.Account.MiddleName));
+                expression.MapFrom(student => student.Account.MiddleName));
 
         profile.CreateMap<StudentViewModel, Student>()
             .ForMember(student => student.StudentId, expression =>

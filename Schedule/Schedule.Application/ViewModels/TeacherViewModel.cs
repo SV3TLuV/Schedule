@@ -25,25 +25,15 @@ public class TeacherViewModel : IMapWith<Teacher>
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(teacher => teacher.TeacherId))
             .ForMember(viewModel => viewModel.Login, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(viewModel => viewModel.Login, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Login))
+                expression.MapFrom(teacher => teacher.Account.Login))
             .ForMember(viewModel => viewModel.Email, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(viewModel => viewModel.Email, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Email))
+                expression.MapFrom(teacher => teacher.Account.Email))
             .ForMember(viewModel => viewModel.Name, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(viewModel => viewModel.Name, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Name))
+                expression.MapFrom(teacher => teacher.Account.Name))
             .ForMember(viewModel => viewModel.Surname, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(viewModel => viewModel.Surname, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Surname))
+                expression.MapFrom(teacher => teacher.Account.Surname))
             .ForMember(viewModel => viewModel.MiddleName, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(viewModel => viewModel.MiddleName, expression =>
-                    expression.MapFrom(teacher => teacher.Account.MiddleName));
+                expression.MapFrom(teacher => teacher.Account.MiddleName));
 
         profile.CreateMap<TeacherViewModel, Teacher>()
             .ForMember(teacher => teacher.TeacherId, expression =>

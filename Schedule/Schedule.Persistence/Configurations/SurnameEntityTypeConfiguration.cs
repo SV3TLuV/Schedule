@@ -15,6 +15,6 @@ public sealed class SurnameEntityTypeConfiguration : IEntityTypeConfiguration<Su
 
         builder.Property(e => e.Value)
             .HasMaxLength(40)
-            .HasColumnName("surname");
+            .HasColumnName("value");
     }
 }

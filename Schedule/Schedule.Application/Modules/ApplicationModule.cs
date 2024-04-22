@@ -6,6 +6,7 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Abstractions;
 using Schedule.Application.Common.Interfaces;
 using Schedule.Application.Common.Mappings;
 using Schedule.Application.Services;
@@ -71,6 +72,9 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<DisciplineRepository>()
             .As<IDisciplineRepository>();
 
+        builder.RegisterType<EmployeeRepository>()
+            .As<IEmployeeRepository>();
+
         builder.RegisterType<GroupRepository>()
             .As<IGroupRepository>();
 
@@ -89,11 +93,20 @@ public sealed class ApplicationModule : Module
         builder.RegisterType<NameRepository>()
             .As<INameRepository>();
 
+        builder.RegisterType<SessionRepository>()
+            .As<ISessionRepository>();
+
         builder.RegisterType<SpecialityRepository>()
             .As<ISpecialityRepository>();
 
+        builder.RegisterType<StudentRepository>()
+            .As<IStudentRepository>();
+
         builder.RegisterType<SurnameRepository>()
             .As<ISurnameRepository>();
+
+        builder.RegisterType<TeacherRepository>()
+            .As<ITeacherRepository>();
 
         builder.RegisterType<TimetableRepository>()
             .As<ITimetableRepository>();

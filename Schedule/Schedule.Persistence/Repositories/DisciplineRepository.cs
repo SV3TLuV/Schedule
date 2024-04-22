@@ -44,8 +44,9 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
     public async Task UpdateAsync(Discipline discipline, CancellationToken cancellationToken)
     {
-        var disciplineDb = await Context.Disciplines.FirstOrDefaultAsync(e =>
-            e.DisciplineId == discipline.DisciplineId, cancellationToken);
+        var disciplineDb = await Context.Disciplines
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.DisciplineId == discipline.DisciplineId, cancellationToken);
 
         if (disciplineDb is null)
         {
@@ -63,7 +64,15 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
         if (searchDiscipline is not null)
         {
-            throw new AlreadyExistsException(searchDiscipline.Name.Name);
+            var isNameEqual = disciplineDb.NameId == searchDiscipline.NameId;
+            var isCodeEqual = disciplineDb.CodeId == searchDiscipline.CodeId;
+            var isTermEqual = disciplineDb.TermId == searchDiscipline.TermId;
+            var isSpecialityEqual = disciplineDb.SpecialityId == searchDiscipline.SpecialityId;
+
+            if (!isNameEqual || !isCodeEqual || !isTermEqual || !isSpecialityEqual)
+            {
+                throw new AlreadyExistsException(searchDiscipline.Name.Name);
+            }
         }
 
         disciplineDb.NameId = discipline.NameId;

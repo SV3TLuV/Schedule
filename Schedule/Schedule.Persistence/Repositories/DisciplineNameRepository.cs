@@ -59,9 +59,7 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
             throw new AlreadyExistsException(disciplineName.Name);
         }
 
-        disciplineNameDb.DisciplineNameId = disciplineName.DisciplineNameId;
         disciplineNameDb.Name = disciplineName.Name;
-        disciplineNameDb.IsDeleted = disciplineName.IsDeleted;
 
         Context.DisciplineNames.Update(disciplineNameDb);
 

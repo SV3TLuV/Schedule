@@ -61,9 +61,7 @@ public class DisciplineCodeRepository(IScheduleDbContext context) : Repository(c
                 throw new AlreadyExistsException(disciplineCode.Code);
             }
 
-            disciplineCodeDb.DisciplineCodeId = disciplineCode.DisciplineCodeId;
             disciplineCodeDb.Code = disciplineCode.Code;
-            disciplineCodeDb.IsDeleted = disciplineCode.IsDeleted;
 
             Context.DisciplineCodes.Update(disciplineCodeDb);
             await Context.SaveChangesAsync(cancellationToken);

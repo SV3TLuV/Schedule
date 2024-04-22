@@ -20,11 +20,17 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
             {
                 Name = name
             }, cancellationToken);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = created.Entity.DisciplineNameId;
         } else if (disciplineNameDb.IsDeleted)
         {
             disciplineNameDb.IsDeleted = false;
             Context.DisciplineNames.Update(disciplineNameDb);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = disciplineNameDb.DisciplineNameId;
         }
         else
@@ -32,7 +38,6 @@ public class DisciplineNameRepository(IScheduleDbContext context) : Repository(c
             throw new AlreadyExistsException(name);
         }
 
-        await Context.SaveChangesAsync(cancellationToken);
         return id;
     }
 

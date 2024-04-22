@@ -19,38 +19,23 @@ public sealed class CreateTeacherCommand : IRequest<int>, IMapWith<Teacher>
     {
         profile.CreateMap<CreateTeacherCommand, Teacher>()
             .ForMember(teacher => teacher.Account, expression =>
-                expression.MapFrom(command => command.Name))
-                .ForPath(teacher => teacher.Account.Name, expression =>
-                    expression.MapFrom(command => command.Name))
-            .ForMember(teacher => teacher.Account, expression =>
-                expression.MapFrom(command => command.Surname))
-                .ForPath(teacher => teacher.Account.Surname, expression =>
-                    expression.MapFrom(command => command.Surname))
-            .ForMember(teacher => teacher.Account, expression =>
-                expression.MapFrom(command => command.MiddleName))
-                .ForPath(teacher => teacher.Account.MiddleName, expression =>
-                    expression.MapFrom(command => command.MiddleName))
-            .ForMember(teacher => teacher.Account, expression =>
-                expression.MapFrom(command => command.Email))
-                .ForPath(teacher => teacher.Account.Email, expression =>
-                    expression.MapFrom(command => command.Email));
+                expression.MapFrom(command => new Account
+                {
+                    Name = command.Name,
+                    Surname = command.Surname,
+                    MiddleName = command.MiddleName,
+                    Email = command.Email,
+                    RoleId = 3
+                }));
 
         profile.CreateMap<Teacher, CreateTeacherCommand>()
             .ForMember(command => command.Name, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(command => command.Name, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Name))
+                expression.MapFrom(teacher => teacher.Account.Email))
             .ForMember(command => command.Surname, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(command => command.Surname, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Surname))
+                expression.MapFrom(teacher => teacher.Account.Surname))
             .ForMember(command => command.MiddleName, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(command => command.MiddleName, expression =>
-                    expression.MapFrom(teacher => teacher.Account.MiddleName))
+                expression.MapFrom(teacher => teacher.Account.MiddleName))
             .ForMember(command => command.Email, expression =>
-                expression.MapFrom(teacher => teacher.Account))
-                .ForPath(command => command.Email, expression =>
-                    expression.MapFrom(teacher => teacher.Account.Email));
+                expression.MapFrom(teacher => teacher.Account.Email));
     }
 }

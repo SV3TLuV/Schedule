@@ -15,6 +15,6 @@ public sealed class MiddleNameEntityTypeConfiguration : IEntityTypeConfiguration
 
         builder.Property(e => e.Value)
             .HasMaxLength(40)
-            .HasColumnName("middle_name");
+            .HasColumnName("value");
     }
 }

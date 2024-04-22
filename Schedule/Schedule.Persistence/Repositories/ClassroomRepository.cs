@@ -22,20 +22,23 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
                 Cabinet = cabinet
             }, cancellationToken);
 
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = created.Entity.ClassroomId;
         }
         else if (classroomDb.IsDeleted)
         {
             classroomDb.IsDeleted = false;
             Context.Classrooms.Update(classroomDb);
+
+            await Context.SaveChangesAsync(cancellationToken);
+
             id = classroomDb.ClassroomId;
         }
         else
         {
             throw new AlreadyExistsException(cabinet);
         }
-
-        await Context.SaveChangesAsync(cancellationToken);
 
         return id;
     }

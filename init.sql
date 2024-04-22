@@ -948,7 +948,7 @@ COPY public.discipline_name (discipline_name_id, name, is_deleted) FROM stdin;
 COPY public.discipline_type (discipline_type_id, name) FROM stdin;
 1	Дисциплина
 2	Практика
-3	Внекласная деятельность
+3	Внеклассная деятельность
 \.
 
 
@@ -1561,20 +1561,6 @@ CREATE UNIQUE INDEX role_name_index ON public.role USING btree (name);
 --
 
 CREATE UNIQUE INDEX speciality_name_index ON public.speciality USING btree (name);
-
-
---
--- Name: timetable_created_group_id_index; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX timetable_created_group_id_index ON public.timetable USING btree (created, group_id);
-
-
---
--- Name: timetable_group_id_index; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX timetable_group_id_index ON public.timetable USING btree (group_id);
 
 
 --

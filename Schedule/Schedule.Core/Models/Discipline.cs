@@ -14,7 +14,7 @@ public class Discipline
 
     public int SpecialityId { get; set; }
 
-    public int DisciplineTypeId { get; set; }
+    public int TypeId { get; set; }
 
     public bool IsDeleted { get; set; }
 

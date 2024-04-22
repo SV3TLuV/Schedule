@@ -10,6 +10,6 @@ public sealed class CreateDisciplineCommand : IRequest<int>, IMapWith<Discipline
     public required int CodeId { get; set; }
     public required int TotalHours { get; set; }
     public required int SpecialityId { get; set; }
-    public required int DisciplineTypeId { get; set; }
+    public required int TypeId { get; set; }
     public required int TermId { get; set; }
 }

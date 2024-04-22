@@ -12,7 +12,6 @@ public sealed class UpdateGroupCommand : IRequest<Unit>, IMapWith<Group>
     public required int EnrollmentYear { get; set; }
     public required int SpecialityId { get; set; }
     public bool IsAfterEleven { get; set; }
-    public required int TermId { get; set; }
 
     public void Map(Profile profile)
     {

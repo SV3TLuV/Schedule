@@ -9,7 +9,9 @@ public sealed class DisciplineCodeViewModel : IMapWith<DisciplineCode>
     public int Id { get; set; }
 
     public string Code { get; set; } = null!;
-    
+
+    public bool IsDeleted { get; set; }
+
     public void Map(Profile profile)
     {
         profile.CreateMap<DisciplineCode, DisciplineCodeViewModel>()

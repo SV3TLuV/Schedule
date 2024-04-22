@@ -15,7 +15,6 @@ public sealed class GetGroupQueryHandler(IScheduleDbContext context, IMapper map
     {
         var group = await context.Groups
             .Include(e => e.Term)
-            .ThenInclude(e => e.Course)
             .Include(e => e.Speciality)
             .ThenInclude(e => e.Disciplines)
             .ThenInclude(e => e.Term)

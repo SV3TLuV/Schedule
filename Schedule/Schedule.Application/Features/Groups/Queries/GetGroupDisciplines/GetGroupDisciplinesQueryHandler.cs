@@ -26,9 +26,11 @@ public sealed class GetGroupDisciplinesQueryHandler(
         return await context.Disciplines
             .Include(e => e.Name)
             .Include(e => e.Code)
-            .Where(e => e.SpecialityId == group.SpecialityId)
-            .Where(e => e.TermId == group.TermId)
-            .Where(e => !e.IsDeleted)
+            .Include(e => e.Type)
+            .Where(e =>
+                e.SpecialityId == group.SpecialityId &&
+                e.TermId == group.TermId &&
+                !e.IsDeleted)
             .AsNoTracking()
             .ProjectTo<DisciplineViewModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);

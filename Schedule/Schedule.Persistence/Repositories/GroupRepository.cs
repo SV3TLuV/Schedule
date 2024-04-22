@@ -60,7 +60,8 @@ public class GroupRepository(
             .FirstOrDefaultAsync(e =>
                 e.SpecialityId == group.SpecialityId &&
                 e.EnrollmentYear == group.EnrollmentYear &&
-                e.Number == group.Number, cancellationToken);
+                e.Number == group.Number &&
+                e.GroupId != groupDb.GroupId, cancellationToken);
 
         if (search is not null)
         {
@@ -71,7 +72,6 @@ public class GroupRepository(
         groupDb.IsAfterEleven = group.IsAfterEleven;
         groupDb.SpecialityId = group.SpecialityId;
         groupDb.Number = group.Number;
-
         groupDb.TermId = groupDb.CalculateTerm(dateInfoService);
 
         Context.Groups.Update(groupDb);

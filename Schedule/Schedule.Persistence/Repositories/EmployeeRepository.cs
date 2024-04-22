@@ -120,6 +120,10 @@ public class EmployeeRepository : Repository, IEmployeeRepository
                 throw new NotFoundException(nameof(Employee), id);
             }
 
+            await Context.EmployeePermissions
+                .Where(e => e.EmployeeId == employee.EmployeeId)
+                .ExecuteDeleteAsync(cancellationToken);
+
             foreach (var permissionId in permissionIds)
             {
                 await Context.EmployeePermissions.AddAsync(new EmployeePermission

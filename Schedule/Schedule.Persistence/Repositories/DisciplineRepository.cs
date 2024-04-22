@@ -60,19 +60,12 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
                 e.CodeId == discipline.CodeId &&
                 e.NameId == discipline.NameId &&
                 e.SpecialityId == discipline.SpecialityId &&
-                e.TermId == discipline.TermId, cancellationToken);
+                e.TermId == discipline.TermId &&
+                e.DisciplineId != disciplineDb.DisciplineId, cancellationToken);
 
         if (searchDiscipline is not null)
         {
-            var isNameEqual = disciplineDb.NameId == searchDiscipline.NameId;
-            var isCodeEqual = disciplineDb.CodeId == searchDiscipline.CodeId;
-            var isTermEqual = disciplineDb.TermId == searchDiscipline.TermId;
-            var isSpecialityEqual = disciplineDb.SpecialityId == searchDiscipline.SpecialityId;
-
-            if (!isNameEqual || !isCodeEqual || !isTermEqual || !isSpecialityEqual)
-            {
-                throw new AlreadyExistsException(searchDiscipline.Name.Name);
-            }
+            throw new AlreadyExistsException(searchDiscipline.Name.Name);
         }
 
         disciplineDb.NameId = discipline.NameId;

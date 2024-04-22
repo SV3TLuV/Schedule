@@ -12,7 +12,8 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
     {
         int id;
         var specialityDb = await Context.Specialities.FirstOrDefaultAsync(e =>
-            e.Name == speciality.Name, cancellationToken);
+            e.Name == speciality.Name &&
+            e.Code == speciality.Code, cancellationToken);
 
         if (specialityDb is null)
         {
@@ -49,18 +50,18 @@ public class SpecialityRepository(IScheduleDbContext context) : Repository(conte
         }
 
         var searchByName = await Context.Specialities.FirstOrDefaultAsync(e =>
-            e.Name == speciality.Name, cancellationToken);
+            e.Name == speciality.Name &&
+            e.Code == speciality.Code &&
+            e.SpecialityId != specialityDb.SpecialityId, cancellationToken);
 
         if (searchByName is not null)
         {
             throw new AlreadyExistsException(searchByName.Name);
         }
 
-        specialityDb.SpecialityId = speciality.SpecialityId;
         specialityDb.Code = speciality.Code;
         specialityDb.Name = speciality.Name;
         specialityDb.MaxTermId = speciality.MaxTermId;
-        specialityDb.IsDeleted = speciality.IsDeleted;
 
         Context.Specialities.Update(specialityDb);
 

@@ -29,7 +29,7 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
             .HasColumnName("discipline_code_id");
         builder.Property(e => e.NameId)
             .HasColumnName("discipline_name_id");
-        builder.Property(e => e.DisciplineTypeId)
+        builder.Property(e => e.TypeId)
             .HasColumnName("discipline_type_id");
         builder.Property(e => e.IsDeleted)
             .HasDefaultValue(false)
@@ -53,7 +53,7 @@ public sealed class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration
 
         builder.HasOne(d => d.Type)
             .WithMany(p => p.Disciplines)
-            .HasForeignKey(d => d.DisciplineTypeId)
+            .HasForeignKey(d => d.TypeId)
             .HasConstraintName("discipline_type_id_fk");
 
         builder.HasOne(d => d.Speciality)

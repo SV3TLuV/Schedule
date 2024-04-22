@@ -14,6 +14,7 @@ public sealed class GetDisciplineQueryHandler(IScheduleDbContext context, IMappe
     public async Task<DisciplineViewModel> Handle(GetDisciplineQuery request, CancellationToken cancellationToken)
     {
         var discipline = await context.Disciplines
+            .Include(e => e.Speciality)
             .Include(e => e.Name)
             .Include(e => e.Code)
             .Include(e => e.Type)

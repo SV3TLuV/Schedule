@@ -53,6 +53,7 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
         }
 
         var searchDiscipline = await Context.Disciplines
+            .AsNoTracking()
             .Include(e => e.Name)
             .FirstOrDefaultAsync(e =>
                 e.CodeId == discipline.CodeId &&
@@ -65,14 +66,12 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
             throw new AlreadyExistsException(searchDiscipline.Name.Name);
         }
 
-        disciplineDb.DisciplineId = discipline.DisciplineId;
         disciplineDb.NameId = discipline.NameId;
         disciplineDb.CodeId = discipline.CodeId;
         disciplineDb.TotalHours = discipline.TotalHours;
         disciplineDb.TermId = discipline.TermId;
         disciplineDb.SpecialityId = discipline.SpecialityId;
-        disciplineDb.DisciplineTypeId = discipline.DisciplineTypeId;
-        discipline.IsDeleted = discipline.IsDeleted;
+        disciplineDb.TypeId = discipline.TypeId;
 
         Context.Disciplines.Update(disciplineDb);
 

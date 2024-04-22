@@ -16,10 +16,10 @@ public sealed class GetDisciplineListQueryHandler(IScheduleDbContext context, IM
         CancellationToken cancellationToken)
     {
         var query = context.Disciplines
+            .Include(e => e.Speciality)
             .Include(e => e.Name)
             .Include(e => e.Code)
             .Include(e => e.Type)
-            .Include(e => e.Speciality)
             .Include(e => e.Term)
             .OrderBy(e => e.Name)
             .ThenBy(e => e.Code)

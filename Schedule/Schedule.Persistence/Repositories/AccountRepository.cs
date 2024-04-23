@@ -59,7 +59,6 @@ public class AccountRepository : Repository, IAccountRepository
                 await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
             }
 
-            // TODO: Generate login, password
             account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
 
             var created = await Context.Accounts.AddAsync(account, cancellationToken);

@@ -28,6 +28,10 @@ public sealed class ApplicationModule : Module
             .WithAllOpenGenericHandlerTypesRegistered()
             .Build());
 
+        builder.RegisterType<PasswordGenerator>()
+            .As<IPasswordGenerator>()
+            .SingleInstance();
+
         builder.RegisterType<DateInfoService>()
             .As<IDateInfoService>()
             .SingleInstance();

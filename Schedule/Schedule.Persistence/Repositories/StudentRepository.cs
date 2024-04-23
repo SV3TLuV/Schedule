@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -23,6 +24,8 @@ public class StudentRepository : Repository, IStudentRepository
 
         await Context.WithTransactionAsync(async () =>
         {
+            student.Account.RoleId = (int)AccountRole.Student;
+
             var accountId = await _accountRepository.CreateAsync(student.Account, cancellationToken);
 
             var created = await Context.Students.AddAsync(new Student

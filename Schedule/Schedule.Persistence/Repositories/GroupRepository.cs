@@ -21,7 +21,17 @@ public class GroupRepository(
 
         if (groupDb is null)
         {
+            var speciality = await Context.Specialities.FirstOrDefaultAsync(e =>
+                e.SpecialityId == group.SpecialityId, cancellationToken);
+
+            if (speciality is null)
+            {
+                throw new NotFoundException(nameof(Speciality), group.SpecialityId);
+            }
+
             group.TermId = group.CalculateTerm(dateInfoService);
+            group.Name = $"{speciality.Name}-{group.Number}";
+
             var created = await Context.Groups.AddAsync(group, cancellationToken);
 
             await Context.SaveChangesAsync(cancellationToken);
@@ -68,11 +78,20 @@ public class GroupRepository(
             throw new AlreadyExistsException(group.Name);
         }
 
+        var speciality = await Context.Specialities.FirstOrDefaultAsync(e =>
+            e.SpecialityId == group.SpecialityId, cancellationToken);
+
+        if (speciality is null)
+        {
+            throw new NotFoundException(nameof(Speciality), group.SpecialityId);
+        }
+
         groupDb.EnrollmentYear = group.EnrollmentYear;
         groupDb.IsAfterEleven = group.IsAfterEleven;
         groupDb.SpecialityId = group.SpecialityId;
         groupDb.Number = group.Number;
         groupDb.TermId = groupDb.CalculateTerm(dateInfoService);
+        groupDb.Name = $"{speciality.Name}-{group.Number}";
 
         Context.Groups.Update(groupDb);
 

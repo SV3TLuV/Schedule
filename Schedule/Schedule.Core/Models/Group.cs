@@ -6,6 +6,8 @@ public class Group
 {
     public int GroupId { get; set; }
 
+    public string Name { get; set; } = null!;
+
     public string Number { get; set; } = null!;
 
     public int SpecialityId { get; set; }
@@ -27,8 +29,6 @@ public class Group
     public virtual Term Term { get; set; } = null!;
 
     public virtual ICollection<Timetable> Timetable { get; set; } = new List<Timetable>();
-
-    public string Name => $"{Speciality.Name}-${Number}";
 
     public int CalculateTerm(IDateInfoService dateInfoService)
     {

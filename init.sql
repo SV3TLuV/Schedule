@@ -668,8 +668,7 @@ ALTER TABLE public.week_type ALTER COLUMN week_type_id ADD GENERATED ALWAYS AS I
 --
 
 COPY public.account (account_id, login, password_hash, name, surname, middle_name, email, role_id, is_deleted) FROM stdin;
-1	Admin	$2a$11$/AKGJmbjT9.J/pdMmIk7S.VItgYYrknXhoPAUsTRIUqzIUXVw25zq	Admin	Admin	Admin	admin	1	f
-2	Editor	$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i	Editor	Editor	Editor	editor	2	f
+1	Editor	$2a$11$qtS1HuNq4Q/9/gnERQJunu9U0wEYvtxbN2Z8senRvOLUF1gn/OV3i	Editor	Editor	Editor	editor	1	f
 \.
 
 
@@ -1021,7 +1020,6 @@ COPY public.lesson_teacher_classroom (lesson_id, teacher_id, classroom_id) FROM 
 --
 
 COPY public.middle_name (value) FROM stdin;
-Admin
 Editor
 \.
 
@@ -1031,7 +1029,6 @@ Editor
 --
 
 COPY public.name (value) FROM stdin;
-Admin
 Editor
 \.
 
@@ -1049,10 +1046,9 @@ COPY public.permission (permission_id, name) FROM stdin;
 --
 
 COPY public.role (role_id, name) FROM stdin;
-1	Admin
-2	Editor
-3	Teacher
-4	Student
+1	Editor
+2	Teacher
+3	Student
 \.
 
 
@@ -1095,7 +1091,6 @@ COPY public.student (student_id, group_id, account_id) FROM stdin;
 --
 
 COPY public.surname (value) FROM stdin;
-Admin
 Editor
 \.
 

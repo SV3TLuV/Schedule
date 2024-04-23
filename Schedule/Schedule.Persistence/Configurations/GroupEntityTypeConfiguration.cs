@@ -24,6 +24,9 @@ public sealed class GroupEntityTypeConfiguration : IEntityTypeConfiguration<Grou
         builder.Property(e => e.GroupId)
             .UseIdentityAlwaysColumn()
             .HasColumnName("group_id");
+        builder.Property(e => e.Name)
+            .HasMaxLength(20)
+            .HasColumnName("name");
         builder.Property(e => e.EnrollmentYear)
             .HasColumnName("enrollment_year");
         builder.Property(e => e.IsDeleted)

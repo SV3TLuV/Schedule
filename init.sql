@@ -285,6 +285,7 @@ ALTER TABLE public.employee_permission OWNER TO postgres;
 
 CREATE TABLE public."group" (
     group_id integer NOT NULL,
+    name character varying(20) NOT NULL,
     number character varying(2) NOT NULL,
     speciality_id integer NOT NULL,
     term_id integer NOT NULL,

@@ -8,7 +8,7 @@ namespace Schedule.Application.Services;
 
 public class MailSenderService(IConfiguration configuration) : IMailSenderService
 {
-    public async Task SendAsync(Letter letter)
+    public async Task SendAsync(Letter letter, CancellationToken cancellationToken = default)
     {
         using var emailMessage = new MimeMessage();
         
@@ -21,10 +21,10 @@ public class MailSenderService(IConfiguration configuration) : IMailSenderServic
         };
 
         using var client = new SmtpClient();
-        await client.ConnectAsync("smtp.office365.com", 587, false);
-        await client.AuthenticateAsync(configuration["MailData:UserName"], configuration["MailData:Password"]);
-        await client.SendAsync(emailMessage);
+        await client.ConnectAsync("smtp.office365.com", 587, false, cancellationToken);
+        await client.AuthenticateAsync(configuration["MailData:UserName"], configuration["MailData:Password"], cancellationToken);
+        await client.SendAsync(emailMessage, cancellationToken);
 
-        await client.DisconnectAsync(true);
+        await client.DisconnectAsync(true, cancellationToken);
     }
 }

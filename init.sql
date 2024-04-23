@@ -1046,7 +1046,7 @@ COPY public.permission (permission_id, name) FROM stdin;
 --
 
 COPY public.role (role_id, name) FROM stdin;
-1	Editor
+1	Employee
 2	Teacher
 3	Student
 \.

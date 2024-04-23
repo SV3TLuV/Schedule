@@ -24,31 +24,39 @@ public sealed class GetCurrentTimetableListQueryHandler(
         var query = context.Timetables
             .Include(e => e.Day)
             .Include(e => e.WeekType)
-            .Include(e => e.Group.Speciality)
+            .Include(e => e.Group)
+                .ThenInclude(e => e.Speciality)
             .Include(e => e.Lessons)
-                .ThenInclude(e => e.Discipline!.Name)
+                .ThenInclude(e => e.Discipline)
+                .ThenInclude(e => e.Name)
             .Include(e => e.Lessons)
-                .ThenInclude(e => e.Discipline!.Code)
+                .ThenInclude(e => e.Discipline)
+                .ThenInclude(e => e.Code)
             .Include(e => e.Lessons)
-                .ThenInclude(e => e.Discipline!.Type)
+                .ThenInclude(e => e.Discipline)
+                .ThenInclude(e => e.Type)
             .Include(e => e.Lessons)
                 .ThenInclude(e => e.LessonTeacherClassrooms)
-                .ThenInclude(e => e.Teacher.Account)
+                .ThenInclude(e => e.Teacher)
+                .ThenInclude(e => e.Account)
             .Include(e => e.Lessons)
                 .ThenInclude(e => e.LessonTeacherClassrooms)
                 .ThenInclude(e => e.Classroom)
             .Include(e => e.Lessons)
                 .ThenInclude(e => e.LessonChanges!
                     .Where(e => e.Date >= tomorrow))
-                .ThenInclude(e => e.Discipline.Name)
+                .ThenInclude(e => e.Discipline)
+                .ThenInclude(e => e.Name)
             .Include(e => e.Lessons)
                 .ThenInclude(e => e.LessonChanges!
                     .Where(e => e.Date >= tomorrow))
-                .ThenInclude(e => e.Discipline.Code)
+                .ThenInclude(e => e.Discipline)
+                .ThenInclude(e => e.Code)
             .Include(e => e.Lessons)
                 .ThenInclude(e => e.LessonChanges!
                     .Where(e => e.Date >= tomorrow))
-                .ThenInclude(e => e.Discipline.Type)
+                .ThenInclude(e => e.Discipline)
+                .ThenInclude(e => e.Type)
             .Include(e => e.Lessons)
                 .ThenInclude(e => e.LessonChanges!
                     .Where(e => e.Date >= tomorrow))
@@ -58,10 +66,12 @@ public sealed class GetCurrentTimetableListQueryHandler(
                 .ThenInclude(e => e.LessonChanges!
                     .Where(e => e.Date >= tomorrow))
                 .ThenInclude(e => e.LessonChangeTeacherClassrooms)
-                .ThenInclude(e => e.Teacher.Account)
-            .Where(e => dayIds.Contains(e.DayId))
-            .Where(e => e.Ended == null)
-            .Where(e => !e.Group.IsDeleted)
+                .ThenInclude(e => e.Teacher)
+                .ThenInclude(e => e.Account)
+            .Where(e =>
+                e.Ended == null &&
+                !e.Group.IsDeleted &&
+                dayIds.Contains(e.DayId))
             .AsSplitQuery()
             .AsNoTracking();
 

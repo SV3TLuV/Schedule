@@ -6,6 +6,7 @@ using Schedule.Application.Common.EqualityComparers;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
+using WeekType = Schedule.Core.Common.Enums.WeekType;
 
 namespace Schedule.Application.Features.Timetables.Queries.GetCurrentTimetableList;
 
@@ -19,7 +20,6 @@ public sealed class GetCurrentTimetableListQueryHandler(
         CancellationToken cancellationToken)
     {
         var tomorrow = dateInfoService.CurrentDate.AddDays(-1);
-        var dayIds = GetDayIds(request.DayCount);
 
         var query = context.Timetables
             .Include(e => e.Day)
@@ -70,10 +70,26 @@ public sealed class GetCurrentTimetableListQueryHandler(
                 .ThenInclude(e => e.Account)
             .Where(e =>
                 e.Ended == null &&
-                !e.Group.IsDeleted &&
-                dayIds.Contains(e.DayId))
+                !e.Group.IsDeleted)
             .AsSplitQuery()
             .AsNoTracking();
+
+        var dateInfos = GetDateInfos(request.DayCount);
+
+        if (dateInfos.Length == 2)
+        {
+            query = query.Where(e =>
+                dateInfos[0].WeekTypeId == e.WeekTypeId &&
+                dateInfos[0].DayIds.Contains(e.DayId) ||
+                dateInfos[1].WeekTypeId == e.WeekTypeId &&
+                dateInfos[1].DayIds.Contains(e.DayId));
+        }
+        else
+        {
+            query = query.Where(e =>
+                dateInfos[0].WeekTypeId == e.WeekTypeId &&
+                dateInfos[0].DayIds.Contains(e.DayId));
+        }
 
         if (request.GroupId is not null)
         {
@@ -91,6 +107,8 @@ public sealed class GetCurrentTimetableListQueryHandler(
             .ToArray();
 
         var currentTimetables = new List<CurrentTimetableViewModel>();
+
+        var dayIds = dateInfos.SelectMany(e => e.DayIds).ToArray();
 
         foreach (var groupedViewModel in groupedViewModels)
         {
@@ -126,17 +144,34 @@ public sealed class GetCurrentTimetableListQueryHandler(
         };
     }
 
-    private int[] GetDayIds(int count)
+    private (int WeekTypeId, int[] DayIds)[] GetDateInfos(int count)
     {
-        var ids = new int[count];
+        var dayId = dateInfoService.CurrentDayId;
+        var weekType = dateInfoService.CurrentWeekType;
 
-        var id = dateInfoService.CurrentDayId;
+        var result = new List<(int, int[])>();
+        var dayIds = new int[count];
+
+        var j = 0;
 
         for (var i = 0; i < count; i++)
         {
-            ids[i] = (id + i - 1) % 7 + 1;
+            var nextDayId = dayIds[i] = (dayId + i - 1) % 7 + 1;
+
+            if (i != 0 && nextDayId == 1)
+            {
+                result[j] = ((int)weekType, dayIds);
+                j++;
+                dayIds = new int[count];
+                weekType = weekType == WeekType.Green ? WeekType.Yellow : WeekType.Green;
+            }
         }
 
-        return ids;
+        if (result.Count == 0)
+        {
+            result.Add(((int)weekType, dayIds));
+        }
+
+        return result.ToArray();
     }
 }

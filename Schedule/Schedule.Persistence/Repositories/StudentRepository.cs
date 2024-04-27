@@ -57,7 +57,7 @@ public class StudentRepository : Repository, IStudentRepository
             student.Account.AccountId = studentDb.AccountId;
 
             await _accountRepository.UpdateAsync(student.Account, cancellationToken);
-
+            
             studentDb.GroupId = student.GroupId;
 
             Context.Students.Update(studentDb);

@@ -21,6 +21,9 @@ public class LessonChangeViewModel : IMapWith<LessonChange>, IMapWith<Lesson>, I
     public DisciplineViewModel Discipline { get; set; } = null!;
 
     public DateOnly Date { get; set; }
+    
+    public ICollection<TeacherClassroomViewModel> LessonTeacherClassrooms { get; set; } =
+        Array.Empty<TeacherClassroomViewModel>();
 
     public void Map(Profile profile)
     {

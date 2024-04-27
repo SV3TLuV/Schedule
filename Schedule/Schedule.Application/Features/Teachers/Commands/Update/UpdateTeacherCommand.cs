@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -27,7 +28,7 @@ public sealed class UpdateTeacherCommand : IRequest<Unit>, IMapWith<Teacher>
                     Surname = command.Surname,
                     MiddleName = command.MiddleName,
                     Email = command.Email,
-                    RoleId = 3
+                    RoleId = (int)AccountRole.Teacher
                 }));
 
         profile.CreateMap<Teacher, UpdateTeacherCommand>()

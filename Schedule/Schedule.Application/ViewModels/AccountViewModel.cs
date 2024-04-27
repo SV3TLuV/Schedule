@@ -28,7 +28,22 @@ public class AccountViewModel : IMapWith<Account>
     {
         profile.CreateMap<Account, AccountViewModel>()
             .ForMember(account => account.Id, expression =>
-                expression.MapFrom(account => account.AccountId));
+                expression.MapFrom(account => account.AccountId))
+            .ForMember(viewModel => viewModel.Name, expression =>
+                expression.MapFrom(account => new NameViewModel
+                {
+                    Value = account.Name
+                }))
+            .ForMember(viewModel => viewModel.Surname, expression =>
+                expression.MapFrom(account => new SurnameViewModel
+                {
+                    Value = account.Surname
+                }))
+            .ForMember(viewModel => viewModel.MiddleName, expression =>
+                expression.MapFrom(account => new MiddleNameViewModel
+                {
+                    Value = account.MiddleName
+                }));
 
         profile.CreateMap<AccountViewModel, Account>()
             .ForMember(viewModel => viewModel.AccountId, expression =>

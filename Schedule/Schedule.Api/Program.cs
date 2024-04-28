@@ -34,6 +34,7 @@ applicationBuilder.Host
     });
 
 var app = applicationBuilder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 ConfigureApp(app);
 
@@ -41,6 +42,7 @@ app.Run();
 
 void ConfigureApp(WebApplication webApp)
 {
+    webApp.UseRequestLocalization();
     webApp
         .UseCustomExceptionHandler()
         .UseSwagger()

@@ -27,7 +27,7 @@ public sealed class CreateStudentCommandHandler(
             From = "Электронное расписание",
             To = student.Account.Email,
             Subject = "Данные для входа",
-            Message = $"Логин: {student.Account.Login}\n Пароль: ${student.Account.PasswordHash}",
+            Message = $"Логин: {student.Account.Login}\nПароль: {student.Account.PasswordHash}",
             Format = TextFormat.Text
         }, cancellationToken);
 

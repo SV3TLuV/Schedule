@@ -18,7 +18,7 @@ public class EmployeeViewModel : IMapWith<Employee>
 
     public string? MiddleName { get; set; }
 
-    public ICollection<PermissionViewModel> Permissions { get; set; } = new List<PermissionViewModel>();
+    public ICollection<PermissionViewModel> Permissions { get; set; } = Array.Empty<PermissionViewModel>();
 
     public void Map(Profile profile)
     {
@@ -36,7 +36,7 @@ public class EmployeeViewModel : IMapWith<Employee>
             .ForMember(viewModel => viewModel.MiddleName, expression =>
                 expression.MapFrom(employee => employee.Account.MiddleName))
             .ForMember(viewModel => viewModel.Permissions, expression => expression
-                .MapFrom(employee => employee.EmployeePermissions.Select(permission => permission.Permission).ToList()));
+                .MapFrom(employee => employee.EmployeePermissions.Select(permission => permission.Permission).ToArray()));
 
         profile.CreateMap<EmployeeViewModel, Employee>()
             .ForMember(employee => employee.EmployeeId, expression =>

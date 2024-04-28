@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Schedule.Core.Common.Enums;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
 
@@ -17,7 +18,7 @@ public sealed class UpdateStudentCommand : IRequest<Unit>, IMapWith<Student>
     
     public required string Email { get; set; }
     
-    public required int GroupId { get; set; }
+    public int? GroupId { get; set; }
     
     public void Map(Profile profile)
     {
@@ -33,7 +34,7 @@ public sealed class UpdateStudentCommand : IRequest<Unit>, IMapWith<Student>
                     Surname = command.Surname,
                     MiddleName = command.MiddleName,
                     Email = command.Email,
-                    RoleId = 4
+                    RoleId = (int)AccountRole.Student
                 }));
 
         profile.CreateMap<Student, UpdateStudentCommand>()

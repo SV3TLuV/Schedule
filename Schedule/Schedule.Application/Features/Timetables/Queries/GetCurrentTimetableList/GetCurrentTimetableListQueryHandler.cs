@@ -160,7 +160,7 @@ public sealed class GetCurrentTimetableListQueryHandler(
 
             if (i != 0 && nextDayId == 1)
             {
-                result[j] = ((int)weekType, dayIds);
+                result.Add(((int)weekType, dayIds));
                 j++;
                 dayIds = new int[count];
                 weekType = weekType == WeekType.Green ? WeekType.Yellow : WeekType.Green;

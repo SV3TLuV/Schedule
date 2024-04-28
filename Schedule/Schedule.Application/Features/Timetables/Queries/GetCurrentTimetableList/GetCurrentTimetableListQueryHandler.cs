@@ -146,30 +146,32 @@ public sealed class GetCurrentTimetableListQueryHandler(
 
     private (int WeekTypeId, int[] DayIds)[] GetDateInfos(int count)
     {
+        if (count > 7)
+        {
+            throw new NotSupportedException($"Count more than 7 not supported.");
+        }
+
         var dayId = dateInfoService.CurrentDayId;
         var weekType = dateInfoService.CurrentWeekType;
 
         var result = new List<(int, int[])>();
         var dayIds = new int[count];
 
-        var j = 0;
-
         for (var i = 0; i < count; i++)
         {
-            var nextDayId = dayIds[i] = (dayId + i - 1) % 7 + 1;
-
-            if (i != 0 && nextDayId == 1)
-            {
-                result.Add(((int)weekType, dayIds));
-                j++;
-                dayIds = new int[count];
-                weekType = weekType == WeekType.Green ? WeekType.Yellow : WeekType.Green;
-            }
+            dayIds[i] = (dayId + i - 1) % 7 + 1;
         }
 
-        if (result.Count == 0)
+        var indexOfMaxDayId = Array.IndexOf(dayIds, dayIds.Max());
+
+        if (indexOfMaxDayId == dayIds.Length - 1)
         {
             result.Add(((int)weekType, dayIds));
+        }
+        else
+        {
+            result.Add(((int)weekType, dayIds.Take(indexOfMaxDayId).ToArray()));
+            result.Add(((int)weekType, dayIds.TakeLast(dayIds.Length - indexOfMaxDayId - 1).ToArray()));
         }
 
         return result.ToArray();

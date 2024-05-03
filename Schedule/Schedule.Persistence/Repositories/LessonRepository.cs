@@ -57,7 +57,7 @@ public class LessonRepository(IScheduleDbContext context) : Repository(context),
 
             foreach (var teacherClassroom in lesson.LessonTeacherClassrooms)
             {
-                teacherClassroom.LessonId = lesson.LessonId;
+                teacherClassroom.LessonId = lessonDb.LessonId;
 
                 await Context.LessonTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
             }

@@ -49,6 +49,7 @@ public sealed class UpdateLessonCommandHandler(
             }, cancellationToken);
 
             var lessonsForCopy = (await context.Lessons
+                .Include(e => e.LessonTeacherClassrooms)
                 .Where(e =>
                     e.TimetableId == timetable.TimetableId &&
                     e.LessonId != request.LessonId)

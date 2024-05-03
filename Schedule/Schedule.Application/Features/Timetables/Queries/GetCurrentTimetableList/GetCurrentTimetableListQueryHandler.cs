@@ -6,7 +6,6 @@ using Schedule.Application.Common.EqualityComparers;
 using Schedule.Application.ViewModels;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
-using WeekType = Schedule.Core.Common.Enums.WeekType;
 
 namespace Schedule.Application.Features.Timetables.Queries.GetCurrentTimetableList;
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -22,12 +23,28 @@ public sealed class UpdateLessonCommandHandler(
             lessonRepository.UseContext(context);
             timetableRepository.UseContext(context);
 
-            var lessonDb = await context.Lessons.FirstOrDefaultAsync(e =>
-                e.LessonId == request.LessonId, cancellationToken);
+            var lessonDb = await context.Lessons
+                .Include(e => e.LessonTeacherClassrooms)
+                .Include(e => e.LessonChanges)
+                .FirstOrDefaultAsync(e => e.LessonId == request.LessonId, cancellationToken);
 
             if (lessonDb is null)
             {
                 throw new NotFoundException(nameof(Lesson), request.LessonId);
+            }
+
+            var mappedLesson = mapper.Map<Lesson>(request);
+
+            var disciplineIsEmpty = lessonDb.DisciplineId is null;
+            var subgroupIsEmpty = lessonDb.Subgroup is null;
+            var timeIsEmpty = lessonDb.TimeStart is null && lessonDb.TimeEnd is null;
+            var changesIsEmpty = lessonDb.LessonChanges.IsNullOrEmpty();
+            var teacherAndClassroomsIsEmpty = lessonDb.LessonTeacherClassrooms.IsNullOrEmpty();
+
+            if (disciplineIsEmpty && subgroupIsEmpty && timeIsEmpty && changesIsEmpty && teacherAndClassroomsIsEmpty)
+            {
+                await lessonRepository.UpdateAsync(mappedLesson, cancellationToken);
+                return;
             }
 
             var timetable = await context.Timetables.FirstOrDefaultAsync(e =>
@@ -56,7 +73,7 @@ public sealed class UpdateLessonCommandHandler(
                 .ToListAsync(cancellationToken))
                 .Concat(new []
                 {
-                    mapper.Map<Lesson>(request)
+                    mappedLesson
                 });
 
             foreach (var lesson in lessonsForCopy)

@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Schedule.Api.Common;
@@ -79,6 +80,11 @@ public sealed class ApiModule(IConfiguration configuration) : Module
             //                 .RepeatForever()));
             // })
 
+            services
+                .Configure<RequestLocalizationOptions>(option =>
+                {
+                    option.DefaultRequestCulture = new RequestCulture(culture: "ru-RU", uiCulture: "ru-RU");
+                });
 
         builder.Populate(services);
     }

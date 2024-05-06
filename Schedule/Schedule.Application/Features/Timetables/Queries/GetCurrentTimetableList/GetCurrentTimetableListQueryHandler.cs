@@ -109,23 +109,31 @@ public sealed class GetCurrentTimetableListQueryHandler(
 
         var dayIds = dateInfos.SelectMany(e => e.DayIds).ToArray();
 
+        var currentDate = dateInfoService.CurrentDate;
+
         foreach (var groupedViewModel in groupedViewModels)
         {
             var groupedTimetableViewModels = groupedViewModel
                 .GroupBy(timetable => timetable.Day)
-                .Select(grouping => new GroupedViewModel<DayViewModel, TimetableViewModel>
+                .Select(grouping => new GroupedViewModel<RecordValue<DayViewModel, DateOnly>, TimetableViewModel>
                 {
-                    Key = grouping.Key,
+                    Key = new RecordValue<DayViewModel, DateOnly>
+                    {
+                        TValue = grouping.Key,
+                        KValue = currentDate
+                    },
                     Items = grouping.ToArray()
                 })
-                .OrderBy(e => Array.IndexOf(dayIds, e.Key.Id))
+                .OrderBy(e => Array.IndexOf(dayIds, e.Key.TValue.Id))
                 .ToArray();
 
             currentTimetables.Add(new CurrentTimetableViewModel
             {
                 Group = groupedViewModel.Key,
-                Days = groupedTimetableViewModels
+                DaysAndDate = groupedTimetableViewModels
             });
+
+            currentDate.AddDays(1);
         }
 
         var currentViewModels = currentTimetables

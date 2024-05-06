@@ -11,10 +11,10 @@ public class LessonChangeViewModel : IMapWith<LessonChange>, IMapWith<Lesson>, I
     public int Number { get; set; }
 
     public int? Subgroup { get; set; }
-    
-    public TimeOnly TimeStart { get; set; }
-    
-    public TimeOnly TimeEnd { get; set; }
+
+    public string TimeStart { get; set; } = null!;
+
+    public string TimeEnd { get; set; } = null!;
     
     public LessonViewModel Lesson { get; set; } = null!;
 
@@ -30,6 +30,10 @@ public class LessonChangeViewModel : IMapWith<LessonChange>, IMapWith<Lesson>, I
         profile.CreateMap<LessonChange, LessonChangeViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(lesson => lesson.LessonChangeId))
+            .ForMember(viewModel => viewModel.TimeStart, expression =>
+                expression.MapFrom(lessonChange => lessonChange.TimeStart.ToString()))
+            .ForMember(viewModel => viewModel.TimeEnd, expression =>
+                expression.MapFrom(lessonChange => lessonChange.TimeEnd.ToString()))
             .ReverseMap();
 
         profile.CreateMap<LessonChange, Lesson>()
@@ -40,6 +44,10 @@ public class LessonChangeViewModel : IMapWith<LessonChange>, IMapWith<Lesson>, I
         profile.CreateMap<LessonChange, LessonViewModel>()
             .ForMember(viewModel => viewModel.Id, expression =>
                 expression.MapFrom(lesson => lesson.LessonChangeId))
+            .ForMember(viewModel => viewModel.TimeStart, expression =>
+                expression.MapFrom(lessonChange => lessonChange.TimeStart.ToString()))
+            .ForMember(viewModel => viewModel.TimeEnd, expression =>
+                expression.MapFrom(lessonChange => lessonChange.TimeEnd.ToString()))
             .ReverseMap();
     }
 }

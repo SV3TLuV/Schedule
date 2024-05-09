@@ -27,7 +27,7 @@ public sealed class CreateEmployeeCommandHandler(
             From = "Электронное расписание",
             To = employee.Account.Email,
             Subject = "Данные для входа",
-            Message = $"Логин: {employee.Account.Login}\n Пароль: ${employee.Account.PasswordHash}",
+            Message = $"Логин: {employee.Account.Login}\nПароль: {employee.Account.PasswordHash}",
             Format = TextFormat.Text
         }, cancellationToken);
 

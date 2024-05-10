@@ -8,7 +8,7 @@ public sealed class ChangeAccountPasswordCommandHandler(
 {
     public async Task<Unit> Handle(ChangeAccountPasswordCommand request, CancellationToken cancellationToken)
     {
-        await accountRepository.ChangePasswordAsync(request.Id, request.Password, cancellationToken);
+        await accountRepository.ChangePasswordAsync(request.Id, request.Password, request.NewPassword, cancellationToken);
         return Unit.Value;
     }
 }

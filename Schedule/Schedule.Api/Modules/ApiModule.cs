@@ -45,6 +45,7 @@ public sealed class ApiModule(IConfiguration configuration) : Module
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ClockSkew = TimeSpan.FromSeconds(0),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,

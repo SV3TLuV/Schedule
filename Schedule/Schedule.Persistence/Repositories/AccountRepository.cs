@@ -177,7 +177,7 @@ public class AccountRepository : Repository, IAccountRepository
             .FirstOrDefaultAsync(e => e.Login == login, cancellationToken);
     }
 
-    public async Task ChangePasswordAsync(int accountId, string password, CancellationToken cancellationToken = default)
+    public async Task ChangePasswordAsync(int accountId, string password, string newPassword, CancellationToken cancellationToken = default)
     {
         var account = await Context.Accounts.FirstOrDefaultAsync(e =>
             e.AccountId == accountId, cancellationToken);
@@ -187,8 +187,27 @@ public class AccountRepository : Repository, IAccountRepository
             throw new NotFoundException(nameof(Account), accountId);
         }
 
-        account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
+        if (!_passwordHasherService.EnhancedHash(password, account.PasswordHash))
+        {
+            throw new IncorrectPasswordException();
+        }
+        account.PasswordHash = _passwordHasherService.Hash(newPassword);
 
+        Context.Accounts.Update(account);
+        await Context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task RestorePasswordAsync(string email, string password, CancellationToken cancellationToken = default)
+    {
+        var account = await Context.Accounts
+            .FirstOrDefaultAsync(e => e.Email == email, cancellationToken);
+
+        if (account is null)
+        {
+            throw new NotFoundException(nameof(Account), email);
+        }
+
+        account.PasswordHash = _passwordHasherService.Hash(password);
         Context.Accounts.Update(account);
         await Context.SaveChangesAsync(cancellationToken);
     }

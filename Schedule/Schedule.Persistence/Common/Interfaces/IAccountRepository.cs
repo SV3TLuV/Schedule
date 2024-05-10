@@ -12,5 +12,6 @@ public interface IAccountRepository : IRepository
     public Task<Account?> FindByEmailAsync(string email, CancellationToken cancellationToken = default);
     public Task<Account?> FindByLoginAsync(string login, CancellationToken cancellationToken = default);
 
-    public Task ChangePasswordAsync(int accountId, string password, CancellationToken cancellationToken = default);
+    public Task ChangePasswordAsync(int accountId, string password, string newPassword, CancellationToken cancellationToken = default);
+    public Task RestorePasswordAsync(string email, string password, CancellationToken cancellationToken = default);
 }

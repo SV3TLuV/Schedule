@@ -14,6 +14,8 @@ public class GetEmployeeByAccountQueryHandler(IScheduleDbContext context, IMappe
     public async Task<EmployeeViewModel> Handle(GetEmployeeByAccountQuery request, CancellationToken cancellationToken)
     {
         var employee = await context.Employees
+            .Include(e => e.Account)
+            .ThenInclude(e => e.Role)
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.AccountId == request.Id, cancellationToken);
 

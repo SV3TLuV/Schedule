@@ -14,6 +14,14 @@ public class GetStudentByAccountQueryHandler(IScheduleDbContext context, IMapper
     public async Task<StudentViewModel> Handle(GetStudentByAccountQuery request, CancellationToken cancellationToken)
     {
         var student = await context.Students
+            .Include(e => e.Account)
+            .ThenInclude(e => e.Role)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.Speciality)
+            .ThenInclude(e => e.Disciplines)
+            .ThenInclude(e => e.Term)
+            .Include(e => e.Group)
+            .ThenInclude(e => e.Term)
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.AccountId == request.Id, cancellationToken);
 

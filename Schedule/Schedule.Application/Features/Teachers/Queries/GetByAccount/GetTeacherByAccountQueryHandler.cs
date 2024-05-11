@@ -14,6 +14,8 @@ public class GetTeacherByAccountQueryHandler(IScheduleDbContext context, IMapper
     public async Task<TeacherViewModel> Handle(GetTeacherByAccountQuery request, CancellationToken cancellationToken)
     {
         var teacher = await context.Teachers
+            .Include(e => e.Account)
+            .ThenInclude(e => e.Role)
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.AccountId == request.Id, cancellationToken);
 

@@ -13,5 +13,8 @@ public class ChangeAccountPasswordCommandValidator : AbstractValidator<ChangeAcc
         RuleFor(command => command.Password)
             .Length(8, 100)
             .NotEmpty();
+        RuleFor(command => command.NewPassword)
+            .Length(8, 100)
+            .NotEmpty();
     }
 }

@@ -11,15 +11,11 @@ public sealed class RestoreGroupCommandHandler(
 {
     public async Task<Unit> Handle(RestoreGroupCommand request, CancellationToken cancellationToken)
     {
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            groupRepository.UseContext(context);
-            groupTransferRepository.UseContext(context);
-
             await groupRepository.RestoreAsync(request.Id, cancellationToken);
             await groupTransferRepository.CreateForGroup(request.Id, cancellationToken);
+            return Unit.Value;
         }, cancellationToken);
-
-        return Unit.Value;
     }
 }

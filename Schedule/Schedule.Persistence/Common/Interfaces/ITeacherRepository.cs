@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface ITeacherRepository : IRepository
+public interface ITeacherRepository
 {
     public Task<int> CreateAsync(Teacher teacher, CancellationToken cancellationToken = default);
     public Task UpdateAsync(Teacher teacher, CancellationToken cancellationToken = default);

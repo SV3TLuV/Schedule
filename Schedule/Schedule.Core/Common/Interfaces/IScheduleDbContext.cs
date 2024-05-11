@@ -66,4 +66,6 @@ public interface IScheduleDbContext
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     Task WithTransactionAsync(Func<Task> action, CancellationToken cancellationToken = default);
+
+    Task<T> WithTransactionAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default);
 }

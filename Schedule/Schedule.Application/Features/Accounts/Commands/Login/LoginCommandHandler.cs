@@ -20,13 +20,8 @@ public sealed class LoginCommandHandler(
 {
     public async Task<AuthorizationResultViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        AuthorizationResultViewModel result = null!;
-
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            accountRepository.UseContext(context);
-            sessionRepository.UseContext(context);
-
             var account = await accountRepository.FindByLoginAsync(request.Login, cancellationToken);
 
             if (account is null || !passwordHasher.EnhancedHash(request.Password, account.PasswordHash))
@@ -46,14 +41,12 @@ public sealed class LoginCommandHandler(
             var accountViewModel = mapper.Map<AccountViewModel>(account);
             var accessToken = tokenService.GenerateAccessToken(account, session.SessionId);
 
-            result = new AuthorizationResultViewModel
+            return new AuthorizationResultViewModel
             {
                 AccessToken = accessToken,
                 RefreshToken = session.RefreshToken,
                 Account = accountViewModel
             };
         }, cancellationToken);
-
-        return result;
     }
 }

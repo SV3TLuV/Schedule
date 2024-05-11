@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface IAccountRepository : IRepository
+public interface IAccountRepository
 {
     public Task<int> CreateAsync(Account account, CancellationToken cancellationToken = default);
     public Task UpdateAsync(Account account, CancellationToken cancellationToken = default);

@@ -6,15 +6,13 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class LessonChangeRepository(IScheduleDbContext context) : Repository(context), ILessonChangeRepository
+public class LessonChangeRepository(IScheduleDbContext context) : ILessonChangeRepository
 {
     public async Task<int> CreateAsync(LessonChange lessonChange, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
-
-        await Context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            var lessonChangeDb = await Context.LessonChanges.FirstOrDefaultAsync(e =>
+            var lessonChangeDb = await context.LessonChanges.FirstOrDefaultAsync(e =>
                 e.LessonId == lessonChange.LessonId &&
                 e.Date == lessonChange.Date, cancellationToken);
 
@@ -23,28 +21,26 @@ public class LessonChangeRepository(IScheduleDbContext context) : Repository(con
                 throw new AlreadyExistsException(nameof(LessonChange));
             }
 
-            var created = await Context.LessonChanges.AddAsync(lessonChange, cancellationToken);
-
-            id = created.Entity.LessonChangeId;
+            var created = await context.LessonChanges.AddAsync(lessonChange, cancellationToken);
 
             foreach (var teacherClassroom in lessonChange.LessonChangeTeacherClassrooms)
             {
                 teacherClassroom.LessonChangeId = created.Entity.LessonChangeId;
 
-                await Context.LessonChangeTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
+                await context.LessonChangeTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-        return id;
+            return created.Entity.LessonChangeId;
+        }, cancellationToken);
     }
 
     public async Task UpdateAsync(LessonChange lessonChange, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var lessonChangeDb = await Context.LessonChanges.FirstOrDefaultAsync(e =>
+            var lessonChangeDb = await context.LessonChanges.FirstOrDefaultAsync(e =>
                 e.LessonChangeId == lessonChange.LessonChangeId, cancellationToken);
 
             if (lessonChangeDb is null)
@@ -60,9 +56,9 @@ public class LessonChangeRepository(IScheduleDbContext context) : Repository(con
             lessonChangeDb.TimeEnd = lessonChange.TimeEnd;
             lessonChangeDb.Number = lessonChange.Number;
 
-            Context.LessonChanges.Update(lessonChangeDb);
+            context.LessonChanges.Update(lessonChangeDb);
 
-            await Context.LessonChangeTeacherClassrooms
+            await context.LessonChangeTeacherClassrooms
                 .Where(e => e.LessonChangeId == lessonChangeDb.LessonChangeId)
                 .ExecuteDeleteAsync(cancellationToken);
 
@@ -70,16 +66,16 @@ public class LessonChangeRepository(IScheduleDbContext context) : Repository(con
             {
                 teacherClassroom.LessonChangeId = lessonChangeDb.LessonChangeId;
 
-                await Context.LessonChangeTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
+                await context.LessonChangeTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var lessonChange = await Context.LessonChanges.FirstOrDefaultAsync(e =>
+        var lessonChange = await context.LessonChanges.FirstOrDefaultAsync(e =>
             e.LessonChangeId == id, cancellationToken);
 
         if (lessonChange is null)
@@ -87,8 +83,8 @@ public class LessonChangeRepository(IScheduleDbContext context) : Repository(con
             throw new NotFoundException(nameof(LessonChange), id);
         }
 
-        Context.LessonChanges.Remove(lessonChange);
+        context.LessonChanges.Remove(lessonChange);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

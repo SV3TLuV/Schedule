@@ -16,21 +16,15 @@ public sealed class CreateGroupCommandHandler(
 {
     public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
-        var id = default(int);
-
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            groupRepository.UseContext(context);
-            groupTransferRepository.UseContext(context);
-            timetableRepository.UseContext(context);
-
             var group = mapper.Map<Group>(request);
-            id = await groupRepository.CreateAsync(group, cancellationToken);
+            var id = await groupRepository.CreateAsync(group, cancellationToken);
 
             await groupTransferRepository.CreateForGroup(id, cancellationToken);
             await timetableRepository.CreateForGroupAsync(id, cancellationToken);
-        }, cancellationToken);
 
-        return id;
+            return id;
+        }, cancellationToken);
     }
 }

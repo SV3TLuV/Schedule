@@ -91,6 +91,27 @@ public class ScheduleDbContext : DbContext, IScheduleDbContext
         }
     }
 
+    public async Task<T> WithTransactionAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
+    {
+        if (Database.CurrentTransaction != null)
+        {
+            return await action();
+        }
+
+        await using var transaction = await Database.BeginTransactionAsync(cancellationToken);
+        try
+        {
+            var result = await action();
+            await transaction.CommitAsync(cancellationToken);
+            return result;
+        }
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("en_US.UTF-8");

@@ -6,19 +6,19 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class GroupTransferRepository(IScheduleDbContext context) : Repository(context), IGroupTransferRepository
+public class GroupTransferRepository(IScheduleDbContext context) : IGroupTransferRepository
 {
     public async Task MarkAsTransferedAsync(GroupTransfer groupTransfer, CancellationToken cancellationToken = default)
     {
         groupTransfer.IsTransferred = true;
 
-        Context.GroupTransfers.Update(groupTransfer);
-        await Context.SaveChangesAsync(cancellationToken);
+        context.GroupTransfers.Update(groupTransfer);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task CreateForGroup(int groupId, CancellationToken cancellationToken = default)
     {
-        var group = await Context.Groups
+        var group = await context.Groups
             .Include(e => e.Speciality)
             .FirstOrDefaultAsync(e => e.GroupId == groupId, cancellationToken);
 
@@ -31,7 +31,7 @@ public class GroupTransferRepository(IScheduleDbContext context) : Repository(co
         {
             var nextTermId = i + 1;
 
-            await Context.GroupTransfers.AddAsync(new GroupTransfer
+            await context.GroupTransfers.AddAsync(new GroupTransfer
             {
                 GroupId = group.GroupId,
                 NextTermId = nextTermId,
@@ -40,15 +40,15 @@ public class GroupTransferRepository(IScheduleDbContext context) : Repository(co
             }, cancellationToken);
         }
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteByGroupId(int groupId, CancellationToken cancellationToken = default)
     {
-        await Context.GroupTransfers
+        await context.GroupTransfers
             .Where(e => e.GroupId == groupId)
             .ExecuteDeleteAsync(cancellationToken);
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     private DateOnly GetTransferDate(int enrollmentYear, int groupTermId, int nextTermId, bool isAfterEleven)

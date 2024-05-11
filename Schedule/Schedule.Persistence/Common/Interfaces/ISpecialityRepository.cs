@@ -2,7 +2,7 @@ using Schedule.Core.Models;
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface ISpecialityRepository : IRepository
+public interface ISpecialityRepository
 {
     public Task<int> CreateAsync(Speciality speciality, CancellationToken cancellationToken = default);
 

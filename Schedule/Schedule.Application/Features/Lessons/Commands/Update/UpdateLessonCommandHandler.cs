@@ -20,9 +20,6 @@ public sealed class UpdateLessonCommandHandler(
     {
         await context.WithTransactionAsync(async () =>
         {
-            lessonRepository.UseContext(context);
-            timetableRepository.UseContext(context);
-
             var lessonDb = await context.Lessons
                 .Include(e => e.LessonTeacherClassrooms)
                 .Include(e => e.LessonChanges)

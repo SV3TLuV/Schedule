@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface IClassroomRepository : IRepository
+public interface IClassroomRepository
 {
     public Task<int> AddIfNotExistAsync(string cabinet, CancellationToken cancellationToken = default);
 

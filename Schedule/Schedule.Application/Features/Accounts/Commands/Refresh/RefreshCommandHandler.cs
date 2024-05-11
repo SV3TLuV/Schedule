@@ -21,12 +21,8 @@ public sealed class RefreshCommandHandler(
     public async Task<AuthorizationResultViewModel> Handle(RefreshCommand request,
         CancellationToken cancellationToken)
     {
-        AuthorizationResultViewModel result = null!;
-
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            sessionRepository.UseContext(context);
-
             var principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
             var sidClaim = principal.FindFirst(ClaimTypes.Sid);
 
@@ -51,14 +47,12 @@ public sealed class RefreshCommandHandler(
             var accountViewModel = mapper.Map<AccountViewModel>(session.Account);
             var accessToken = tokenService.GenerateAccessToken(session.Account, session.SessionId);
 
-            result = new AuthorizationResultViewModel
+            return new AuthorizationResultViewModel
             {
                 AccessToken = accessToken,
                 RefreshToken = session.RefreshToken,
                 Account = accountViewModel
             };
         }, cancellationToken);
-
-        return result;
     }
 }

@@ -7,46 +7,35 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class StudentRepository : Repository, IStudentRepository
+public class StudentRepository(
+    IScheduleDbContext context,
+    IAccountRepository accountRepository) : IStudentRepository
 {
-    private readonly IAccountRepository _accountRepository;
-
-    public StudentRepository(IScheduleDbContext context,
-        IAccountRepository accountRepository) : base(context)
-    {
-        accountRepository.UseContext(context);
-        _accountRepository = accountRepository;
-    }
-
     public async Task<int> CreateAsync(Student student, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
-
-        await Context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
             student.Account.RoleId = (int)AccountRole.Student;
 
-            var accountId = await _accountRepository.CreateAsync(student.Account, cancellationToken);
+            var accountId = await accountRepository.CreateAsync(student.Account, cancellationToken);
 
-            var created = await Context.Students.AddAsync(new Student
+            var created = await context.Students.AddAsync(new Student
             {
                 AccountId = accountId,
                 GroupId = student.GroupId
             }, cancellationToken);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-            id = created.Entity.StudentId;
+            return created.Entity.StudentId;
         }, cancellationToken);
-
-        return id;
     }
 
     public async Task UpdateAsync(Student student, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var studentDb = await Context.Students.FirstOrDefaultAsync(e =>
+            var studentDb = await context.Students.FirstOrDefaultAsync(e =>
                 e.StudentId == student.StudentId, cancellationToken);
 
             if (studentDb is null)
@@ -56,18 +45,18 @@ public class StudentRepository : Repository, IStudentRepository
 
             student.Account.AccountId = studentDb.AccountId;
 
-            await _accountRepository.UpdateAsync(student.Account, cancellationToken);
+            await accountRepository.UpdateAsync(student.Account, cancellationToken);
             
             studentDb.GroupId = student.GroupId;
 
-            Context.Students.Update(studentDb);
-            await Context.SaveChangesAsync(cancellationToken);
+            context.Students.Update(studentDb);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var student = await Context.Students
+        var student = await context.Students
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.StudentId == id, cancellationToken);
 
@@ -76,12 +65,12 @@ public class StudentRepository : Repository, IStudentRepository
             throw new NotFoundException(nameof(Student), id);
         }
 
-        await _accountRepository.DeleteAsync(student.AccountId, cancellationToken);
+        await accountRepository.DeleteAsync(student.AccountId, cancellationToken);
     }
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
-        var student = await Context.Students
+        var student = await context.Students
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.StudentId == id, cancellationToken);
 
@@ -90,6 +79,6 @@ public class StudentRepository : Repository, IStudentRepository
             throw new NotFoundException(nameof(Student), id);
         }
 
-        await _accountRepository.RestoreAsync(student.AccountId, cancellationToken);
+        await accountRepository.RestoreAsync(student.AccountId, cancellationToken);
     }
 }

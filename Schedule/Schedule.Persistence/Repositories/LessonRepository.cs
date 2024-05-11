@@ -6,36 +6,32 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class LessonRepository(IScheduleDbContext context) : Repository(context), ILessonRepository
+public class LessonRepository(IScheduleDbContext context) : ILessonRepository
 {
     public async Task<int> CreateAsync(Lesson lesson, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
-
-        await Context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            var created = await Context.Lessons.AddAsync(lesson, cancellationToken);
-
-            id = created.Entity.LessonId;
+            var created = await context.Lessons.AddAsync(lesson, cancellationToken);
 
             foreach (var teacherClassroom in lesson.LessonTeacherClassrooms)
             {
                 teacherClassroom.LessonId = created.Entity.LessonId;
 
-                await Context.LessonTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
+                await context.LessonTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-        return id;
+            return created.Entity.LessonId;
+        }, cancellationToken);
     }
 
     public async Task UpdateAsync(Lesson lesson, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var lessonDb = await Context.Lessons.FirstOrDefaultAsync(e =>
+            var lessonDb = await context.Lessons.FirstOrDefaultAsync(e =>
                 e.LessonId == lesson.LessonId, cancellationToken);
 
             if (lessonDb is null)
@@ -49,9 +45,9 @@ public class LessonRepository(IScheduleDbContext context) : Repository(context),
             lessonDb.TimeEnd = lesson.TimeEnd;
             lessonDb.Number = lesson.Number;
 
-            Context.Lessons.Update(lessonDb);
+            context.Lessons.Update(lessonDb);
 
-            await Context.LessonTeacherClassrooms
+            await context.LessonTeacherClassrooms
                 .Where(e => e.LessonId == lesson.LessonId)
                 .ExecuteDeleteAsync(cancellationToken);
 
@@ -59,10 +55,10 @@ public class LessonRepository(IScheduleDbContext context) : Repository(context),
             {
                 teacherClassroom.LessonId = lessonDb.LessonId;
 
-                await Context.LessonTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
+                await context.LessonTeacherClassrooms.AddAsync(teacherClassroom, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 }

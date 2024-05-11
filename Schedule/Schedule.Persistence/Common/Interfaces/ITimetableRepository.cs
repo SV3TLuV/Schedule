@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface ITimetableRepository : IRepository
+public interface ITimetableRepository
 {
     public Task<int> CreateAsync(Timetable timetable, CancellationToken cancellationToken = default);
     public Task UpdateAsync(Timetable timetable, CancellationToken cancellationToken = default);

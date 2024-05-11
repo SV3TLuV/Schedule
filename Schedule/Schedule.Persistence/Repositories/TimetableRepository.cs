@@ -6,34 +6,25 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class TimetableRepository : Repository, ITimetableRepository
+public class TimetableRepository(
+    IScheduleDbContext context,
+    ILessonRepository lessonRepository,
+    IDateInfoService dateInfoService) : ITimetableRepository
 {
-    private readonly ILessonRepository _lessonRepository;
-    private readonly IDateInfoService _dateInfoService;
-
-    public TimetableRepository( IScheduleDbContext context,
-        ILessonRepository lessonRepository,
-        IDateInfoService dateInfoService) : base(context)
-    {
-        lessonRepository.UseContext(context);
-        _lessonRepository = lessonRepository;
-        _dateInfoService = dateInfoService;
-    }
-
     public async Task<int> CreateAsync(Timetable timetable, CancellationToken cancellationToken = default)
     {
-        timetable.Created = _dateInfoService.CurrentDate;
+        timetable.Created = dateInfoService.CurrentDate;
 
-        var created = await Context.Timetables.AddAsync(timetable, cancellationToken);
+        var created = await context.Timetables.AddAsync(timetable, cancellationToken);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return created.Entity.TimetableId;
     }
 
     public async Task UpdateAsync(Timetable timetable, CancellationToken cancellationToken = default)
     {
-        var timetableDb = await Context.Timetables.FirstOrDefaultAsync(e =>
+        var timetableDb = await context.Timetables.FirstOrDefaultAsync(e =>
             e.TimetableId == timetable.TimetableId, cancellationToken);
 
         if (timetableDb is null)
@@ -43,17 +34,17 @@ public class TimetableRepository : Repository, ITimetableRepository
 
         timetableDb.Ended = timetable.Ended;
 
-        Context.Timetables.Update(timetableDb);
-        await Context.SaveChangesAsync(cancellationToken);
+        context.Timetables.Update(timetableDb);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task CreateForGroupAsync(int groupId, CancellationToken cancellationToken = default)
     {
         const int pairCount = 8;
 
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var group = await Context.Groups
+            var group = await context.Groups
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.GroupId == groupId, cancellationToken);
 
@@ -62,12 +53,12 @@ public class TimetableRepository : Repository, ITimetableRepository
                 throw new NotFoundException(nameof(Group), groupId);
             }
 
-            var dayIds = await Context.Days
+            var dayIds = await context.Days
                 .AsNoTracking()
                 .Select(e => e.DayId)
                 .ToListAsync(cancellationToken);
 
-            var weekTypeIds = await Context.WeekTypes
+            var weekTypeIds = await context.WeekTypes
                 .AsNoTracking()
                 .Select(e => e.WeekTypeId)
                 .ToListAsync(cancellationToken);
@@ -85,7 +76,7 @@ public class TimetableRepository : Repository, ITimetableRepository
 
                     for (var i = 1; i <= pairCount; i++)
                     {
-                        await _lessonRepository.CreateAsync(new Lesson
+                        await lessonRepository.CreateAsync(new Lesson
                         {
                             Number = i,
                             TimetableId = timetableId,
@@ -94,7 +85,7 @@ public class TimetableRepository : Repository, ITimetableRepository
                 }
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 }

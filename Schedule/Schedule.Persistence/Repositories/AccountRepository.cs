@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -7,35 +6,17 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class AccountRepository : Repository, IAccountRepository
+public class AccountRepository(
+    IScheduleDbContext context,
+    INameRepository nameRepository,
+    ISurnameRepository surnameRepository,
+    IMiddleNameRepository middleNameRepository,
+    IPasswordHasherService passwordHasherService)
+    : IAccountRepository
 {
-    private readonly INameRepository _nameRepository;
-    private readonly ISurnameRepository _surnameRepository;
-    private readonly IMiddleNameRepository _middleNameRepository;
-    private readonly IPasswordHasherService _passwordHasherService;
-
-    public AccountRepository(
-        IScheduleDbContext context,
-        INameRepository nameRepository,
-        ISurnameRepository surnameRepository,
-        IMiddleNameRepository middleNameRepository,
-        IPasswordHasherService passwordHasherService) : base(context)
-    {
-        nameRepository.UseContext(context);
-        surnameRepository.UseContext(context);
-        middleNameRepository.UseContext(context);
-
-        _nameRepository = nameRepository;
-        _surnameRepository = surnameRepository;
-        _middleNameRepository = middleNameRepository;
-        _passwordHasherService = passwordHasherService;
-    }
-
     public async Task<int> CreateAsync(Account account, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
-
-        await Context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
             var searchByLogin = await FindByLoginAsync(account.Login, cancellationToken);
 
@@ -51,29 +32,27 @@ public class AccountRepository : Repository, IAccountRepository
                 throw new AlreadyExistsException(account.Email);
             }
 
-            await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
-            await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
+            await nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
+            await surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
 
             if (account.MiddleName is not null)
             {
-                await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
+                await middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
             }
 
-            account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
+            account.PasswordHash = passwordHasherService.Hash(account.PasswordHash);
 
-            var created = await Context.Accounts.AddAsync(account, cancellationToken);
-            await Context.SaveChangesAsync(cancellationToken);
-            id = created.Entity.AccountId;
+            var created = await context.Accounts.AddAsync(account, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+            return created.Entity.AccountId;
         }, cancellationToken);
-
-        return id;
     }
 
     public async Task UpdateAsync(Account account, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var accountDb = await Context.Accounts.FirstOrDefaultAsync(e =>
+            var accountDb = await context.Accounts.FirstOrDefaultAsync(e =>
                 e.AccountId == account.AccountId, cancellationToken);
 
             if (accountDb is null)
@@ -96,12 +75,12 @@ public class AccountRepository : Repository, IAccountRepository
                 throw new AlreadyExistsException(account.Email);
             }
 
-            await _nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
-            await _surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
+            await nameRepository.AddIfNotExistAsync(account.Name, cancellationToken);
+            await surnameRepository.AddIfNotExistAsync(account.Surname, cancellationToken);
 
             if (account.MiddleName is not null)
             {
-                await _middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
+                await middleNameRepository.AddIfNotExistAsync(account.MiddleName, cancellationToken);
             }
 
             accountDb.Name = account.Name;
@@ -110,16 +89,16 @@ public class AccountRepository : Repository, IAccountRepository
             accountDb.Email = account.Email;
             accountDb.RoleId = account.RoleId;
 
-            Context.Accounts.Update(accountDb);
-            await Context.SaveChangesAsync(cancellationToken);
+            context.Accounts.Update(accountDb);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 
     public async Task DeleteAsync(int accountId, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var account = await Context.Accounts.FirstOrDefaultAsync(e =>
+            var account = await context.Accounts.FirstOrDefaultAsync(e =>
                 e.AccountId == accountId, cancellationToken);
 
             if (account is null)
@@ -129,19 +108,19 @@ public class AccountRepository : Repository, IAccountRepository
 
             account.IsDeleted = true;
 
-            Context.Accounts.Update(account);
+            context.Accounts.Update(account);
 
-            await Context.Sessions
+            await context.Sessions
                 .Where(e => e.AccountId == account.AccountId)
                 .ExecuteDeleteAsync(cancellationToken);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 
     public async Task RestoreAsync(int accountId, CancellationToken cancellationToken = default)
     {
-        var account = await Context.Accounts.FirstOrDefaultAsync(e =>
+        var account = await context.Accounts.FirstOrDefaultAsync(e =>
             e.AccountId == accountId, cancellationToken);
 
         if (account is null)
@@ -151,13 +130,13 @@ public class AccountRepository : Repository, IAccountRepository
 
         account.IsDeleted = false;
 
-        Context.Accounts.Update(account);
-        await Context.SaveChangesAsync(cancellationToken);
+        context.Accounts.Update(account);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<Account?> FindByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await Context.Accounts
+        return await context.Accounts
             .Include(e => e.Role)
             .Include(e => e.Employees)
             .Include(e => e.Teachers)
@@ -168,7 +147,7 @@ public class AccountRepository : Repository, IAccountRepository
 
     public async Task<Account?> FindByLoginAsync(string login, CancellationToken cancellationToken = default)
     {
-        return await Context.Accounts
+        return await context.Accounts
             .Include(e => e.Role)
             .Include(e => e.Employees)
             .Include(e => e.Teachers)
@@ -179,7 +158,7 @@ public class AccountRepository : Repository, IAccountRepository
 
     public async Task ChangePasswordAsync(int accountId, string password, CancellationToken cancellationToken = default)
     {
-        var account = await Context.Accounts.FirstOrDefaultAsync(e =>
+        var account = await context.Accounts.FirstOrDefaultAsync(e =>
             e.AccountId == accountId, cancellationToken);
 
         if (account is null)
@@ -187,9 +166,9 @@ public class AccountRepository : Repository, IAccountRepository
             throw new NotFoundException(nameof(Account), accountId);
         }
 
-        account.PasswordHash = _passwordHasherService.Hash(account.PasswordHash);
+        account.PasswordHash = passwordHasherService.Hash(account.PasswordHash);
 
-        Context.Accounts.Update(account);
-        await Context.SaveChangesAsync(cancellationToken);
+        context.Accounts.Update(account);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

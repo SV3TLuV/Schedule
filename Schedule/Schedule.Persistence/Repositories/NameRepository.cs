@@ -5,11 +5,11 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class NameRepository(IScheduleDbContext context) : Repository(context), INameRepository
+public class NameRepository(IScheduleDbContext context) : INameRepository
 {
     public async Task AddIfNotExistAsync(string name, CancellationToken cancellationToken = default)
     {
-        var nameDb = await Context.Names
+        var nameDb = await context.Names
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Value == name, cancellationToken);
 
@@ -18,10 +18,10 @@ public class NameRepository(IScheduleDbContext context) : Repository(context), I
             return;
         }
 
-        await Context.Names.AddAsync(new Name
+        await context.Names.AddAsync(new Name
         {
             Value = name
         }, cancellationToken);
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

@@ -6,11 +6,11 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class DayRepository(IScheduleDbContext context) : Repository(context), IDayRepository
+public class DayRepository(IScheduleDbContext context) : IDayRepository
 {
     public async Task UpdateAsync(Day day, CancellationToken cancellationToken = default)
     {
-        var dayDb = await Context.Days.FirstOrDefaultAsync(e => e.DayId == day.DayId, cancellationToken);
+        var dayDb = await context.Days.FirstOrDefaultAsync(e => e.DayId == day.DayId, cancellationToken);
 
         if (dayDb is null)
         {
@@ -19,8 +19,8 @@ public class DayRepository(IScheduleDbContext context) : Repository(context), ID
 
         dayDb.IsStudy = day.IsStudy;
 
-        Context.Days.Update(dayDb);
+        context.Days.Update(dayDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

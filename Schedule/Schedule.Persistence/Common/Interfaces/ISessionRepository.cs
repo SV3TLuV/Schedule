@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface ISessionRepository : IRepository
+public interface ISessionRepository
 {
     public Task<Guid> CreateAsync(Session session, CancellationToken cancellationToken = default);
     public Task UpdateAsync(Session session, CancellationToken cancellationToken = default);

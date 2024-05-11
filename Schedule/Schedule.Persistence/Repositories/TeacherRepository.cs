@@ -7,45 +7,33 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class TeacherRepository : Repository, ITeacherRepository
+public class TeacherRepository(IScheduleDbContext context,
+    IAccountRepository accountRepository) : ITeacherRepository
 {
-    private readonly IAccountRepository _accountRepository;
-
-    public TeacherRepository(IScheduleDbContext context,
-        IAccountRepository accountRepository) : base(context)
-    {
-        accountRepository.UseContext(context);
-        _accountRepository = accountRepository;
-    }
-
     public async Task<int> CreateAsync(Teacher teacher, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
-
-        await Context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
             teacher.Account.RoleId = (int)AccountRole.Teacher;
 
-            var accountId = await _accountRepository.CreateAsync(teacher.Account, cancellationToken);
+            var accountId = await accountRepository.CreateAsync(teacher.Account, cancellationToken);
 
-            var created = await Context.Teachers.AddAsync(new Teacher
+            var created = await context.Teachers.AddAsync(new Teacher
             {
                 AccountId = accountId,
             }, cancellationToken);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-            id = created.Entity.TeacherId;
+            return created.Entity.TeacherId;
         }, cancellationToken);
-
-        return id;
     }
 
     public async Task UpdateAsync(Teacher teacher, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var teacherDb = await Context.Teachers
+            var teacherDb = await context.Teachers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.TeacherId == teacher.TeacherId, cancellationToken);
 
@@ -56,13 +44,13 @@ public class TeacherRepository : Repository, ITeacherRepository
 
             teacher.Account.AccountId = teacherDb.AccountId;
 
-            await _accountRepository.UpdateAsync(teacher.Account, cancellationToken);
+            await accountRepository.UpdateAsync(teacher.Account, cancellationToken);
         }, cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var teacher = await Context.Teachers
+        var teacher = await context.Teachers
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.TeacherId == id, cancellationToken);
 
@@ -71,12 +59,12 @@ public class TeacherRepository : Repository, ITeacherRepository
             throw new NotFoundException(nameof(Teacher), id);
         }
 
-        await _accountRepository.DeleteAsync(teacher.AccountId, cancellationToken);
+        await accountRepository.DeleteAsync(teacher.AccountId, cancellationToken);
     }
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
-        var teacher = await Context.Teachers
+        var teacher = await context.Teachers
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.TeacherId == id, cancellationToken);
 
@@ -85,6 +73,6 @@ public class TeacherRepository : Repository, ITeacherRepository
             throw new NotFoundException(nameof(Teacher), id);
         }
 
-        await _accountRepository.RestoreAsync(teacher.AccountId, cancellationToken);
+        await accountRepository.RestoreAsync(teacher.AccountId, cancellationToken);
     }
 }

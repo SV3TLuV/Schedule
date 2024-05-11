@@ -6,12 +6,12 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class DisciplineRepository(IScheduleDbContext context) : Repository(context), IDisciplineRepository
+public class DisciplineRepository(IScheduleDbContext context) : IDisciplineRepository
 {
     public async Task<int> CreateAsync(Discipline discipline, CancellationToken cancellationToken)
     {
         int id;
-        var disciplineDb = await Context.Disciplines.FirstOrDefaultAsync(e =>
+        var disciplineDb = await context.Disciplines.FirstOrDefaultAsync(e =>
             e.TermId == discipline.TermId &&
             e.NameId == discipline.NameId &&
             e.CodeId == discipline.CodeId &&
@@ -19,18 +19,18 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
         if (disciplineDb is null)
         {
-            var created = await Context.Disciplines.AddAsync(discipline, cancellationToken);
+            var created = await context.Disciplines.AddAsync(discipline, cancellationToken);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             id = created.Entity.DisciplineId;
         }
         else if (disciplineDb.IsDeleted)
         {
             disciplineDb.IsDeleted = false;
-            Context.Disciplines.Update(disciplineDb);
+            context.Disciplines.Update(disciplineDb);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             id = disciplineDb.DisciplineId;
         }
@@ -44,7 +44,7 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
     public async Task UpdateAsync(Discipline discipline, CancellationToken cancellationToken)
     {
-        var disciplineDb = await Context.Disciplines
+        var disciplineDb = await context.Disciplines
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.DisciplineId == discipline.DisciplineId, cancellationToken);
 
@@ -53,7 +53,7 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
             throw new NotFoundException(nameof(Discipline), discipline.DisciplineId);
         }
 
-        var searchDiscipline = await Context.Disciplines
+        var searchDiscipline = await context.Disciplines
             .AsNoTracking()
             .Include(e => e.Name)
             .FirstOrDefaultAsync(e =>
@@ -75,14 +75,14 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
         disciplineDb.SpecialityId = discipline.SpecialityId;
         disciplineDb.TypeId = discipline.TypeId;
 
-        Context.Disciplines.Update(disciplineDb);
+        context.Disciplines.Update(disciplineDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        var disciplineDb = await Context.Disciplines.FirstOrDefaultAsync(e =>
+        var disciplineDb = await context.Disciplines.FirstOrDefaultAsync(e =>
             e.DisciplineId == id, cancellationToken);
 
         if (disciplineDb is null)
@@ -92,14 +92,14 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
         disciplineDb.IsDeleted = true;
 
-        Context.Disciplines.Update(disciplineDb);
+        context.Disciplines.Update(disciplineDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken)
     {
-        var disciplineDb = await Context.Disciplines.FirstOrDefaultAsync(e =>
+        var disciplineDb = await context.Disciplines.FirstOrDefaultAsync(e =>
             e.DisciplineId == id, cancellationToken);
 
         if (disciplineDb is null)
@@ -109,8 +109,8 @@ public class DisciplineRepository(IScheduleDbContext context) : Repository(conte
 
         disciplineDb.IsDeleted = false;
 
-        Context.Disciplines.Update(disciplineDb);
+        context.Disciplines.Update(disciplineDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

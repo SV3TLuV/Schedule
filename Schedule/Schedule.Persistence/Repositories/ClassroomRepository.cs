@@ -6,32 +6,32 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class ClassroomRepository(IScheduleDbContext context) : Repository(context), IClassroomRepository
+public class ClassroomRepository(IScheduleDbContext context) : IClassroomRepository
 {
     public async Task<int> AddIfNotExistAsync(string cabinet, CancellationToken cancellationToken = default)
     {
         int id;
 
-        var classroomDb = await Context.Classrooms.FirstOrDefaultAsync(e =>
+        var classroomDb = await context.Classrooms.FirstOrDefaultAsync(e =>
             e.Cabinet == cabinet, cancellationToken);
 
         if (classroomDb is null)
         {
-            var created = await Context.Classrooms.AddAsync(new Classroom
+            var created = await context.Classrooms.AddAsync(new Classroom
             {
                 Cabinet = cabinet
             }, cancellationToken);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             id = created.Entity.ClassroomId;
         }
         else if (classroomDb.IsDeleted)
         {
             classroomDb.IsDeleted = false;
-            Context.Classrooms.Update(classroomDb);
+            context.Classrooms.Update(classroomDb);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             id = classroomDb.ClassroomId;
         }
@@ -45,7 +45,7 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
 
     public async Task UpdateAsync(Classroom classroom, CancellationToken cancellationToken = default)
     {
-        var classroomDb = await Context.Classrooms.FirstOrDefaultAsync(e =>
+        var classroomDb = await context.Classrooms.FirstOrDefaultAsync(e =>
             e.ClassroomId == classroom.ClassroomId, cancellationToken);
 
         if (classroomDb is null)
@@ -53,7 +53,7 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
             throw new NotFoundException(nameof(Classroom), classroom.ClassroomId);
         }
 
-        var searchByCabinet = await Context.Classrooms.FirstOrDefaultAsync(e =>
+        var searchByCabinet = await context.Classrooms.FirstOrDefaultAsync(e =>
             e.Cabinet == classroom.Cabinet, cancellationToken);
 
         if (searchByCabinet is not null)
@@ -63,14 +63,14 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
 
         classroomDb.Cabinet = classroom.Cabinet;
 
-        Context.Classrooms.Update(classroomDb);
+        context.Classrooms.Update(classroomDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var classroomDb = await Context.Classrooms.FirstOrDefaultAsync(e =>
+        var classroomDb = await context.Classrooms.FirstOrDefaultAsync(e =>
             e.ClassroomId == id, cancellationToken);
 
         if (classroomDb is null)
@@ -80,14 +80,14 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
 
         classroomDb.IsDeleted = true;
 
-        Context.Classrooms.Update(classroomDb);
+        context.Classrooms.Update(classroomDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
-        var classroomDb = await Context.Classrooms.FirstOrDefaultAsync(e =>
+        var classroomDb = await context.Classrooms.FirstOrDefaultAsync(e =>
             e.ClassroomId == id, cancellationToken);
 
         if (classroomDb is null)
@@ -97,8 +97,8 @@ public class ClassroomRepository(IScheduleDbContext context) : Repository(contex
 
         classroomDb.IsDeleted = false;
 
-        Context.Classrooms.Update(classroomDb);
+        context.Classrooms.Update(classroomDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

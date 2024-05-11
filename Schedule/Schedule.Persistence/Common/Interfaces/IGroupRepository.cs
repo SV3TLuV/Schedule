@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface IGroupRepository : IRepository
+public interface IGroupRepository
 {
     public Task<int> CreateAsync(Group group, CancellationToken cancellationToken = default);
     public Task UpdateAsync(Group group, CancellationToken cancellationToken = default);

@@ -2,7 +2,7 @@
 
 namespace Schedule.Persistence.Common.Interfaces;
 
-public interface IDayRepository : IRepository
+public interface IDayRepository
 {
     public Task UpdateAsync(Day day, CancellationToken cancellationToken = default);
 }

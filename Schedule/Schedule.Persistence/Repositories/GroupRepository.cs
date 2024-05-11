@@ -8,20 +8,20 @@ namespace Schedule.Persistence.Repositories;
 
 public class GroupRepository(
     IScheduleDbContext context,
-    IDateInfoService dateInfoService) : Repository(context), IGroupRepository
+    IDateInfoService dateInfoService) : IGroupRepository
 {
     public async Task<int> CreateAsync(Group group, CancellationToken cancellationToken = default)
     {
         int id;
 
-        var groupDb = await Context.Groups.FirstOrDefaultAsync(e =>
+        var groupDb = await context.Groups.FirstOrDefaultAsync(e =>
             e.SpecialityId == group.SpecialityId &&
             e.EnrollmentYear == group.EnrollmentYear &&
             e.Number == group.Number, cancellationToken);
 
         if (groupDb is null)
         {
-            var speciality = await Context.Specialities.FirstOrDefaultAsync(e =>
+            var speciality = await context.Specialities.FirstOrDefaultAsync(e =>
                 e.SpecialityId == group.SpecialityId, cancellationToken);
 
             if (speciality is null)
@@ -32,18 +32,18 @@ public class GroupRepository(
             group.TermId = group.CalculateTerm(dateInfoService);
             group.Name = $"{speciality.Name}-{group.Number}";
 
-            var created = await Context.Groups.AddAsync(group, cancellationToken);
+            var created = await context.Groups.AddAsync(group, cancellationToken);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             id = created.Entity.GroupId;
         }
         else if (groupDb.IsDeleted)
         {
             groupDb.IsDeleted = false;
-            Context.Groups.Update(groupDb);
+            context.Groups.Update(groupDb);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             id = groupDb.GroupId;
         }
@@ -57,7 +57,7 @@ public class GroupRepository(
 
     public async Task UpdateAsync(Group group, CancellationToken cancellationToken = default)
     {
-        var groupDb = await Context.Groups.FirstOrDefaultAsync(e =>
+        var groupDb = await context.Groups.FirstOrDefaultAsync(e =>
             e.GroupId == group.GroupId, cancellationToken);
 
         if (groupDb is null)
@@ -65,7 +65,7 @@ public class GroupRepository(
             throw new NotFoundException(nameof(Group), group.GroupId);
         }
 
-        var search = await Context.Groups
+        var search = await context.Groups
             .Include(e => e.Speciality)
             .FirstOrDefaultAsync(e =>
                 e.SpecialityId == group.SpecialityId &&
@@ -78,7 +78,7 @@ public class GroupRepository(
             throw new AlreadyExistsException(group.Name);
         }
 
-        var speciality = await Context.Specialities.FirstOrDefaultAsync(e =>
+        var speciality = await context.Specialities.FirstOrDefaultAsync(e =>
             e.SpecialityId == group.SpecialityId, cancellationToken);
 
         if (speciality is null)
@@ -93,14 +93,14 @@ public class GroupRepository(
         groupDb.TermId = groupDb.CalculateTerm(dateInfoService);
         groupDb.Name = $"{speciality.Name}-{group.Number}";
 
-        Context.Groups.Update(groupDb);
+        context.Groups.Update(groupDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var group = await Context.Groups.FirstOrDefaultAsync(e => e.GroupId == id, cancellationToken);
+        var group = await context.Groups.FirstOrDefaultAsync(e => e.GroupId == id, cancellationToken);
 
         if (group is null)
         {
@@ -109,14 +109,14 @@ public class GroupRepository(
 
         group.IsDeleted = true;
 
-        Context.Groups.Update(group);
+        context.Groups.Update(group);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
-        var group = await Context.Groups.FirstOrDefaultAsync(e => e.GroupId == id, cancellationToken);
+        var group = await context.Groups.FirstOrDefaultAsync(e => e.GroupId == id, cancellationToken);
 
         if (group is null)
         {
@@ -125,8 +125,8 @@ public class GroupRepository(
 
         group.IsDeleted = false;
 
-        Context.Groups.Update(group);
+        context.Groups.Update(group);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

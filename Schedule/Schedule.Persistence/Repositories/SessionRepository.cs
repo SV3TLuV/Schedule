@@ -8,19 +8,19 @@ namespace Schedule.Persistence.Repositories;
 
 public class SessionRepository(
     IScheduleDbContext context,
-    IDateInfoService dateInfoService) : Repository(context), ISessionRepository
+    IDateInfoService dateInfoService) : ISessionRepository
 {
     public async Task<Guid> CreateAsync(Session session, CancellationToken cancellationToken = default)
     {
         session.Created = dateInfoService.CurrentDateTime;
-        var created = await Context.Sessions.AddAsync(session, cancellationToken);
-        await Context.SaveChangesAsync(cancellationToken);
+        var created = await context.Sessions.AddAsync(session, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
         return created.Entity.SessionId;
     }
 
     public async Task UpdateAsync(Session session, CancellationToken cancellationToken = default)
     {
-        var sessionDb = await Context.Sessions.FirstOrDefaultAsync(e =>
+        var sessionDb = await context.Sessions.FirstOrDefaultAsync(e =>
             e.SessionId == session.SessionId, cancellationToken);
 
         if (sessionDb is null)
@@ -31,14 +31,14 @@ public class SessionRepository(
         sessionDb.Updated = dateInfoService.CurrentDateTime;
         sessionDb.RefreshToken = session.RefreshToken;
 
-        Context.Sessions.Update(sessionDb);
+        context.Sessions.Update(sessionDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var sessionDb = await Context.Sessions.FirstOrDefaultAsync(e =>
+        var sessionDb = await context.Sessions.FirstOrDefaultAsync(e =>
             e.SessionId == id, cancellationToken);
 
         if (sessionDb is null)
@@ -46,8 +46,8 @@ public class SessionRepository(
             throw new NotFoundException(nameof(Session), id);
         }
 
-        Context.Sessions.Remove(sessionDb);
+        context.Sessions.Remove(sessionDb);
 
-        await Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

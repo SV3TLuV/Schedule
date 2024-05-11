@@ -15,19 +15,15 @@ public sealed class UpdateGroupCommandHandler(
 {
     public async Task<Unit> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
     {
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            groupRepository.UseContext(context);
-            groupTransferRepository.UseContext(context);
-
             var group = mapper.Map<Group>(request);
 
             await groupRepository.UpdateAsync(group, cancellationToken);
 
             await groupTransferRepository.DeleteByGroupId(group.GroupId, cancellationToken);
             await groupTransferRepository.CreateForGroup(group.GroupId, cancellationToken);
+            return Unit.Value;
         }, cancellationToken);
-
-        return Unit.Value;
     }
 }

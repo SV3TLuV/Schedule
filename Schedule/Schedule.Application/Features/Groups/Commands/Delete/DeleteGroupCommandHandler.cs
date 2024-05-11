@@ -11,15 +11,12 @@ public sealed class DeleteGroupCommandHandler(
 {
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            groupRepository.UseContext(context);
-            groupTransferRepository.UseContext(context);
-
             await groupRepository.DeleteAsync(request.Id, cancellationToken);
             await groupTransferRepository.DeleteByGroupId(request.Id, cancellationToken);
-        }, cancellationToken);
 
-        return Unit.Value;
+            return Unit.Value;
+        }, cancellationToken);
     }
 }

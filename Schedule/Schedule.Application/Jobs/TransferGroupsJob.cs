@@ -15,9 +15,6 @@ public sealed class TransferGroupsJob(
     {
         await context.WithTransactionAsync(async () =>
         {
-            groupRepository.UseContext(context);
-            groupTransferRepository.UseContext(context);
-
             var groups = await context.Groups
                 .AsNoTracking()
                 .Include(e => e.Speciality)

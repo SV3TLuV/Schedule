@@ -17,10 +17,8 @@ public sealed class LogoutCommandHandler(
 {
     public async Task<Unit> Handle(LogoutCommand request, CancellationToken cancellationToken)
     {
-        await context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
-            sessionRepository.UseContext(context);
-
             var principal = tokenService.GetPrincipalFromExpiredToken(request.AccessToken);
             var sidClaim = principal.FindFirst(ClaimTypes.Sid);
 
@@ -50,8 +48,8 @@ public sealed class LogoutCommandHandler(
             {
                 await sessionRepository.DeleteAsync(sessionId, cancellationToken);
             }
-        }, cancellationToken);
 
-        return Unit.Value;
+            return Unit.Value;
+        }, cancellationToken);
     }
 }

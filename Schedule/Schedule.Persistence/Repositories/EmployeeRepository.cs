@@ -7,54 +7,46 @@ using Schedule.Persistence.Common.Interfaces;
 
 namespace Schedule.Persistence.Repositories;
 
-public class EmployeeRepository : Repository, IEmployeeRepository
+public class EmployeeRepository(
+    IScheduleDbContext context,
+    IAccountRepository accountRepository)
+    : IEmployeeRepository
 {
-    private readonly IAccountRepository _accountRepository;
-
-    public EmployeeRepository(IScheduleDbContext context,
-        IAccountRepository accountRepository) : base(context)
-    {
-        accountRepository.UseContext(context);
-        _accountRepository = accountRepository;
-    }
-
     public async Task<int> CreateAsync(Employee employee, CancellationToken cancellationToken = default)
     {
-        var id = default(int);
-
-        await Context.WithTransactionAsync(async () =>
+        return await context.WithTransactionAsync(async () =>
         {
             employee.Account.RoleId = (int)AccountRole.Employee;
 
-            var accountId = await _accountRepository.CreateAsync(employee.Account, cancellationToken);
+            var accountId = await accountRepository.CreateAsync(employee.Account, cancellationToken);
 
-            var created = await Context.Employees.AddAsync(new Employee
+            var created = await context.Employees.AddAsync(new Employee
             {
                 AccountId = accountId,
             }, cancellationToken);
 
-            id = created.Entity.EmployeeId;
+            var id = created.Entity.EmployeeId;
 
             foreach (var employeePermission in employee.EmployeePermissions)
             {
-                await Context.EmployeePermissions.AddAsync(new EmployeePermission
+                await context.EmployeePermissions.AddAsync(new EmployeePermission
                 {
                     EmployeeId = id,
                     PermissionId = employeePermission.PermissionId,
                 }, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
-        }, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-        return id;
+            return id;
+        }, cancellationToken);
     }
 
     public async Task UpdateAsync(Employee employee, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var employeeDb = await Context.Employees.FirstOrDefaultAsync(e =>
+            var employeeDb = await context.Employees.FirstOrDefaultAsync(e =>
                 e.EmployeeId == employee.EmployeeId, cancellationToken);
 
             if (employeeDb is null)
@@ -64,28 +56,28 @@ public class EmployeeRepository : Repository, IEmployeeRepository
 
             employee.Account.AccountId = employeeDb.AccountId;
 
-            await _accountRepository.UpdateAsync(employee.Account, cancellationToken);
+            await accountRepository.UpdateAsync(employee.Account, cancellationToken);
 
-            await Context.EmployeePermissions
+            await context.EmployeePermissions
                 .Where(e => e.EmployeeId == employeeDb.EmployeeId)
                 .ExecuteDeleteAsync(cancellationToken);
 
             foreach (var employeePermission in employee.EmployeePermissions)
             {
-                await Context.EmployeePermissions.AddAsync(new EmployeePermission
+                await context.EmployeePermissions.AddAsync(new EmployeePermission
                 {
                     EmployeeId = employeeDb.EmployeeId,
                     PermissionId = employeePermission.PermissionId,
                 }, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var employee = await Context.Employees
+        var employee = await context.Employees
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.EmployeeId == id, cancellationToken);
 
@@ -94,12 +86,12 @@ public class EmployeeRepository : Repository, IEmployeeRepository
             throw new NotFoundException(nameof(Employee), id);
         }
 
-        await _accountRepository.DeleteAsync(employee.AccountId, cancellationToken);
+        await accountRepository.DeleteAsync(employee.AccountId, cancellationToken);
     }
 
     public async Task RestoreAsync(int id, CancellationToken cancellationToken = default)
     {
-        var employee = await Context.Employees
+        var employee = await context.Employees
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.EmployeeId == id, cancellationToken);
 
@@ -108,14 +100,14 @@ public class EmployeeRepository : Repository, IEmployeeRepository
             throw new NotFoundException(nameof(Employee), id);
         }
 
-        await _accountRepository.RestoreAsync(employee.AccountId, cancellationToken);
+        await accountRepository.RestoreAsync(employee.AccountId, cancellationToken);
     }
 
     public async Task UpdatePermissions(int id, int[] permissionIds, CancellationToken cancellationToken = default)
     {
-        await Context.WithTransactionAsync(async () =>
+        await context.WithTransactionAsync(async () =>
         {
-            var employee = await Context.Employees.FirstOrDefaultAsync(e =>
+            var employee = await context.Employees.FirstOrDefaultAsync(e =>
                 e.EmployeeId == id, cancellationToken);
 
             if (employee is null)
@@ -123,20 +115,20 @@ public class EmployeeRepository : Repository, IEmployeeRepository
                 throw new NotFoundException(nameof(Employee), id);
             }
 
-            await Context.EmployeePermissions
+            await context.EmployeePermissions
                 .Where(e => e.EmployeeId == employee.EmployeeId)
                 .ExecuteDeleteAsync(cancellationToken);
 
             foreach (var permissionId in permissionIds)
             {
-                await Context.EmployeePermissions.AddAsync(new EmployeePermission
+                await context.EmployeePermissions.AddAsync(new EmployeePermission
                 {
                     EmployeeId = id,
                     PermissionId = permissionId,
                 }, cancellationToken);
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }, cancellationToken);
     }
 }

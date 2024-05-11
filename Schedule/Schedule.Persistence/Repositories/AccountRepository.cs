@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Schedule.Core.Common.Exceptions;
 using Schedule.Core.Common.Interfaces;
 using Schedule.Core.Models;
@@ -167,19 +166,20 @@ public class AccountRepository(
             throw new NotFoundException(nameof(Account), accountId);
         }
 
-        if (!_passwordHasherService.EnhancedHash(password, account.PasswordHash))
+        if (!passwordHasherService.EnhancedHash(password, account.PasswordHash))
         {
             throw new IncorrectPasswordException();
         }
-        account.PasswordHash = _passwordHasherService.Hash(newPassword);
 
-        Context.Accounts.Update(account);
-        await Context.SaveChangesAsync(cancellationToken);
+        account.PasswordHash = passwordHasherService.Hash(newPassword);
+
+        context.Accounts.Update(account);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task RestorePasswordAsync(string email, string password, CancellationToken cancellationToken = default)
     {
-        var account = await Context.Accounts
+        var account = await context.Accounts
             .FirstOrDefaultAsync(e => e.Email == email, cancellationToken);
 
         if (account is null)
@@ -187,8 +187,8 @@ public class AccountRepository(
             throw new NotFoundException(nameof(Account), email);
         }
 
-        account.PasswordHash = _passwordHasherService.Hash(password);
-        Context.Accounts.Update(account);
-        await Context.SaveChangesAsync(cancellationToken);
+        account.PasswordHash = passwordHasherService.Hash(password);
+        context.Accounts.Update(account);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }
